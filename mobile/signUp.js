@@ -5,7 +5,7 @@ var React = require('react-native');
 /** function tasks the username, first name, last name, password and api root url as arguments;
     function call returns a user object **/
 var signUp = function (username, first, last, password, urlRoot) {
-  fetch(urlRoot + '/signup', 
+  return fetch(urlRoot + '/signup', 
     {
       method: 'POST',
       headers: {

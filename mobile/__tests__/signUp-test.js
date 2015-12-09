@@ -12,6 +12,7 @@ jest.dontMock('../signUp');
 var React = require('react-native');
 
 var signUp = require('../signUp');
+
 var username = 'username2015';
 var first = 'User';
 var last = 'Name';
