@@ -2,7 +2,7 @@ CREATE DATABASE thesis;
 
 USE thesis;
 
-CREATE TABLE Tours (
+CREATE TABLE tours (
   id int NOT NULL AUTO_INCREMENT,
   tourName varchar(200),
   userId int NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE Tours (
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE Places (
+CREATE TABLE places (
   id int NOT NULL AUTO_INCREMENT,
   placeName varchar(200),
   tourId int NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE Places (
   PRIMARY KEY (ID)
 );
 
-CREATE TABLE Cities (
+CREATE TABLE cities (
   id int NOT NULL AUTO_INCREMENT,
   cityName varchar(200),
   state varchar(200),
@@ -34,7 +34,7 @@ CREATE TABLE Cities (
   PRIMARY KEY (ID)
 )
 
-CREATE TABLE Users (
+CREATE TABLE users (
   id int NOT NULL AUTO_INCREMENT,
   userName varchar(200),
   firstName varchar(200),
