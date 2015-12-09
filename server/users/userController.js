@@ -11,12 +11,19 @@ module.exports = {
       } else {
         users.signup(params, function(err, results) {
           if(err) {
-            console.error(err);
+            res.status(404).send(err);
+          } else {
+            users.getUserInfo(params[0], function(err, results) {
+              if(err) {
+                res.status(404).send(err);
+              } else {
+                res.status(201).json(results);
+              }
+            });
           }
-          res.status(201).json(results);
-        })
+        });
       }
-    })
+    });
     // users.signup(params, function(err, results) {
     //   if(err) {
     //     console.error(err);
