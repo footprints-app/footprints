@@ -1,18 +1,19 @@
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
-  user: "root",
-  password: "",
-  database: "thesis"
+	host: process.env.RDS_HOSTNAME || 'localhost',
+	user: process.env.RDS_USERNAME || "root",
+  password: process.env.RDS_PASSWORD || "",
+  database: process.env.database || "thesis",
+	port: process.env.RDS_PORT || 3306
 });
 
-//var connection = mysql.createConnection({
-//  host     : 'mysqldb.chfd65rjuftn.us-west-1.rds.amazonaws.com',
-//  user     : 'dbmaster',
-//  password : 'administrator',
-//  port     : '3306'
-//});
-
-connection.connect();
+connection.connect(function(err) {
+	if(err) {
+		console.error('Connection Error:', err);
+	} else {
+		console.log('Database connected!')
+	}
+});
 
 module.exports = connection;
