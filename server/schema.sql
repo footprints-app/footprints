@@ -22,7 +22,7 @@ CREATE TABLE places (
   description varchar(1000),
   image varchar(200),
   audio varchar(200),
-  order int,
+  placeOrder int(3),
   PRIMARY KEY (ID)
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE cities (
   state varchar(200),
   country varchar(200),
   PRIMARY KEY (ID)
-)
+);
 
 CREATE TABLE users (
   id int NOT NULL AUTO_INCREMENT,
@@ -42,4 +42,4 @@ CREATE TABLE users (
   password varchar(200),
   image varchar(200),
   PRIMARY KEY (ID)
-)
+);

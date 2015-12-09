@@ -3,10 +3,11 @@ var http = require('http');
 var db = require('./db');
 
 // Middleware
-var parser = require('body-parser');
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
 
 // Router
-var router = require('./routes.js');
+// var router = require('./routes.js');
 
 var app = express();
 
@@ -18,8 +19,13 @@ var server = http.createServer(app);
 console.log("Listening on port: " + port);
 server.listen(port);
 
-// Parsing
-app.use(parser.json());
+var userRouter = express.Router();
+
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // Set up routes
-app.use("/", router);
+app.use('/users', userRouter);
+
+require('./users/userRoutes.js')(userRouter);
