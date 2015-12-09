@@ -11,7 +11,7 @@ var router = require('./routes.js');
 var app = express();
 
 // Set what we are listening on
-var port = 8000 || process.env.PORT;
+var port = process.env.PORT || 8000;
 
 var server = http.createServer(app);
 
