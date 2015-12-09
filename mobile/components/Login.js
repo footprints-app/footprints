@@ -30,7 +30,9 @@ class Login extends Component {
 
   signupPage () {
     console.log('navigator...', this.props);
-    //you have to require signup here to handle dependency cycles
+    /**
+     * you have to require signup here to handle dependency cycles
+     */
     var Signup = require('./Signup');
       this.props.navigator.push({
       title: "Signup",

@@ -4,14 +4,36 @@ var React = require('react-native');
 var TourDetail = require('./TourDetail');
 
 var FAKE_TOUR_DATA = [
-    {tourInfo: {title: 'Walk in Mission', city: "San Francisco", description: "cool place",
-    imageLinks: {thumbnail: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}}},
-    {tourInfo: {title: 'some place', city: "Mountain View", description: "cool place",
-    imageLinks: {thumbnail: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'}}},
-    {tourInfo: {title: 'Another place', city: "Santa Cruz", description: "cool place",
-    imageLinks: {thumbnail: 'http://api2.ning.com/files/nBD8FQWarq-hjMAPw1Qee0imzGMlA*6DGSe0uXvibAd7CiCPg-leen18UZ7GVdpzJosmOHBmBHlojFDZyIYv0P1LNDOBzDtp/Summer~_Boardwalk_California.jpg'}}}
+
+  {tourName: 'Walk in Mission', cityName: "San Francisco", description: "cool place", 
+  category: "sports", duration: "", userName:"Jira", state: "CA", country: "USA", 
+  places: [
+  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
+  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
+  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
+  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
+  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
+  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
+  ],
+  image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'},
+
+  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
+  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
+  places: [{
+    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
+    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
+  }],
+  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
+
+  {tourName: 'Walk in Santa Cruz', cityName: "Santa Cruz", description: "Super duper cool place", 
+  category: "Relax", duration: "", userName:"Si", state: "CA", country: "USA", 
+  places: [{
+    placeName: "Boardwalk", address: "3rd street, Santa Cruz", description: "Relaxing place", order: 3,
+    image: 'http://api2.ning.com/files/nBD8FQWarq-hjMAPw1Qee0imzGMlA*6DGSe0uXvibAd7CiCPg-leen18UZ7GVdpzJosmOHBmBHlojFDZyIYv0P1LNDOBzDtp/Summer~_Boardwalk_California.jpg'
+  }],
+  image: 'http://api2.ning.com/files/nBD8FQWarq-hjMAPw1Qee0imzGMlA*6DGSe0uXvibAd7CiCPg-leen18UZ7GVdpzJosmOHBmBHlojFDZyIYv0P1LNDOBzDtp/Summer~_Boardwalk_California.jpg'},
 ];
- 
+
 var {
   Image,
   StyleSheet,
@@ -69,7 +91,7 @@ class AllTours extends Component {
 
   showTourDetail(tour) {
     this.props.navigator.push({
-      title: tour.tourInfo.title,
+      title: tour.tourName,
       component: TourDetail,
       passProps: {tour}
     });
@@ -77,15 +99,15 @@ class AllTours extends Component {
 
   renderTour(tour) {
     return (
-      <TouchableHighlight onPress={ () => this.showTourDetail(tour)}  underlayColor='#dddddd'>
+      <TouchableHighlight onPress={ () => this.showTourDetail(tour) }  underlayColor='#dddddd'>
         <View>
           <View style={styles.container}>
             <Image
-              source={{uri: tour.tourInfo.imageLinks.thumbnail}}
+              source={{uri: tour.image}}
               style={styles.thumbnail} />
             <View style={styles.rightContainer}>
-              <Text style={styles.title}>{tour.tourInfo.title}</Text>
-              <Text style={styles.city}>{tour.tourInfo.city}</Text>
+              <Text style={styles.title}>{tour.tourName}</Text>
+              <Text style={styles.city}>{tour.cityName}</Text>
             </View>
           </View>
           <View style={styles.separator} />
