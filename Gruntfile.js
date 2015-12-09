@@ -16,35 +16,25 @@ module.exports = function(grunt) {
 				applicationName: 'walkingtours',
 				environmentCNAME: 'http://thesisserver-env.elasticbeanstalk.com/',
 				region: 'us-east-1',
-				sourceBundle: 'bundle.zip'
+				sourceBundle: './sourcebundle/bundle.zip'
 			}
 		},
 
 		compress: {
 			main: {
 				options: {
-					archive: 'bundle.zip',
+					archive: './sourcebundle/bundle.zip',
 					mode: 'zip'
 				},
 				files: [
-					{src: ['server/**'], dest: 'thesisProject/'},
+					{	expand: true,
+						cwd: 'server/',
+						src: ['*', '!tests', '!schema.sql']},
 				]
 			}
 		},
 
-		concat: {
-			options: {
-				separator: ';',
-			},
-			basic:{
-				files: {
-					'public/dist/main.js':['public/client/**/*.js'],
-					'public/dist/lib.js':['public/lib/underscore.js','public/lib/jquery.js','public/lib/handlebars.js','public/lib/backbone.js']
-				}
-			}
-		},
-
-		clean: ["bundle.zip"],
+		clean: ["sourcebundle/*", "out/"],
 
 		nodemon: {
 			dev: {
@@ -52,75 +42,50 @@ module.exports = function(grunt) {
 			}
 		},
 
-		uglify: {
-			options:{
-				mangle:false
-			},
-			my_target: {
-				files: {
-					'public/dist/output.min.js': ['public/dist/main.js'],
-					'public/dist/lib.min.js':['public/dist/lib.js']
-				}
-			}
-		},
-
 		jshint: {
-			files: [ 'Gruntfile.js', 'public/client/**/*.js'],
+			files: [ 'Gruntfile.js', 'server/**/*.js', 'server/*.js', 'mobile/*.js', 'mobile/components/*.js'],
 			options: {
 				force: 'true',
 				jshintrc: '.jshintrc',
 				ignores: [
-					'public/lib/**/*.js',
-					'public/dist/**/*.js'
+					'server/node_modules/**'
 				]
 			}
 		},
 
-		watch: {
-			scripts: {
-				files: [
-					'public/client/**/*.js',
-					'public/lib/**/*.js',
-				],
-				tasks: [
-					'concat',
-					'uglify'
-				]
-			},
-			css: {
-				files: 'public/*.css',
-				tasks: ['cssmin']
+		jsdoc : {
+			dist : {
+				src: ['server/*.js', 'server/**/*.js', '!server/node_modules/**', 'mobile/*.js', 'mobile/components/*.js'],
+				options: {
+					destination: 'out/'
+				}
+			}
+		},
+
+		mochaTest: {
+			test: {
+				options: {
+					reporter: 'spec'
+				},
+				src: ['server/tests/*.js']
 			}
 		}
-	});
-
-	grunt.registerTask('server-dev', function (target) {
-		// Running nodejs in a different process and displaying output on the main console
-		var nodemon = grunt.util.spawn({
-			cmd: 'grunt',
-			grunt: true,
-			args: 'nodemon'
-		});
-		nodemon.stdout.pipe(process.stdout);
-		nodemon.stderr.pipe(process.stderr);
-
-		grunt.task.run([ 'watch' ]);
 	});
 
 	////////////////////////////////////////////////////
 	// Main grunt tasks
 	////////////////////////////////////////////////////
 
-	grunt.registerTask('test', [
-		'jest'
-	]);
+	grunt.registerTask('testFront', ['jshint', 'jest']);
 
-	grunt.registerTask('zip', [
-		'compress'
-	]);
+	grunt.registerTask('testBack', ['jshint', 'mochaTest']);
 
-	grunt.registerTask('build', ['jshint', 'test', 'clean', 'concat', 'uglify']);
+	grunt.registerTask('zip', ['clean', 'compress']);
 
-	grunt.registerTask('deploy', ['build', 'compress', 'awsebtdeploy']);
+	grunt.registerTask('travis', ['testFront', 'testBack']);
+
+	grunt.registerTask('build', ['jshint', 'travis', 'zip', 'jsdoc']);
+
+	grunt.registerTask('deploy', ['build', 'awsebtdeploy']);
 
 };
