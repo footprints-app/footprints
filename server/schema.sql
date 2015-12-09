@@ -22,7 +22,7 @@ CREATE TABLE places (
   description varchar(1000),
   image varchar(200),
   audio varchar(200),
-  placeOrder int(3),
+  placeOrder int,
   PRIMARY KEY (ID)
 );
 
