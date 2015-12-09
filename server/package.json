@@ -7,7 +7,8 @@
     "express": "^4.13.3",
     "http": "0.0.0",
     "mysql": "^2.9.0",
-    "require": "^2.4.20"
+    "require": "^2.4.20",
+    "body-parser": "^1.14.1"
   },
   "scripts": {
     "start": "node ./server.js",
