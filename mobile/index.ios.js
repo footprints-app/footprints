@@ -5,38 +5,36 @@
 'use strict';
 
 var React = require('react-native');
+var Login = require('./components/Login');
+
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
+  Component,
+  NavigatorIOS,
+  TabBarIOS
 } = React;
 
-var mobile = React.createClass({
-  render: function() {
+class mobile extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <NavigatorIOS style={styles.container} initialRoute={{ title: 'Login', component: Login }} />   
     );
   }
-});
+}
 
 var styles = StyleSheet.create({
+  
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
