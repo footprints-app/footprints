@@ -1,3 +1,5 @@
 # Dependency directories
 node_modules/
 bower_components/
+server/Archive.zip
+.idea/
