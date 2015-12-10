@@ -114,12 +114,12 @@ var styles = StyleSheet.create({
   },
   panel: {
     backgroundColor: '#fff2f2',
-    flex: 0,
+    flex: 1,
     // marginTop: -50,
-    // padding: 10,
+    padding: 10,
     // flexDirection: 'row',
     // alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     
   },
   placeContainer: {
