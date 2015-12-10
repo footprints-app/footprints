@@ -34,7 +34,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		clean: ["sourcebundle/*", "out/"],
+		clean: ["sourcebundle/*"],
 
 		nodemon: {
 			dev: {
