@@ -131,12 +131,11 @@ describe('Server login functionality', function() {
             function(error, response, body) {
               expect(body[0].userName).to.equal(userInfo.userName);
               userInfo.password = "wrongPassword";
-              request({method: "GET",
+              request({method: "POST",
                        uri: "http://127.0.0.1:8000/users/login",
                        json: userInfo
-                      }, function(error, response, body) {
-                          expect(body).to.not.exist;
-                          expect(error).to.exist;
+                      }, function(error, response, body) {              
+                          expect(body.error).to.exist;
                           done();
                       });
             })
@@ -150,7 +149,7 @@ describe('Server login functionality', function() {
             },
             function(error, response, body) {
               expect(body[0].userName).to.equal(userInfo.userName);
-              request({method: "GET",
+              request({method: "POST",
                        uri: "http://127.0.0.1:8000/users/login",
                        json: userInfo
                       }, function(error, response, body) {
@@ -171,12 +170,11 @@ describe('Server login functionality', function() {
             function(error, response, body) {
               expect(body[0].userName).to.equal(userInfo.userName);
               userInfo.userName = "nonexistingUserName";
-              request({method: "GET",
+              request({method: "POST",
                        uri: "http://127.0.0.1:8000/users/login",
                        json: userInfo
                       }, function(error, response, body) {
-                          expect(body).to.not.exist;
-                          expect(error).to.exist;
+                          expect(body.error).to.exist;
                           done();
                       });
             })

@@ -39,7 +39,7 @@ module.exports = {
     });
   },
 
-  login: function (req, res) {
+  login: function (req, res, next) {
     var params = [req.body.userName, req.body.password];
     //Check to see if userName exists
     //Check to see if password matches
@@ -48,6 +48,7 @@ module.exports = {
       if(err) {
         console.error(err);
         res.status(400).send({error: err});
+        next(err);
       } else {
         res.status(200).json(results);
       }
