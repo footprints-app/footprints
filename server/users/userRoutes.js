@@ -1,11 +1,10 @@
+/**
+ * A module that routes to a controller according to the url
+ * @module users/userRoutes
+ * @param app - the userRouter (express.Router()) invoked by the server
+ */
 var userController = require('./userController.js');
 
-/** @userRoutes */
 module.exports = function (app) {
-  /**
-   * userRoutes function
-   * routes to controller according to url
-   * @param app - the userRouter (express.Router()) from the server
-   */
   app.post('/signup', userController.signup);
 };
