@@ -2,8 +2,7 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
-
-// var Main = require('./Main');
+var ViewCreatedTour = require('./ViewCreatedTour');
 
 var {
   AppRegistry,
@@ -34,13 +33,14 @@ class CreateTour extends Component {
     };
   }
 
-  viewTour () {
-    alert('tour created, go to view tour');
-    //   this.props.navigator.push({
-    //   title: "View Tour",
-    //   component: ViewTour,
-    //   passProps: {}
-    // });
+  viewTour (newTour) {
+    // console.log('new tour....', newTour.state)
+    var createdTour = this.state;
+      this.props.navigator.push({
+      title: "View Tour",
+      component: ViewCreatedTour,
+      passProps: {createdTour}
+    });
   }
 
   tourNameInput(event) {
