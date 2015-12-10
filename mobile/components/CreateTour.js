@@ -30,18 +30,49 @@ class CreateTour extends Component {
       userName: '',
       cityName: '',
       state: '',
-      country: '',
-      places: [],
+      country: ''
     };
   }
 
-  mainPage () {
-    //if signin successfull
-      this.props.navigator.push({
-      title: "Welcome",
-      component: Main,
-      passProps: {}
-    });
+  viewTour () {
+    alert('tour created, go to view tour');
+    //   this.props.navigator.push({
+    //   title: "View Tour",
+    //   component: ViewTour,
+    //   passProps: {}
+    // });
+  }
+
+  tourNameInput(event) {
+    this.setState({ tourName: event.nativeEvent.text });
+  }
+ 
+  descriptionInput(event) {
+    this.setState({ description: event.nativeEvent.text });
+  }
+
+  categoryInput(event) {
+    this.setState({ category: event.nativeEvent.text });
+  }
+ 
+  durationInput(event) {
+    this.setState({ duration: event.nativeEvent.text });
+  }
+
+  userNameInput(event) {
+    this.setState({ userName: event.nativeEvent.text });
+  }
+ 
+  cityNameInput(event) {
+    this.setState({ cityName: event.nativeEvent.text });
+  }
+
+  stateInput(event) {
+    this.setState({ state: event.nativeEvent.text });
+  }
+ 
+  countryInput(event) {
+    this.setState({ country: event.nativeEvent.text });
   }
 
   render () {
@@ -50,83 +81,87 @@ class CreateTour extends Component {
         <Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
         
         <View style={styles.inputs}>
+          
           <View style={styles.inputContainer}>
             <TextInput 
               style={[styles.input, styles.whiteFont]}
               placeholder="Tour Name"
               placeholderTextColor="#FFF"
-              value={this.state.tourName}/>
+              value={this.state.tourName}
+              onChange={this.tourNameInput.bind(this)}/>
           </View>
+         
           <View style={styles.inputContainer}>
             <TextInput
-              password={true}
               style={[styles.input, styles.whiteFont]}
               placeholder="Category"
               placeholderTextColor="#FFF"
-              value={this.state.category}/>
+              value={this.state.category}
+              onChange={this.categoryInput.bind(this)}/>
           </View>
+          
           <View style={styles.inputContainer}>
             <TextInput
-              password={true}
               style={[styles.input, styles.whiteFont]}
               placeholder="Description"
               placeholderTextColor="#FFF"
-              value={this.state.description}/>
+              value={this.state.description}
+              onChange={this.descriptionInput.bind(this)}/>
           </View>
+          
           <View style={styles.inputContainer}>
             <TextInput
-              password={true}
               style={[styles.input, styles.whiteFont]}
               placeholder="Duration"
               placeholderTextColor="#FFF"
-              value={this.state.duration}/>
+              value={this.state.duration}
+              onChange={this.durationInput.bind(this)}/>
           </View>
+          
           <View style={styles.inputContainer}>
             <TextInput
-              password={true}
               style={[styles.input, styles.whiteFont]}
               placeholder="User Name"
               placeholderTextColor="#FFF"
-              value={this.state.userName}/>
+              value={this.state.userName}
+              onChange={this.userNameInput.bind(this)}/>
           </View>
+
           <View style={styles.inputContainer}>
             <TextInput
-              password={true}
               style={[styles.input, styles.whiteFont]}
               placeholder="City"
               placeholderTextColor="#FFF"
-              value={this.state.category}/>
+              value={this.state.cityName}
+              onChange={this.cityNameInput.bind(this)}/>
           </View>
+
           <View style={styles.inputContainer}>
             <TextInput
-              password={true}
               style={[styles.input, styles.whiteFont]}
               placeholder="State"
               placeholderTextColor="#FFF"
-              value={this.state.category}/>
+              value={this.state.state}
+              onChange={this.stateInput.bind(this)}/>
           </View>
+
           <View style={styles.inputContainer}>
             <TextInput
-              password={true}
               style={[styles.input, styles.whiteFont]}
               placeholder="Country"
               placeholderTextColor="#FFF"
-              value={this.state.category}/>
+              value={this.state.country}
+              onChange={this.countryInput.bind(this)}/>
           </View>
+
         </View>
 
-        <TouchableHighlight onPress={ this.mainPage.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
-          <View style={styles.signin}>
-            <Text style={styles.whiteFont}>Login</Text>
+        <TouchableHighlight onPress={ this.viewTour.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
+          <View style={styles.createTour}>
+            <Text style={styles.whiteFont}>Create Tour</Text>
           </View>
         </TouchableHighlight>
 
-        <View style={styles.signup}>
-          <Text style={styles.greyFont}>Do not have an account?</Text>
-          <TouchableHighlight onPress={ this.signupPage.bind(this) }>  
-            <Text style={styles.whiteFont}>Sign Up</Text>
-          </TouchableHighlight>
-        </View>
       </View>
     );
   }
@@ -145,41 +180,16 @@ var styles = StyleSheet.create({
     width: windowSize.width,
     height: windowSize.height
   },
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .5,
-    backgroundColor: 'transparent'
-  },
-  mark: {
-      width: 150,
-      height: 150
-  },
-  signin: {
+  createTour: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: -75
-  },
-  signup: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .15
+    marginTop: -200,
   },
   inputs: {
-    marginTop: 300,
+    marginTop: 100,
     marginBottom: 10,
     flex: .25
-  },
-  inputPassword: {
-    marginLeft: 15,
-    width: 20,
-    height: 21
-  },
-  inputUsername: {
-    marginLeft: 15,
-    width: 20,
-    height: 20
   },
   inputContainer: {
     padding: 10,
@@ -189,15 +199,11 @@ var styles = StyleSheet.create({
   },
   input: {
     position: 'absolute',
-    left: 61,
-    top: 12,
+    left: 10,
+    top: 4,
     right: 0,
     height: 20,
     fontSize: 14
-  },
-  forgotContainer: {
-    alignItems: 'flex-end',
-    padding: 15,
   },
   greyFont: {
     color: '#D8D8D8'
@@ -205,24 +211,12 @@ var styles = StyleSheet.create({
   whiteFont: {
     color: '#FFF'
   },
-  button: {
-    height: 15,
-    width: 75,
-    flex: 0.01,
-    alignItems: 'center',
-    backgroundColor: "#555555",
-    borderColor: "#555555",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginTop: 10,
-    justifyContent: "center"
-  },
   touchable: {
     borderRadius: 5
   }
 });
 
-module.exports = Login;
+module.exports = CreateTour;
 
 
 

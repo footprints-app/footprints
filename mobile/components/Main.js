@@ -3,6 +3,7 @@
 // var Button = require('react-native-button');
 var React = require('react-native');
 var AllTours = require('./AllTours');
+var CreateTour = require('./CreateTour');
 
 var {
   StyleSheet,
@@ -32,8 +33,10 @@ class Main extends Component {
   userTours () {
     alert("Called");
     this.props.navigator.push({
-      title: "My Tours",
-      component: UserTours,
+      // title: "My Tours",
+      // component: UserTours,
+      title: "Create Tour",
+      component: CreateTour,
       passProps: {}
     });
   }  
@@ -43,7 +46,7 @@ class Main extends Component {
 
       <View style={styles.container}>
         
-        <TouchableHighlight onPress={() => alert('pressed') } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ this.userTours.bind(this) } style={styles.touchable} underlayColor="white">
           <View style={styles.button1}><Text style={styles.buttonText}>Your Tours</Text></View>  
         </TouchableHighlight>
 

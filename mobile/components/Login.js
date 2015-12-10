@@ -78,6 +78,14 @@ class Login extends Component {
     });
   }
 
+  userNameInput(event) {
+    this.setState({ userName: event.nativeEvent.text });
+  }
+ 
+  passwordInput(event) {
+    this.setState({ password: event.nativeEvent.text });
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -118,15 +126,6 @@ class Login extends Component {
       </View>
     );
   }
-
-  userNameInput(event) {
-    this.setState({ userName: event.nativeEvent.text });
-  }
- 
-  passwordInput(event) {
-    this.setState({ password: event.nativeEvent.text });
-  }
-
 };
 
 var styles = StyleSheet.create({
