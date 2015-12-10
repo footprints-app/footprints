@@ -6,9 +6,6 @@ var db = require('./db');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 
-// Router
-// var router = require('./routes.js');
-
 var app = express();
 
 // Set what we are listening on
