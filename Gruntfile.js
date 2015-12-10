@@ -13,10 +13,26 @@ module.exports = function(grunt) {
 
 		awsebtdeploy: {
 			options: {
+				accessKeyId: 'AKIAJ5G5M3OP5NKBCCXA',
+				secretAccessKey: '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',
 				applicationName: 'walkingtours',
-				environmentCNAME: 'http://thesisserver-env.elasticbeanstalk.com/',
+				environmentCNAME: 'thesisserver-env.elasticbeanstalk.com',
 				region: 'us-east-1',
-				sourceBundle: './sourcebundle/bundle.zip'
+				sourceBundle: 'sourcebundle/bundle.zip'
+			}
+		},
+
+		awsebtlogs: {
+			logs: {
+				options: {
+					accessKeyId: 'AKIAJ5G5M3OP5NKBCCXA',
+					secretAccessKey: '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',
+					region: 'us-east-1',
+					environmentName: 'walkingtours',
+					outputPath: 'logs',
+					timeoutSec: 20,
+					intervalSec: 5
+				}
 			}
 		},
 
@@ -29,7 +45,7 @@ module.exports = function(grunt) {
 				files: [
 					{	expand: true,
 						cwd: 'server/',
-						src: ['*', '!tests', '!schema.sql']},
+						src: ['**/*', '!tests', '!schema.sql', '!node_modules']},
 				]
 			}
 		},
