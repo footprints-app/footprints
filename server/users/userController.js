@@ -20,7 +20,7 @@ module.exports = {
     users.checkNameAvailability(params[0], function(err, results) {
       if(err) {
         console.error(err);
-        res.status(200).send(err);
+        res.status(400).send(err);
       } else {
         users.signup(params, function(err, results) {
           if(err) {
@@ -35,6 +35,21 @@ module.exports = {
             });
           }
         });
+      }
+    });
+  },
+
+  login: function (req, res) {
+    var params = [req.body.userName, req.body.password];
+    //Check to see if userName exists
+    //Check to see if password matches
+    //Return user information if both are true
+    users.checkUserPassword(params, function(err, results) {
+      if(err) {
+        console.error(err);
+        res.status(400).send({error: err});
+      } else {
+        res.status(200).json(results);
       }
     });
   }
