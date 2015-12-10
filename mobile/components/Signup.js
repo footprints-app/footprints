@@ -32,30 +32,30 @@ class Signup extends Component {
 
   mainPageView () {
     //if signed up redirect to tours main page
-    fetch(this.state.rootUrl + '/users/signup', 
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: this.state.username,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          password: this.state.password
-        })
-      }
-    ).then((response) => response.text())
-    .then((responseText) => {
-    // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
-      this.state.userId = responseText.id;
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
-    // var signUp = require('./signUp');
-    // var newUserDetails = signUp(username, firstName, lastName, password, rootUrl);
+    this.postUserData();
+    // fetch(this.state.rootUrl + '/users/signup', 
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       userName: this.state.username,
+    //       firstName: this.state.firstName,
+    //       lastName: this.state.lastName,
+    //       password: this.state.password
+    //     })
+    //   }
+    // ).then((response) => response.text())
+    // .then((responseText) => {
+    // // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
+    //   this.state.userId = responseText.id;
+    // })
+    // .catch((error) => {
+    //   console.warn(error);
+    // });
+
     this.props.navigator.push({
       title: "Tours",
       component: Main
@@ -145,6 +145,31 @@ class Signup extends Component {
 
   passwordInput(event) {
     this.setState({ password: event.nativeEvent.text });
+  }
+
+  postUserData () {
+    fetch(this.state.rootUrl + '/users/signup', 
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: this.state.username,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          password: this.state.password
+        })
+      }
+    ).then((response) => response.text())
+    .then((responseText) => {
+    // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
+      this.setState({ userID: responseText.id });
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
   }
 
 };
