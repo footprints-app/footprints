@@ -118,6 +118,15 @@ class Login extends Component {
       </View>
     );
   }
+
+  userNameInput(event) {
+    this.setState({ userName: event.nativeEvent.text });
+  }
+ 
+  passwordInput(event) {
+    this.setState({ password: event.nativeEvent.text });
+  }
+
 };
 
 var styles = StyleSheet.create({

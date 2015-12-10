@@ -71,7 +71,7 @@ class CreateTour extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Description"
               placeholderTextColor="#FFF"
-              value={this.state.category}/>
+              value={this.state.description}/>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -79,7 +79,7 @@ class CreateTour extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Duration"
               placeholderTextColor="#FFF"
-              value={this.state.category}/>
+              value={this.state.duration}/>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -87,7 +87,7 @@ class CreateTour extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="User Name"
               placeholderTextColor="#FFF"
-              value={this.state.category}/>
+              value={this.state.userName}/>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
