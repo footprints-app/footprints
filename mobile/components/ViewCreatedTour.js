@@ -15,12 +15,50 @@ var {
 
 class ViewCreatedTour extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2
+      })
+    };
+  }
+
+  componentDidMount() {
+    var places = this.props.createdTour.places;
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
+    //this.fetchData();
+  }
+
+  addPlace () {
+    this.props.navigator.push({
+      title: "Add Place",
+      component: AddPlace,
+      passProps: {}
+    });
+  }
+
+  renderPlace(place) {
+    return (
+      <TouchableHighlight onPress={ () => alert('go to place detail')}  underlayColor='#dddddd'>
+        <View>
+          <View style={styles.placeContainer}>
+            <View style={styles.rightContainer}>
+              <Text style={styles.placeName}>{place.placeName}</Text>
+            </View>
+          </View>
+          <View style={styles.separator} />
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
   render() {
-    //console.log('props...', this.props)
     var newTour = this.props.createdTour;
+    console.log('props...', this.props)
     // console.log('new tour....', newTour)
     // console.log('props...', this.props)
-
     var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
     var description = (typeof newTour.description !== 'undefined') ? newTour.description : '';
     var category = (typeof newTour.category !== 'undefined') ? newTour.category : '';
@@ -32,13 +70,31 @@ class ViewCreatedTour extends Component {
     
     return (
       <View style={styles.container}>
-        <Text style={styles.description}>tourName: {tourName}</Text>
-        <Text style={styles.description}>category : {category }</Text>
-        <Text style={styles.description}>duration: {duration}</Text>
-        <Text style={styles.description}>userName: {userName}</Text>
-        <Text style={styles.description}>cityName: {cityName }</Text>
-        <Text style={styles.description}>state: {state}</Text>
-        <Text style={styles.description}>country: {country}</Text>
+        <Text style={styles.description}>Tour Name: {tourName}</Text>
+        <Text style={styles.description}>Category : {category }</Text>
+        <Text style={styles.description}>Duration: {duration}</Text>
+        <Text style={styles.description}>City Name: {cityName}   State: {state}   Country: {country}</Text>  
+        <Text style={styles.description}>Places: </Text>
+
+        <View style={styles.panel}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderPlace.bind(this)}
+            style={styles.listView}/>
+        </View>
+
+        <TouchableHighlight onPress={ () => addPlace() } style={styles.touchable} underlayColor="white">
+          <View style={styles.addPlaceBtn}>
+            <Text style={styles.whiteFont}>Add Place</Text>
+          </View>  
+        </TouchableHighlight>
+
+        <TouchableHighlight onPress={ () => alert('Done pressed') } style={styles.touchable} underlayColor="white">
+          <View style={styles.doneBtn}>
+            <Text style={styles.whiteFont}>Done</Text>
+          </View>  
+        </TouchableHighlight>
+      
       </View>
     );
   }
@@ -47,8 +103,15 @@ class ViewCreatedTour extends Component {
 var styles = StyleSheet.create({
 
   container: {
-    marginTop: 75,
-    alignItems: 'center'
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: 'transparent',
+    marginTop: 70
+  },
+  panel: {
+    backgroundColor: '#fff2f2',
+    flex: 1,
+    padding: 10,
   },
   placeContainer: {
     flex: 1,
@@ -58,22 +121,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff2f2',
     padding: 10
   },
-  image: {
-    width: 350,
-    height: 165,
-    padding: 10
-  },
-  description: {
-    padding: 10,
-    fontSize: 15,
-    color: '#656565',
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
   rightContainer: {
     flex: 1
   },
@@ -81,28 +128,36 @@ var styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 8,
   },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
-  city: {
-    color: '#656565',
-    marginLeft: 20
-  },
   separator: {
     height: 1,
     backgroundColor: '#dddddd'
   },
-  listView: {
-    backgroundColor: '#F5FCFF'
-   },
-  loading: {
-    flex: 1,
+  description: {
+    padding: 10,
+    fontSize: 15,
+    color: '#656565',
+  },
+  addPlaceBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
     alignItems: 'center',
-    justifyContent: 'center'
+    marginBottom: 50,
+  },
+  doneBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: -40,
+  },
+  whiteFont: {
+    color: '#FFF'
+  },
+  listView: {
+    backgroundColor: '#fff2f2'
+   },
+  touchable: {
+    borderRadius: 100
   }
-
 
 });
 

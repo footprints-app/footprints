@@ -29,7 +29,8 @@ class CreateTour extends Component {
       userName: '',
       cityName: '',
       state: '',
-      country: ''
+      country: '',
+      places: []
     };
   }
 
@@ -116,15 +117,6 @@ class CreateTour extends Component {
               placeholderTextColor="#FFF"
               value={this.state.duration}
               onChange={this.durationInput.bind(this)}/>
-          </View>
-          
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={[styles.input, styles.whiteFont]}
-              placeholder="User Name"
-              placeholderTextColor="#FFF"
-              value={this.state.userName}
-              onChange={this.userNameInput.bind(this)}/>
           </View>
 
           <View style={styles.inputContainer}>
