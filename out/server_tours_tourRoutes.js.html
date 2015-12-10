@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: mobile/index.android.js</title>
+    <title>JSDoc: Source: server/tours/tourRoutes.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: mobile/index.android.js</h1>
+    <h1 class="page-title">Source: server/tours/tourRoutes.js</h1>
 
     
 
@@ -27,57 +27,17 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * A module that routes to a controller according to the url
+ * @module tours/tourRoutes
+ * @param app - the tourRouter (express.Router()) invoked by the server
  */
-'use strict';
+var tourController = require('./tourController.js');
 
-var React = require('react-native');
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
-
-var mobile = React.createClass({
-  render: function() {
-    return (
-      &lt;View style={styles.container}>
-        &lt;Text style={styles.welcome}>
-          Welcome to React Native!
-        &lt;/Text>
-        &lt;Text style={styles.instructions}>
-          To get started, edit index.android.js
-        &lt;/Text>
-        &lt;Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        &lt;/Text>
-      &lt;/View>
-    );
-  }
-});
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
-
-AppRegistry.registerComponent('mobile', () => mobile);
+module.exports = function (app) {
+	app.get('/alltours', tourController.getAllTours);
+	app.get('/mytours', tourController.getUserTours);
+	app.post('/createtour', tourController.createTour);
+};
 </code></pre>
         </article>
     </section>

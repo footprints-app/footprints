@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: mobile/index.android.js</title>
+    <title>JSDoc: Source: server/tours/tourController.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: mobile/index.android.js</h1>
+    <h1 class="page-title">Source: server/tours/tourController.js</h1>
 
     
 
@@ -27,57 +27,38 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * A module that contains all functions to handle tour requests
+ * @module tours/tourController
+ * @requires tourModel
  */
-'use strict';
+var tours = require('./tourModel');
 
-var React = require('react-native');
-var {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-} = React;
+module.exports = {
+	/** Retrieves all tours from database
+	 * @method getAllTours
+	 * @param {object} req Request object
+	 * @param {object} res Response object with all tours from database
+	 */
+	getAllTours: function(req, res) {
 
-var mobile = React.createClass({
-  render: function() {
-    return (
-      &lt;View style={styles.container}>
-        &lt;Text style={styles.welcome}>
-          Welcome to React Native!
-        &lt;/Text>
-        &lt;Text style={styles.instructions}>
-          To get started, edit index.android.js
-        &lt;/Text>
-        &lt;Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        &lt;/Text>
-      &lt;/View>
-    );
-  }
-});
+	},
+	/** Retrieves user specific tours from the database
+	 * @method getUserTours
+	 * @param req {object} Request object that identifies the user
+	 * @param res {object} Response object with tours that match user
+	 */
+	getUserTours: function(req, res) {
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+	},
+	/** Receives new tour information from client and posts tour to database
+	 * @method createTour
+	 * @param req {object} Request object that includes new tour data
+	 * @param res {object} Response status
+	 */
+	createTour: function(req, res) {
 
-AppRegistry.registerComponent('mobile', () => mobile);
+	}
+}
 </code></pre>
         </article>
     </section>
