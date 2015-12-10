@@ -17,9 +17,14 @@ var {
 } = React;
 
 class Signup extends Component {
-  
-  constructor(props){
-    super(props);
+  /**
+   * Creates an instance of Signup and sets the state with empty user details and the rootUrl for making http requests.
+   *
+   * @constructor
+   * @this {Signup}
+   */
+  constructor(){
+    super();
     this.state = {
       firstName: '',
       lastName: '',
@@ -30,18 +35,23 @@ class Signup extends Component {
     };
   }
 
+  /**
+   * Updates the state with user input, posts the new user details to the database and redirects user to the main Tours page.
+   *
+   */
   mainPageView () {
-    //if signed up redirect to tours main page
     this.postUserData();
-
     this.props.navigator.push({
       title: "Tours",
       component: Main
     });
   }
 
-    loginView () {
-    //if already have an account
+  /**
+   * Redirects user to the login page when 'Already have an account?' is clicked.
+   *
+   */
+  loginView () {
     this.props.navigator.push({
       title: "Login",
       component: Login
@@ -125,6 +135,10 @@ class Signup extends Component {
     this.setState({ password: event.nativeEvent.text });
   }
 
+  /**
+   * Posts the user details to the database and sets the state's userId to the userId received from response.
+   *
+   */
   postUserData () {
     fetch(this.state.rootUrl + '/users/signup', 
       {
@@ -143,7 +157,7 @@ class Signup extends Component {
     ).then((response) => response.text())
     .then((responseText) => {
     // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
-      this.setState({ userID: responseText.id });
+      this.setState({ userId: responseText.id });
     })
     .catch((error) => {
       console.warn(error);
