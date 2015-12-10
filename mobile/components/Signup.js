@@ -16,9 +16,12 @@ var {
   TouchableHighlight
 } = React;
 
+var REQUEST_URL = 'http://localhost:8000';
+
 class Signup extends Component {
+  
   /**
-   * Creates an instance of Signup and sets the state with empty user details and the rootUrl for making http requests.
+   * Creates an instance of Signup and sets the state with empty user details.
    *
    * @constructor
    * @this {Signup}
@@ -30,21 +33,8 @@ class Signup extends Component {
       lastName: '',
       username: '',
       password: '',
-      rootUrl: 'http://localhost:8000',
       userId: ''
     };
-  }
-
-  /**
-   * Updates the state with user input, posts the new user details to the database and redirects user to the main Tours page.
-   *
-   */
-  mainPageView () {
-    this.postUserData();
-    this.props.navigator.push({
-      title: "Tours",
-      component: Main
-    });
   }
 
   /**
@@ -55,6 +45,55 @@ class Signup extends Component {
     this.props.navigator.push({
       title: "Login",
       component: Login
+    });
+  }
+
+  firstNameInput(event) {
+    this.setState({ firstName: event.nativeEvent.text });
+  }
+
+  lastNameInput(event) {
+    this.setState({ lastName: event.nativeEvent.text });
+  }
+  usernameInput(event) {
+    this.setState({ username: event.nativeEvent.text });
+  }
+
+  passwordInput(event) {
+    this.setState({ password: event.nativeEvent.text });
+  }
+
+  /**
+   * Posts the user details to the server then redirects user to Main Tours page with the userId as a prop for the component
+   *
+   */
+  submitSignup () {
+    fetch(REQUEST_URL + '/users/signup', 
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: this.state.username,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          password: this.state.password
+        })
+      }
+    ).then((response) => response.text())
+    .then((responseText) => {
+    // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
+      var userId = responseText.id;
+      this.props.navigator.push({
+        title: "Tours",
+        component: Main,
+        passProps: {userId}
+      });
+    })
+    .catch((error) => {
+      console.warn(error);
     });
   }
 
@@ -105,7 +144,7 @@ class Signup extends Component {
 
         </View>
         <View style={styles.signup}>
-          <Text style={styles.whiteFont} onPress={ this.mainPageView.bind(this) }>Sign Up</Text>
+          <Text style={styles.whiteFont} onPress={ this.submitSignup.bind(this) }>Sign Up</Text>
         </View>
 
         <View style={styles.login}>
@@ -117,51 +156,6 @@ class Signup extends Component {
 
       </View>
     );
-  }
-
-  firstNameInput(event) {
-    this.setState({ firstName: event.nativeEvent.text });
-  }
-
-  lastNameInput(event) {
-    this.setState({ lastName: event.nativeEvent.text });
-  }
-
-  usernameInput(event) {
-    this.setState({ username: event.nativeEvent.text });
-  }
-
-  passwordInput(event) {
-    this.setState({ password: event.nativeEvent.text });
-  }
-
-  /**
-   * Posts the user details to the database and sets the state's userId to the userId received from response.
-   *
-   */
-  postUserData () {
-    fetch(this.state.rootUrl + '/users/signup', 
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: this.state.username,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          password: this.state.password
-        })
-      }
-    ).then((response) => response.text())
-    .then((responseText) => {
-    // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
-      this.setState({ userId: responseText.id });
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
   }
 
 };
