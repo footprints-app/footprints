@@ -70,6 +70,7 @@ describe('Server signup functionality', function() {
                        json: userInfo
                       },
                       function(error, response, body) {
+                        expect(body.error).to.exist;
                         var queryString = "SELECT * from users where userName='jhald'";
                         var queryArgs = [];
 

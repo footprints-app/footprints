@@ -18,7 +18,7 @@ module.exports = {
     var queryStr = "select userName from users where userName = ?";
     db.query(queryStr, params, function(err, results) {
       if(results.length !== 0) {
-        callback("Username already exists!");
+        callback("Username already exists");
       } else {
         callback(err, results);
       }
