@@ -2,8 +2,10 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
+var utils = require('../lib/utility');
 
 var Main = require('./Main');
+// var styles = require('../lib/stylesheet');
 
 var {
   AppRegistry,
@@ -24,30 +26,55 @@ class Login extends Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      userId: ''
     };
   }
 
-  signupPage () {
-    console.log('navigator...', this.props);
-    /**
-     * you have to require signup here to handle dependency cycles
-     */
-    var Signup = require('./Signup');
-      this.props.navigator.push({
-      title: "Signup",
-      component: Signup,
-      // passProps: {username: this.state.username, password: this.state.password},
-    });
+  /**
+   * This function can not be extracted/replaced with a utils function?
+  */
+  // signupPage () {
+  //   var Signup = require('./Signup');
+  //     this.props.navigator.push({
+  //     title: "Signup",
+  //     component: Signup,
+  //     // passProps: {username: this.state.username, password: this.state.password},
+  //   });
 
-  }
+  // }
 
-  mainPage () {
-    //if signin successfull
-      this.props.navigator.push({
-      title: "Welcome",
-      component: Main,
-      passProps: {}
+
+  /**
+   * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
+   *
+   */
+  submitLogin () {
+    fetch(utils.request_url + '/users/login', 
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: this.state.username,
+          password: this.state.password
+        })
+      }
+    ).then((response) => response.text())
+    .then((responseText) => {
+      // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
+      if(responseText.error) {
+      /*
+        need to handle incorrect login details
+      */
+      } else {
+        utils.navigateTo.call(this, "Welcome", Main, {responseText});
+      }
+    })
+    .catch((error) => {
+      console.warn(error);
     });
   }
 
@@ -63,7 +90,7 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#FFF"
-              value={this.state.username}/>
+              onChange={utils.usernameInput.bind(this)}/>
           </View>
           <View style={styles.inputContainer}>
             <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
@@ -72,11 +99,11 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#FFF"
-              value={this.state.password}/>
+              onChange={utils.passwordInput.bind(this)}/>
           </View>
         </View>
 
-        <TouchableHighlight onPress={ this.mainPage.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
+        <TouchableHighlight onPress={ this.submitLogin.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
           <View style={styles.signin}>
             <Text style={styles.whiteFont}>Login</Text>
           </View>
@@ -84,7 +111,7 @@ class Login extends Component {
 
         <View style={styles.signup}>
           <Text style={styles.greyFont}>Do not have an account?</Text>
-          <TouchableHighlight onPress={ this.signupPage.bind(this) }>  
+          <TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Signup', require('./Signup'), {}) }>  
             <Text style={styles.whiteFont}>Sign Up</Text>
           </TouchableHighlight>
         </View>
