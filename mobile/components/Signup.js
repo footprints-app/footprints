@@ -64,8 +64,7 @@ class Signup extends Component {
         //re-render sign-up page to inform user that username already exists
       }
       // console.log('responseText: ', responseText);
-      var userId = responseText.id;
-      utils.navigateTo.call(this, "Tours", Main, {userId});
+      utils.navigateTo.call(this, "Tours", Main, {responseText});
 
     })
     .catch((error) => {

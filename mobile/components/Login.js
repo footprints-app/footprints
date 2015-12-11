@@ -2,12 +2,10 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
+var utils = require('../lib/utility');
 
 var Main = require('./Main');
 // var Signup = require('./Signup');
-
-var REQUEST_URL = 'http://localhost:8000';
-
 
 var {
   AppRegistry,
@@ -34,47 +32,13 @@ class Login extends Component {
   }
 
   /**
-   * Redirects user to the signup page when 'Do not have an account?' is clicked.
-   *
-   */
-  signupPage () {
-    var Signup = require('./Signup');
-
-      this.props.navigator.push({
-      title: "Signup",
-      component: Signup,
-    });
-
-  }
-
-  /**
-   * Redirects user to the main Tours page when login is successful.
-   *
-   */
-  showMainPage (userId) {
-      this.props.navigator.push({
-      title: "Welcome",
-      component: Main,
-      passProps: userId
-    });
-  }
-
-  usernameInput(event) {
-    this.setState({ username: event.nativeEvent.text });
-  }
-
-  passwordInput(event) {
-    this.setState({ password: event.nativeEvent.text });
-  }
-
-  /**
    * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
    *
    */
   submitLogin () {
-    fetch(REQUEST_URL + '/users/login', 
+    fetch(utils.request_url + '/users/login', 
       {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -92,7 +56,7 @@ class Login extends Component {
         need to handle incorrect login details
       */
       } else {
-        showMainPage(responseText.id);
+        utils.navigateTo.call(this, "Welcome", Main, {responseText});
       }
     })
     .catch((error) => {
@@ -100,6 +64,9 @@ class Login extends Component {
     });
   }
 
+  /*
+  still refactor below to show invalid login view
+  */
   renderInvalidLogin () {
     return (
       <View style={styles.container}>
@@ -133,7 +100,7 @@ class Login extends Component {
 
         <View style={styles.signup}>
           <Text style={styles.greyFont}>Do not have an account?</Text>
-          <TouchableHighlight onPress={ this.signupPage.bind(this) }>  
+          <TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Signup', Signup, {}) }>  
             <Text style={styles.whiteFont}>Sign Up</Text>
           </TouchableHighlight>
         </View>
@@ -155,7 +122,7 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#FFF"
-              value={this.state.username}/>
+              onChange={utils.usernameInput.bind(this)}/>
           </View>
           <View style={styles.inputContainer}>
             <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
@@ -164,7 +131,7 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#FFF"
-              value={this.state.password}/>
+              onChange={utils.passwordInput.bind(this)}/>
           </View>
         </View>
 
