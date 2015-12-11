@@ -27,12 +27,32 @@ module.exports = {
 
 	},
 	/** Receives new tour information from client and posts tour to database
+	 * Gets cityId from addOrGetCity method
+	 * Inserts new tour to database through insertTour method
+	 *
 	 * @method createTour
 	 * @param req {object} Request object that includes new tour data
 	 * @param res {object} Response status
 	 */
 	createTour: function(req, res) {
+		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
+		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
+		console.log(cityParams);
+		tours.addOrGetCity(cityParams, function(err, results) {
+			if(err) {
+				res.status(404).send({error: err});
+			} else {
+				tourParams.push(results);//Get city id from results
+				tours.insertTour(tourParams, function(err, results) {
+					if(err) {
+						res.status(404).send({error: err});
+					} else {
+						res.status(201).json({tourId: results});
+					}
+				})
+			}
+		})
 	},
 
 	addPlace: function(req, res) {
