@@ -17,7 +17,7 @@ class PlaceDetail extends Component {
 
   render() {
     //console.log('props...', this.props)
-    var places = this.props.place
+    var places = this.props.place;
     //console.log('tour....', tour)
     //console.log('props...', this.props)
     var imageURI = (typeof places.image !== 'undefined') ? places.image : '';
