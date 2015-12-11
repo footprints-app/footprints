@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var MyTours = require('./MyTours');
 // var AddPlace = require('./AddPlace');
 var {
   StyleSheet,
@@ -39,6 +40,14 @@ class ViewCreatedTour extends Component {
       title: "Add Place",
       component: AddPlace,
       passProps: {newTour}
+    });
+  }
+
+  onPressDone () {
+    this.props.navigator.push({
+      title: "My Tours",
+      component: MyTours,
+      passProps: {}
     });
   }
 
@@ -92,7 +101,7 @@ class ViewCreatedTour extends Component {
           </View>  
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ () => alert('Done pressed') } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ () => this.onPressDone () } style={styles.touchable} underlayColor="white">
           <View style={styles.doneBtn}>
             <Text style={styles.whiteFont}>Done</Text>
           </View>  
