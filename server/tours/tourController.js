@@ -32,7 +32,25 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	createTour: function(req, res) {
+		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
+		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
+		tours.addOrGetCity(cityParams, function(err, results) {
+			if(err) {
+				console.log("Did not get past add or get city")
+				res.status(404).send({error: err});
+			} else {
+				console.log("Got past add or get city, results: ", results);
+				tourParams.push(results.cityId);
+				tours.insertTour(tourParams, function(err, results) {
+					if(err) {
+						res.status(404).send({error: err});
+					} else {
+						res.status(201).json(results);
+					}
+				})
+			}
+		})
 	},
 
 	addPlace: function(req, res) {
