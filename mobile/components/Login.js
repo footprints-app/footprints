@@ -32,6 +32,20 @@ class Login extends Component {
   }
 
   /**
+   * This function can not be extracted/replaced with a utils function?
+  */
+  // signupPage () {
+  //   var Signup = require('./Signup');
+  //     this.props.navigator.push({
+  //     title: "Signup",
+  //     component: Signup,
+  //     // passProps: {username: this.state.username, password: this.state.password},
+  //   });
+
+  // }
+
+
+  /**
    * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
    *
    */
@@ -63,52 +77,6 @@ class Login extends Component {
       console.warn(error);
     });
   }
-
-  /*
-  still refactor below to show invalid login view
-  */
-  renderInvalidLogin () {
-    return (
-      <View style={styles.container}>
-        <Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
-        
-        <View style={styles.inputs}>
-          <View style={styles.inputContainer}>
-            <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
-            <TextInput 
-              style={[styles.input, styles.whiteFont]}
-              placeholder="Username"
-              placeholderTextColor="#FFF"
-              value={this.state.username}/>
-          </View>
-          <View style={styles.inputContainer}>
-            <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
-            <TextInput
-              password={true}
-              style={[styles.input, styles.whiteFont]}
-              placeholder="Password"
-              placeholderTextColor="#FFF"
-              value={this.state.password}/>
-          </View>
-        </View>
-
-        <TouchableHighlight onPress={ this.submitLogin.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
-          <View style={styles.signin}>
-            <Text style={styles.whiteFont}>Login</Text>
-          </View>
-        </TouchableHighlight>
-
-        <View style={styles.signup}>
-          <Text style={styles.greyFont}>Do not have an account?</Text>
-          <TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Signup', Signup, {}) }>  
-            <Text style={styles.whiteFont}>Sign Up</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    );
-  }
-
-
 
   render () {
     return (
@@ -143,7 +111,7 @@ class Login extends Component {
 
         <View style={styles.signup}>
           <Text style={styles.greyFont}>Do not have an account?</Text>
-          <TouchableHighlight onPress={ this.signupPage.bind(this) }>  
+          <TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Signup', require('./Signup'), {}) }>  
             <Text style={styles.whiteFont}>Sign Up</Text>
           </TouchableHighlight>
         </View>
