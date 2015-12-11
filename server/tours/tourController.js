@@ -38,10 +38,8 @@ module.exports = {
 		console.log(cityParams);
 		tours.addOrGetCity(cityParams, function(err, results) {
 			if(err) {
-				console.log("Did not get past add or get city")
 				res.status(404).send({error: err});
 			} else {
-				console.log("Got past add or get city, results: ", results);
 				tourParams.push(results);//Get city id from results
 				tours.insertTour(tourParams, function(err, results) {
 					if(err) {
