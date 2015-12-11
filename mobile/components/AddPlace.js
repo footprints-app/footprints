@@ -16,10 +16,10 @@ var {
 
 var Place = t.struct({
 
-  placeName: t.String,
-  address: t.String,
-  description: t.String,
-  placeOrder: t.Number
+  placeName: t.maybe(t.String),
+  address: t.maybe(t.String),
+  description: t.maybe(t.String),
+  placeOrder: t.maybe(t.Number)
 
 });
 
