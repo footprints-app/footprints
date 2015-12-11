@@ -39,17 +39,6 @@ class Signup extends Component {
   }
 
   /**
-   * Redirects user to the login page when 'Already have an account?' is clicked.
-   *
-   */
-  loginView () {
-    this.props.navigator.push({
-      title: "Login",
-      component: Login
-    });
-  }
-
-  /**
    * Posts the user details to the server then redirects user to Main Tours page with the userId as a prop for the component
    *
    */
@@ -74,9 +63,9 @@ class Signup extends Component {
       if(responseText = 'Username already exists!'){
         //re-render sign-up page to inform user that username already exists
       }
-      console.log('responseText: ', responseText);
+      // console.log('responseText: ', responseText);
       var userId = responseText.id;
-      utils.navigateTo(this, "Tours", Main, {userId});
+      utils.navigateTo.call(this, "Tours", Main, {userId});
 
     })
     .catch((error) => {
@@ -136,7 +125,7 @@ class Signup extends Component {
 
         <View style={styles.login}>
           <Text style={styles.greyFont}>Already have an account?</Text>
-          <TouchableHighlight onPress={ this.loginView.bind(this) }>  
+          <TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }>  
             <Text style={styles.whiteFont}>Login</Text>
           </TouchableHighlight>
         </View>

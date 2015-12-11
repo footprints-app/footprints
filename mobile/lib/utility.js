@@ -43,11 +43,11 @@ var Utility = {
   /**
    * Navigates user to the next component, passing specificed props.
    *
-   * @param {component, string, component, object} component navigating away from, title of next component, next component, props to pass.
+   * @param {string, component, object} title of next component, component you want to route to, props to pass to next component.
    */
-  navigateTo: function(startComponent, titleName, toComponent, props) {
-    console.log('navigate: ', titleName);
-    start.props.navigator.push({
+  navigateTo: function(titleName, toComponent, props) {
+    // console.log('navigate: ', titleName);
+    this.props.navigator.push({
       title: titleName,
       component: toComponent,
       passProps: props
