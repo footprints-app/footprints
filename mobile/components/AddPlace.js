@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var ViewCreatedTour = require('./ViewCreatedTour');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
@@ -31,16 +32,20 @@ class AddPlace extends Component {
     // }
 
   onPressSave(){
+    console.log('in add place....', this.props.newTour)
+    var createdTour = this.props.newTour;
     var value = this.refs.form.getValue();
+    
     //on sending post request backend will send a tour id
     //save tour id in frontend
     if (value) { // if validation fails, value will be null
       console.log(value); // value here is an instance of Person
+      console.log('placeName.....', value.placeName)
     }
     this.props.navigator.push({
-      title: "My Tours",
-      component: MyTours,
-      passProps: {}
+      title: "View Tour",
+      component: ViewCreatedTour,
+      passProps: {createdTour}
     });
   }
 
@@ -53,7 +58,7 @@ class AddPlace extends Component {
         type={Place}
         options={options}/>
 
-      <TouchableHighlight style={styles.button} onPress={ () => this.onPressSave() } underlayColor='#99d9f4'>
+      <TouchableHighlight style={styles.button} onPress={ this.onPressSave.bind(this) } underlayColor='#99d9f4'>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableHighlight>
     </View>

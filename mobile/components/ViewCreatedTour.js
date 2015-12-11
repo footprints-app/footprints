@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var AddPlace = require('./AddPlace');
+// var AddPlace = require('./AddPlace');
 var {
   StyleSheet,
   Image,
@@ -32,10 +32,13 @@ class ViewCreatedTour extends Component {
   }
 
   addPlace () {
+    console.log('in view createdTour.....', this.props.createdTour)
+    var newTour = this.props.createdTour;
+    var AddPlace = require('./AddPlace');
     this.props.navigator.push({
       title: "Add Place",
       component: AddPlace,
-      passProps: {}
+      passProps: {newTour}
     });
   }
 
