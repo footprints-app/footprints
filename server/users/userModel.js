@@ -20,7 +20,7 @@ module.exports = {
       if(results.length !== 0) {
         callback("Username already exists");
       } else {
-        callback(err, results);
+        callback(err, results[0]);
       }
     });
   },
@@ -38,7 +38,7 @@ module.exports = {
       if(err) {
         callback(err);
       } else {
-        callback(err, results);        
+        callback(err, results[0]);        
       }
     });
   },
@@ -55,7 +55,7 @@ module.exports = {
       if(err) {
         callback(err);
       } else {
-        callback(err, results);
+        callback(err, results[0]);
       }
     })
   },
@@ -80,7 +80,7 @@ module.exports = {
           callback("Username and password do not match");
         } else {
           results[0].password = "";//Do not send the password back to the client
-          callback(err, results);          
+          callback(err, results[0]);          
         }
       }
     });
