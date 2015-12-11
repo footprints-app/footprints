@@ -38,7 +38,7 @@ Look in the wiki for our roadmap.
 Use github’s interface to make a fork of the repo, then add that repo as an upstream remote:
 
 ```
-git remote add upstream https://github.com/emerald-mopeds/emerald-mopeds.git
+git remote add upstream https://github.com/terrifying-vegetable/thesisProject.git
 ```
 
 ### Cut a namespaced feature branch from master
