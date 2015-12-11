@@ -5,7 +5,7 @@ var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
 
 var Main = require('./Main');
-// var Signup = require('./Signup');
+// var styles = require('../lib/stylesheet');
 
 var {
   AppRegistry,
