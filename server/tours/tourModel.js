@@ -64,7 +64,13 @@ module.exports = {
 			}
 		})
 	},
-
+  /**
+   * Inserts a new tour into the table.
+   * If successful, gives a callback the tourId.
+   *
+   * @param {string} params - an array containing the cityName, state, and country
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
 	insertTour: function(params, callback) {
 		var insertStr = "INSERT into tours(tourName, userId, description, category, duration, cityId) \
 			              value (?, ?, ?, ?, ?, ?)";

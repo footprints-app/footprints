@@ -27,6 +27,9 @@ module.exports = {
 
 	},
 	/** Receives new tour information from client and posts tour to database
+	 * Gets cityId from addOrGetCity method
+	 * Inserts new tour to database through insertTour method
+	 *
 	 * @method createTour
 	 * @param req {object} Request object that includes new tour data
 	 * @param res {object} Response status
