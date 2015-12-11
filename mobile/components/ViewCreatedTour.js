@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-
+var AddPlace = require('./AddPlace');
 var {
   StyleSheet,
   Image,
@@ -83,7 +83,7 @@ class ViewCreatedTour extends Component {
             style={styles.listView}/>
         </View>
 
-        <TouchableHighlight onPress={ () => addPlace() } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ () => this.addPlace() } style={styles.touchable} underlayColor="white">
           <View style={styles.addPlaceBtn}>
             <Text style={styles.whiteFont}>Add Place</Text>
           </View>  
