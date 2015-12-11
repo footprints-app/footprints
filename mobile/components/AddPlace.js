@@ -27,13 +27,15 @@ var options = {};
 class AddPlace extends Component {
     // constructor(props) {
     //     super(props);
-    //     this.state = {
-    //         searchString: 'USD',
-    //     };
+    //     this.state = {};
     // }
 
   onPressSave(){
     var value = this.refs.form.getValue();
+
+    //on sending post request backend will send a tour id
+    //save tour id in frontend
+
     if (value) { // if validation fails, value will be null
       console.log(value); // value here is an instance of Person
     }
