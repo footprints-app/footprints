@@ -38,12 +38,17 @@ module.exports = {
       }
     });
   },
-
+  /**
+   * Calls checkUserPassword function from userModel.
+   * Checks if user name exists.  If not, then will send error message.
+   * Checks if password is correct.
+   * If there is a match, will retrieve user info.
+   *
+   * @param {object} req - Request from the client
+   * @param {object} res - Response to be sent to the client
+   */
   login: function (req, res, next) {
     var params = [req.body.userName, req.body.password];
-    //Check to see if userName exists
-    //Check to see if password matches
-    //Return user information if both are true
     users.checkUserPassword(params, function(err, results) {
       if(err) {
         console.error(err);
