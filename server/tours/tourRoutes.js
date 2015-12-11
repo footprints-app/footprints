@@ -8,5 +8,8 @@ var tourController = require('./tourController.js');
 module.exports = function (app) {
 	app.get('/alltours', tourController.getAllTours);
 	app.get('/mytours', tourController.getUserTours);
+	app.get('/:id', tourController.getOneTour);
+
 	app.post('/createtour', tourController.createTour);
+	app.post('/addplace', tourController.addPlace);
 };

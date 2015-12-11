@@ -6,6 +6,10 @@
 var tours = require('./tourModel');
 
 module.exports = {
+	getOneTour: function(req, res) {
+
+	},
+
 	/** Retrieves all tours from database
 	 * @method getAllTours
 	 * @param {object} req Request object
@@ -28,6 +32,10 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	createTour: function(req, res) {
+
+	},
+
+	addPlace: function(req, res) {
 
 	}
 }
