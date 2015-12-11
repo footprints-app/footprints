@@ -50,6 +50,7 @@ class Login extends Component {
    *
    */
   submitLogin () {
+
     fetch(utils.request_url + '/users/login', 
       {
         method: 'POST',
@@ -76,14 +77,6 @@ class Login extends Component {
     .catch((error) => {
       console.warn(error);
     });
-  }
-
-  userNameInput(event) {
-    this.setState({ userName: event.nativeEvent.text });
-  }
- 
-  passwordInput(event) {
-    this.setState({ password: event.nativeEvent.text });
   }
 
   render () {
