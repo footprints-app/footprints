@@ -78,13 +78,14 @@ module.exports = {
 	},
 
 	insertTour: function(params, callback) {
-		var queryStr = "INSERT into tours(tourName, userId, description, category, duration, cityId) \
+		var insertStr = "INSERT into tours(tourName, userId, description, category, duration, cityId) \
 			              value (?, ?, ?, ?, ?, ?)";
-		db.query(queryStr, params, function(err, results) {
+		db.query(insertStr, params, function(err, results) {
 			if(err) {
 				callback(err);
 			} else {
-				callback(err, results[0]);
+				console.log("tour insert id: ", results.insertId)
+				callback(err, results.insertId);
 			}
 		})
 	}
