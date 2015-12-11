@@ -17,6 +17,7 @@ console.log("Listening on port: " + port);
 server.listen(port);
 
 var userRouter = express.Router();
+var tourRouter = express.Router();
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -24,5 +25,7 @@ app.use(bodyParser.json());
 
 // Set up routes
 app.use('/users', userRouter);
+app.use('/tours', tourRouter);
 
 require('./users/userRoutes.js')(userRouter);
+require('./tours/tourRoutes.js')(tourRouter);
