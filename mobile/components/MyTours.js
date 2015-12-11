@@ -49,8 +49,8 @@ var {
 class MyTours extends Component {
 
   /**
-   * Creates an instance of MyTours
-   *
+   * Creates an instance of MyTours.
+   * The DataSource is an interface that ListView uses to determine which rows have changed over the course of updates. ES6 constructor is an analog of getInitialState.
    * @constructor
    * @this {MyTours}
    */
@@ -77,6 +77,12 @@ class MyTours extends Component {
   //   .done();
   // }
 
+  /**
+   * ComponentDidMount function is called as soon as the render method is executed.
+   * It fetches data from the database and sets the state with the fetched data.
+   * 
+   */
+
   componentDidMount() {
     var tours = FAKE_MY_TOUR_DATA;
     this.setState({
@@ -97,43 +103,31 @@ class MyTours extends Component {
     );
   }
 
-  showTourDetail(tour) {
-    this.props.navigator.push({
-      title: tour.tourName,
-      component: TourDetail,
-      passProps: {tour}
-    });
-    // utils.navigateTo(tour.tourName, TourDetail, {tour})
-  }
-
   renderTour(tour) {
     return (
-      <TouchableHighlight onPress={ () => this.showTourDetail(tour) } underlayColor='#dddddd'>
+      <TouchableHighlight 
+        onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) } 
+        underlayColor='#dddddd'>
         <View>
-          <View style={styles.container}>
-            <Image
-              source={{uri: tour.image}}
-              style={styles.thumbnail} />
-            <View style={styles.rightContainer}>
-              <Text style={styles.title}>{tour.tourName}</Text>
-              <Text style={styles.city}>{tour.cityName}</Text>
+          <View style={ styles.container }>
+            <Image source={{ uri: tour.image }} style={ styles.thumbnail } />
+            <View style={ styles.rightContainer }>
+              <Text style={ styles.title }>{ tour.tourName }</Text>
+              <Text style={ styles.city }>{ tour.cityName }</Text>
             </View>
           </View>
-          <View style={styles.separator} />
+          <View style={ styles.separator } />
         </View>
       </TouchableHighlight>
     );
   }
 
   render() {
-    // if (this.state.isLoading) {
-    //   return this.renderLoadingView();
-    // }
     return (
       <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderTour.bind(this)}
-        style={styles.listView}/>
+        dataSource={ this.state.dataSource }
+        renderRow={ this.renderTour.bind(this) }
+        style={ styles.listView }/>
     );
   }  
 };

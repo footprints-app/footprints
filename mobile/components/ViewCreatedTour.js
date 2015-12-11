@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var MyTours = require('./MyTours');
-// var AddPlace = require('./AddPlace');
+
 var {
   StyleSheet,
   Image,
