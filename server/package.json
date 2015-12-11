@@ -12,7 +12,8 @@
     "morgan": "^1.6.1",
     "mysql": "^2.9.0",
     "request": "^2.67.0",
-    "require": "^2.4.20"
+    "require": "^2.4.20",
+    "supertest": "^1.1.0"
   },
   "scripts": {
     "start": "node ./server.js",
