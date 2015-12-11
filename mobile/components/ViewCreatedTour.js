@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var MyTours = require('./MyTours');
+var utils = require('../lib/utility');
 
 var {
   StyleSheet,
@@ -16,6 +17,12 @@ var {
 
 class ViewCreatedTour extends Component {
 
+  /**
+   * Creates an instance of ViewCreatedTour.
+   * The DataSource is an interface that ListView uses to determine which rows have changed over the course of updates.
+   * @this {ViewCreatedTours}
+   */
+
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +32,10 @@ class ViewCreatedTour extends Component {
       })
     };
   }
-
+  /**
+   * ComponentDidMount function is called as soon as the render method is executed.
+   * It fetches data from the database and sets the state with the fetched data.
+   */
   componentDidMount() {
     var places = this.props.createdTour.places;
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
@@ -33,23 +43,19 @@ class ViewCreatedTour extends Component {
   }
 
   addPlace () {
-    console.log('in view createdTour.....', this.props.createdTour)
+    // console.log('in view createdTour.....', this.props.createdTour)
     var newTour = this.props.createdTour;
     var AddPlace = require('./AddPlace');
-    this.props.navigator.push({
-      title: "Add Place",
-      component: AddPlace,
-      passProps: {newTour}
-    });
+    utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
   }
 
-  onPressDone () {
-    this.props.navigator.push({
-      title: "My Tours",
-      component: MyTours,
-      passProps: {}
-    });
-  }
+  // onPressDone () {
+  //   this.props.navigator.push({
+  //     title: "My Tours",
+  //     component: MyTours,
+  //     passProps: {}
+  //   });
+  // }
 
   renderPlace(place) {
     return (
@@ -68,7 +74,7 @@ class ViewCreatedTour extends Component {
 
   render() {
     var newTour = this.props.createdTour;
-    console.log('props...', this.props)
+    // console.log('props...', this.props)
     // console.log('new tour....', newTour)
     // console.log('props...', this.props)
     var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
@@ -82,6 +88,7 @@ class ViewCreatedTour extends Component {
     
     return (
       <View style={styles.container}>
+        
         <Text style={styles.description}>Tour Name: {tourName}</Text>
         <Text style={styles.description}>Category : {category }</Text>
         <Text style={styles.description}>Duration: {duration}</Text>
@@ -95,13 +102,13 @@ class ViewCreatedTour extends Component {
             style={styles.listView}/>
         </View>
 
-        <TouchableHighlight onPress={ () => this.addPlace() } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ this.addPlace.bind(this) } style={styles.touchable} underlayColor="white">
           <View style={styles.addPlaceBtn}>
             <Text style={styles.whiteFont}>Add Place</Text>
           </View>  
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ () => this.onPressDone () } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ utils.navigateTo.bind(this, "My Tours", MyTours, {}) } style={styles.touchable} underlayColor="white">
           <View style={styles.doneBtn}>
             <Text style={styles.whiteFont}>Done</Text>
           </View>  

@@ -80,7 +80,6 @@ class MyTours extends Component {
   /**
    * ComponentDidMount function is called as soon as the render method is executed.
    * It fetches data from the database and sets the state with the fetched data.
-   * 
    */
 
   componentDidMount() {
