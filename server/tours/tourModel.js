@@ -55,7 +55,7 @@ module.exports = {
 			} else {
 				if(results.length !== 0) {
 					console.log("results from city query: ", results);
-					callback(err, results[0]);
+					callback(err, results[0].id);
 				} else {
 					db.query(insertQuery, params, function(err, results) {
 						if(err) {
@@ -80,7 +80,7 @@ module.exports = {
 	insertTour: function(params, callback) {
 		var queryStr = "INSERT into tours(tourName, userId, description, category, duration, cityId) \
 			              value (?, ?, ?, ?, ?, ?)";
-		db.query(queryStr, function(err, results) {
+		db.query(queryStr, params, function(err, results) {
 			if(err) {
 				callback(err);
 			} else {
