@@ -35,13 +35,14 @@ module.exports = {
 		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
 		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
+		console.log(cityParams);
 		tours.addOrGetCity(cityParams, function(err, results) {
 			if(err) {
 				console.log("Did not get past add or get city")
 				res.status(404).send({error: err});
 			} else {
 				console.log("Got past add or get city, results: ", results);
-				tourParams.push(results.cityId);
+				tourParams.push(results);//Get city id from results
 				tours.insertTour(tourParams, function(err, results) {
 					if(err) {
 						res.status(404).send({error: err});

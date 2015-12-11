@@ -43,10 +43,11 @@ module.exports = {
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
 	addOrGetCity: function(params, callback) {
-		var selectQuery = "SELECT * from cities WHERE cityName = (" + params[0] + ") \
-		                   AND state = (" + params[1] + ") AND country = (" + params[2] + ")";
+		var selectQuery = "SELECT id from cities WHERE cityName = ? AND state = ? AND country = ?"
+		//(" + params[0] + ") \
+		  //                 AND state = (" + params[1] + ") AND country = (" + params[2] + ")";
 		var insertQuery = "INSERT into cities(cityName, state, country) \
-                       value (?, ?, ?, ?)";
+                       value (?, ?, ?)";
 		db.query(selectQuery, params, function(err, results) {
 			if(err) {
 				console.log("did not get past city query");
@@ -58,9 +59,17 @@ module.exports = {
 				} else {
 					db.query(insertQuery, params, function(err, results) {
 						if(err) {
+							console.log("could not insert into cities");
 							callback(err);
 						} else {
-							callback(err, results[0]);
+							db.query(selectQuery, params, function(err, results) {
+								if(err) {
+									callback(err);
+								} else {
+									console.log("insert into cities successful: ", results[0].id)
+									callback(err, results[0].id);									
+								}
+							})
 						}
 					})
 				}
