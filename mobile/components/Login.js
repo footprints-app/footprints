@@ -4,6 +4,10 @@ var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 
 var Main = require('./Main');
+// var Signup = require('./Signup');
+
+var REQUEST_URL = 'http://localhost:8000';
+
 
 var {
   AppRegistry,
@@ -24,32 +28,120 @@ class Login extends Component {
     super(props);
     this.state = {
       username: '',
-      password: ''
+      password: '',
+      userId: ''
     };
   }
 
+  /**
+   * Redirects user to the signup page when 'Do not have an account?' is clicked.
+   *
+   */
   signupPage () {
-    console.log('navigator...', this.props);
-    /**
-     * you have to require signup here to handle dependency cycles
-     */
     var Signup = require('./Signup');
+
       this.props.navigator.push({
       title: "Signup",
       component: Signup,
-      // passProps: {username: this.state.username, password: this.state.password},
     });
 
   }
 
-  mainPage () {
-    //if signin successfull
+  /**
+   * Redirects user to the main Tours page when login is successful.
+   *
+   */
+  showMainPage (userId) {
       this.props.navigator.push({
       title: "Welcome",
       component: Main,
-      passProps: {}
+      passProps: userId
     });
   }
+
+  usernameInput(event) {
+    this.setState({ username: event.nativeEvent.text });
+  }
+
+  passwordInput(event) {
+    this.setState({ password: event.nativeEvent.text });
+  }
+
+  /**
+   * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
+   *
+   */
+  submitLogin () {
+    fetch(REQUEST_URL + '/users/login', 
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: this.state.username,
+          password: this.state.password
+        })
+      }
+    ).then((response) => response.text())
+    .then((responseText) => {
+      // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
+      if(responseText.error) {
+      /*
+        need to handle incorrect login details
+      */
+      } else {
+        showMainPage(responseText.id);
+      }
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+  }
+
+  renderInvalidLogin () {
+    return (
+      <View style={styles.container}>
+        <Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
+        
+        <View style={styles.inputs}>
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+            <TextInput 
+              style={[styles.input, styles.whiteFont]}
+              placeholder="Username"
+              placeholderTextColor="#FFF"
+              value={this.state.username}/>
+          </View>
+          <View style={styles.inputContainer}>
+            <Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
+            <TextInput
+              password={true}
+              style={[styles.input, styles.whiteFont]}
+              placeholder="Password"
+              placeholderTextColor="#FFF"
+              value={this.state.password}/>
+          </View>
+        </View>
+
+        <TouchableHighlight onPress={ this.submitLogin.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
+          <View style={styles.signin}>
+            <Text style={styles.whiteFont}>Login</Text>
+          </View>
+        </TouchableHighlight>
+
+        <View style={styles.signup}>
+          <Text style={styles.greyFont}>Do not have an account?</Text>
+          <TouchableHighlight onPress={ this.signupPage.bind(this) }>  
+            <Text style={styles.whiteFont}>Sign Up</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    );
+  }
+
+
 
   render () {
     return (
@@ -76,7 +168,7 @@ class Login extends Component {
           </View>
         </View>
 
-        <TouchableHighlight onPress={ this.mainPage.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
+        <TouchableHighlight onPress={ this.submitLogin.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
           <View style={styles.signin}>
             <Text style={styles.whiteFont}>Login</Text>
           </View>

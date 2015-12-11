@@ -4,6 +4,7 @@ var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var Login = require('./Login');
 var Main = require('./Main');
+var utils = require('../lib/utility');
 
 var {
   AppRegistry,
@@ -16,10 +17,10 @@ var {
   TouchableHighlight
 } = React;
 
-var REQUEST_URL = 'http://localhost:8000';
+// var REQUEST_URL = 'http://localhost:8000';
 
 class Signup extends Component {
-  
+
   /**
    * Creates an instance of Signup and sets the state with empty user details.
    *
@@ -48,27 +49,13 @@ class Signup extends Component {
     });
   }
 
-  firstNameInput(event) {
-    this.setState({ firstName: event.nativeEvent.text });
-  }
-
-  lastNameInput(event) {
-    this.setState({ lastName: event.nativeEvent.text });
-  }
-  usernameInput(event) {
-    this.setState({ username: event.nativeEvent.text });
-  }
-
-  passwordInput(event) {
-    this.setState({ password: event.nativeEvent.text });
-  }
-
   /**
    * Posts the user details to the server then redirects user to Main Tours page with the userId as a prop for the component
    *
    */
   submitSignup () {
-    fetch(REQUEST_URL + '/users/signup', 
+    console.log('signup called');
+    fetch(utils.request_url + '/users/signup', 
       {
         method: 'POST',
         headers: {
@@ -84,13 +71,13 @@ class Signup extends Component {
       }
     ).then((response) => response.text())
     .then((responseText) => {
-    // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
+      if(responseText = 'Username already exists!'){
+        //re-render sign-up page to inform user that username already exists
+      }
+      console.log('responseText: ', responseText);
       var userId = responseText.id;
-      this.props.navigator.push({
-        title: "Tours",
-        component: Main,
-        passProps: {userId}
-      });
+      utils.navigateTo(this, "Tours", Main, {userId});
+
     })
     .catch((error) => {
       console.warn(error);
@@ -111,7 +98,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="First Name"
               placeholderTextColor="#FFF"
-              onChange={this.firstNameInput.bind(this)}/>
+              onChange={utils.firstNameInput.bind(this)}/>
           </View>
 
           <View style={styles.inputContainer}>
@@ -120,7 +107,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Last Name"
               placeholderTextColor="#FFF"
-              onChange={this.lastNameInput.bind(this)}/>
+              onChange={utils.lastNameInput.bind(this)}/>
           </View>
 
           <View style={styles.inputContainer}>
@@ -129,7 +116,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#FFF"
-              onChange={this.usernameInput.bind(this)}/>
+              onChange={utils.usernameInput.bind(this)}/>
           </View>
 
           <View style={styles.inputContainer}> 
@@ -139,7 +126,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#FFF"
-              onChange={this.passwordInput.bind(this)}/>
+              onChange={utils.passwordInput.bind(this)}/>
           </View>
 
         </View>
