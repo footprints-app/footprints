@@ -18,12 +18,20 @@
     "grunt-mocha-test": "^0.12.7",
     "jest-cli": "^0.7.1",
     "load-grunt-tasks": "^3.3.0",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "aws-sdk": "^2.2.21",
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "http": "0.0.0",
+    "morgan": "^1.6.1",
+    "mysql": "^2.9.0",
+    "request": "^2.67.0",
+    "require": "^2.4.20",
+    "chai": "^3.4.1"
   },
   "scripts": {
     "test": "grunt travis --verbose"
   },
   "dependencies": {
-    "chai": "^3.4.1"
   }
 }
