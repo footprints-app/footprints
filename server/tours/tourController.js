@@ -36,7 +36,16 @@ module.exports = {
 	 * @param {object} res Response object with all tours from database
 	 */
 	getAllTours: function(req, res) {
-
+		Query.queryToursAsync().then(function(tours) {
+			return Promise.each(tours, function(tour) {
+				return Query.queryPlacesAsync(tour.id).then(function(places) {
+					tour['places'] = places;
+				})
+			})
+		}).then(function(data) {
+			console.log(data)
+			res.status(200).send(data);
+		})
 	},
 	/** Retrieves user specific tours from the database
 	 * @method getUserTours
@@ -48,16 +57,16 @@ module.exports = {
 
 		Query.querySpecificTourAsync({userId: userId})
 				.then(function(tours) {
-					console.log('tours', tours)
 					return Promise.each(tours, function(tour) {
-						return Query.queryPlacesAsync(tour.id).then(function(places) {
-							tour['places'] = places;
-						});
-					});
+						return Query.queryPlacesAsync(tour.id)
+										.then(function(places) {
+											tour['places'] = places;
+										});
+							});
 				})
 				.then(function(data) {
 					res.status(200).send(data)
-				})
+				});
 	},
 	/** Receives new tour information from client and posts tour to database
 	 * Gets cityId from addOrGetCity method
