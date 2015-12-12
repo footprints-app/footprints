@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mobile/components/ViewCreatedTour.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mobile/components/ViewCreatedTour.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+var React = require('react-native');
+var MyTours = require('./MyTours');
+var utils = require('../lib/utility');
+
+var {
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  Component,
+  ListView,
+  TouchableHighlight,
+  ActivityIndicatorIOS
+} = React;
+
+class ViewCreatedTour extends Component {
+  /**
+   * Creates an instance of ViewCreatedTour.
+   * ListView uses DataSource interface to determine which rows have changed over the course of updates.
+   * @this {ViewCreatedTours}
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2
+      })
+    };
+  }
+  /**
+   * ComponentDidMount function is called as soon as the render method is executed.
+   * It fetches data from the database and sets the state with the fetched data.
+   */
+  componentDidMount () {
+    var places = this.props.createdTour.places;
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
+    //this.fetchData();
+  }
+
+  addPlace () {
+    // console.log('in view createdTour.....', this.props.createdTour)
+    var newTour = this.props.createdTour;
+    var AddPlace = require('./AddPlace');
+    utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
+  }
+
+  renderPlace (place) {
+    return (
+      &lt;TouchableHighlight onPress={ () => alert('go to place detail') }  underlayColor='#dddddd'>
+        &lt;View>
+          &lt;View style={ styles.placeContainer }>
+            &lt;View style={ styles.rightContainer }>
+              &lt;Text style={ styles.placeName }>{ place.placeName }&lt;/Text>
+            &lt;/View>
+          &lt;/View>
+          &lt;View style={ styles.separator } />
+        &lt;/View>
+      &lt;/TouchableHighlight>
+    );
+  }
+
+  render () {
+    var newTour = this.props.createdTour;
+    // console.log('props...', this.props)
+    // console.log('new tour....', newTour)
+    // console.log('props...', this.props)
+    var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
+    var description = (typeof newTour.description !== 'undefined') ? newTour.description : '';
+    var category = (typeof newTour.category !== 'undefined') ? newTour.category : '';
+    var duration = (typeof newTour.duration !== 'undefined') ? newTour.duration : '';
+    var userName = (typeof newTour.userName !== 'undefined') ? newTour.userName : '';
+    var cityName = (typeof newTour.cityName !== 'undefined') ? newTour.cityName : '';
+    var state = (typeof newTour.state !== 'undefined') ? newTour.state : '';
+    var country = (typeof newTour.country !== 'undefined') ? newTour.country : '';
+    
+    return (
+      &lt;View style={styles.container}>
+        
+        &lt;Text style={ styles.description }>Tour Name: { tourName }&lt;/Text>
+        &lt;Text style={ styles.description }>Category : { category }&lt;/Text>
+        &lt;Text style={ styles.description }>Duration: { duration }&lt;/Text>
+        &lt;Text style={ styles.description }>City Name: { cityName }   State: { state }   Country: { country }&lt;/Text> 
+        &lt;Text style={ styles.description }>Places: &lt;/Text>
+
+        &lt;View style={ styles.panel }>
+          &lt;ListView
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderPlace.bind(this) }
+            style={ styles.listView }/>
+        &lt;/View>
+
+        &lt;TouchableHighlight 
+          onPress={ this.addPlace.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          &lt;View style={ styles.addPlaceBtn }>
+            &lt;Text style={ styles.whiteFont }>Add Place&lt;/Text>
+          &lt;/View>  
+        &lt;/TouchableHighlight>
+
+        &lt;TouchableHighlight 
+          onPress={ utils.navigateTo.bind(this, "My Tours", MyTours, {}) } 
+          style={ styles.touchable } underlayColor="white">
+          &lt;View style={ styles.doneBtn }>
+            &lt;Text style={ styles.whiteFont }>Done&lt;/Text>
+          &lt;/View>  
+        &lt;/TouchableHighlight>
+      
+      &lt;/View>
+    );
+  }
+};
+
+var styles = StyleSheet.create({
+
+  container: { 
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: 'transparent',
+    marginTop: 70
+  },
+  panel: {
+    backgroundColor: '#fff2f2',
+    flex: 1,
+    padding: 10,
+  },
+  placeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff2f2',
+    padding: 10
+  },
+  rightContainer: {
+    flex: 1
+  },
+  placeName: {
+    fontSize: 14,
+    marginBottom: 8,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd'
+  },
+  description: {
+    padding: 10,
+    fontSize: 15,
+    color: '#656565',
+  },
+  addPlaceBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  doneBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: -40,
+  },
+  whiteFont: {
+    color: '#FFF'
+  },
+  listView: {
+    backgroundColor: '#fff2f2'
+   },
+  touchable: {
+    borderRadius: 100
+  }
+
+});
+
+module.exports = ViewCreatedTour;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="Signup.html">Signup</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul><h3>Global</h3><ul><li><a href="global.html#db">db</a></li><li><a href="global.html#Place">Place</a></li><li><a href="global.html#queryPlaces">queryPlaces</a></li><li><a href="global.html#querySpecificTour">querySpecificTour</a></li><li><a href="global.html#queryTours">queryTours</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Dec 11 2015 22:58:11 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

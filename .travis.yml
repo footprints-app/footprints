@@ -1,4 +1,9 @@
 language: node_js
 node_js:
   - stable
-before_install: npm install -g grunt-cli
+services:
+  - mysql
+before_install:
+  - npm install -g grunt-cli
+before_script:
+  - "mysql -u root < server/schema.sql"
