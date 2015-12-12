@@ -8,36 +8,54 @@ describe('/tours functionality', function() {
 	var dbConnection;
 	var url = 'http://127.0.0.1:8000';
 
-	before(function(done) {
-		dbConnection = mysql.createConnection({
-			host: 'localhost',
-			user: 'root',
-			password: '',
-			database: 'thesis'
-		});
+  beforeEach(function(done) {
+    dbConnection = mysql.createConnection({
+      host: process.env.RDS_HOSTNAME || 'localhost',
+      user: process.env.RDS_USERNAME || "root",
+      password: process.env.RDS_PASSWORD || "",
+      database: process.env.database || "thesis",
+      port: process.env.RDS_PORT || 3306
+    })
+    dbConnection.connect(function(err) {
+      if(err) {
+        console.error('Connection Error:', err);
+      } else {
+        console.log('Database connected!');
+      }
+    });
 
-		dbConnection.connect(function(err) {
-			if(err) {
-				console.error('Connection Error: ', err);
-			} else {
-				console.log('Database is connected!');
-			}
-		});
-	});
+    var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 10],
+				[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 10],
+				[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 10]]
+		
+		tours.forEach(function(tour) {
+			var queryStr = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
+			dbConnection.query(queryStr, tour, function(err, results) {
+				if(err) {
+					throw err;
+				} else {
+					//console.log('database seeded!')
+				}
+			});
+		})
+		done();
 
-	after(function() {
-		//var tablename = "tours";
-		//
-		//dbConnection.query("truncate " + tablename, function(err) {
-		//	if(err) {
-		//		console.error('Error in truncating: ', err);
-		//		done();
-		//	} else {
-		//		dbConnection.end();
-		//		done();
-		//	}
-		});
-	});
+  });
+
+  afterEach(function(done) {
+    var tablename = "tours";
+    //Empty table before each test
+    dbConnection.query("truncate " + tablename, function(err) {
+      if(err) {
+        console.error('Connection Error: ', err);
+        done();
+      } else {
+        dbConnection.end();
+        done();
+      }
+    });
+  });
+
 	describe('getOneTour functionality', function() {
 		var paramId = 2;
 		it('should retrieve a tour based on id', function(done) {
@@ -49,7 +67,7 @@ describe('/tours functionality', function() {
 					expect(res.body.userId).to.be.a('number');
 					expect(res.body.tourName).to.be.a('string');
 					expect(res.body).to.have.property('description');
-					expect(res.body.category).to.not.be(null);
+					expect(res.body.category).to.not.equal(null);
 					done();
 				});
 		});
@@ -92,7 +110,7 @@ describe('/tours functionality', function() {
 
 	describe('getUserTours functionality', function() {
 
-		it('should retrieve user specific tours', function(){
+		it('should retrieve user specific tours', function(done){
 
 			request(url)
 				.get('/tours/mytours')
@@ -110,7 +128,7 @@ describe('/tours functionality', function() {
 				});
 		});
 
-		it('should respond with an array of objects', function() {
+		it('should respond with an array of objects', function(done) {
 			request(url)
 				.get('/tours/mytours')
 				.expect(200)
@@ -137,7 +155,7 @@ describe('/tours functionality', function() {
 										cityName: "San Francisco",
 										state: "CA",
 										country: "USA" };
-		it('should create new tour entry in database', function(){
+		it('should create new tour entry in database', function(done){
 			request(url)
 				.post('/tours/createtour')
 				.send(tourInfo)
@@ -162,7 +180,7 @@ describe('/tours functionality', function() {
 											placeOrder: 3,
 											tourId: 2 };
 
-		it('should add a place to the database', function() {
+		it('should add a place to the database', function(done) {
 			request(url)
 				.post('/tours/addplace')
 				.send(placeInfo)
