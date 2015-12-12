@@ -3,6 +3,7 @@ var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var ViewCreatedTour = require('./ViewCreatedTour');
+var utils = require('../lib/utility');
 
 var {
   AppRegistry,
@@ -37,43 +38,7 @@ class CreateTour extends Component {
   viewTour (newTour) {
     // console.log('new tour....', newTour.state)
     var createdTour = this.state;
-      this.props.navigator.push({
-      title: "View Tour",
-      component: ViewCreatedTour,
-      passProps: {createdTour}
-    });
-  }
-
-  tourNameInput(event) {
-    this.setState({ tourName: event.nativeEvent.text });
-  }
- 
-  descriptionInput(event) {
-    this.setState({ description: event.nativeEvent.text });
-  }
-
-  categoryInput(event) {
-    this.setState({ category: event.nativeEvent.text });
-  }
- 
-  durationInput(event) {
-    this.setState({ duration: event.nativeEvent.text });
-  }
-
-  userNameInput(event) {
-    this.setState({ userName: event.nativeEvent.text });
-  }
- 
-  cityNameInput(event) {
-    this.setState({ cityName: event.nativeEvent.text });
-  }
-
-  stateInput(event) {
-    this.setState({ state: event.nativeEvent.text });
-  }
- 
-  countryInput(event) {
-    this.setState({ country: event.nativeEvent.text });
+    utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {createdTour});
   }
 
   render () {
@@ -89,7 +54,7 @@ class CreateTour extends Component {
               placeholder="Tour Name"
               placeholderTextColor="#FFF"
               value={this.state.tourName}
-              onChange={this.tourNameInput.bind(this)}/>
+              onChange={utils.tourNameInput.bind(this)}/>
           </View>
          
           <View style={styles.inputContainer}>
@@ -98,7 +63,7 @@ class CreateTour extends Component {
               placeholder="Category"
               placeholderTextColor="#FFF"
               value={this.state.category}
-              onChange={this.categoryInput.bind(this)}/>
+              onChange={utils.categoryInput.bind(this)}/>
           </View>
           
           <View style={styles.inputContainer}>
@@ -107,7 +72,7 @@ class CreateTour extends Component {
               placeholder="Description"
               placeholderTextColor="#FFF"
               value={this.state.description}
-              onChange={this.descriptionInput.bind(this)}/>
+              onChange={utils.descriptionInput.bind(this)}/>
           </View>
           
           <View style={styles.inputContainer}>
@@ -116,7 +81,7 @@ class CreateTour extends Component {
               placeholder="Duration"
               placeholderTextColor="#FFF"
               value={this.state.duration}
-              onChange={this.durationInput.bind(this)}/>
+              onChange={utils.durationInput.bind(this)}/>
           </View>
 
           <View style={styles.inputContainer}>
@@ -125,7 +90,7 @@ class CreateTour extends Component {
               placeholder="City"
               placeholderTextColor="#FFF"
               value={this.state.cityName}
-              onChange={this.cityNameInput.bind(this)}/>
+              onChange={utils.cityNameInput.bind(this)}/>
           </View>
 
           <View style={styles.inputContainer}>
@@ -134,7 +99,7 @@ class CreateTour extends Component {
               placeholder="State"
               placeholderTextColor="#FFF"
               value={this.state.state}
-              onChange={this.stateInput.bind(this)}/>
+              onChange={utils.stateInput.bind(this)}/>
           </View>
 
           <View style={styles.inputContainer}>
@@ -143,12 +108,14 @@ class CreateTour extends Component {
               placeholder="Country"
               placeholderTextColor="#FFF"
               value={this.state.country}
-              onChange={this.countryInput.bind(this)}/>
+              onChange={utils.countryInput.bind(this)}/>
           </View>
 
         </View>
 
-        <TouchableHighlight onPress={ this.viewTour.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
+        <TouchableHighlight 
+          onPress={ this.viewTour.bind(this) } 
+          style={styles.touchable} underlayColor="#FF3366">  
           <View style={styles.createTour}>
             <Text style={styles.whiteFont}>Create Tour</Text>
           </View>
