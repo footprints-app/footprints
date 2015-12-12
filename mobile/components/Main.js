@@ -3,7 +3,8 @@
 // var Button = require('react-native-button');
 var React = require('react-native');
 var AllTours = require('./AllTours');
-var CreateTour = require('./CreateTour');
+var MyTours = require('./MyTours');
+var utils = require('../lib/utility');
 
 var {
   StyleSheet,
@@ -15,30 +16,26 @@ var {
  
 class Main extends Component {
 
+  /**
+   * Creates an instance of Main and sets the state with user details (needed to pass to MyTours component).
+   * 
+   * @constructor
+   * @param {object} props is the user object pass from the Login or Signup components.
+   * @this {Main}
+   */
   constructor(props) {
     super(props);
     this.state = {
-      userId: props.userId
+      user: this.props.user
     };
   }
 
-  publicTours () {
-    this.props.navigator.push({
-      title: "All Tours",
-      component: AllTours,
-      passProps: {}
-    });
-  }
-
+  /**
+   * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
+   */
   userTours () {
-    alert("Called");
-    this.props.navigator.push({
-      // title: "My Tours",
-      // component: UserTours,
-      title: "Create Tour",
-      component: CreateTour,
-      passProps: {}
-    });
+    var user = this.state.user;
+    utils.navigateTo.call(this, "Your Tours", MyTours, {user});
   }  
 
   render () {
@@ -46,11 +43,11 @@ class Main extends Component {
 
       <View style={styles.container}>
         
-        <TouchableHighlight onPress={ this.userTours.bind(this) } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) } style={styles.touchable} underlayColor="white">
           <View style={styles.button1}><Text style={styles.buttonText}>Your Tours</Text></View>  
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ this.publicTours.bind(this) } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ this.userTours.bind(this) } style={styles.touchable} underlayColor="white">
           <View style={styles.button2}><Text style={styles.buttonText}>All Tours</Text></View>  
         </TouchableHighlight>
       

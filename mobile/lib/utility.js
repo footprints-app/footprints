@@ -1,9 +1,20 @@
 'use strict';
 var React = require('react-native');
 
+var request_url = 'http://localhost:8000';
+
+var requests = {
+    signup: { reqMethod: 'POST', endPoint: '/users/signup' },
+    login: { reqMethod: 'POST', endPoint: '/users/login' },
+    allTours: { reqMethod: 'GET', endPoint: '/tours/alltours'},
+    myTours: {reqMethod: 'GET', endPoint: '/tours/mytours'},
+    tour: {reqMethod: 'GET', endPoint: '/tours/'},
+    createTour: {reqMethod: 'POST', endPoint: '/tours/createtour'},
+    addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'}
+  }; 
+
 var Utility = {
 
-  request_url: 'http://localhost:8000',
   //CreateTour.js helper functions
   /**
    * Updates tourName property of state to user input.
@@ -106,12 +117,34 @@ var Utility = {
    * @param {string, component, object} title of next component, component you want to route to, props to pass to next component.
    */
   navigateTo: function(titleName, toComponent, props) {
-    // console.log('navigate: ', titleName);
+    console.log('navigate: ', titleName);
     this.props.navigator.push({
       title: titleName,
       component: toComponent,
       passProps: props
     });
+  },
+
+  /**
+   * Calls fetch to make a specified API request to the server. 
+   *
+   * @param {string, object, [string]} requestType is a key in the request's object, reqBody is the object that is being sent in the request, reqParam is an optional argument for ids.
+   * @return {Promise} promise with the parsed response body
+   */
+  makeRequest: function(requestType, reqBody, reqParam) {
+    var param = reqParam || '';
+    // console.log('request url: ', request_url + requests[requestType].endPoint + param);
+    return fetch(request_url + requests[requestType].endPoint + param, 
+      {
+        method: requests[requestType].reqMethod,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reqBody)
+      }
+    ).then((response) => response.text()
+    ).then((responseText) => JSON.parse(responseText));
   }
 }
 

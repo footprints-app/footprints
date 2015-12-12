@@ -27,63 +27,40 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      userId: ''
+      validUsername: true,
+      validPassword: true
     };
   }
-
-  /**
-   * This function can not be extracted/replaced with a utils function?
-  */
-  // signupPage () {
-  //   var Signup = require('./Signup');
-  //     this.props.navigator.push({
-  //     title: "Signup",
-  //     component: Signup,
-  //     // passProps: {username: this.state.username, password: this.state.password},
-  //   });
-
-  // }
-
 
   /**
    * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
    *
    */
   submitLogin () {
-    fetch(utils.request_url + '/users/login', 
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: this.state.username,
-          password: this.state.password
-        })
-      }
-    ).then((response) => response.text())
-    .then((responseText) => {
-      // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
-      if(responseText.error) {
-      /*
-        need to handle incorrect login details
-      */
+    this.setState({validUsername: true, validPassword: true});
+
+    var reqBody = {
+      userName: this.state.username,
+      password: this.state.password
+    };
+
+    utils.makeRequest('login', reqBody)
+    .then((response) => {
+      // console.log('response body: ', response);
+      if(response.error) {
+        if(response.error === 'Username does not exist') {
+          this.setState({validUsername: false, username: '', password: ''});
+        } else if(response.error === 'Username and password do not match') {
+          this.setState({validPassword: false, username: '', password: ''});
+        }
       } else {
-        utils.navigateTo.call(this, "Welcome", Main, {responseText});
+        var user = response;
+        utils.navigateTo.call(this, "Welcome", Main, {user} );
       }
     })
     .catch((error) => {
       console.warn(error);
     });
-  }
-
-  userNameInput(event) {
-    this.setState({ userName: event.nativeEvent.text });
-  }
- 
-  passwordInput(event) {
-    this.setState({ password: event.nativeEvent.text });
   }
 
   render () {
@@ -98,6 +75,7 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#FFF"
+              value={this.state.username}
               onChange={utils.usernameInput.bind(this)}/>
           </View>
           <View style={styles.inputContainer}>
@@ -107,8 +85,13 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#FFF"
+              value={this.state.password}
               onChange={utils.passwordInput.bind(this)}/>
           </View>
+
+          <Text style={styles.whiteFont}> {this.state.validUsername ? '' : 'Sorry this username does not exist, please try again'} </Text>
+          <Text style={styles.whiteFont}> {this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again'} </Text>
+
         </View>
 
         <TouchableHighlight onPress={ this.submitLogin.bind(this) } style={styles.touchable} underlayColor="#FF3366">  

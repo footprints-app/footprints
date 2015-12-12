@@ -33,7 +33,7 @@ class Signup extends Component {
       lastName: '',
       username: '',
       password: '',
-      userId: ''
+      validUsername: true
     };
   }
 
@@ -42,34 +42,28 @@ class Signup extends Component {
    *
    */
   submitSignup () {
-    console.log('signup called');
-    fetch(utils.request_url + '/users/signup', 
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: this.state.username,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          password: this.state.password
-        })
-      }
-    ).then((response) => response.text())
-    .then((responseText) => {
-      if(responseText = 'Username already exists!'){
-        //re-render sign-up page to inform user that username already exists
-      }
-      // console.log('responseText: ', responseText);
-      utils.navigateTo.call(this, "Tours", Main, {responseText});
+    this.setState({validUsername: true});
+    var reqBody = {
+      userName: this.state.username,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      password: this.state.password
+    };
 
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
+    utils.makeRequest('signup', reqBody)
+      .then((response) => {
+        if(response.error) {
+          this.setState({validUsername: false, firstName: '', lastName: '', username: '', password: ''});
+        } else {
+          var user = response;
+          utils.navigateTo.call(this, "Tours", Main, {user} );
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   }
+
 
   render () {
     return (
@@ -85,6 +79,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="First Name"
               placeholderTextColor="#FFF"
+              value={this.state.firstName}
               onChange={utils.firstNameInput.bind(this)}/>
           </View>
 
@@ -94,6 +89,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Last Name"
               placeholderTextColor="#FFF"
+              value={this.state.lastName}
               onChange={utils.lastNameInput.bind(this)}/>
           </View>
 
@@ -103,6 +99,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#FFF"
+              value={this.state.username}
               onChange={utils.usernameInput.bind(this)}/>
           </View>
 
@@ -113,8 +110,11 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#FFF"
+              value={this.state.password}
               onChange={utils.passwordInput.bind(this)}/>
           </View>
+
+            <Text style={styles.whiteFont}> {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'} </Text>
 
         </View>
         <View style={styles.signup}>

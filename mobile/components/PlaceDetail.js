@@ -15,22 +15,30 @@ var {
 
 class PlaceDetail extends Component {
 
+   /**
+   * Creates an instance of PlaceDetail and sets the state with place details passed from props.
+   * 
+   * @constructor
+   * @param {object} props is the place object from the tour that rendered this PlaceDetail view.
+   * @this {PlaceDetail}
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      placeName: (typeof this.props.place.placeName !== 'undefined') ? this.props.place.placeName : '',
+      image: (typeof this.props.place.image !== 'undefined') ? this.props.place.image : '',
+      description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',
+      address: (typeof this.props.place.address !== 'undefined') ? this.props.place.address : ''
+    };
+  }
+
   render() {
-    //console.log('props...', this.props)
-    var places = this.props.place;
-    //console.log('tour....', tour)
-    //console.log('props...', this.props)
-    var imageURI = (typeof places.image !== 'undefined') ? places.image : '';
-    var description = (typeof places.description !== 'undefined') ? places.description : '';
-    var placeName = (typeof places.placeName !== 'undefined') ? places.placeName : '';
-    var address = (typeof places.address !== 'undefined') ? places.address : '';
-    
     return (
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: imageURI}} />
-        <Text style={styles.description}>Location: {placeName}</Text>
-        <Text style={styles.description}>Address: {address}</Text>
-        <Text style={styles.description}>description: {description}</Text>
+        <Image style={styles.image} source={{uri: this.state.image}} />
+        <Text style={styles.description}>Location: {this.state.placeName}</Text>
+        <Text style={styles.description}>Address: {this.state.address}</Text>
+        <Text style={styles.description}>description: {this.state.description}</Text>
       </View>
     );
   }
