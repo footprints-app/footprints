@@ -45,18 +45,18 @@ describe('/tours functionality', function() {
   afterEach(function(done) {
     var tablename = "tours";
     //Empty table before each test
-    dbConnection.query("truncate " + tablename, function(err) {
-      if(err) {
-        console.error('Connection Error: ', err);
-        done();
-      } else {
-        dbConnection.end();
-        done();
-      }
-    });
+    //dbConnection.query("truncate " + tablename, function(err) {
+    //  if(err) {
+    //    console.error('Connection Error: ', err);
+    //    done();
+    //  } else {
+    //    dbConnection.end();
+    //    done();
+    //  }
+    //});
 //TODO: change this back
-//		dbConnection.end();
-//		done();
+		dbConnection.end();
+		done();
   });
 
 	describe('getOneTour functionality', function() {
@@ -79,7 +79,7 @@ describe('/tours functionality', function() {
 
 	describe('getAllTours functionality', function() {
 
-		xit('should retrieve all tours', function(done){
+		it('should retrieve all tours', function(done){
 			request(url)
 				.get('/tours/alltours')
 				.expect(200)
@@ -94,7 +94,7 @@ describe('/tours functionality', function() {
 				})
 		});
 
-		xit('should respond with an array of objects', function(done){
+		it('should respond with an array of objects', function(done){
 			request(url)
 				.get('/tours/alltours')
 				.expect(200)
