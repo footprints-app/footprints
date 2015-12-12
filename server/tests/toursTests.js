@@ -8,7 +8,7 @@ describe('/tours functionality', function() {
 	var dbConnection;
 	var url = 'http://127.0.0.1:8000';
 
-  beforeEach(function(done) {
+  before(function(done) {
     dbConnection = mysql.createConnection({
       host: process.env.RDS_HOSTNAME || 'localhost',
       user: process.env.RDS_USERNAME || "root",
@@ -34,29 +34,56 @@ describe('/tours functionality', function() {
 				if(err) {
 					throw err;
 				} else {
-					//console.log('database seeded!')
+					console.log('Seeded tours table');
 				}
 			});
 		})
 
+		var cities = [["San Francisco", "CA", "USA"], ["Cupertino", "CA", "USA"]];
+
+		cities.forEach(function(city) {
+			var queryStr = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
+			dbConnection.query(queryStr, city, function(err, results) {
+				if(err) {
+					throw err;
+				} else {
+					console.log('Seeded cities table');
+				}
+			})
+		})
+
+		var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
+
+		places.forEach(function(place) {
+			var queryStr = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
+			dbConnection.query(queryStr, place, function(err, results) {
+				if(err) {
+					throw err;
+				} else {
+					console.log('Seeded places table');
+				}
+			})
+		})
 
 		done();
 
   });
 
-  afterEach(function(done) {
-    var tablename = "tours";
-    //Empty table before each test
-    // dbConnection.query("truncate " + tablename, function(err) {
-    //   if(err) {
-    //     console.error('Connection Error: ', err);
-    //     done();
-    //   } else {
-    //     dbConnection.end();
-    //     done();
-    //   }
-    // });
-//TODO: change this back
+  after(function(done) {
+    
+    var truncate = function(tablename) {
+	    dbConnection.query("truncate " + tablename, function(err) {
+	      if(err) {
+	        console.error('Connection Error: ', err);
+	      } else {
+	        console.log("Truncated" + tablename);
+	      }
+	    });
+    }
+
+    truncate("tours");
+    truncate("places");
+    truncate("cities");
 		dbConnection.end();
 		done();
   });
