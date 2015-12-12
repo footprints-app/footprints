@@ -13,7 +13,9 @@ module.exports = {
 	 * @param {function} callback
 	 */
 	queryTours: function(params, callback) {
-		var queryStr = "SELECT * from tours";
+		var queryStr = "SELECT * from tours t \
+									 INNER JOIN cities c on t.cityId = c.id";
+
 		db.query(queryStr, params, function(err, results) {
 			if(err) {
 				callback(err);
@@ -23,9 +25,17 @@ module.exports = {
 		});
 	},
 
-	userTours: function(params, callback) {
-		var queryStr = "SELECT * from tours WHERE userId = ?";
-		db.query(queryStr, params, function(err, results) {
+	querySpecificTour: function(params, callback) {
+		var queryStr = "SELECT t.*, c.cityName, c.state, c.country from tours t \
+									INNER JOIN cities c on t.cityId = c.id WHERE ";
+
+		if(params['tourId'] !== undefined) {
+			queryStr += "t.id = ?";
+		} else {
+			queryStr += "userId = ?";
+		}
+
+		db.query(queryStr, params[Object.keys(params)[0]], function(err, results) {
 			if(err) {
 				callback(err);
 			} else {
@@ -35,7 +45,7 @@ module.exports = {
 	},
   /**
    * Inserts or selects a city from the city table.
-	 * Queries the cities table for a city. 
+	 * Queries the cities table for a city.
 	 * If it exists, the city's id is given to the callback.
 	 * If it doesn't exist, the city is added to the table and the city's id is given to the callback.
 	 *
@@ -74,12 +84,24 @@ module.exports = {
 	insertTour: function(params, callback) {
 		var insertStr = "INSERT into tours(tourName, userId, description, category, duration, cityId) \
 			              value (?, ?, ?, ?, ?, ?)";
-		db.query(insertStr, params, function(err, results) {
-			if(err) {
+		db.query(insertStr, params, function (err, results) {
+			if (err) {
 				callback(err);
 			} else {
 				callback(err, results.insertId);
 			}
-		})
+		});
+	},
+
+	queryPlaces: function(tourId, callback) {
+		var placesQuery = "SELECT * from places WHERE tourId = ?"
+
+		db.query(placesQuery, tourId, function (err, results) {
+			if (err) {
+				callback(err);
+			} else {
+				callback(err, results);
+			}
+		});
 	}
 };

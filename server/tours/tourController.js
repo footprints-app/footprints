@@ -7,6 +7,26 @@ var tours = require('./tourModel');
 
 module.exports = {
 	getOneTour: function(req, res) {
+		var tourId = JSON.parse(req.params.id);
+		var dataToSend;
+
+		tours.querySpecificTour({tourId: tourId}, function(err, results) {
+			if(err) {
+				console.error('Could not get tour data: ', err);
+			} else {
+				dataToSend = results[0];
+				tours.queryPlaces(tourId, function(err, placesResults) {
+					if(err) {
+						console.error('Could not get places data: ', err);
+						res.status(404);
+					} else {
+						dataToSend['places'] = placesResults;
+						res.status(200).send(dataToSend);
+					}
+				});
+			}
+		});
+
 
 	},
 
@@ -24,7 +44,29 @@ module.exports = {
 	 * @param res {object} Response object with tours that match user
 	 */
 	getUserTours: function(req, res) {
+		var userId = JSON.parse(req.params.id);
+		var dataToSend;
 
+		tours.querySpecificTour({userId: userId}, function(err, results) {
+			if(err) {
+				console.error('Could not get tour data: ', err);
+			} else {
+				dataToSend = results;
+				//TODO: multiple tours
+				dataToSend.forEach(function(tour) {
+					tours.queryPlaces(tour.id, function(err, placesResults) {
+						if(err) {
+							console.error('Could not get places data: ', err);
+							res.status(404);
+						} else {
+							tour['places'] = placesResults;
+							res.status(200).json(dataToSend);
+							console.log('body', res.body)
+						}
+					});
+				});
+			}
+		});
 	},
 	/** Receives new tour information from client and posts tour to database
 	 * Gets cityId from addOrGetCity method
