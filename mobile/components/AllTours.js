@@ -70,6 +70,10 @@ class AllTours extends Component {
     //this.fetchData();
   }
 
+  /**
+   * Makes GET request to server and sets all tours in DB to the state.
+   *
+   */
   fetchData() {
     utils.makeRequest('allTours', {})
     .then((response) => {
