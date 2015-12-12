@@ -82,7 +82,7 @@ class MyTours extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
 
-  componentDidMount() {
+  componentDidMount () {
     var tours = FAKE_MY_TOUR_DATA;
     this.setState({
         dataSource: this.state.dataSource.cloneWithRows(tours)
@@ -90,9 +90,9 @@ class MyTours extends Component {
     //this.fetchData();
   }
 
-  renderLoadingView() {
+  renderLoadingView () {
     return (
-      <View style={styles.loading}>
+      <View style={ styles.loading }>
         <ActivityIndicatorIOS
           size='large'/>
         <Text>
@@ -102,7 +102,7 @@ class MyTours extends Component {
     );
   }
 
-  renderTour(tour) {
+  renderTour (tour) {
     return (
       <TouchableHighlight 
         onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) } 
@@ -121,7 +121,7 @@ class MyTours extends Component {
     );
   }
 
-  render() {
+  render () {
     return (
       <ListView
         dataSource={ this.state.dataSource }

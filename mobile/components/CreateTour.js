@@ -48,81 +48,81 @@ class CreateTour extends Component {
 
   render () {
     return (
-      <View style={styles.container}>
-        <Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
+      <View style={ styles.container }>
+        <Image style={ styles.bg } source={{ uri: 'http://i.imgur.com/xlQ56UK.jpg' }} />
         
-        <View style={styles.inputs}>
+        <View style={ styles.inputs }>
           
-          <View style={styles.inputContainer}>
+          <View style={ styles.inputContainer }>
             <TextInput 
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="Tour Name"
               placeholderTextColor="#FFF"
-              value={this.state.tourName}
-              onChange={utils.tourNameInput.bind(this)}/>
+              value={ this.state.tourName }
+              onChange={ utils.tourNameInput.bind(this) }/>
           </View>
          
-          <View style={styles.inputContainer}>
+          <View style={ styles.inputContainer }>
             <TextInput
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="Category"
               placeholderTextColor="#FFF"
-              value={this.state.category}
-              onChange={utils.categoryInput.bind(this)}/>
+              value={ this.state.category }
+              onChange={ utils.categoryInput.bind(this) }/>
           </View>
           
-          <View style={styles.inputContainer}>
+          <View style={ styles.inputContainer }>
             <TextInput
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="Description"
               placeholderTextColor="#FFF"
               value={this.state.description}
-              onChange={utils.descriptionInput.bind(this)}/>
+              onChange={ utils.descriptionInput.bind(this) }/>
           </View>
           
-          <View style={styles.inputContainer}>
+          <View style={ styles.inputContainer }>
             <TextInput
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="Duration"
               placeholderTextColor="#FFF"
-              value={this.state.duration}
-              onChange={utils.durationInput.bind(this)}/>
+              value={ this.state.duration }
+              onChange={ utils.durationInput.bind(this) }/>
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={ styles.inputContainer }>
             <TextInput
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="City"
               placeholderTextColor="#FFF"
-              value={this.state.cityName}
-              onChange={utils.cityNameInput.bind(this)}/>
+              value={ this.state.cityName }
+              onChange={ utils.cityNameInput.bind(this) }/>
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={ styles.inputContainer }>
             <TextInput
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="State"
               placeholderTextColor="#FFF"
-              value={this.state.state}
-              onChange={utils.stateInput.bind(this)}/>
+              value={ this.state.state }
+              onChange={ utils.stateInput.bind(this) }/>
           </View>
 
-          <View style={styles.inputContainer}>
+          <View style={ styles.inputContainer }>
             <TextInput
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="Country"
               placeholderTextColor="#FFF"
-              value={this.state.country}
-              onChange={utils.countryInput.bind(this)}/>
+              value={ this.state.country }
+              onChange={ utils.countryInput.bind(this) }/>
           </View>
 
         </View>
 
         <TouchableHighlight 
           onPress={ this.viewTour.bind(this) } 
-          style={styles.touchable} underlayColor="#FF3366">  
-          <View style={styles.createTour}>
-            <Text style={styles.whiteFont}>Create Tour</Text>
+          style={ styles.touchable } underlayColor="#FF3366">  
+          <View style={ styles.createTour }>
+            <Text style={ styles.whiteFont }>Create Tour</Text>
           </View>
         </TouchableHighlight>
 

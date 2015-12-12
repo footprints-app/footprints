@@ -45,18 +45,18 @@ class AddPlace extends Component {
     
     var value = this.refs.form.getValue();
 
-    if ( value ) { // if validation fails, value will be null
+    if ( value ) {
       console.log(value);
     }
     utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {createdTour});
   }
-  
+
   /**
    * tcomb-form-native calls <Form type={Model} /> to generate and render a form based on that domain model
    */
   render () {
     return (
-      <View style={styles.container}>
+      <View style={ styles.container }>
       {/* display */}
       <Form
         ref="form"
@@ -64,7 +64,7 @@ class AddPlace extends Component {
         options={options}/>
 
       <TouchableHighlight style={styles.button} onPress={ this.onPressSave.bind(this) } underlayColor='#99d9f4'>
-        <Text style={styles.buttonText}>Save</Text>
+        <Text style={ styles.buttonText }>Save</Text>
       </TouchableHighlight>
     </View>
     );
