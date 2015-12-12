@@ -2,8 +2,8 @@
 
 var React = require('react-native');
 var ViewCreatedTour = require('./ViewCreatedTour');
-var t = require('tcomb-form-native');
 var utils = require('../lib/utility');
+var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
 var {
@@ -14,7 +14,9 @@ var {
   TouchableHighlight,
   View,
 } = React;
-
+/**
+ * Place defines domain model for form
+ */
 var Place = t.struct({
   placeName: t.maybe(t.String),
   address: t.maybe(t.String),
@@ -26,6 +28,9 @@ var options = {};
 
 class AddPlace extends Component {
   
+  /**
+   * Creates an instance of AddPlace.
+   */
   constructor(props) {
     super(props);
     this.state = {};
@@ -34,6 +39,10 @@ class AddPlace extends Component {
   onPressSave () {
     // console.log('in add place....', this.props.newTour)
     var createdTour = this.props.newTour;
+  /**
+   * getValue() gets the values of the form.
+   */
+    
     var value = this.refs.form.getValue();
 
     if ( value ) { // if validation fails, value will be null
@@ -41,7 +50,10 @@ class AddPlace extends Component {
     }
     utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {createdTour});
   }
-
+  
+  /**
+   * tcomb-form-native calls <Form type={Model} /> to generate and render a form based on that domain model
+   */
   render () {
     return (
       <View style={styles.container}>
