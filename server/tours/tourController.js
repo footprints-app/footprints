@@ -8,6 +8,12 @@ var Promise = require('bluebird');
 var Query = Promise.promisifyAll(tours);
 
 module.exports = {
+	/** Receives a tourId from request and calls promisified querySpecificTour from the tourModel.
+	 * Retrieves a single tour from the database.
+	 * @method getOneTour
+	 * @param {object} req - Request object with an id representing tourId
+	 * @param {object} res - Response object with a single tour
+	 */
 	getOneTour: function(req, res) {
 		var tourId = JSON.parse(req.params.id);
 
@@ -17,7 +23,8 @@ module.exports = {
 				});
 	},
 
-	/** Retrieves all tours from database
+	/** Calls promisified queryTours from tourModel to retrieve tour information
+	 * then calls queryPlaces to find all places that belong to each tour.
 	 * @method getAllTours
 	 * @param {object} req Request object
 	 * @param {object} res Response object with all tours from database
@@ -35,7 +42,9 @@ module.exports = {
 				res.status(200).send(data);
 			});
 	},
-	/** Retrieves user specific tours from the database
+	/** Receives a userId from request and calls promisified querySpecificTours from tourModel to retrieve user's tours information
+	 * then calls queryPlaces to find all places that belong to each tour.
+	 * Retrieves user specific tours from the database
 	 * @method getUserTours
 	 * @param req {object} Request object that identifies the user
 	 * @param res {object} Response object with tours that match user

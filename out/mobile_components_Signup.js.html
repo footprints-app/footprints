@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mobile/components/Signup.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mobile/components/Signup.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+var React = require('react-native');
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get('window');
+var Login = require('./Login');
+var Main = require('./Main');
+var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
+
+var {
+  AppRegistry,
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Image,
+  Component,
+  TouchableHighlight
+} = React;
+
+class Signup extends Component {
+
+  /**
+   * Creates an instance of Signup and sets the state with empty user details.
+   *
+   * @constructor
+   * @this {Signup}
+   */
+  constructor(){
+    super();
+    this.state = {
+      firstName: '',
+      lastName: '',
+      username: '',
+      password: '',
+      userId: ''
+    };
+  }
+
+  /**
+   * Posts the user details to the server then redirects user to Main Tours page with the userId as a prop for the component
+   *
+   */
+  submitSignup () {
+    console.log('signup called');
+    fetch(utils.request_url + '/users/signup', 
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userName: this.state.username,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          password: this.state.password
+        })
+      }
+    ).then((response) => response.text())
+    .then((responseText) => {
+      if(responseText = 'Username already exists!'){
+        //re-render sign-up page to inform user that username already exists
+      }
+      // console.log('responseText: ', responseText);
+      utils.navigateTo.call(this, "Tours", Main, {responseText});
+
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+  }
+
+  render () {
+    return (
+
+      &lt;View style={styles.container}>
+        &lt;Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
+        
+        &lt;View style={styles.inputs}>
+
+        &lt;View style={styles.inputContainer}>
+          &lt;Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+            &lt;TextInput 
+              style={[styles.input, styles.whiteFont]}
+              placeholder="First Name"
+              placeholderTextColor="#FFF"
+              onChange={utils.firstNameInput.bind(this)}/>
+          &lt;/View>
+
+          &lt;View style={styles.inputContainer}>
+            &lt;Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+            &lt;TextInput 
+              style={[styles.input, styles.whiteFont]}
+              placeholder="Last Name"
+              placeholderTextColor="#FFF"
+              onChange={utils.lastNameInput.bind(this)}/>
+          &lt;/View>
+
+          &lt;View style={styles.inputContainer}>
+            &lt;Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+            &lt;TextInput 
+              style={[styles.input, styles.whiteFont]}
+              placeholder="Username"
+              placeholderTextColor="#FFF"
+              onChange={utils.usernameInput.bind(this)}/>
+          &lt;/View>
+
+          &lt;View style={styles.inputContainer}> 
+            &lt;Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/> 
+            &lt;TextInput
+              password={true}
+              style={[styles.input, styles.whiteFont]}
+              placeholder="Password"
+              placeholderTextColor="#FFF"
+              onChange={utils.passwordInput.bind(this)}/>
+          &lt;/View>
+
+        &lt;/View>
+        &lt;View style={styles.signup}>
+          &lt;Text style={styles.whiteFont} onPress={ this.submitSignup.bind(this) }>Sign Up&lt;/Text>
+        &lt;/View>
+
+        &lt;View style={styles.login}>
+          &lt;Text style={styles.greyFont}>Already have an account?&lt;/Text>
+          &lt;TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }>  
+            &lt;Text style={styles.whiteFont}>Login&lt;/Text>
+          &lt;/TouchableHighlight>
+        &lt;/View>
+
+      &lt;/View>
+    );
+  }
+
+};
+
+module.exports = Signup;
+
+
+
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="Signup.html">Signup</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul><h3>Global</h3><ul><li><a href="global.html#db">db</a></li><li><a href="global.html#Place">Place</a></li><li><a href="global.html#queryPlaces">queryPlaces</a></li><li><a href="global.html#querySpecificTour">querySpecificTour</a></li><li><a href="global.html#queryTours">queryTours</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Dec 11 2015 22:58:11 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

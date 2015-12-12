@@ -151,6 +151,8 @@
 
 <div class="description">
     Receives new tour information from client and posts tour to database
+Gets cityId from addOrGetCity method
+Inserts new tour to database through insertTour method
 </div>
 
 
@@ -266,7 +268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line25">line 25</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line67">line 67</a>
     </li></ul></dd>
     
 
@@ -304,7 +306,8 @@
 
 
 <div class="description">
-    Retrieves all tours from database
+    Calls promisified queryTours from tourModel to retrieve tour information
+then calls queryPlaces to find all places that belong to each tour.
 </div>
 
 
@@ -420,7 +423,162 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line9">line 9</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~getOneTour"><span class="type-signature">(inner) </span>getOneTour<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives a tourId from request and calls promisified querySpecificTour from the tourModel.
+Retrieves a single tour from the database.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Request object with an id representing tourId</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response object with a single tour</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -458,7 +616,9 @@
 
 
 <div class="description">
-    Retrieves user specific tours from the database
+    Receives a userId from request and calls promisified querySpecificTours from tourModel to retrieve user's tours information
+then calls queryPlaces to find all places that belong to each tour.
+Retrieves user specific tours from the database
 </div>
 
 
@@ -574,7 +734,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line17">line 17</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -616,13 +776,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="Signup.html">Signup</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul><h3>Global</h3><ul><li><a href="global.html#db">db</a></li><li><a href="global.html#Place">Place</a></li><li><a href="global.html#queryPlaces">queryPlaces</a></li><li><a href="global.html#querySpecificTour">querySpecificTour</a></li><li><a href="global.html#queryTours">queryTours</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Dec 09 2015 21:13:55 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Dec 11 2015 22:58:11 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>
