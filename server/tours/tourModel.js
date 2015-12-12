@@ -103,5 +103,24 @@ module.exports = {
 				callback(err, results);
 			}
 		});
+	},
+
+	insertPlace: function(params, callback) {
+		var insertQuery = "INSERT into places(placeName, address, description, placeOrder, tourId) \
+	                  value (?, ?, ?, ?, ?)";
+	  var selectQuery = "SELECT tourId from places where id = ?";
+	  db.query(insertQuery, params, function (err, results) {
+			if (err) {
+				callback(err);
+			} else {
+				db.query(selectQuery, results.insertId, function (err, results) {
+					if (err) {
+						callback(err);
+					} else {
+						callback(err, results[0].tourId);
+					}
+        });
+      }
+	  });
 	}
 };

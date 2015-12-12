@@ -82,18 +82,21 @@ module.exports = {
 					} else {
 						res.status(201).json({id: results});//id refers to the tourId
 					}
-				})
+				});
 			}
-		})
+		});
 	},
-// placeName: <string>,
-//                         address: <string>, 
-//                         description: <string>, 
-//                         placeOrder: <int>,
-// tourId: <int>  }
+
+
 	addPlace: function(req, res) {
 		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId];
 
-		
+		tours.insertPlace(params, function(err, results) {
+			if(err) {
+				res.status(404).send({error: err});
+			} else {
+         res.status(201).json({id: results})
+			}
+		});
 	}
 }
