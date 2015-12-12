@@ -27,7 +27,6 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      userId: '',
       validUsername: true,
       validPassword: true
     };
@@ -55,7 +54,8 @@ class Login extends Component {
           this.setState({validPassword: false, username: '', password: ''});
         }
       } else {
-        utils.navigateTo.call(this, "Welcome", Main, {response} );
+        var user = response;
+        utils.navigateTo.call(this, "Welcome", Main, {user} );
       }
     })
     .catch((error) => {

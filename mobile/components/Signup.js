@@ -33,7 +33,6 @@ class Signup extends Component {
       lastName: '',
       username: '',
       password: '',
-      userId: '',
       validUsername: true
     };
   }
@@ -56,7 +55,8 @@ class Signup extends Component {
         if(response.error) {
           this.setState({validUsername: false, firstName: '', lastName: '', username: '', password: ''});
         } else {
-          utils.navigateTo.call(this, "Tours", Main, {response} );
+          var user = response;
+          utils.navigateTo.call(this, "Tours", Main, {user} );
         }
       })
       .catch((error) => {
