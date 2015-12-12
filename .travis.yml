@@ -6,5 +6,4 @@ services:
 before_install:
   - npm install -g grunt-cli
 before_script:
-  - mysql "create database thesis;" -uroot
-  - mysql -u root < server/schema.sql
+  - "mysql -u root < server/schema.sql"
