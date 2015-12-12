@@ -48,6 +48,7 @@ class ViewCreatedTour extends Component {
   }
 
   renderPlace (place) {
+    console.log('in view createdTour.....', this.props.createdTour)
     return (
       <TouchableHighlight onPress={ () => alert('go to place detail') }  underlayColor='#dddddd'>
         <View>
@@ -65,7 +66,7 @@ class ViewCreatedTour extends Component {
   render () {
     var newTour = this.props.createdTour;
     // console.log('props...', this.props)
-    // console.log('new tour....', newTour)
+    console.log('new tour....', newTour)
     // console.log('props...', this.props)
     var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
     var description = (typeof newTour.description !== 'undefined') ? newTour.description : '';
