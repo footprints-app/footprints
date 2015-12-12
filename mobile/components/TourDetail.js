@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var PlaceDetail = require('./PlaceDetail');
+var utils = require('../lib/utility');
 
 var {
   StyleSheet,
@@ -20,6 +21,7 @@ class TourDetail extends Component {
     super(props);
     this.state = {
       isLoading: true,
+      tourId: props.id,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       })
@@ -27,9 +29,29 @@ class TourDetail extends Component {
   }
 
   componentDidMount() {
+    
+    /* Use this code for fake front end data */
     var places = this.props.tour.places;
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
+
+    /* Use this code to make actual API request to fetch data from database */
     //this.fetchData();
+  }
+
+  /**
+   * Makes GET request to server for specifc tour and sets the places array from DB to the state.
+   *
+   */
+  fetchData() {
+    utils.makeRequest('tours', {}, this.state.tourId)
+    .then((response) => {
+      console.log('response body from TourDetail: ', response);
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(response.places),
+        isLoading: false
+      });
+    })
+    .done();
   }
 
   renderLoadingView() {
@@ -44,19 +66,9 @@ class TourDetail extends Component {
     );
   }
 
-  showPlaceDetail(place) {
-    console.log(this.props)
-    this.props.navigator.push({
-      title: place.placeName,
-      component: PlaceDetail,
-      passProps: {place}
-    });
-    console.log(this.props)
-  }
-
   renderPlace(place) {
     return (
-      <TouchableHighlight onPress={ () => this.showPlaceDetail(place)}  underlayColor='#dddddd'>
+      <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
         <View>
           <View style={styles.placeContainer}>
             <View style={styles.rightContainer}>
@@ -70,9 +82,7 @@ class TourDetail extends Component {
   }
   
   render() {
-    //console.log('props...', this.props)
     var tour = this.props.tour;
-    // console.log('tour....', tour)
     var imageURI = (typeof tour.image !== 'undefined') ? tour.image : '';
     var description = (typeof tour.description !== 'undefined') ? tour.description : '';
     var cityName = (typeof tour.cityName !== 'undefined') ? tour.cityName : '';
