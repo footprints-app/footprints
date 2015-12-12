@@ -32,51 +32,26 @@ class Login extends Component {
   }
 
   /**
-   * This function can not be extracted/replaced with a utils function?
-  */
-  // signupPage () {
-  //   var Signup = require('./Signup');
-  //     this.props.navigator.push({
-  //     title: "Signup",
-  //     component: Signup,
-  //     // passProps: {username: this.state.username, password: this.state.password},
-  //   });
-
-  // }
-
-
-  /**
    * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
    *
    */
   submitLogin () {
+    var reqBody = {
+      userName: this.state.username,
+      password: this.state.password
+    };
 
-    fetch(utils.request_url + '/users/login', 
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: this.state.username,
-          password: this.state.password
-        })
-      }
-    ).then((response) => response.text())
-    .then((responseText) => {
-      // res.body: {id: <int>, userName: <string>, firstName: <string>, lastName: <string>}
-      if(responseText.error) {
-      /*
-        need to handle incorrect login details
-      */
-      } else {
-        utils.navigateTo.call(this, "Welcome", Main, {responseText});
-      }
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
+    utils.makeRequest('login', reqBody)
+      .then((responseText) => {
+        if(responseText.error) {
+          console.log('invalid login');
+        } else {
+          utils.navigateTo.call(this, "Welcome", Main, {responseText} );
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   }
 
   render () {

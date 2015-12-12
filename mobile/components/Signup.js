@@ -42,34 +42,26 @@ class Signup extends Component {
    *
    */
   submitSignup () {
-    console.log('signup called');
-    fetch(utils.request_url + '/users/signup', 
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: this.state.username,
-          firstName: this.state.firstName,
-          lastName: this.state.lastName,
-          password: this.state.password
-        })
-      }
-    ).then((response) => response.text())
-    .then((responseText) => {
-      if(responseText = 'Username already exists!'){
-        //re-render sign-up page to inform user that username already exists
-      }
-      // console.log('responseText: ', responseText);
-      utils.navigateTo.call(this, "Tours", Main, {responseText});
+    var reqBody = {
+      userName: this.state.username,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      password: this.state.password
+    };
 
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
+    utils.makeRequest('signup', reqBody)
+      .then((responseText) => {
+        if(responseText.error) {
+          console.log('invalid sign up');
+        } else {
+          utils.navigateTo.call(this, "Tours", Main, {responseText} );
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   }
+
 
   render () {
     return (
