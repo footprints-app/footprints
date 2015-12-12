@@ -145,7 +145,7 @@
 
 <div class="description">
     Queries database for a userName.
-If the userName already exists in the database, the callback will take a valid error.
+If the userName already exists in the database, the callback will take a defined error.
 If the userName does not exist then the callback will take an undefined error and the results of the query.
 </div>
 
@@ -263,6 +263,164 @@ If the userName does not exist then the callback will take an undefined error an
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="server_users_userModel.js.html">server/users/userModel.js</a>, <a href="server_users_userModel.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".checkUserPassword"><span class="type-signature">(static) </span>checkUserPassword<span class="signature">(params, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Queries database for a userName.
+If the userName does not exist in the database, the callback will take a defined error.
+If the userName does exist then the password will be checked against the inputted password.
+If the password does not match, the callback will take a defined error.
+If the password does match, the callback will take an undefined error and the results of the query.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a tuple containing the userName and password</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a callback which will take the arguments err and results from the database query</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_users_userModel.js.html">server/users/userModel.js</a>, <a href="server_users_userModel.js.html#line74">line 74</a>
     </li></ul></dd>
     
 
@@ -416,7 +574,7 @@ If the userName does not exist then the callback will take an undefined error an
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_users_userModel.js.html">server/users/userModel.js</a>, <a href="server_users_userModel.js.html#line52">line 52</a>
+        <a href="server_users_userModel.js.html">server/users/userModel.js</a>, <a href="server_users_userModel.js.html#line53">line 53</a>
     </li></ul></dd>
     
 
@@ -612,13 +770,13 @@ If the userName does not exist then the callback will take an undefined error an
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="Signup.html">Signup</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul><h3>Global</h3><ul><li><a href="global.html#db">db</a></li><li><a href="global.html#Place">Place</a></li><li><a href="global.html#queryPlaces">queryPlaces</a></li><li><a href="global.html#querySpecificTour">querySpecificTour</a></li><li><a href="global.html#queryTours">queryTours</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Dec 09 2015 21:13:55 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Dec 11 2015 22:58:11 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>
