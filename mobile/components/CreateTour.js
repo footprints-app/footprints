@@ -19,7 +19,12 @@ var {
 } = React;
 
 class CreateTour extends Component {
-  
+
+  /**
+   * Creates an instance of CreateTour and sets the state with empty tour details.
+   * @constructor
+   * @this {CreateTour}
+   */
   constructor(props){
     super(props);
     this.state = {
