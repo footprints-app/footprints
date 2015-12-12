@@ -3,53 +3,46 @@
 var React = require('react-native');
 var ViewCreatedTour = require('./ViewCreatedTour');
 var t = require('tcomb-form-native');
+var utils = require('../lib/utility');
 var Form = t.form.Form;
 
 var {
-    Component,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableHighlight,
-    View,
+  Component,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  View,
 } = React;
 
 var Place = t.struct({
-
   placeName: t.maybe(t.String),
   address: t.maybe(t.String),
   description: t.maybe(t.String),
   placeOrder: t.maybe(t.Number)
-
 });
 
 var options = {};
 
 class AddPlace extends Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {};
-    // }
-
-  onPressSave(){
-    console.log('in add place....', this.props.newTour)
-    var createdTour = this.props.newTour;
-    var value = this.refs.form.getValue();
-    
-    //on sending post request backend will send a tour id
-    //save tour id in frontend
-    if (value) { // if validation fails, value will be null
-      console.log(value); // value here is an instance of Person
-      console.log('placeName.....', value.placeName)
-    }
-    this.props.navigator.push({
-      title: "View Tour",
-      component: ViewCreatedTour,
-      passProps: {createdTour}
-    });
+  
+  constructor(props) {
+    super(props);
+    this.state = {};
   }
 
-  render() {
+  onPressSave () {
+    // console.log('in add place....', this.props.newTour)
+    var createdTour = this.props.newTour;
+    var value = this.refs.form.getValue();
+
+    if ( value ) { // if validation fails, value will be null
+      console.log(value);
+    }
+    utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {createdTour});
+  }
+
+  render () {
     return (
       <View style={styles.container}>
       {/* display */}
