@@ -5,4 +5,6 @@ services:
   - mysql
 before_install:
   - npm install -g grunt-cli
-  - mysql -e "create database IF NOT EXISTS thesis;" -uroot
+before_script:
+  - mysql "create database thesis;" -uroot
+  - mysql -u root < server/schema.sql
