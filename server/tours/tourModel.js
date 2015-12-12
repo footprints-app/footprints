@@ -13,8 +13,8 @@ module.exports = {
 	 * @param {function} callback
 	 */
 	queryTours: function(params, callback) {
-		var queryStr = "SELECT * from tours t \
-									 INNER JOIN cities c on t.cityId = c.id";
+		var queryStr = "SELECT t.*, c.cityName, c.state, c.country from tours t \
+									 LEFT OUTER JOIN cities c on t.cityId = c.id";
 
 		db.query(queryStr, params, function(err, results) {
 			if(err) {
