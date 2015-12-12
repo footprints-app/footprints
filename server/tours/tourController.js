@@ -51,8 +51,8 @@ module.exports = {
 					console.log('tours', tours)
 					return Promise.each(tours, function(tour) {
 						return Query.queryPlacesAsync(tour.id).then(function(places) {
-							tour['places'] = places;
-						});
+             tour['places'] = places;
+            });
 					});
 				})
 				.then(function(data) {
@@ -86,8 +86,13 @@ module.exports = {
 			}
 		});
 	},
-
-
+	/** Receives new place information from client and posts place to database
+	 * Inserts new place to database through insertPlace method
+	 *
+	 * @method addPlace
+	 * @param req {object} Request object that includes new place data
+	 * @param res {object} Response status
+	 */
 	addPlace: function(req, res) {
 		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId];
 
