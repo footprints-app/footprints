@@ -10,24 +10,11 @@ var Query = Promise.promisifyAll(tours);
 module.exports = {
 	getOneTour: function(req, res) {
 		var tourId = JSON.parse(req.params.id);
-		var dataToSend;
 
-		tours.querySpecificTour({tourId: tourId}, function(err, results) {
-			if(err) {
-				console.error('Could not get tour data: ', err);
-			} else {
-				dataToSend = results[0];
-				tours.queryPlaces(tourId, function(err, placesResults) {
-					if(err) {
-						console.error('Could not get places data: ', err);
-						res.status(404);
-					} else {
-						dataToSend['places'] = placesResults;
-						res.status(200).send(dataToSend);
-					}
+		Query.querySpecificTourAsync({tourId: tourId})
+				.then(function(tour) {
+					res.status(200).send(tour[0]);
 				});
-			}
-		});
 	},
 
 	/** Retrieves all tours from database
@@ -36,16 +23,17 @@ module.exports = {
 	 * @param {object} res Response object with all tours from database
 	 */
 	getAllTours: function(req, res) {
-		Query.queryToursAsync().then(function(tours) {
-			return Promise.each(tours, function(tour) {
-				return Query.queryPlacesAsync(tour.id).then(function(places) {
-					tour['places'] = places;
-				})
+		Query.queryToursAsync()
+			.then(function(tours) {
+				return Promise.each(tours, function(tour) {
+					return Query.queryPlacesAsync(tour.id).then(function(places) {
+						tour['places'] = places;
+					});
+				});
 			})
-		}).then(function(data) {
-			console.log(data)
-			res.status(200).send(data);
-		})
+			.then(function(data) {
+				res.status(200).send(data);
+			});
 	},
 	/** Retrieves user specific tours from the database
 	 * @method getUserTours
@@ -56,17 +44,16 @@ module.exports = {
 		var userId = JSON.parse(req.params.id);
 
 		Query.querySpecificTourAsync({userId: userId})
-				.then(function(tours) {
-					return Promise.each(tours, function(tour) {
-						return Query.queryPlacesAsync(tour.id)
-										.then(function(places) {
-											tour['places'] = places;
-										});
-							});
-				})
-				.then(function(data) {
-					res.status(200).send(data)
+			.then(function(tours) {
+				return Promise.each(tours, function(tour) {
+					return Query.queryPlacesAsync(tour.id).then(function(places) {
+							tour['places'] = places;
+						});
 				});
+			})
+			.then(function(data) {
+				res.status(200).send(data)
+			});
 	},
 	/** Receives new tour information from client and posts tour to database
 	 * Gets cityId from addOrGetCity method
