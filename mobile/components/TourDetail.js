@@ -29,7 +29,6 @@ class TourDetail extends Component {
   }
 
   componentDidMount() {
-    
     /* Use this code for fake front end data */
     var places = this.props.tour.places;
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
