@@ -43,11 +43,11 @@ class Main extends Component {
 
       <View style={styles.container}>
         
-        <TouchableHighlight onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ this.userTours.bind(this) } style={styles.touchable} underlayColor="white">
           <View style={styles.button1}><Text style={styles.buttonText}>Your Tours</Text></View>  
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ this.userTours.bind(this) } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) } style={styles.touchable} underlayColor="white">
           <View style={styles.button2}><Text style={styles.buttonText}>All Tours</Text></View>  
         </TouchableHighlight>
       

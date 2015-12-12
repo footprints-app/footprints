@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var MyTours = require('./MyTours');
+// var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 
 var {
@@ -45,6 +45,13 @@ class ViewCreatedTour extends Component {
     var newTour = this.props.createdTour;
     var AddPlace = require('./AddPlace');
     utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
+  }
+
+  onPressDone () {
+    // console.log('in view createdTour.....', this.props.createdTour)
+    // var newTour = this.props.createdTour;
+    var MyTours = require('./MyTours');
+    utils.navigateTo.call(this, "My Tours", MyTours, {});
   }
 
   renderPlace (place) {
@@ -102,7 +109,7 @@ class ViewCreatedTour extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          onPress={ utils.navigateTo.bind(this, "My Tours", MyTours, {}) } 
+          onPress={ this.onPressDone.bind(this) } 
           style={ styles.touchable } underlayColor="white">
           <View style={ styles.doneBtn }>
             <Text style={ styles.whiteFont }>Done</Text>
