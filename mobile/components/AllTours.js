@@ -2,6 +2,7 @@
  
 var React = require('react-native');
 var TourDetail = require('./TourDetail');
+var utils = require('../lib/utility');
 
 var FAKE_TOUR_DATA = [
 
@@ -57,24 +58,28 @@ class AllTours extends Component {
     };
   }
 
-  // fetchData() {
-  //   fetch(REQUEST_URL)
-  //   .then((response) => response.json())
-  //   .then((responseData) => {
-  //     this.setState({
-  //       dataSource: this.state.dataSource.cloneWithRows(responseData.items),
-  //       isLoading: false
-  //     });
-  //   })
-  //   .done();
-  // }
-
   componentDidMount() {
+
+    /* Use this code for fake front end data */
     var tours = FAKE_TOUR_DATA;
     this.setState({
         dataSource: this.state.dataSource.cloneWithRows(tours)
     });
+
+    /* Use this code to make actual API request to fetch data from database */
     //this.fetchData();
+  }
+
+  fetchData() {
+    utils.makeRequest('allTours', {})
+    .then((response) => {
+      console.log('response body from allTours: ', response);
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(response),
+        isLoading: false
+      });
+    })
+    .done();
   }
 
   renderLoadingView() {
@@ -89,17 +94,9 @@ class AllTours extends Component {
     );
   }
 
-  showTourDetail(tour) {
-    this.props.navigator.push({
-      title: tour.tourName,
-      component: TourDetail,
-      passProps: {tour}
-    });
-  }
-
   renderTour(tour) {
     return (
-      <TouchableHighlight onPress={ () => this.showTourDetail(tour) }  underlayColor='#dddddd'>
+      <TouchableHighlight onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) }  underlayColor='#dddddd'>
         <View>
           <View style={styles.container}>
             <Image
