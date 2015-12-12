@@ -38,6 +38,7 @@ module.exports = {
       if(err) {
         callback(err);
       } else {
+        console.log("signup successful: ", results)
         callback(err, results[0]);        
       }
     });
