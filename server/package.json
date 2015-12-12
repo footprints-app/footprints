@@ -4,6 +4,7 @@
   "main": "server.js",
   "dependencies": {
     "aws-sdk": "^2.2.21",
+    "bluebird": "^3.0.6",
     "body-parser": "^1.14.1",
     "chai": "^3.4.1",
     "express": "^4.13.3",

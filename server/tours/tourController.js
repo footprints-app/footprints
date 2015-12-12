@@ -51,8 +51,8 @@ module.exports = {
 					console.log('tours', tours)
 					return Promise.each(tours, function(tour) {
 						return Query.queryPlacesAsync(tour.id).then(function(places) {
-							tour['places'] = places;
-						});
+             tour['places'] = places;
+            });
 					});
 				})
 				.then(function(data) {
@@ -71,7 +71,6 @@ module.exports = {
 		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
 		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
-		console.log(cityParams);
 		tours.addOrGetCity(cityParams, function(err, results) {
 			if(err) {
 				res.status(404).send({error: err});
@@ -81,14 +80,28 @@ module.exports = {
 					if(err) {
 						res.status(404).send({error: err});
 					} else {
-						res.status(201).json({tourId: results});
+						res.status(201).json({id: results});//id refers to the tourId
 					}
-				})
+				});
 			}
-		})
+		});
 	},
-
+	/** Receives new place information from client and posts place to database
+	 * Inserts new place to database through insertPlace method
+	 *
+	 * @method addPlace
+	 * @param req {object} Request object that includes new place data
+	 * @param res {object} Response status
+	 */
 	addPlace: function(req, res) {
+		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId];
 
+		tours.insertPlace(params, function(err, results) {
+			if(err) {
+				res.status(404).send({error: err});
+			} else {
+         res.status(201).json({id: results})
+			}
+		});
 	}
 }

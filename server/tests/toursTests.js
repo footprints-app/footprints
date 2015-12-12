@@ -38,6 +38,8 @@ describe('/tours functionality', function() {
 				}
 			});
 		})
+
+
 		done();
 
   });
@@ -45,18 +47,18 @@ describe('/tours functionality', function() {
   afterEach(function(done) {
     var tablename = "tours";
     //Empty table before each test
-    dbConnection.query("truncate " + tablename, function(err) {
-      if(err) {
-        console.error('Connection Error: ', err);
-        done();
-      } else {
-        dbConnection.end();
-        done();
-      }
-    });
+    // dbConnection.query("truncate " + tablename, function(err) {
+    //   if(err) {
+    //     console.error('Connection Error: ', err);
+    //     done();
+    //   } else {
+    //     dbConnection.end();
+    //     done();
+    //   }
+    // });
 //TODO: change this back
-//		dbConnection.end();
-//		done();
+		dbConnection.end();
+		done();
   });
 
 	describe('getOneTour functionality', function() {
@@ -169,7 +171,7 @@ describe('/tours functionality', function() {
 				.end(function(err, res) {
 					expect(err).to.equal(null);
 					expect(res.status).to.equal(201)
-					expect(res.body.tourId).to.exist;
+					expect(res.body.id).to.exist;
 					done();
 				});
 		});

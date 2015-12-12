@@ -103,5 +103,31 @@ module.exports = {
 				callback(err, results);
 			}
 		});
+	},
+  /**
+   * Inserts a new place into the table.
+   * If successful, queries the place table for the recently created place and invokes 
+   * the callback with the tourId.
+   *
+   * @param {string} params - an array containing the placeName, address, description, placeOrder, and tourId
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+	insertPlace: function(params, callback) {
+		var insertQuery = "INSERT into places(placeName, address, description, placeOrder, tourId) \
+	                  value (?, ?, ?, ?, ?)";
+	  var selectQuery = "SELECT tourId from places where id = ?";
+	  db.query(insertQuery, params, function (err, results) {
+			if (err) {
+				callback(err);
+			} else {
+				db.query(selectQuery, results.insertId, function (err, results) {
+					if (err) {
+						callback(err);
+					} else {
+						callback(err, results[0].tourId);
+					}
+        });
+      }
+	  });
 	}
 };
