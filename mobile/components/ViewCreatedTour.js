@@ -16,13 +16,11 @@ var {
 } = React;
 
 class ViewCreatedTour extends Component {
-
   /**
    * Creates an instance of ViewCreatedTour.
-   * The DataSource is an interface that ListView uses to determine which rows have changed over the course of updates.
+   * ListView uses DataSource interface to determine which rows have changed over the course of updates.
    * @this {ViewCreatedTours}
    */
-
   constructor(props) {
     super(props);
     this.state = {
@@ -48,14 +46,6 @@ class ViewCreatedTour extends Component {
     var AddPlace = require('./AddPlace');
     utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
   }
-
-  // onPressDone () {
-  //   this.props.navigator.push({
-  //     title: "My Tours",
-  //     component: MyTours,
-  //     passProps: {}
-  //   });
-  // }
 
   renderPlace(place) {
     return (
@@ -102,13 +92,17 @@ class ViewCreatedTour extends Component {
             style={styles.listView}/>
         </View>
 
-        <TouchableHighlight onPress={ this.addPlace.bind(this) } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight 
+          onPress={ this.addPlace.bind(this) } 
+          style={styles.touchable} underlayColor="white">
           <View style={styles.addPlaceBtn}>
             <Text style={styles.whiteFont}>Add Place</Text>
           </View>  
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ utils.navigateTo.bind(this, "My Tours", MyTours, {}) } style={styles.touchable} underlayColor="white">
+        <TouchableHighlight 
+          onPress={ utils.navigateTo.bind(this, "My Tours", MyTours, {}) } 
+          style={styles.touchable} underlayColor="white">
           <View style={styles.doneBtn}>
             <Text style={styles.whiteFont}>Done</Text>
           </View>  
