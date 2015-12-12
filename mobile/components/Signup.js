@@ -51,12 +51,9 @@ class Signup extends Component {
     };
 
     utils.makeRequest('signup', reqBody)
-      .then((responseText) => {
-        var response = JSON.parse(responseText);
-        console.log('response body: ', response);
+      .then((response) => {
         if(response.error) {
           this.setState({validUsername: false, firstName: '', lastName: '', username: '', password: ''});
-          console.log('invalid sign up');
         } else {
           this.setState({validUsername: true});
           utils.navigateTo.call(this, "Tours", Main, {response} );
@@ -116,7 +113,7 @@ class Signup extends Component {
               value={this.state.password}
               onChange={utils.passwordInput.bind(this)}/>
           </View>
-          
+
             <Text style={styles.whiteFont}> {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'} </Text>
 
         </View>

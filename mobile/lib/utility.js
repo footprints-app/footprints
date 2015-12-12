@@ -142,7 +142,8 @@ var Utility = {
         },
         body: JSON.stringify(reqBody)
       }
-    ).then((response) => response.text());
+    ).then((response) => response.text()
+    ).then((responseText) => JSON.parse(responseText));
   }
 }
 
