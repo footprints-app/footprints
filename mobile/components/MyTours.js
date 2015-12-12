@@ -164,15 +164,13 @@ class MyTours extends Component {
           renderRow={ this.renderTour.bind(this) }
           style={ styles.listView }/>
       
-      
-      <TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, "Create Tour", CreateTour, {}) } 
-        style={ styles.touchable } underlayColor="#FF3366">  
-        <View style={ styles.createTour }>
-          <Text style={ styles.whiteFont }>Create Tour</Text>
-        </View>
-      </TouchableHighlight>
-      
+        <TouchableHighlight 
+          onPress={ utils.navigateTo.bind(this, "Create Tour", CreateTour, {}) } 
+          style={ styles.touchable } underlayColor="#FF3366">  
+          <View style={ styles.createTour }>
+            <Text style={ styles.whiteFont }>Create Tour</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }  
@@ -187,10 +185,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff2f2',
     padding: 10
   },
-  // listContainer: {
-  //   flex: 1,
-  //   backgroundColor: '#fff2f2',
-  // },
   thumbnail: {
     width: 85,
     height: 81,
