@@ -33,7 +33,8 @@ class Signup extends Component {
       lastName: '',
       username: '',
       password: '',
-      userId: ''
+      userId: '',
+      validUsername: true
     };
   }
 
@@ -51,10 +52,14 @@ class Signup extends Component {
 
     utils.makeRequest('signup', reqBody)
       .then((responseText) => {
-        if(responseText.error) {
+        var response = JSON.parse(responseText);
+        console.log('response body: ', response);
+        if(response.error) {
+          this.setState({validUsername: false, firstName: '', lastName: '', username: '', password: ''});
           console.log('invalid sign up');
         } else {
-          utils.navigateTo.call(this, "Tours", Main, {responseText} );
+          this.setState({validUsername: true});
+          utils.navigateTo.call(this, "Tours", Main, {response} );
         }
       })
       .catch((error) => {
@@ -77,6 +82,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="First Name"
               placeholderTextColor="#FFF"
+              value={this.state.firstName}
               onChange={utils.firstNameInput.bind(this)}/>
           </View>
 
@@ -86,6 +92,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Last Name"
               placeholderTextColor="#FFF"
+              value={this.state.lastName}
               onChange={utils.lastNameInput.bind(this)}/>
           </View>
 
@@ -95,6 +102,7 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#FFF"
+              value={this.state.username}
               onChange={utils.usernameInput.bind(this)}/>
           </View>
 
@@ -105,8 +113,11 @@ class Signup extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#FFF"
+              value={this.state.password}
               onChange={utils.passwordInput.bind(this)}/>
           </View>
+          
+            <Text style={styles.whiteFont}> {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'} </Text>
 
         </View>
         <View style={styles.signup}>

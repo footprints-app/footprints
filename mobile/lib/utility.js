@@ -133,7 +133,6 @@ var Utility = {
    */
   makeRequest: function(requestType, reqBody, reqParam) {
     var param = reqParam || '';
-    console.log(request_url + requests[requestType].endPoint + param);
     return fetch(request_url + requests[requestType].endPoint + param, 
       {
         method: requests[requestType].reqMethod,
