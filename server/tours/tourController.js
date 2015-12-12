@@ -4,6 +4,8 @@
  * @requires tourModel
  */
 var tours = require('./tourModel');
+var Promise = require('bluebird');
+var Query = Promise.promisifyAll(tours);
 
 module.exports = {
 	getOneTour: function(req, res) {
@@ -26,8 +28,6 @@ module.exports = {
 				});
 			}
 		});
-
-
 	},
 
 	/** Retrieves all tours from database
@@ -45,28 +45,19 @@ module.exports = {
 	 */
 	getUserTours: function(req, res) {
 		var userId = JSON.parse(req.params.id);
-		var dataToSend;
 
-		tours.querySpecificTour({userId: userId}, function(err, results) {
-			if(err) {
-				console.error('Could not get tour data: ', err);
-			} else {
-				dataToSend = results;
-				//TODO: multiple tours
-				dataToSend.forEach(function(tour) {
-					tours.queryPlaces(tour.id, function(err, placesResults) {
-						if(err) {
-							console.error('Could not get places data: ', err);
-							res.status(404);
-						} else {
-							tour['places'] = placesResults;
-							res.status(200).json(dataToSend);
-							console.log('body', res.body)
-						}
+		Query.querySpecificTourAsync({userId: userId})
+				.then(function(tours) {
+					console.log('tours', tours)
+					return Promise.each(tours, function(tour) {
+						return Query.queryPlacesAsync(tour.id).then(function(places) {
+							tour['places'] = places;
+						});
 					});
-				});
-			}
-		});
+				})
+				.then(function(data) {
+					res.status(200).send(data)
+				})
 	},
 	/** Receives new tour information from client and posts tour to database
 	 * Gets cityId from addOrGetCity method

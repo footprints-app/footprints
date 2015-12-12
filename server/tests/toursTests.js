@@ -24,9 +24,9 @@ describe('/tours functionality', function() {
       }
     });
 
-    var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 10],
-				[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 10],
-				[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 10]]
+    var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
+				[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
+				[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 1]]
 
 		tours.forEach(function(tour) {
 			var queryStr = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
@@ -54,6 +54,9 @@ describe('/tours functionality', function() {
         done();
       }
     });
+//TODO: change this back
+//		dbConnection.end();
+//		done();
   });
 
 	describe('getOneTour functionality', function() {
@@ -111,9 +114,10 @@ describe('/tours functionality', function() {
 	describe('getUserTours functionality', function() {
 
 		it('should retrieve user specific tours', function(done){
+			var user = 1;
 
 			request(url)
-				.get('/tours/mytours')
+				.get('/tours/mytours/1')
 				.expect(200)
 				.end(function(err, res) {
 					if(err) {
@@ -130,7 +134,7 @@ describe('/tours functionality', function() {
 
 		it('should respond with an array of objects', function(done) {
 			request(url)
-				.get('/tours/mytours')
+				.get('/tours/mytours/1')
 				.expect(200)
 				.end(function (err, res) {
 					if (err) {
