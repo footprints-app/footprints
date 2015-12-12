@@ -17,11 +17,18 @@ var {
 
 class TourDetail extends Component {
 
+  /**
+   * Creates an instance of TourDetail and sets the state with the tourId passed from props.
+   * 
+   * @constructor
+   * @param {object} props is the tour object that was selected.
+   * @this {TourDetail}
+   */
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      tourId: props.id,
+      tourId: this.props.tour.id,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       })
