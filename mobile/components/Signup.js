@@ -43,6 +43,7 @@ class Signup extends Component {
    *
    */
   submitSignup () {
+    this.setState({validUsername: true});
     var reqBody = {
       userName: this.state.username,
       firstName: this.state.firstName,
@@ -55,7 +56,6 @@ class Signup extends Component {
         if(response.error) {
           this.setState({validUsername: false, firstName: '', lastName: '', username: '', password: ''});
         } else {
-          this.setState({validUsername: true});
           utils.navigateTo.call(this, "Tours", Main, {response} );
         }
       })

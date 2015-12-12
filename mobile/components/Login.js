@@ -27,7 +27,9 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      userId: ''
+      userId: '',
+      validUsername: true,
+      validPassword: true
     };
   }
 
@@ -36,22 +38,29 @@ class Login extends Component {
    *
    */
   submitLogin () {
+    this.setState({validUsername: true, validPassword: true});
+
     var reqBody = {
       userName: this.state.username,
       password: this.state.password
     };
 
     utils.makeRequest('login', reqBody)
-      .then((responseText) => {
-        if(responseText.error) {
-          console.log('invalid login');
-        } else {
-          utils.navigateTo.call(this, "Welcome", Main, {responseText} );
+    .then((response) => {
+      // console.log('response body: ', response);
+      if(response.error) {
+        if(response.error === 'Username does not exist') {
+          this.setState({validUsername: false, username: '', password: ''});
+        } else if(response.error === 'Username and password do not match') {
+          this.setState({validPassword: false, username: '', password: ''});
         }
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+      } else {
+        utils.navigateTo.call(this, "Welcome", Main, {response} );
+      }
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
   }
 
   render () {
@@ -66,6 +75,7 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Username"
               placeholderTextColor="#FFF"
+              value={this.state.username}
               onChange={utils.usernameInput.bind(this)}/>
           </View>
           <View style={styles.inputContainer}>
@@ -75,8 +85,13 @@ class Login extends Component {
               style={[styles.input, styles.whiteFont]}
               placeholder="Password"
               placeholderTextColor="#FFF"
+              value={this.state.password}
               onChange={utils.passwordInput.bind(this)}/>
           </View>
+
+          <Text style={styles.whiteFont}> {this.state.validUsername ? '' : 'Sorry this username does not exist, please try again'} </Text>
+          <Text style={styles.whiteFont}> {this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again'} </Text>
+
         </View>
 
         <TouchableHighlight onPress={ this.submitLogin.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
