@@ -81,7 +81,7 @@ module.exports = {
 					if(err) {
 						res.status(404).send({error: err});
 					} else {
-						res.status(201).json({tourId: results});
+						res.status(201).json({id: results});//id refers to the tourId
 					}
 				})
 			}
