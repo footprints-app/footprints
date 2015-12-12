@@ -20,6 +20,9 @@ module.exports = {
 		Query.querySpecificTourAsync({tourId: tourId})
 				.then(function(tour) {
 					res.status(200).send(tour[0]);
+				})
+				.catch(function(err) {
+					res.status(404).send({error: err})
 				});
 	},
 
@@ -40,6 +43,9 @@ module.exports = {
 			})
 			.then(function(data) {
 				res.status(200).send(data);
+			})
+			.catch(function(err) {
+				res.status(404).send({error: err})
 			});
 	},
 	/** Receives a userId from request and calls promisified querySpecificTours from tourModel to retrieve user's tours information
@@ -62,6 +68,9 @@ module.exports = {
 			})
 			.then(function(data) {
 				res.status(200).send(data)
+			})
+			.catch(function(err) {
+				res.status(404).send({error: err})
 			});
 	},
 	/** Receives new tour information from client and posts tour to database
