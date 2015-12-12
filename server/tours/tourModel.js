@@ -27,7 +27,7 @@ module.exports = {
 
 	querySpecificTour: function(params, callback) {
 		var queryStr = "SELECT t.*, c.cityName, c.state, c.country from tours t \
-									INNER JOIN cities c on t.cityId = c.id WHERE ";
+									LEFT OUTER JOIN cities c on t.cityId = c.id WHERE ";
 
 		if(params['tourId'] !== undefined) {
 			queryStr += "t.id = ?";
