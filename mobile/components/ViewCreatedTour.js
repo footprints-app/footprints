@@ -1,7 +1,9 @@
 'use strict';
 
 var React = require('react-native');
-// var AddPlace = require('./AddPlace');
+var MyTours = require('./MyTours');
+var utils = require('../lib/utility');
+
 var {
   StyleSheet,
   Image,
@@ -14,7 +16,11 @@ var {
 } = React;
 
 class ViewCreatedTour extends Component {
-
+  /**
+   * Creates an instance of ViewCreatedTour.
+   * ListView uses DataSource interface to determine which rows have changed over the course of updates.
+   * @this {ViewCreatedTours}
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -24,42 +30,41 @@ class ViewCreatedTour extends Component {
       })
     };
   }
-
-  componentDidMount() {
+  /**
+   * ComponentDidMount function is called as soon as the render method is executed.
+   * It fetches data from the database and sets the state with the fetched data.
+   */
+  componentDidMount () {
     var places = this.props.createdTour.places;
     this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
     //this.fetchData();
   }
 
   addPlace () {
-    console.log('in view createdTour.....', this.props.createdTour)
+    // console.log('in view createdTour.....', this.props.createdTour)
     var newTour = this.props.createdTour;
     var AddPlace = require('./AddPlace');
-    this.props.navigator.push({
-      title: "Add Place",
-      component: AddPlace,
-      passProps: {newTour}
-    });
+    utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
   }
 
-  renderPlace(place) {
+  renderPlace (place) {
     return (
-      <TouchableHighlight onPress={ () => alert('go to place detail')}  underlayColor='#dddddd'>
+      <TouchableHighlight onPress={ () => alert('go to place detail') }  underlayColor='#dddddd'>
         <View>
-          <View style={styles.placeContainer}>
-            <View style={styles.rightContainer}>
-              <Text style={styles.placeName}>{place.placeName}</Text>
+          <View style={ styles.placeContainer }>
+            <View style={ styles.rightContainer }>
+              <Text style={ styles.placeName }>{ place.placeName }</Text>
             </View>
           </View>
-          <View style={styles.separator} />
+          <View style={ styles.separator } />
         </View>
       </TouchableHighlight>
     );
   }
 
-  render() {
+  render () {
     var newTour = this.props.createdTour;
-    console.log('props...', this.props)
+    // console.log('props...', this.props)
     // console.log('new tour....', newTour)
     // console.log('props...', this.props)
     var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
@@ -73,28 +78,33 @@ class ViewCreatedTour extends Component {
     
     return (
       <View style={styles.container}>
-        <Text style={styles.description}>Tour Name: {tourName}</Text>
-        <Text style={styles.description}>Category : {category }</Text>
-        <Text style={styles.description}>Duration: {duration}</Text>
-        <Text style={styles.description}>City Name: {cityName}   State: {state}   Country: {country}</Text>  
-        <Text style={styles.description}>Places: </Text>
+        
+        <Text style={ styles.description }>Tour Name: { tourName }</Text>
+        <Text style={ styles.description }>Category : { category }</Text>
+        <Text style={ styles.description }>Duration: { duration }</Text>
+        <Text style={ styles.description }>City Name: { cityName }   State: { state }   Country: { country }</Text> 
+        <Text style={ styles.description }>Places: </Text>
 
-        <View style={styles.panel}>
+        <View style={ styles.panel }>
           <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderPlace.bind(this)}
-            style={styles.listView}/>
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderPlace.bind(this) }
+            style={ styles.listView }/>
         </View>
 
-        <TouchableHighlight onPress={ () => this.addPlace() } style={styles.touchable} underlayColor="white">
-          <View style={styles.addPlaceBtn}>
-            <Text style={styles.whiteFont}>Add Place</Text>
+        <TouchableHighlight 
+          onPress={ this.addPlace.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.addPlaceBtn }>
+            <Text style={ styles.whiteFont }>Add Place</Text>
           </View>  
         </TouchableHighlight>
 
-        <TouchableHighlight onPress={ () => alert('Done pressed') } style={styles.touchable} underlayColor="white">
-          <View style={styles.doneBtn}>
-            <Text style={styles.whiteFont}>Done</Text>
+        <TouchableHighlight 
+          onPress={ utils.navigateTo.bind(this, "My Tours", MyTours, {}) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.doneBtn }>
+            <Text style={ styles.whiteFont }>Done</Text>
           </View>  
         </TouchableHighlight>
       
@@ -105,7 +115,7 @@ class ViewCreatedTour extends Component {
 
 var styles = StyleSheet.create({
 
-  container: {
+  container: { 
     flexDirection: 'column',
     flex: 1,
     backgroundColor: 'transparent',
