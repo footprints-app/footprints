@@ -71,7 +71,6 @@ module.exports = {
 		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
 		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
-		console.log(cityParams);
 		tours.addOrGetCity(cityParams, function(err, results) {
 			if(err) {
 				res.status(404).send({error: err});
@@ -87,8 +86,14 @@ module.exports = {
 			}
 		})
 	},
-
+// placeName: <string>,
+//                         address: <string>, 
+//                         description: <string>, 
+//                         placeOrder: <int>,
+// tourId: <int>  }
 	addPlace: function(req, res) {
+		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId];
 
+		
 	}
 }
