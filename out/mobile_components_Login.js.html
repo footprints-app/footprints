@@ -28,12 +28,11 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict';
 var React = require('react-native');
+var Main = require('./Main');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
-
-var Main = require('./Main');
-// var styles = require('../lib/stylesheet');
+var styles = require('../lib/stylesheet');
 
 var {
   AppRegistry,
@@ -55,50 +54,34 @@ class Login extends Component {
     this.state = {
       username: '',
       password: '',
-      userId: ''
+      validUsername: true,
+      validPassword: true
     };
   }
-
-  /**
-   * This function can not be extracted/replaced with a utils function?
-  */
-  // signupPage () {
-  //   var Signup = require('./Signup');
-  //     this.props.navigator.push({
-  //     title: "Signup",
-  //     component: Signup,
-  //     // passProps: {username: this.state.username, password: this.state.password},
-  //   });
-
-  // }
-
-
   /**
    * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
    *
    */
   submitLogin () {
-    fetch(utils.request_url + '/users/login', 
-      {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userName: this.state.username,
-          password: this.state.password
-        })
-      }
-    ).then((response) => response.text())
-    .then((responseText) => {
-      // res.body: {id: &lt;int>, userName: &lt;string>, firstName: &lt;string>, lastName: &lt;string>}
-      if(responseText.error) {
-      /*
-        need to handle incorrect login details
-      */
+    this.setState({validUsername: true, validPassword: true});
+
+    var reqBody = {
+      userName: this.state.username,
+      password: this.state.password
+    };
+
+    utils.makeRequest('login', reqBody)
+    .then((response) => {
+      // console.log('response body: ', response);
+      if( response.error ) {
+        if( response.error === 'Username does not exist' ) {
+          this.setState({ validUsername: false, username: '', password: '' });
+        } else if( response.error === 'Username and password do not match' ) {
+          this.setState({ validPassword: false, username: '', password: '' });
+        }
       } else {
-        utils.navigateTo.call(this, "Welcome", Main, {responseText});
+        var user = response;
+        utils.navigateTo.call(this, "Welcome", Main, {user});
       }
     })
     .catch((error) => {
@@ -106,145 +89,61 @@ class Login extends Component {
     });
   }
 
-  userNameInput(event) {
-    this.setState({ userName: event.nativeEvent.text });
-  }
- 
-  passwordInput(event) {
-    this.setState({ password: event.nativeEvent.text });
-  }
-
   render () {
     return (
-      &lt;View style={styles.container}>
-        &lt;Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
+      &lt;View style={ styles.container }>
+        &lt;Image style={ styles.bg } source={{ uri: 'http://i.imgur.com/xlQ56UK.jpg' }} />
         
-        &lt;View style={styles.inputs}>
-          &lt;View style={styles.inputContainer}>
-            &lt;Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
+        &lt;View style={ styles.loginInputs }>
+          &lt;View style={ styles.inputContainer }>
+            &lt;Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             &lt;TextInput 
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="Username"
               placeholderTextColor="#FFF"
-              onChange={utils.usernameInput.bind(this)}/>
+              value={ this.state.username }
+              onChange={ utils.usernameInput.bind(this) }/>
           &lt;/View>
-          &lt;View style={styles.inputContainer}>
-            &lt;Image style={styles.inputPassword} source={{uri: 'http://i.imgur.com/ON58SIG.png'}}/>
+          &lt;View style={ styles.inputContainer }>
+            &lt;Image style={ styles.inputPassword } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
             &lt;TextInput
               password={true}
-              style={[styles.input, styles.whiteFont]}
+              style={ [styles.input, styles.whiteFont] }
               placeholder="Password"
               placeholderTextColor="#FFF"
-              onChange={utils.passwordInput.bind(this)}/>
+              value={ this.state.password }
+              onChange={ utils.passwordInput.bind(this) }/>
           &lt;/View>
+
+          &lt;Text style={ styles.whiteFont }>
+            { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
+          &lt;/Text>
+          &lt;Text style={ styles.whiteFont }>
+            { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
+          &lt;/Text>
+
         &lt;/View>
 
-        &lt;TouchableHighlight onPress={ this.submitLogin.bind(this) } style={styles.touchable} underlayColor="#FF3366">  
-          &lt;View style={styles.signin}>
-            &lt;Text style={styles.whiteFont}>Login&lt;/Text>
+        &lt;TouchableHighlight 
+          onPress={ this.submitLogin.bind(this) } 
+          style={ styles.touchable } 
+          underlayColor="#FF3366">  
+          &lt;View style={ styles.signin }>
+            &lt;Text style={ styles.whiteFont }>Login&lt;/Text>
           &lt;/View>
         &lt;/TouchableHighlight>
 
-        &lt;View style={styles.signup}>
-          &lt;Text style={styles.greyFont}>Do not have an account?&lt;/Text>
-          &lt;TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Signup', require('./Signup'), {}) }>  
-            &lt;Text style={styles.whiteFont}>Sign Up&lt;/Text>
+        &lt;View style={ styles.loginSignup }>
+          &lt;Text style={ styles.greyFont }>Do not have an account?&lt;/Text>
+          &lt;TouchableHighlight 
+            onPress={ utils.navigateTo.bind(this, 'Signup', require('./Signup'), {}) }>  
+            &lt;Text style={ styles.whiteFont }>Sign Up&lt;/Text>
           &lt;/TouchableHighlight>
         &lt;/View>
       &lt;/View>
     );
   }
 };
-
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: 'transparent'
-  },
-  bg: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: windowSize.width,
-    height: windowSize.height
-  },
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .5,
-    backgroundColor: 'transparent'
-  },
-  mark: {
-      width: 150,
-      height: 150
-  },
-  signin: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: -75
-  },
-  signup: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .15
-  },
-  inputs: {
-    marginTop: 300,
-    marginBottom: 10,
-    flex: .25
-  },
-  inputPassword: {
-    marginLeft: 15,
-    width: 20,
-    height: 21
-  },
-  inputUsername: {
-    marginLeft: 15,
-    width: 20,
-    height: 20
-  },
-  inputContainer: {
-    padding: 10,
-    borderWidth: 1,
-    borderBottomColor: '#CCC',
-    borderColor: 'transparent'
-  },
-  input: {
-    position: 'absolute',
-    left: 61,
-    top: 12,
-    right: 0,
-    height: 20,
-    fontSize: 14
-  },
-  forgotContainer: {
-    alignItems: 'flex-end',
-    padding: 15,
-  },
-  greyFont: {
-    color: '#D8D8D8'
-  },
-  whiteFont: {
-    color: '#FFF'
-  },
-  button: {
-    height: 15,
-    width: 75,
-    flex: 0.01,
-    alignItems: 'center',
-    backgroundColor: "#555555",
-    borderColor: "#555555",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginTop: 10,
-    justifyContent: "center"
-  },
-  touchable: {
-    borderRadius: 5
-  }
-});
 
 module.exports = Login;
 
@@ -262,13 +161,13 @@ module.exports = Login;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="Signup.html">Signup</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul><h3>Global</h3><ul><li><a href="global.html#db">db</a></li><li><a href="global.html#Place">Place</a></li><li><a href="global.html#queryPlaces">queryPlaces</a></li><li><a href="global.html#querySpecificTour">querySpecificTour</a></li><li><a href="global.html#queryTours">queryTours</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Dec 11 2015 22:58:11 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>
