@@ -5,7 +5,7 @@ var mysql = require("mysql");
 var request = require("supertest");
 var Promise = require('bluebird');
 
-describe('/tours functionality', function() {
+describe('/tours functionality', function(done) {
 	var dbConnection;
 	var url = 'http://127.0.0.1:8000';
 
@@ -49,6 +49,20 @@ describe('/tours functionality', function() {
 		var citiesQuery = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
 		var placesQuery = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
 
+		//**** A much cleaner way to use promises, but it doesn't work for some reason.... ****
+		// Promise.each(tours, function (value, index, length) {
+		// 	tableQueryAsync(toursQuery, value, "tours");
+		// })
+		// .then(Promise.each(cities, function (value, index, length) {
+		// 	tableQueryAsync(citiesQuery, value, "cities");
+		// }))
+		// .then(Promise.each(places, function (value, index, length) {
+		// 	tableQueryAsync(placesQuery, value, "places");
+		// }))
+		// .then(function() {
+		// 	done();
+		// })
+
 		tableQueryAsync(toursQuery, tours[0], "tours")
 		.then(tableQueryAsync(toursQuery, tours[1], "tours"))
 		.then(tableQueryAsync(toursQuery, tours[2], "tours"))		
@@ -59,63 +73,6 @@ describe('/tours functionality', function() {
 		.then(function() {
             done();
 		});
-
-		// tours.forEach(function(tour) {
-		// 	tableQueryAsync(toursQuery, tour, "tours")
-		// })
-		//  .then(cities.forEach(function(city) {
-		//  	tableQueryAsync(citiesQuery, city, "cities")
-		//  }))
-		//  .then(places.forEach(function(place) {
-		//  	tableQueryAsync(placesQuery, places, "places")
-		//  }))
-		//  .then(function() {
-  //           done();
-		//  });
-
-
-  //   var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
-		// 		[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
-		// 		[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 1]]
-
-		// tours.forEach(function(tour) {
-		// 	var queryStr = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
-		// 	dbConnection.query(queryStr, tour, function(err, results) {
-		// 		if(err) {
-		// 			throw err;
-		// 		} else {
-		// 			console.log('Seeded tours table');
-		// 		}
-		// 	});
-		// })
-
-		// var cities = [["San Francisco", "CA", "USA"], ["Cupertino", "CA", "USA"]];
-
-		// cities.forEach(function(city) {
-		// 	var queryStr = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
-		// 	dbConnection.query(queryStr, city, function(err, results) {
-		// 		if(err) {
-		// 			throw err;
-		// 		} else {
-		// 			console.log('Seeded cities table');
-		// 		}
-		// 	})
-		// })
-
-		// var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
-
-		// places.forEach(function(place) {
-		// 	var queryStr = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
-		// 	dbConnection.query(queryStr, place, function(err, results) {
-		// 		if(err) {
-		// 			throw err;
-		// 		} else {
-		// 			console.log('Seeded places table');
-		// 		}
-		// 	})
-		// })
-
-		// done();
 
   });
 
