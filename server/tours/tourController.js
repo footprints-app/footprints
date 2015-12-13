@@ -19,10 +19,16 @@ module.exports = {
 
 		Query.querySpecificTourAsync({tourId: tourId})
 				.then(function(tour) {
-					res.status(200).send(tour[0]);
+					return Query.queryPlacesAsync(tour[0].id).then(function(places) {
+						return [tour[0], places];
+					})
+				})
+				.spread(function(tour, places) {
+					tour['places'] = places;
+					res.status(200).json(tour);
 				})
 				.catch(function(err) {
-					res.status(404).send({error: err})
+					res.status(404).json({error: err})
 				});
 	},
 
@@ -42,10 +48,10 @@ module.exports = {
 				});
 			})
 			.then(function(data) {
-				res.status(200).send(data);
+				res.status(200).json(data);
 			})
 			.catch(function(err) {
-				res.status(404).send({error: err})
+				res.status(404).json({error: err})
 			});
 	},
 	/** Receives a userId from request and calls promisified querySpecificTours from tourModel to retrieve user's tours information
@@ -67,10 +73,10 @@ module.exports = {
 				});
 			})
 			.then(function(data) {
-				res.status(200).send(data)
+				res.status(200).json(data)
 			})
 			.catch(function(err) {
-				res.status(404).send({error: err})
+				res.status(404).json({error: err})
 			});
 	},
 	/** Receives new tour information from client and posts tour to database
@@ -87,12 +93,12 @@ module.exports = {
 
 		tours.addOrGetCity(cityParams, function(err, results) {
 			if(err) {
-				res.status(404).send({error: err});
+				res.status(404).json({error: err});
 			} else {
 				tourParams.push(results);//Get city id from results
 				tours.insertTour(tourParams, function(err, results) {
 					if(err) {
-						res.status(404).send({error: err});
+						res.status(404).json({error: err});
 					} else {
 						res.status(201).json({id: results});//id refers to the tourId
 					}
@@ -112,7 +118,7 @@ module.exports = {
 
 		tours.insertPlace(params, function(err, results) {
 			if(err) {
-				res.status(404).send({error: err});
+				res.status(404).json({error: err});
 			} else {
          res.status(201).json({id: results})
 			}

@@ -7,7 +7,7 @@ var db = require('../db');
 
 module.exports = {
 	/** Queries the database for all tours
-	 * TODO: query based on city
+	 * TODO: query based on city, will need to grab city id first
 	 * @method queryTours
 	 * @param {array} params
 	 * @param {function} callback - a callback which will take the arguments err and results from the database query
