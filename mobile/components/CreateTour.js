@@ -29,6 +29,7 @@ class CreateTour extends Component {
     super(props);
     this.state = {
       tourName: '',
+      userId: this.props.user.id,
       description: '',
       category: '',
       duration: '',
@@ -36,17 +37,19 @@ class CreateTour extends Component {
       cityName: '',
       state: '',
       country: '',
-      places: []
     };
   }
 
   viewTour (newTour) {
-    var createdTour = this.state;
-    utils.makeRequest('createTour', createdTour)
+    var reqBody = this.state;
+
+    console.log('reqBody from CreateTour: ', reqBody);
+
+    utils.makeRequest('createTour', reqBody)
       .then(response => {
-        console.log('response body in Create Tour: '. response);
-        var tour = response;
-        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tour});
+        console.log('response body in Create Tour: ', response);
+        var tourId = response;
+        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tourId});
       });
   }
 

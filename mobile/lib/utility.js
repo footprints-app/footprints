@@ -137,6 +137,7 @@ var Utility = {
     var reqUrl = request_url + requests[requestType].endPoint + param;
     console.log('request url: ', reqUrl);
     console.log('reqParam: ', param);
+    console.log('reqBody in request: ', reqBody);
     var requestMethod = requests[requestType].reqMethod;
     if(requestMethod === 'GET') {
       return fetch(reqUrl)
