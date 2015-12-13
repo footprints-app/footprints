@@ -8,7 +8,7 @@ var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
     login: { reqMethod: 'POST', endPoint: '/users/login' },
     allTours: { reqMethod: 'GET', endPoint: '/tours/alltours'},
-    myTours: {reqMethod: 'GET', endPoint: '/tours/mytours'},
+    myTours: {reqMethod: 'GET', endPoint: '/tours/mytours/'},
     tour: {reqMethod: 'GET', endPoint: '/tours/'},
     createTour: {reqMethod: 'POST', endPoint: '/tours/createtour'},
     addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'}
@@ -135,7 +135,8 @@ var Utility = {
   makeRequest: function(requestType, reqBody, reqParam) {
     var param = reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
-    // console.log('request url: ', request_url + requests[requestType].endPoint + param);
+    console.log('request url: ', reqUrl);
+    console.log('reqParam: ', param);
     var requestMethod = requests[requestType].reqMethod;
     if(requestMethod === 'GET') {
       return fetch(reqUrl)
