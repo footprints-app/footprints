@@ -2,7 +2,10 @@
  
 var React = require('react-native');
 var TourDetail = require('./TourDetail');
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
+var CreateTour = require('./CreateTour');
 
 var FAKE_MY_TOUR_DATA = [
 
@@ -17,6 +20,38 @@ var FAKE_MY_TOUR_DATA = [
   { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
   ],
   image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'},
+
+  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
+  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
+  places: [{
+    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
+    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
+  }],
+  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
+
+  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
+  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
+  places: [{
+    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
+    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
+  }],
+  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
+
+  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
+  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
+  places: [{
+    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
+    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
+  }],
+  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
+
+  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
+  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
+  places: [{
+    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
+    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
+  }],
+  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
 
   {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
   category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
@@ -123,10 +158,20 @@ class MyTours extends Component {
 
   render () {
     return (
-      <ListView
-        dataSource={ this.state.dataSource }
-        renderRow={ this.renderTour.bind(this) }
-        style={ styles.listView }/>
+      <View>
+        <ListView
+          dataSource={ this.state.dataSource }
+          renderRow={ this.renderTour.bind(this) }
+          style={ styles.listView }/>
+      
+        <TouchableHighlight 
+          onPress={ utils.navigateTo.bind(this, "Create Tour", CreateTour, {}) } 
+          style={ styles.touchable } underlayColor="#FF3366">  
+          <View style={ styles.createTour }>
+            <Text style={ styles.whiteFont }>Create Tour</Text>
+          </View>
+        </TouchableHighlight>
+      </View>
     );
   }  
 };
@@ -163,13 +208,26 @@ var styles = StyleSheet.create({
     backgroundColor: '#dddddd'
   },
   listView: {
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#F5FCFF',
+    height: windowSize.height
    },
   loading: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  }
+  },
+  whiteFont: {
+    color: '#FFF'
+  },
+  touchable: {
+    borderRadius: 5
+  },
+  createTour: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: -50,
+  },
 });
  
 module.exports = MyTours;

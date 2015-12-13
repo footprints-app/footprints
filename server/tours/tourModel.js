@@ -1,5 +1,6 @@
 /**
  * A module that accesses the mysql database and responds to requests from the controller
+ * @module tours/tourModel
  * @type {connection|exports|module.exports}
  * @requires db
  */

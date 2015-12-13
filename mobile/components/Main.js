@@ -5,6 +5,7 @@ var React = require('react-native');
 var AllTours = require('./AllTours');
 var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
 
 var {
   StyleSheet,
@@ -41,53 +42,27 @@ class Main extends Component {
   render () {
     return (
 
-      <View style={styles.container}>
-        
-        <TouchableHighlight onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) } style={styles.touchable} underlayColor="white">
-          <View style={styles.button1}><Text style={styles.buttonText}>Your Tours</Text></View>  
-        </TouchableHighlight>
+      <View style={ styles.mainContainer }>
 
-        <TouchableHighlight onPress={ this.userTours.bind(this) } style={styles.touchable} underlayColor="white">
-          <View style={styles.button2}><Text style={styles.buttonText}>All Tours</Text></View>  
+        <View style={styles.mainButtonTop} >
+        <TouchableHighlight 
+          onPress={ this.userTours.bind(this) } 
+          style={ styles.mainTouchable } underlayColor="white">
+          <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>Your Tours</Text></View>  
         </TouchableHighlight>
+        </View>
+
+        <View style={styles.mainButtonBottom}>
+        <TouchableHighlight 
+          onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) } 
+          style={ styles.mainTouchable } underlayColor="white">
+          <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>All Tours</Text></View>  
+        </TouchableHighlight>
+        </View>
       
       </View>          
     );
   }
 };
-
-var styles = StyleSheet.create({
-
-  container: {
-    marginTop: 65,
-    padding: 10
-  },
-  button1: {
-    height: 200,
-    width: 200,
-    backgroundColor: '#FFF366',
-    borderRadius: 100,
-    justifyContent: 'center',
-    marginTop: 60,
-    marginLeft: 75
-  },
-  button2: {
-    height: 200,
-    width: 200,
-    backgroundColor: '#FFF366',
-    borderRadius: 100,
-    justifyContent: 'center',
-    marginTop: 15,
-    marginLeft: 75
-  },
-  buttonText: {
-    fontSize: 24,
-    color: 'gray',
-    alignSelf: 'center'
-  },
-  touchable: {
-    borderRadius: 100
-  }
-});
 
 module.exports = Main;

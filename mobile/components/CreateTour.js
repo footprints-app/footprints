@@ -122,7 +122,7 @@ class CreateTour extends Component {
           onPress={ this.viewTour.bind(this) } 
           style={ styles.touchable } underlayColor="#FF3366">  
           <View style={ styles.createTour }>
-            <Text style={ styles.whiteFont }>Create Tour</Text>
+            <Text style={ styles.whiteFont }>View Tour</Text>
           </View>
         </TouchableHighlight>
 

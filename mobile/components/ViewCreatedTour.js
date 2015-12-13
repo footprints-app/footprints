@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var MyTours = require('./MyTours');
+// var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 
 var {
@@ -47,7 +47,15 @@ class ViewCreatedTour extends Component {
     utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
   }
 
+  onPressDone () {
+    // console.log('in view createdTour.....', this.props.createdTour)
+    // var newTour = this.props.createdTour;
+    var MyTours = require('./MyTours');
+    utils.navigateTo.call(this, "My Tours", MyTours, {});
+  }
+
   renderPlace (place) {
+    console.log('in view createdTour.....', this.props.createdTour)
     return (
       <TouchableHighlight onPress={ () => alert('go to place detail') }  underlayColor='#dddddd'>
         <View>
@@ -65,7 +73,7 @@ class ViewCreatedTour extends Component {
   render () {
     var newTour = this.props.createdTour;
     // console.log('props...', this.props)
-    // console.log('new tour....', newTour)
+    console.log('new tour....', newTour)
     // console.log('props...', this.props)
     var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
     var description = (typeof newTour.description !== 'undefined') ? newTour.description : '';
@@ -101,7 +109,7 @@ class ViewCreatedTour extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          onPress={ utils.navigateTo.bind(this, "My Tours", MyTours, {}) } 
+          onPress={ this.onPressDone.bind(this) } 
           style={ styles.touchable } underlayColor="white">
           <View style={ styles.doneBtn }>
             <Text style={ styles.whiteFont }>Done</Text>

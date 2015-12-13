@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: tours/tourController</title>
+    <title>JSDoc: Module: tours/tourModel</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: tours/tourController</h1>
+    <h1 class="page-title">Module: tours/tourModel</h1>
 
     
 
@@ -38,7 +38,7 @@
     <div class="container-overview">
     
         
-            <div class="description">A module that contains all functions to handle tour requests</div>
+            <div class="description">A module that accesses the mysql database and responds to requests from the controller</div>
         
 
         
@@ -87,7 +87,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line1">line 1</a>
+        <a href="server_tours_tourModel.js.html">server/tours/tourModel.js</a>, <a href="server_tours_tourModel.js.html#line1">line 1</a>
     </li></ul></dd>
     
 
@@ -123,7 +123,7 @@
         <h3 class="subsection-title">Requires</h3>
 
         <ul>
-            <li>module:tourModel</li>
+            <li>module:db</li>
         </ul>
     
 
@@ -143,15 +143,17 @@
 
     
 
-    <h4 class="name" id="~addPlace"><span class="type-signature">(inner) </span>addPlace<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".addOrGetCity"><span class="type-signature">(static) </span>addOrGetCity<span class="signature">(params, callback)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Receives new place information from client and posts place to database
-Inserts new place to database through insertPlace method
+    Inserts or selects a city from the city table.
+Queries the cities table for a city.
+If it exists, the city's id is given to the callback.
+If it doesn't exist, the city is added to the table and the city's id is given to the callback.
 </div>
 
 
@@ -187,13 +189,13 @@ Inserts new place to database through insertPlace method
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -203,20 +205,20 @@ Inserts new place to database through insertPlace method
 
             
 
-            <td class="description last">Request object that includes new place data</td>
+            <td class="description last">an array containing the cityName, state, and country</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -226,7 +228,7 @@ Inserts new place to database through insertPlace method
 
             
 
-            <td class="description last">Response status</td>
+            <td class="description last">a callback which will take the arguments err and results from the database query</td>
         </tr>
 
     
@@ -267,7 +269,7 @@ Inserts new place to database through insertPlace method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line109">line 109</a>
+        <a href="server_tours_tourModel.js.html">server/tours/tourModel.js</a>, <a href="server_tours_tourModel.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -298,16 +300,16 @@ Inserts new place to database through insertPlace method
 
     
 
-    <h4 class="name" id="~createTour"><span class="type-signature">(inner) </span>createTour<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".insertPlace"><span class="type-signature">(static) </span>insertPlace<span class="signature">(params, callback)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Receives new tour information from client and posts tour to database
-Gets cityId from addOrGetCity method
-Inserts new tour to database through insertTour method
+    Inserts a new place into the table.
+If successful, queries the place table for the recently created place and invokes 
+the callback with the tourId.
 </div>
 
 
@@ -343,13 +345,13 @@ Inserts new tour to database through insertTour method
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -359,20 +361,20 @@ Inserts new tour to database through insertTour method
 
             
 
-            <td class="description last">Request object that includes new tour data</td>
+            <td class="description last">an array containing the placeName, address, description, placeOrder, and tourId</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -382,7 +384,7 @@ Inserts new tour to database through insertTour method
 
             
 
-            <td class="description last">Response status</td>
+            <td class="description last">a callback which will take the arguments err and results from the database query</td>
         </tr>
 
     
@@ -423,7 +425,7 @@ Inserts new tour to database through insertTour method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line82">line 82</a>
+        <a href="server_tours_tourModel.js.html">server/tours/tourModel.js</a>, <a href="server_tours_tourModel.js.html#line126">line 126</a>
     </li></ul></dd>
     
 
@@ -454,15 +456,15 @@ Inserts new tour to database through insertTour method
 
     
 
-    <h4 class="name" id="~getAllTours"><span class="type-signature">(inner) </span>getAllTours<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".insertTour"><span class="type-signature">(static) </span>insertTour<span class="signature">(params, callback)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Calls promisified queryTours from tourModel to retrieve tour information
-then calls queryPlaces to find all places that belong to each tour.
+    Inserts a new tour into the table.
+If successful, gives a callback the tourId.
 </div>
 
 
@@ -498,13 +500,13 @@ then calls queryPlaces to find all places that belong to each tour.
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -514,20 +516,20 @@ then calls queryPlaces to find all places that belong to each tour.
 
             
 
-            <td class="description last">Request object</td>
+            <td class="description last">an array containing the cityName, state, and country</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -537,7 +539,7 @@ then calls queryPlaces to find all places that belong to each tour.
 
             
 
-            <td class="description last">Response object with all tours from database</td>
+            <td class="description last">a callback which will take the arguments err and results from the database query</td>
         </tr>
 
     
@@ -578,7 +580,7 @@ then calls queryPlaces to find all places that belong to each tour.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line35">line 35</a>
+        <a href="server_tours_tourModel.js.html">server/tours/tourModel.js</a>, <a href="server_tours_tourModel.js.html#line91">line 91</a>
     </li></ul></dd>
     
 
@@ -609,15 +611,14 @@ then calls queryPlaces to find all places that belong to each tour.
 
     
 
-    <h4 class="name" id="~getOneTour"><span class="type-signature">(inner) </span>getOneTour<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~queryPlaces"><span class="type-signature">(inner) </span>queryPlaces<span class="signature">(tourId, callback)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Receives a tourId from request and calls promisified querySpecificTour from the tourModel.
-Retrieves a single tour from the database.
+    Queries the places table for all places with the matching tourId
 </div>
 
 
@@ -653,13 +654,13 @@ Retrieves a single tour from the database.
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>tourId</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">number</span>
 
 
             
@@ -669,20 +670,20 @@ Retrieves a single tour from the database.
 
             
 
-            <td class="description last">Request object with an id representing tourId</td>
+            <td class="description last">a number that represents the tour id</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -692,7 +693,7 @@ Retrieves a single tour from the database.
 
             
 
-            <td class="description last">Response object with a single tour</td>
+            <td class="description last">a callback which will take the arguments err and results from the database query</td>
         </tr>
 
     
@@ -733,7 +734,7 @@ Retrieves a single tour from the database.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line11">line 11</a>
+        <a href="server_tours_tourModel.js.html">server/tours/tourModel.js</a>, <a href="server_tours_tourModel.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -764,16 +765,16 @@ Retrieves a single tour from the database.
 
     
 
-    <h4 class="name" id="~getUserTours"><span class="type-signature">(inner) </span>getUserTours<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="~querySpecificTour"><span class="type-signature">(inner) </span>querySpecificTour<span class="signature">(params, callback)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Receives a userId from request and calls promisified querySpecificTours from tourModel to retrieve user's tours information
-then calls queryPlaces to find all places that belong to each tour.
-Retrieves user specific tours from the database
+    Queries the database based on the parameter that was passed.
+If a tour id was passed, it will return that specific tour
+If a user id was passed, it will return all tours by that user
 </div>
 
 
@@ -809,7 +810,7 @@ Retrieves user specific tours from the database
 
         <tr>
             
-                <td class="name"><code>req</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
@@ -825,20 +826,20 @@ Retrieves user specific tours from the database
 
             
 
-            <td class="description last">Request object that identifies the user</td>
+            <td class="description last">an object that could contain a userId or tourId</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>res</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">function</span>
 
 
             
@@ -848,7 +849,7 @@ Retrieves user specific tours from the database
 
             
 
-            <td class="description last">Response object with tours that match user</td>
+            <td class="description last">a callback which will take the arguments err and results from the database query</td>
         </tr>
 
     
@@ -889,7 +890,162 @@ Retrieves user specific tours from the database
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line57">line 57</a>
+        <a href="server_tours_tourModel.js.html">server/tours/tourModel.js</a>, <a href="server_tours_tourModel.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~queryTours"><span class="type-signature">(inner) </span>queryTours<span class="signature">(params, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Queries the database for all tours
+TODO: query based on city, will need to grab city id first
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">a callback which will take the arguments err and results from the database query</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourModel.js.html">server/tours/tourModel.js</a>, <a href="server_tours_tourModel.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
