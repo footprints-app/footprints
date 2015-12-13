@@ -73,6 +73,31 @@ describe('/tours functionality', function() {
   //           done();
 		//  });
 
+		var cities = [["San Francisco", "CA", "USA"], ["Cupertino", "CA", "USA"]];
+
+		cities.forEach(function(city) {
+			var queryStr = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
+			dbConnection.query(queryStr, city, function(err, results) {
+				if(err) {
+					throw err;
+				} else {
+					console.log('Seeded cities table');
+				}
+			})
+		})
+
+		var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
+
+		places.forEach(function(place) {
+			var queryStr = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
+			dbConnection.query(queryStr, place, function(err, results) {
+				if(err) {
+					throw err;
+				} else {
+					console.log('Seeded places table');
+				}
+			})
+		})
 
   //   var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
 		// 		[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
