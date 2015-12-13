@@ -41,10 +41,10 @@ class CreateTour extends Component {
   }
 
   viewTour (newTour) {
-    // console.log('new tour....', newTour.state)
     var createdTour = this.state;
     utils.makeRequest('createTour', createdTour)
       .then(response => {
+        console.log('response body in Create Tour: '. response);
         var tour = response;
         utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tour});
       });
