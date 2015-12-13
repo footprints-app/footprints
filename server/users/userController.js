@@ -20,15 +20,15 @@ module.exports = {
     users.checkNameAvailability(params[0], function(err, results) {
       if(err) {
         console.error(err);
-        res.status(400).send({error: err});
+        res.status(400).json({error: err});
       } else {
         users.signup(params, function(err, results) {
           if(err) {
-            res.status(404).send({error: err});
+            res.status(404).json({error: err});
           } else {
             users.getUserInfo(params[0], function(err, results) {
               if(err) {
-                res.status(404).send({error: err});
+                res.status(404).json({error: err});
               } else {
                 res.status(201).json(results);
               }
@@ -52,7 +52,7 @@ module.exports = {
     users.checkUserPassword(params, function(err, results) {
       if(err) {
         console.error(err);
-        res.status(400).send({error: err});
+        res.status(400).json({error: err});
         next(err);
       } else {
         res.status(200).json(results);
