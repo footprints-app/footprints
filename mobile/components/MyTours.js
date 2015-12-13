@@ -109,13 +109,13 @@ class MyTours extends Component {
 
   componentDidMount () {
     /* Use this code for fake front end data */
-    var tours = FAKE_MY_TOUR_DATA;
-    this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(tours)
-    });
+    // var tours = FAKE_MY_TOUR_DATA;
+    // this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(tours)
+    // });
 
     /* Use this code to make actual API request to fetch data from database */
-    //this.fetchData();
+    this.fetchData();
   }
 
   /**

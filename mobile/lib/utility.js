@@ -1,7 +1,8 @@
 'use strict';
 var React = require('react-native');
 
-var request_url = 'http://localhost:8000';
+// var request_url = 'http://localhost:8000';
+var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
@@ -133,18 +134,24 @@ var Utility = {
    */
   makeRequest: function(requestType, reqBody, reqParam) {
     var param = reqParam || '';
+    var reqUrl = request_url + requests[requestType].endPoint + param;
     // console.log('request url: ', request_url + requests[requestType].endPoint + param);
-    return fetch(request_url + requests[requestType].endPoint + param, 
-      {
-        method: requests[requestType].reqMethod,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reqBody)
-      }
-    ).then((response) => response.text()
-    ).then((responseText) => JSON.parse(responseText));
+    var requestMethod = requests[requestType].reqMethod;
+    if(requestMethod === 'GET') {
+      return fetch(reqUrl)
+      .then(response => response.json());
+    } else {
+      return fetch(reqUrl, 
+        {
+          method: requestMethod,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(reqBody)
+        }
+      ).then((response) => response.json()); 
+    }
   }
 }
 
