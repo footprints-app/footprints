@@ -71,7 +71,7 @@ class Signup extends Component {
       <View style={styles.container}>
         <Image style={styles.bg} source={{uri: 'http://i.imgur.com/xlQ56UK.jpg'}} />
         
-        <View style={styles.inputs}>
+        <View style={styles.signupInputs}>
 
         <View style={styles.inputContainer}>
           <Image style={styles.inputUsername} source={{uri: 'http://i.imgur.com/iVVVMRX.png'}}/>
@@ -114,9 +114,12 @@ class Signup extends Component {
               onChange={utils.passwordInput.bind(this)}/>
           </View>
 
-            <Text style={styles.whiteFont}> {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'} </Text>
+            <Text style={styles.whiteFont}>
+            {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'}
+            </Text>
 
         </View>
+        
         <View style={styles.signup}>
           <Text style={styles.whiteFont} onPress={ this.submitSignup.bind(this) }>Sign Up</Text>
         </View>
@@ -131,7 +134,6 @@ class Signup extends Component {
       </View>
     );
   }
-
 };
 
 module.exports = Signup;
