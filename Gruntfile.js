@@ -65,7 +65,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		jsdoc : {
+		jsdoc: {
 			dist : {
 				src: ['server/*.js', 'server/**/*.js', '!server/node_modules/**', 'mobile/*.js', 'mobile/components/*.js', 'README.md'],
 				options: {
@@ -81,6 +81,24 @@ module.exports = function(grunt) {
 				},
 				src: ['server/tests/*.js']
 			}
+		},
+
+		usersTests: {
+			test: {
+				options: {
+					reporter: 'spec'
+				},
+				src: ['server/tests/usersTests.js']
+			}
+		},
+
+		toursTests: {
+			test: {
+				options: {
+					reporter: 'spec'
+				},
+				src: ['server/tests/toursTests.js']
+			}
 		}
 	});
 
@@ -91,6 +109,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('testFront', ['jshint', 'jest']);
 
 	grunt.registerTask('testBack', ['jshint', 'mochaTest']);
+	//grunt.registerTask('testBack', ['jshint', 'usersTests', 'toursTests'])
 
 	grunt.registerTask('zip', ['clean', 'compress']);
 

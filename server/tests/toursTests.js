@@ -3,6 +3,7 @@ var should = chai.should();
 var expect = chai.expect;
 var mysql = require("mysql");
 var request = require("supertest");
+var Promise = require('bluebird');
 
 describe('/tours functionality', function() {
 	var dbConnection;
@@ -24,68 +25,129 @@ describe('/tours functionality', function() {
       }
     });
 
-    var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
-				[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
-				[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 1]]
 
-		tours.forEach(function(tour) {
-			var queryStr = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
-			dbConnection.query(queryStr, tour, function(err, results) {
+    var tableQuery = function(queryStr, data, tableName, callback) {
+    	dbConnection.query(queryStr, data, function(err, results) {
 				if(err) {
-					throw err;
+					callback(err);
 				} else {
-					console.log('Seeded tours table');
+					console.log("Seeded" + tableName + "table");
+					callback(err, results);
 				}
 			});
-		})
+    }
 
+    var tableQueryAsync = Promise.promisify(tableQuery);
+
+		var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
+				[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
+				[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 1]]
 		var cities = [["San Francisco", "CA", "USA"], ["Cupertino", "CA", "USA"]];
-
-		cities.forEach(function(city) {
-			var queryStr = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
-			dbConnection.query(queryStr, city, function(err, results) {
-				if(err) {
-					throw err;
-				} else {
-					console.log('Seeded cities table');
-				}
-			})
-		})
-
 		var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
+		
+		var toursQuery = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
+		var citiesQuery = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
+		var placesQuery = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
 
-		places.forEach(function(place) {
-			var queryStr = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
-			dbConnection.query(queryStr, place, function(err, results) {
-				if(err) {
-					throw err;
-				} else {
-					console.log('Seeded places table');
-				}
-			})
-		})
+		tableQueryAsync(toursQuery, tours[0], "tours")
+		.then(tableQueryAsync(toursQuery, tours[1], "tours"))
+		.then(tableQueryAsync(toursQuery, tours[2], "tours"))		
+		.then(tableQueryAsync(citiesQuery, cities[0], "cities"))
+		.then(tableQueryAsync(citiesQuery, cities[1], "cities"))
+		.then(tableQueryAsync(placesQuery, places[0], "places"))
+		.then(tableQueryAsync(placesQuery, places[1], "places"))
+		.then(function() {
+            done();
+		});
 
-		done();
+		// tours.forEach(function(tour) {
+		// 	tableQueryAsync(toursQuery, tour, "tours")
+		// })
+		//  .then(cities.forEach(function(city) {
+		//  	tableQueryAsync(citiesQuery, city, "cities")
+		//  }))
+		//  .then(places.forEach(function(place) {
+		//  	tableQueryAsync(placesQuery, places, "places")
+		//  }))
+		//  .then(function() {
+  //           done();
+		//  });
+
+
+  //   var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
+		// 		[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
+		// 		[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 1]]
+
+		// tours.forEach(function(tour) {
+		// 	var queryStr = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
+		// 	dbConnection.query(queryStr, tour, function(err, results) {
+		// 		if(err) {
+		// 			throw err;
+		// 		} else {
+		// 			console.log('Seeded tours table');
+		// 		}
+		// 	});
+		// })
+
+		// var cities = [["San Francisco", "CA", "USA"], ["Cupertino", "CA", "USA"]];
+
+		// cities.forEach(function(city) {
+		// 	var queryStr = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
+		// 	dbConnection.query(queryStr, city, function(err, results) {
+		// 		if(err) {
+		// 			throw err;
+		// 		} else {
+		// 			console.log('Seeded cities table');
+		// 		}
+		// 	})
+		// })
+
+		// var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
+
+		// places.forEach(function(place) {
+		// 	var queryStr = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
+		// 	dbConnection.query(queryStr, place, function(err, results) {
+		// 		if(err) {
+		// 			throw err;
+		// 		} else {
+		// 			console.log('Seeded places table');
+		// 		}
+		// 	})
+		// })
+
+		// done();
 
   });
 
   after(function(done) {
     
-    var truncate = function(tablename) {
-	    dbConnection.query("truncate " + tablename, function(err) {
+    var truncate = function(tablename, callback) {
+	    dbConnection.query("truncate " + tablename, function(err, results) {
 	      if(err) {
 	        console.error('Connection Error: ', err);
+	        callback(err);
 	      } else {
 	        console.log("Truncated" + tablename);
+	        callback(err, results);
 	      }
 	    });
     }
 
-    truncate("tours");
-    truncate("places");
-    truncate("cities");
-		dbConnection.end();
-		done();
+    var truncateAsync = Promise.promisify(truncate);
+
+    truncateAsync("tours")
+      .then(truncateAsync("places"))
+      .then(truncateAsync("cities"))
+      .then(function() {
+      	dbConnection.end();
+      	done();
+      })
+
+  //   truncate("tours");
+  //   truncate("places");
+  //   truncate("cities");
+		// dbConnection.end();
+		// done();
   });
 
 	describe('getOneTour functionality', function() {
