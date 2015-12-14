@@ -35,8 +35,9 @@ class Main extends Component {
    * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
    */
   userTours () {
-    var user = this.state.user;
-    utils.navigateTo.call(this, "Your Tours", MyTours, {user});
+    var userId = this.state.user.id;
+    console.log('user in Main: ', this.state.user);
+    utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
   }  
 
   render () {

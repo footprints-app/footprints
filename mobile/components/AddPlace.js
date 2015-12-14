@@ -32,23 +32,33 @@ class AddPlace extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      tourId: this.props.tourId
+    };
   }
 
   /**
    * Gets place details using tcomb-form-native getValue method and posts it in the database.
    */
   onPressSave () {
-    // console.log('in add place....', this.props.newTour)
-    var createdTour = this.props.newTour;
-    
-    // getValue() gets the values of the form.
-    var value = this.refs.form.getValue();
+    /**
+     * getValue() gets the values of the form.
+     */
+    var tourId = this.state.tourId;
+    var newPlace = this.refs.form.getValue();
+    var reqBody = {
+      placeName: newPlace.placeName,
+      address: newPlace.address,
+      description: newPlace.description,
+      placeOrder: newPlace.placeOrder,
+      tourId: tourId
+    };
 
-    if ( value ) {
-      console.log(value);
-    }
-    utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {createdTour});
+    utils.makeRequest('addPlace', reqBody)
+      .then(response => {
+        console.log('response body in Add Place: ', response);
+        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tourId});
+      });
   }
 
   /**

@@ -3,6 +3,7 @@
 var React = require('react-native');
 // var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
+var PlaceDetail = require('./PlaceDetail.js');
 
 var {
   StyleSheet,
@@ -24,6 +25,8 @@ class ViewCreatedTour extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      tourId: this.props.tourId,
+      tour: {},
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -35,29 +38,38 @@ class ViewCreatedTour extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
   componentDidMount () {
-    var places = this.props.createdTour.places;
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
-    //this.fetchData();
+    this.fetchData();
   }
 
   addPlace () {
-    // console.log('in view createdTour.....', this.props.createdTour)
-    var newTour = this.props.createdTour;
+    var tourId = this.state.tourId;
     var AddPlace = require('./AddPlace');
-    utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
+    utils.navigateTo.call(this, "Add Place", AddPlace, {tourId});
   }
 
   onPressDone () {
-    // console.log('in view createdTour.....', this.props.createdTour)
-    // var newTour = this.props.createdTour;
     var MyTours = require('./MyTours');
-    utils.navigateTo.call(this, "My Tours", MyTours, {});
+    var userId = this.state.tour.userId;
+    utils.navigateTo.call(this, "My Tours", MyTours, {userId});
+  }
+
+  fetchData() {
+    utils.makeRequest('tour', {}, this.state.tourId)
+    .then((response) => {
+      console.log('response body from View Created Tour: ', response);
+      var places = response.places;
+      this.setState({
+        tour: response,
+        dataSource: this.state.dataSource.cloneWithRows(places),
+        isLoading: false
+      });
+    })
+    .done();
   }
 
   renderPlace (place) {
-    console.log('in view createdTour.....', this.props.createdTour)
     return (
-      <TouchableHighlight onPress={ () => alert('go to place detail') }  underlayColor='#dddddd'>
+      <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
         <View>
           <View style={ styles.placeContainer }>
             <View style={ styles.rightContainer }>
@@ -71,26 +83,14 @@ class ViewCreatedTour extends Component {
   }
 
   render () {
-    var newTour = this.props.createdTour;
-    // console.log('props...', this.props)
-    console.log('new tour....', newTour)
-    // console.log('props...', this.props)
-    var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
-    var description = (typeof newTour.description !== 'undefined') ? newTour.description : '';
-    var category = (typeof newTour.category !== 'undefined') ? newTour.category : '';
-    var duration = (typeof newTour.duration !== 'undefined') ? newTour.duration : '';
-    var userName = (typeof newTour.userName !== 'undefined') ? newTour.userName : '';
-    var cityName = (typeof newTour.cityName !== 'undefined') ? newTour.cityName : '';
-    var state = (typeof newTour.state !== 'undefined') ? newTour.state : '';
-    var country = (typeof newTour.country !== 'undefined') ? newTour.country : '';
     
     return (
       <View style={styles.container}>
         
-        <Text style={ styles.description }>Tour Name: { tourName }</Text>
-        <Text style={ styles.description }>Category : { category }</Text>
-        <Text style={ styles.description }>Duration: { duration }</Text>
-        <Text style={ styles.description }>City Name: { cityName }   State: { state }   Country: { country }</Text> 
+        <Text style={ styles.description }>Tour Name: { this.state.tour.tourName }</Text>
+        <Text style={ styles.description }>Category : { this.state.tour.category }</Text>
+        <Text style={ styles.description }>Duration: { this.state.tour.duration }</Text>
+        <Text style={ styles.description }>City Name: { this.state.tour.cityName }   State: { this.state.tour.state }   Country: { this.state.tour.country }</Text> 
         <Text style={ styles.description }>Places: </Text>
 
         <View style={ styles.panel }>

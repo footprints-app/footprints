@@ -44,13 +44,12 @@ class Login extends Component {
 
     utils.makeRequest('login', reqBody)
     .then((response) => {
-      // console.log('response body: ', response);
-      if( response.error ) {
-        if( response.error === 'Username does not exist' ) {
-          this.setState({ validUsername: false, username: '', password: '' });
-        } else if( response.error === 'Username and password do not match' ) {
-          this.setState({ validPassword: false, username: '', password: '' });
-        }
+      console.log('response body from login: ', response);
+      if(response.error) {
+        if(response.error === 'Username does not exist') {
+          this.setState({validUsername: false, username: '', password: ''});
+        } else if(response.error === 'Username and password do not match') {
+          this.setState({validPassword: false, username: '', password: ''});        }
       } else {
         var user = response;
         utils.navigateTo.call(this, "Welcome", Main, {user});

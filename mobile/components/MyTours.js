@@ -93,6 +93,7 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userId: this.props.userId,
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -100,29 +101,43 @@ class MyTours extends Component {
     };
   }
 
-  // fetchData() {
-  //   fetch(REQUEST_URL)
-  //   .then((response) => response.json())
-  //   .then((responseData) => {
-  //     this.setState({
-  //       dataSource: this.state.dataSource.cloneWithRows(responseData.items),
-  //       isLoading: false
-  //     });
-  //   })
-  //   .done();
-  // }
-
   /**
    * ComponentDidMount function is called as soon as the render method is executed.
    * It fetches data from the database and sets the state with the fetched data.
    */
 
   componentDidMount () {
-    var tours = FAKE_MY_TOUR_DATA;
-    this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(tours)
-    });
-    //this.fetchData();
+    /* Use this code for fake front end data */
+    // var tours = FAKE_MY_TOUR_DATA;
+    // this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(tours)
+    // });
+
+    /* Use this code to make actual API request to fetch data from database */
+    this.fetchData();
+  }
+
+  /**
+   * Makes GET request to server for tours from a specific user and sets the places array from DB to the state.
+   *
+   */
+  fetchData() {
+    console.log('userId in MyTours: ', this.state.userId);
+    utils.makeRequest('myTours', {}, this.state.userId)
+    .then((response) => {
+      console.log('response body from MyTours: ', response);
+      var tours = response;
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(tours),
+        isLoading: false
+      });
+    })
+    .done();
+  }
+
+  createTour() {
+    var userId = this.state.userId;
+    utils.navigateTo.call(this, "Create Tour", CreateTour, {userId});
   }
 
   renderLoadingView () {
@@ -165,7 +180,7 @@ class MyTours extends Component {
           style={ styles.listView }/>
       
         <TouchableHighlight 
-          onPress={ utils.navigateTo.bind(this, "Create Tour", CreateTour, {}) } 
+          onPress={ this.createTour.bind(this) } 
           style={ styles.touchable } underlayColor="#FF3366">  
           <View style={ styles.createTour }>
             <Text style={ styles.whiteFont }>Create Tour</Text>
