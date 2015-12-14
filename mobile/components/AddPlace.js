@@ -33,7 +33,7 @@ class AddPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tour: this.props.tour
+      tourId: this.props.tourId
     };
   }
 
@@ -44,16 +44,20 @@ class AddPlace extends Component {
     /**
      * getValue() gets the values of the form.
      */
+    var tourId = this.state.tourId;
     var newPlace = this.refs.form.getValue();
-    console.log('new place added: ', newPlace);
-    var tour = this.state.tour;
-    var tourId = this.state.tour.id;
+    var reqBody = {
+      placeName: newPlace.placeName,
+      address: newPlace.address,
+      description: newPlace.description,
+      placeOrder: newPlace.placeOrder,
+      tourId: tourId
+    };
 
-    utils.makeRequest('addPlace', newPlace, tourId)
+    utils.makeRequest('addPlace', reqBody)
       .then(response => {
-        console.log('response body in Add Place: '. response);
-        var tour = response;
-        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tour});
+        console.log('response body in Add Place: ', response);
+        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tourId});
       });
   }
 

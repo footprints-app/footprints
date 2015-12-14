@@ -42,9 +42,6 @@ class CreateTour extends Component {
 
   viewTour (newTour) {
     var reqBody = this.state;
-
-    console.log('reqBody from CreateTour: ', reqBody);
-
     utils.makeRequest('createTour', reqBody)
       .then(response => {
         console.log('response body in Create Tour: ', response);
