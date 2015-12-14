@@ -105,7 +105,7 @@ module.exports = {
 	 * @param {function} callback - a callback which will take the arguments err and results from the database query
 	 */
 	queryPlaces: function(tourId, callback) {
-		var placesQuery = "SELECT * from places WHERE tourId = ?"
+		var placesQuery = "SELECT * from places WHERE tourId = ? ORDER BY placeOrder"
 
 		db.query(placesQuery, tourId, function (err, results) {
 			if (err) {
