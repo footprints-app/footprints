@@ -43,7 +43,7 @@ describe('/tours functionality', function(done) {
 				[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
 				[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 1]]
 		var cities = [["San Francisco", "CA", "USA"], ["Cupertino", "CA", "USA"]];
-		var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
+		var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 2], ["Saigon Sandwiches", 1, "598 Larkin St.", "Yum!", 1], ["Civic Center", 1, "456 Hayes St.", "Nice grass lawn", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
 		
 		var toursQuery = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
 		var citiesQuery = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
@@ -70,6 +70,9 @@ describe('/tours functionality', function(done) {
 		.then(tableQueryAsync(citiesQuery, cities[1], "cities"))
 		.then(tableQueryAsync(placesQuery, places[0], "places"))
 		.then(tableQueryAsync(placesQuery, places[1], "places"))
+		.then(tableQueryAsync(placesQuery, places[2], "places"))
+		.then(tableQueryAsync(placesQuery, places[3], "places"))
+
 		.then(function() {
             done();
 		});
@@ -119,6 +122,19 @@ describe('/tours functionality', function(done) {
 					expect(res.body.tourName).to.be.a('string');
 					expect(res.body).to.have.property('description');
 					expect(res.body.category).to.not.equal(null);
+					done();
+				});
+		});
+
+		it('should have an array of places sorted by placeOrder', function(done) {
+			var paramId = 1;
+			request(url)
+				.get('/tours/' + paramId)
+				.expect(200)
+				.end(function(err, res) {
+					expect(res.body.places[0].placeOrder).to.equal(0);
+					expect(res.body.places[1].placeOrder).to.equal(1);
+					expect(res.body.places[2].placeOrder).to.equal(2);
 					done();
 				});
 		});
