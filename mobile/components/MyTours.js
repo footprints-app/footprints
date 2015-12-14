@@ -93,8 +93,7 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user,
-      userId: this.props.user.id,
+      userId: this.props.userId,
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -123,6 +122,7 @@ class MyTours extends Component {
    *
    */
   fetchData() {
+    console.log('userId in MyTours: ', this.state.userId);
     utils.makeRequest('myTours', {}, this.state.userId)
     .then((response) => {
       console.log('response body from MyTours: ', response);
@@ -133,6 +133,11 @@ class MyTours extends Component {
       });
     })
     .done();
+  }
+
+  createTour() {
+    var userId = this.state.userId;
+    utils.navigateTo.call(this, "Create Tour", CreateTour, {userId});
   }
 
   renderLoadingView () {
@@ -175,7 +180,7 @@ class MyTours extends Component {
           style={ styles.listView }/>
       
         <TouchableHighlight 
-          onPress={ utils.navigateTo.bind(this, "Create Tour", CreateTour, {}) } 
+          onPress={ this.createTour.bind(this) } 
           style={ styles.touchable } underlayColor="#FF3366">  
           <View style={ styles.createTour }>
             <Text style={ styles.whiteFont }>Create Tour</Text>
