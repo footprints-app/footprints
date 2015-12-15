@@ -14,8 +14,8 @@ module.exports = function (app) {
 	app.post('/addplace', tourController.addPlace);
 
   app.put('/edit/:id', tourController.updateTour);
-  // app.put('/editPlace'. tourController.editPlace);
+  app.put('/editplace/:id', tourController.updatePlace);
 
   app.delete('/delete/:id', tourController.deleteTour);
-  // app.delete('/deleteplace', tourController.deletePlace);
+  app.delete('/deleteplace/:id', tourController.deletePlace);
 };

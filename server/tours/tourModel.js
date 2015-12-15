@@ -176,5 +176,39 @@ module.exports = {
         });
       }
 	  });
-	}
+	},
+  /**
+   * Updates a specific place in the places table.
+   * If successful, gives a callback the placeId.
+   *
+   * @param {string} params - an array containing the placeName, address, description, placeOrder, tourId, placeId
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+  updatePlace: function(params, callback) {
+    var updatePlaceQuery = "UPDATE places SET placeName = ?, address = ?, description = ?, placeOrder = ?, tourId = ? WHERE id = ?";
+    db.query(updatePlaceQuery, params, function (err, results) {
+      if(err) {
+        callback(err);
+      } else {
+        callback(err, results);
+      }
+    });
+  },
+  /**
+   * Deletes place with given id from the table.
+   * If successful, gives a callback with the query result.
+   *
+   * @param {int} placeId - placeId of tour to be deleted
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+  deletePlace: function(placeId, callback) {
+    var deleteQuery = "DELETE FROM places WHERE id = ?";
+    db.query(deleteQuery, placeId, function (err, results) {
+      if (err) {
+        callback(err);
+      } else {
+        callback(err, results);
+      }
+    });
+  }
 };

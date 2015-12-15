@@ -294,6 +294,7 @@ describe('/tours functionality', function(done) {
 				});
 		});
 	});
+
 	describe('deleteTour functionality', function() {
 
 		it('should delete the tour entry from the database', function(done){
@@ -306,6 +307,62 @@ describe('/tours functionality', function(done) {
 					expect(res.status).to.equal(201);
 					var tourQuery = "SELECT * FROM tours WHERE id = 1";
 					dbConnection.query(tourQuery, function(err, results) {
+						if(err) {
+							console.log(error);
+						} else {
+							expect(results.length).to.equal(0);
+							done();							
+						}
+					});
+				});
+		});
+	});
+	describe('updatePlace functionality', function() {
+		var placeInfo = { placeName: "Hack Reactor",
+											address: "944 Market St.",
+											description: "School for coding all-stars!",
+											placeOrder: 3,
+											tourId: 2,
+											placeOrder: 2 
+										};
+		
+
+		it('should update the place entry in database', function(done){
+			request(url)
+				.put('/tours/editplace/1')//placeId = 1
+				.send(placeInfo)
+				.expect('Content-Type', /json/)
+				.expect(201)
+				.end(function(err, res) {
+					expect(err).to.equal(null);
+					expect(res.status).to.equal(201);
+					var placeQuery = "SELECT * FROM places WHERE id = 1";
+					dbConnection.query(placeQuery, function(err, results) {
+						if(err) {
+							console.log(error);
+						} else {
+							var place = results[0];
+							expect(place.address).to.equal("944 Market St.");
+							expect(place.description).to.equal("School for coding all-stars!");
+							done();							
+						}
+					});
+				});
+		});
+	});
+
+	describe('deletePlace functionality', function() {
+
+		it('should delete the place entry in database', function(done){
+			request(url)
+				.delete('/tours/deleteplace/1')//placeId = 1
+				.expect('Content-Type', /json/)
+				.expect(201)
+				.end(function(err, res) {
+					expect(err).to.equal(null);
+					expect(res.status).to.equal(201);
+					var placeQuery = "SELECT * FROM places WHERE id = 1";
+					dbConnection.query(placeQuery, function(err, results) {
 						if(err) {
 							console.log(error);
 						} else {

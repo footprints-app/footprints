@@ -146,10 +146,8 @@ module.exports = {
 		var tourId = req.params.id;
 		tours.deleteTour(tourId, function (err, results) {
 			if(err) {
-				console.log('error: ', err);
 				res.status(404).json({error: err});
 			} else {
-				console.log('results from deleteTour: ', results);
 				res.status(201).json(results);
 			}
 		});
@@ -171,5 +169,39 @@ module.exports = {
          res.status(201).json({id: results})
 			}
 		});
-	}
+	},
+		/** Receives updated place information from client and updates the place in the database
+	 * Updates place in database through updatePlace method
+	 *
+	 * @method updatePlace
+	 * @param req {object} Request object that includes updated place data
+	 * @param res {object} Response status
+	 */
+	updatePlace: function(req, res) {
+		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId, req.params.id];
+		tours.updatePlace(params, function(err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				res.status(201).json(results);
+			}
+		});
+	},
+	/** Receives placeId of place to be deleted from client and deletes the place in the database
+	 * Deletes place in database through deletePlace method
+	 *
+	 * @method deletePlace
+	 * @param req {object} includes params property which is the placeId
+	 * @param res {object} Response status
+	 */
+	deletePlace: function(req, res) {
+		var placeId = req.params.id;
+		tours.deletePlace(placeId, function (err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				res.status(201).json(results);
+			}
+		});
+	},
 }
