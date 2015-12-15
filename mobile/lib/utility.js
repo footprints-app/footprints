@@ -11,7 +11,8 @@ var requests = {
     myTours: {reqMethod: 'GET', endPoint: '/tours/mytours/'},
     tour: {reqMethod: 'GET', endPoint: '/tours/'},
     createTour: {reqMethod: 'POST', endPoint: '/tours/createtour'},
-    addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'}
+    addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'},
+    editTour: {reqMethod: 'PUT', endPoint: '/tours/edit/'}
   }; 
 
 var Utility = {

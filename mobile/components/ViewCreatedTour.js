@@ -61,6 +61,18 @@ class ViewCreatedTour extends Component {
     console.log("Edit Mode: ", this.state.editMode);
   }
 
+  editDone() {
+    var MyTours = require('./MyTours');
+    var reqBody = this.state.tour;
+    console.log('reqBody from editDone button: ', reqBody);
+    var reqParam = this.state.tourId;
+    utils.makeRequest('editTour', reqBody, reqParam)
+      .then(response => {
+        console.log('Response body from Edit Tour: ', response);
+        this.setState({editMode: false});
+      })
+  }
+
   fetchData() {
     utils.makeRequest('tour', {}, this.state.tourId)
     .then((response) => {
@@ -102,7 +114,7 @@ class ViewCreatedTour extends Component {
           
             <View style={ styles.inputContainer }>
               <TextInput
-                style={ [styles.input, styles.whiteFont] }
+                style={ [styles.input] }
                 placeholder={ this.state.tour.tourName }
                 placeholderTextColor="black"
                 value={ this.state.tourName }
@@ -111,7 +123,7 @@ class ViewCreatedTour extends Component {
            
             <View style={ styles.inputContainer }>
               <TextInput
-                style={ [styles.input, styles.whiteFont] }
+                style={ [styles.input] }
                 placeholder={ this.state.tour.category }
                 placeholderTextColor="black"
                 value={ this.state.category }
@@ -120,7 +132,7 @@ class ViewCreatedTour extends Component {
             
             <View style={ styles.inputContainer }>
               <TextInput
-                style={ [styles.input, styles.whiteFont] }
+                style={ [styles.input] }
                 placeholder={ this.state.tour.description }
                 placeholderTextColor="black"
                 value={this.state.description}
@@ -129,7 +141,7 @@ class ViewCreatedTour extends Component {
             
             <View style={ styles.inputContainer }>
               <TextInput
-                style={ [styles.input, styles.whiteFont] }
+                style={ [styles.input] }
                 placeholder={ this.state.tour.duration }
                 placeholderTextColor="black"
                 value={ this.state.duration }
@@ -138,7 +150,7 @@ class ViewCreatedTour extends Component {
 
             <View style={ styles.inputContainer }>
               <TextInput
-                style={ [styles.input, styles.whiteFont] }
+                style={ [styles.input] }
                 placeholder={ this.state.tour.cityName }
                 placeholderTextColor="black"
                 value={ this.state.cityName }
@@ -147,7 +159,7 @@ class ViewCreatedTour extends Component {
 
             <View style={ styles.inputContainer }>
               <TextInput
-                style={ [styles.input, styles.whiteFont] }
+                style={ [styles.input] }
                 placeholder={ this.state.tour.state }
                 placeholderTextColor="black"
                 value={ this.state.state }
@@ -156,7 +168,7 @@ class ViewCreatedTour extends Component {
 
             <View style={ styles.inputContainer }>
               <TextInput
-                style={ [styles.input, styles.whiteFont] }
+                style={ [styles.input] }
                 placeholder={ this.state.tour.country }
                 placeholderTextColor="black"
                 value={ this.state.country }
@@ -181,7 +193,7 @@ class ViewCreatedTour extends Component {
           </TouchableHighlight>
 
           <TouchableHighlight 
-            onPress={ this.onPressDone.bind(this) } 
+            onPress={ this.editDone.bind(this) } 
             style={ styles.touchable } underlayColor="white">
             <View style={ styles.doneBtn }>
               <Text style={ styles.whiteFont }>Done</Text>
