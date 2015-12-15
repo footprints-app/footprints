@@ -32,6 +32,8 @@
    */
 
   jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+  //Url with computer IP address:
+  //jsCodeLocation = [NSURL URLWithString:@"http://10.6.32.174:8081/index.ios.bundle?platform=ios&dev=true"];
 
   /**
    * OPTION 2
