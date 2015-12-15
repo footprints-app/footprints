@@ -261,4 +261,39 @@ describe('/tours functionality', function(done) {
 				});
 		});
 	});
+
+	describe('updateTour functionality', function() {
+		var tourInfo = { tourName: "By the water",
+										userId: 1,
+										description: "New Description",
+										category: "Leisure",
+										duration: 2,
+										cityName: "San Francisco",
+										state: "CA",
+										country: "USA" };
+
+		it('should update the tour entry in database', function(done){
+			request(url)
+				.put('/tours/edit/1')//tourId = 1
+				.send(tourInfo)
+				.expect('Content-Type', /json/)
+				.expect(201)
+				.end(function(err, res) {
+					expect(err).to.equal(null);
+					expect(res.status).to.equal(201);
+					var tourQuery = "SELECT * FROM tours WHERE id = 1";
+					dbConnection.query(tourQuery, function(err, results) {
+						if(err) {
+							console.log(error);
+						} else {
+							var tour = results[0];
+							expect(tour.description).to.equal("New Description");
+							done();							
+						}
+					});
+					// done();
+				});
+		});
+
+	});
 });

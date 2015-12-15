@@ -123,13 +123,16 @@ module.exports = {
 				res.status(404).json({error: err});
 			} else {
 				tourParams.push(results);//Get city id from results
-				tourParams.push(req.params);//add tourId as last parameter
+				console.log('city id: ', results);
+				console.log('req params in updateTour: ', req.params);
+				tourParams.push(Number(req.params.id));//add tourId as last parameter
 				tours.updateTour(tourParams, function(err, results) {
 					if(err) {
+						console.log('error: ', err);
 						res.status(404).json({error: err});
 					} else {
 						console.log('results from updating Tour: ', results);
-						res.status(201).json({id: results});//id refers to the tourId
+						res.status(201).json({id: results.updateId});//id refers to the tourId
 					}
 				});
 			}
