@@ -170,12 +170,11 @@ module.exports = {
 			}
 		});
 	},
-		/** Receives updated tour information from client and updates the tour in the database
-	 * Gets cityId from addOrGetCity method
-	 * Updates tour in database through updateTour method
+		/** Receives updated place information from client and updates the place in the database
+	 * Updates place in database through updatePlace method
 	 *
-	 * @method updateTour
-	 * @param req {object} Request object that includes updated tour data
+	 * @method updatePlace
+	 * @param req {object} Request object that includes updated place data
 	 * @param res {object} Response status
 	 */
 	updatePlace: function(req, res) {
@@ -187,5 +186,22 @@ module.exports = {
 				res.status(201).json(results);
 			}
 		});
-	}
+	},
+	/** Receives placeId of place to be deleted from client and deletes the place in the database
+	 * Deletes place in database through deletePlace method
+	 *
+	 * @method deletePlace
+	 * @param req {object} includes params property which is the placeId
+	 * @param res {object} Response status
+	 */
+	deletePlace: function(req, res) {
+		var placeId = req.params.id;
+		tours.deletePlace(placeId, function (err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				res.status(201).json(results);
+			}
+		});
+	},
 }
