@@ -12,4 +12,10 @@ module.exports = function (app) {
 
 	app.post('/createtour', tourController.createTour);
 	app.post('/addplace', tourController.addPlace);
+
+  app.put('/edit', tourController.updateTour);
+  // app.put('/editPlace'. tourController.editPlace);
+
+  // app.delete('/delete', tourController.deleteTour);
+  // app.delete('/deleteplace', tourController.deletePlace);
 };

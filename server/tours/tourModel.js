@@ -99,6 +99,26 @@ module.exports = {
 			}
 		});
 	},
+
+	/**
+   * Updates a specific tour in the tours table.
+   * If successful, gives a callback the tourId.
+   *
+   * @param {string} params - an array containing the tourName, userId, description, category, duration, cityId, tourId
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+	updateTour: function(params, callback) {
+		var updateTourQuery = "UPDATE tours SET tourName = ?, userId = ?, description = ?, category = ?, duration = ? \
+										cityId = ? WHERE tourId = ?";
+		db.query(updateTourQuery, params, function (err, results) {
+			if(err) {
+				callback(err);
+			} else {
+				callback(err, results);
+			}
+		})
+
+	},
 	/** Queries the places table for all places with the matching tourId
 	 * @method queryPlaces
 	 * @param {number} tourId - a number that represents the tour id

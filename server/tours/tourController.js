@@ -106,6 +106,35 @@ module.exports = {
 			}
 		});
 	},
+	/** Receives updated tour information from client and updates the tour in the database
+	 * Gets cityId from addOrGetCity method
+	 * Updates new tour to database through updateTour method
+	 *
+	 * @method updateTour
+	 * @param req {object} Request object that includes updated tour data
+	 * @param res {object} Response status
+	 */
+	updateTour: function(req, res) {
+		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
+		var cityParams = [req.body.cityName, req.body.state, req.body.country];
+
+		tours.addOrGetCity(cityParams, function(err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				tourParams.push(results);//Get city id from results
+				tourParams.push(req.params);//add tourId as last parameter
+				tours.updateTour(tourParams, function(err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						console.log('results from updating Tour: ', results);
+						res.status(201).json({id: results});//id refers to the tourId
+					}
+				});
+			}
+		});
+	},
 	/** Receives new place information from client and posts place to database
 	 * Inserts new place to database through insertPlace method
 	 *
