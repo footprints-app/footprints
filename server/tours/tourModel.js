@@ -176,7 +176,7 @@ module.exports = {
         });
       }
 	  });
-	}
+	},
   /**
    * Updates a specific place in the places table.
    * If successful, gives a callback the placeId.

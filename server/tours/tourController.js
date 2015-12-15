@@ -146,10 +146,8 @@ module.exports = {
 		var tourId = req.params.id;
 		tours.deleteTour(tourId, function (err, results) {
 			if(err) {
-				console.log('error: ', err);
 				res.status(404).json({error: err});
 			} else {
-				console.log('results from deleteTour: ', results);
 				res.status(201).json(results);
 			}
 		});
@@ -181,7 +179,7 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	updatePlace: function(req, res) {
-		var params = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration, req.params.id];
+		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId, req.params.id];
 		tours.updatePlace(params, function(err, results) {
 			if(err) {
 				res.status(404).json({error: err});
