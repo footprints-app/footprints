@@ -41,5 +41,6 @@ CREATE TABLE users (
   lastName varchar(200),
   password varchar(200),
   image varchar(200),
+  salt varchar(200),
   PRIMARY KEY (ID)
 );

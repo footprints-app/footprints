@@ -4,6 +4,7 @@
   "main": "server.js",
   "dependencies": {
     "aws-sdk": "^2.2.21",
+    "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.0.6",
     "body-parser": "^1.14.1",
     "chai": "^3.4.1",
@@ -12,6 +13,7 @@
     "mocha": "^2.3.4",
     "morgan": "^1.6.1",
     "mysql": "^2.9.0",
+    "q": "^1.4.1",
     "request": "^2.67.0",
     "require": "^2.4.20",
     "supertest": "^1.1.0"

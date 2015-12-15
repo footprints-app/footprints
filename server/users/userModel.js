@@ -4,6 +4,9 @@
  */
 
 var db = require('../db');
+var bcrypt = require('bcrypt-nodejs');
+var Q = require('q');
+var SALT_WORK_FACTOR = 10;
 
 module.exports = {
   /**
@@ -38,7 +41,37 @@ module.exports = {
       if(err) {
         callback(err);
       } else {
-        console.log("signup successful: ", results)
+        // console.log("insertid......: ", results.insertId)
+        var userQuery = "SELECT * from users WHERE id = ?";
+          
+        db.query(userQuery, results.insertId, function(err, info) {
+          if (err) {
+            console.log(err);
+          }
+          //generate a salt
+          bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+            if (err) {
+              console.log(err);
+            }
+            // hash the password along with our new salt
+            bcrypt.hash(info[0].password, salt, null, function (err, hash) {
+              if (err) {
+                console.log(err);
+              }
+              // override the cleartext password with the hashed one
+              var userUpdateQuery = 'UPDATE users SET password=' + 
+                                    "'" + hash + "'" + ', salt=' + 
+                                    "'" +salt + "'" + ' WHERE Id = ?';
+              db.query(userUpdateQuery, results.insertId, function(err, updatedUserInfo) {
+                if (err) {
+                  console.log(err);
+                }
+                // console.log('updatedUserInfo......', updatedUserInfo);
+              });
+            });
+          });
+        });
+        // console.log("signup successful: ", results)
         callback(err, results[0]);        
       }
     });
@@ -59,6 +92,19 @@ module.exports = {
         callback(err, results[0]);
       }
     })
+  },
+
+  comparePasswords: function (savedPassword, candidatePassword) {
+    var defer = Q.defer();
+    // var savedPassword = this.password;
+    bcrypt.compare(savedPassword, candidatePassword, function (err, isMatch) {
+      if (err) {
+        defer.reject(err);
+      } else {
+        defer.resolve(isMatch);
+      }
+    });
+    return defer.promise;
   },
 
   /**
