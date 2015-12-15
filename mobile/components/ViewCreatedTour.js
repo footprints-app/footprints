@@ -25,7 +25,7 @@ class ViewCreatedTour extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tourId: this.props.tourId,
+      tourId: this.props.tourId || this.props.tour.id,
       tour: {},
       isLoading: true,
       dataSource: new ListView.DataSource({
