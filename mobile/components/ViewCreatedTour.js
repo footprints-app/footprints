@@ -103,7 +103,7 @@ class ViewCreatedTour extends Component {
             <View style={ styles.inputContainer }>
               <TextInput
                 style={ [styles.input, styles.whiteFont] }
-                placeholder="Tour Name"
+                placeholder={ this.state.tour.tourName }
                 placeholderTextColor="black"
                 value={ this.state.tourName }
                 onChange={ utils.tourNameInput.bind(this) }/>
@@ -112,7 +112,7 @@ class ViewCreatedTour extends Component {
             <View style={ styles.inputContainer }>
               <TextInput
                 style={ [styles.input, styles.whiteFont] }
-                placeholder="Category"
+                placeholder={ this.state.tour.category }
                 placeholderTextColor="black"
                 value={ this.state.category }
                 onChange={ utils.categoryInput.bind(this) }/>
@@ -121,7 +121,7 @@ class ViewCreatedTour extends Component {
             <View style={ styles.inputContainer }>
               <TextInput
                 style={ [styles.input, styles.whiteFont] }
-                placeholder="Description"
+                placeholder={ this.state.tour.description }
                 placeholderTextColor="black"
                 value={this.state.description}
                 onChange={ utils.descriptionInput.bind(this) }/>
@@ -130,7 +130,7 @@ class ViewCreatedTour extends Component {
             <View style={ styles.inputContainer }>
               <TextInput
                 style={ [styles.input, styles.whiteFont] }
-                placeholder="Duration"
+                placeholder={ this.state.tour.duration }
                 placeholderTextColor="black"
                 value={ this.state.duration }
                 onChange={ utils.durationInput.bind(this) }/>
@@ -139,7 +139,7 @@ class ViewCreatedTour extends Component {
             <View style={ styles.inputContainer }>
               <TextInput
                 style={ [styles.input, styles.whiteFont] }
-                placeholder="City"
+                placeholder={ this.state.tour.cityName }
                 placeholderTextColor="black"
                 value={ this.state.cityName }
                 onChange={ utils.cityNameInput.bind(this) }/>
@@ -148,7 +148,7 @@ class ViewCreatedTour extends Component {
             <View style={ styles.inputContainer }>
               <TextInput
                 style={ [styles.input, styles.whiteFont] }
-                placeholder="State"
+                placeholder={ this.state.tour.state }
                 placeholderTextColor="black"
                 value={ this.state.state }
                 onChange={ utils.stateInput.bind(this) }/>
@@ -157,7 +157,7 @@ class ViewCreatedTour extends Component {
             <View style={ styles.inputContainer }>
               <TextInput
                 style={ [styles.input, styles.whiteFont] }
-                placeholder="Country"
+                placeholder={ this.state.tour.country }
                 placeholderTextColor="black"
                 value={ this.state.country }
                 onChange={ utils.countryInput.bind(this) }/>
