@@ -291,9 +291,29 @@ describe('/tours functionality', function(done) {
 							done();							
 						}
 					});
-					// done();
 				});
 		});
+	});
+	describe('deleteTour functionality', function() {
 
+		it('should delete the tour entry from the database', function(done){
+			request(url)
+				.delete('/tours/delete/1')//tourId = 1
+				.expect('Content-Type', /json/)
+				.expect(201)
+				.end(function(err, res) {
+					expect(err).to.equal(null);
+					expect(res.status).to.equal(201);
+					var tourQuery = "SELECT * FROM tours WHERE id = 1";
+					dbConnection.query(tourQuery, function(err, results) {
+						if(err) {
+							console.log(error);
+						} else {
+							expect(results.length).to.equal(0);
+							done();							
+						}
+					});
+				});
+		});
 	});
 });

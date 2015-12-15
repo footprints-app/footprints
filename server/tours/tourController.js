@@ -108,7 +108,7 @@ module.exports = {
 	},
 	/** Receives updated tour information from client and updates the tour in the database
 	 * Gets cityId from addOrGetCity method
-	 * Updates new tour to database through updateTour method
+	 * Updates tour in database through updateTour method
 	 *
 	 * @method updateTour
 	 * @param req {object} Request object that includes updated tour data
@@ -123,18 +123,34 @@ module.exports = {
 				res.status(404).json({error: err});
 			} else {
 				tourParams.push(results);//Get city id from results
-				console.log('city id: ', results);
-				console.log('req params in updateTour: ', req.params);
-				tourParams.push(Number(req.params.id));//add tourId as last parameter
+				tourParams.push(Number(req.params.id)); //add tourId as last parameter
 				tours.updateTour(tourParams, function(err, results) {
 					if(err) {
-						console.log('error: ', err);
 						res.status(404).json({error: err});
 					} else {
-						console.log('results from updating Tour: ', results);
-						res.status(201).json({id: results.updateId});//id refers to the tourId
+						res.status(201).json(results);
 					}
 				});
+			}
+		});
+	},
+
+	/** Receives tourId of tour to be deleted from client and deletes the tour in the database
+	 * Deletes tour in database through deleteTour method
+	 *
+	 * @method deleteTour
+	 * @param req {object} includes params property which is the tourId
+	 * @param res {object} Response status
+	 */
+	deleteTour: function(req, res) {
+		var tourId = req.params.id;
+		tours.deleteTour(tourId, function (err, results) {
+			if(err) {
+				console.log('error: ', err);
+				res.status(404).json({error: err});
+			} else {
+				console.log('results from deleteTour: ', results);
+				res.status(201).json(results);
 			}
 		});
 	},

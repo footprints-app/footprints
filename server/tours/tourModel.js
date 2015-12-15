@@ -118,6 +118,23 @@ module.exports = {
 		})
 
 	},
+	 /**
+   * Deletes tour with given id from the table.
+   * If successful, gives a callback with the query result.
+   *
+   * @param {int} tourId - tourId of tour to be deleted
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+	deleteTour: function(tourId, callback) {
+		var deleteQuery = "DELETE FROM tours WHERE id = ?";
+		db.query(deleteQuery, tourId, function (err, results) {
+			if (err) {
+				callback(err);
+			} else {
+				callback(err, results);
+			}
+		});
+	},
 	/** Queries the places table for all places with the matching tourId
 	 * @method queryPlaces
 	 * @param {number} tourId - a number that represents the tour id
