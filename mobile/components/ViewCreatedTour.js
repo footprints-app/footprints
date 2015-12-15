@@ -57,6 +57,7 @@ class ViewCreatedTour extends Component {
   toggleEdit () {
     this.state.editMode = !this.state.editMode;
     console.log(this.state.editMode);
+    this.render();
   }
 
   fetchData() {
@@ -89,49 +90,62 @@ class ViewCreatedTour extends Component {
   }
 
   render () {
+    console.log('render function is called');
     
-    return (
-      <View style={styles.container}>
+    if(this.state.editMode) {
+      console.log("editmode is true", this.state.editMode);
+      return (
+        <View style={styles.container}>
         
-        <Text style={ styles.description }>Tour Name: { this.state.tour.tourName }</Text>
-        <Text style={ styles.description }>Category : { this.state.tour.category }</Text>
-        <Text style={ styles.description }>Duration: { this.state.tour.duration }</Text>
-        <Text style={ styles.description }>City Name: { this.state.tour.cityName }   State: { this.state.tour.state }   Country: { this.state.tour.country }</Text> 
-        <Text style={ styles.description }>Places: </Text>
-
-        <View style={ styles.panel }>
-          <ListView
-            dataSource={ this.state.dataSource }
-            renderRow={ this.renderPlace.bind(this) }
-            style={ styles.listView }/>
-        </View>
-
-        <TouchableHighlight
-          onPress={ this.toggleEdit.bind(this) }
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.editBtn }>
-            <Text style={ styles.whiteFont }>Edit Tour</Text>
-          </View>  
-        </TouchableHighlight>
-
-        <TouchableHighlight 
-          onPress={ this.addPlace.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.addPlaceBtn }>
-            <Text style={ styles.whiteFont }>Add Place</Text>
-          </View>  
-        </TouchableHighlight>
-
-        <TouchableHighlight 
-          onPress={ this.onPressDone.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.doneBtn }>
-            <Text style={ styles.whiteFont }>Done</Text>
-          </View>  
-        </TouchableHighlight>
       
       </View>
-    );
+      )
+    } else {
+
+      return (
+        <View style={styles.container}>
+          
+          <Text style={ styles.description }>Tour Name: { this.state.tour.tourName }</Text>
+          <Text style={ styles.description }>Category : { this.state.tour.category }</Text>
+          <Text style={ styles.description }>Duration: { this.state.tour.duration }</Text>
+          <Text style={ styles.description }>City Name: { this.state.tour.cityName }   State: { this.state.tour.state }   Country: { this.state.tour.country }</Text> 
+          <Text style={ styles.description }>Places: </Text>
+
+          <View style={ styles.panel }>
+            <ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderPlace.bind(this) }
+              style={ styles.listView }/>
+          </View>
+
+          <TouchableHighlight
+            onPress={ this.toggleEdit.bind(this) }
+            style={ styles.touchable } underlayColor="white">
+            <View style={ styles.editBtn }>
+              <Text style={ styles.whiteFont }>Edit Tour</Text>
+            </View>  
+          </TouchableHighlight>
+
+          <TouchableHighlight 
+            onPress={ this.addPlace.bind(this) } 
+            style={ styles.touchable } underlayColor="white">
+            <View style={ styles.addPlaceBtn }>
+              <Text style={ styles.whiteFont }>Add Place</Text>
+            </View>  
+          </TouchableHighlight>
+
+          <TouchableHighlight 
+            onPress={ this.onPressDone.bind(this) } 
+            style={ styles.touchable } underlayColor="white">
+            <View style={ styles.doneBtn }>
+              <Text style={ styles.whiteFont }>Done</Text>
+            </View>  
+          </TouchableHighlight>
+        
+        </View>
+      );
+
+    }
   }
 };
 
