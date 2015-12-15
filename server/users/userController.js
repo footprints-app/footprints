@@ -59,7 +59,6 @@ module.exports = {
       }
     });
   }
-
   //   users.checkUserPassword(params, function(err, results) {
   //     if(err) {
   //       console.error(err);

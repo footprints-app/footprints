@@ -5,7 +5,6 @@
 
 var db = require('../db');
 var bcrypt = require('bcrypt-nodejs');
-var Q = require('q');
 var SALT_WORK_FACTOR = 10;
 
 module.exports = {
@@ -34,8 +33,7 @@ module.exports = {
    * @param {array} params - an array containing the userName, firstName, lastName, and password
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
-  signup: function(params, callback) {
-    
+  signup: function(params, callback) { 
     //generate a salt
     bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
       if (err) {
@@ -63,7 +61,6 @@ module.exports = {
       });
     });
   },
-
   /**
    * Queries database for user information given a specific userName
    *
@@ -82,7 +79,6 @@ module.exports = {
   },
 
   comparePassword: function (params, callback) { 
-    var defer = Q.defer();
     var passwordQuery = "select * from users where userName = ?";
     db.query(passwordQuery, params[0], function(err, results) {
       if (results.length === 0) {
@@ -97,7 +93,6 @@ module.exports = {
         }
     });
   },
-
   /**
    * Queries database for a userName.
    * If the userName does not exist in the database, the callback will take a defined error.
