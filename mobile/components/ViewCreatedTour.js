@@ -30,7 +30,8 @@ class ViewCreatedTour extends Component {
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      }),
+      editMode: false
     };
   }
   /**
@@ -51,6 +52,11 @@ class ViewCreatedTour extends Component {
     var MyTours = require('./MyTours');
     var userId = this.state.tour.userId;
     utils.navigateTo.call(this, "My Tours", MyTours, {userId});
+  }
+
+  toggleEdit () {
+    this.state.editMode = !this.state.editMode;
+    console.log(this.state.editMode);
   }
 
   fetchData() {
@@ -99,6 +105,14 @@ class ViewCreatedTour extends Component {
             renderRow={ this.renderPlace.bind(this) }
             style={ styles.listView }/>
         </View>
+
+        <TouchableHighlight
+          onPress={ this.toggleEdit.bind(this) }
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.editBtn }>
+            <Text style={ styles.whiteFont }>Edit Tour</Text>
+          </View>  
+        </TouchableHighlight>
 
         <TouchableHighlight 
           onPress={ this.addPlace.bind(this) } 
@@ -163,6 +177,12 @@ var styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     marginBottom: 50,
+  },
+  editBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 25,
   },
   doneBtn: {
     backgroundColor: '#FF3366',
