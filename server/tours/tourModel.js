@@ -99,13 +99,49 @@ module.exports = {
 			}
 		});
 	},
+
+	/**
+   * Updates a specific tour in the tours table.
+   * If successful, gives a callback the tourId.
+   *
+   * @param {string} params - an array containing the tourName, userId, description, category, duration, cityId, tourId
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+	updateTour: function(params, callback) {
+		var updateTourQuery = "UPDATE tours SET tourName = ?, userId = ?, description = ?, category = ?, duration = ?, cityId = ? WHERE id = ?";
+		db.query(updateTourQuery, params, function (err, results) {
+			if(err) {
+				callback(err);
+			} else {
+				callback(err, results);
+			}
+		})
+
+	},
+	 /**
+   * Deletes tour with given id from the table.
+   * If successful, gives a callback with the query result.
+   *
+   * @param {int} tourId - tourId of tour to be deleted
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+	deleteTour: function(tourId, callback) {
+		var deleteQuery = "DELETE FROM tours WHERE id = ?";
+		db.query(deleteQuery, tourId, function (err, results) {
+			if (err) {
+				callback(err);
+			} else {
+				callback(err, results);
+			}
+		});
+	},
 	/** Queries the places table for all places with the matching tourId
 	 * @method queryPlaces
 	 * @param {number} tourId - a number that represents the tour id
 	 * @param {function} callback - a callback which will take the arguments err and results from the database query
 	 */
 	queryPlaces: function(tourId, callback) {
-		var placesQuery = "SELECT * from places WHERE tourId = ?"
+		var placesQuery = "SELECT * from places WHERE tourId = ? ORDER BY placeOrder"
 
 		db.query(placesQuery, tourId, function (err, results) {
 			if (err) {

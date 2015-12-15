@@ -106,6 +106,54 @@ module.exports = {
 			}
 		});
 	},
+	/** Receives updated tour information from client and updates the tour in the database
+	 * Gets cityId from addOrGetCity method
+	 * Updates tour in database through updateTour method
+	 *
+	 * @method updateTour
+	 * @param req {object} Request object that includes updated tour data
+	 * @param res {object} Response status
+	 */
+	updateTour: function(req, res) {
+		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
+		var cityParams = [req.body.cityName, req.body.state, req.body.country];
+
+		tours.addOrGetCity(cityParams, function(err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				tourParams.push(results);//Get city id from results
+				tourParams.push(Number(req.params.id)); //add tourId as last parameter
+				tours.updateTour(tourParams, function(err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json(results);
+					}
+				});
+			}
+		});
+	},
+
+	/** Receives tourId of tour to be deleted from client and deletes the tour in the database
+	 * Deletes tour in database through deleteTour method
+	 *
+	 * @method deleteTour
+	 * @param req {object} includes params property which is the tourId
+	 * @param res {object} Response status
+	 */
+	deleteTour: function(req, res) {
+		var tourId = req.params.id;
+		tours.deleteTour(tourId, function (err, results) {
+			if(err) {
+				console.log('error: ', err);
+				res.status(404).json({error: err});
+			} else {
+				console.log('results from deleteTour: ', results);
+				res.status(201).json(results);
+			}
+		});
+	},
 	/** Receives new place information from client and posts place to database
 	 * Inserts new place to database through insertPlace method
 	 *
