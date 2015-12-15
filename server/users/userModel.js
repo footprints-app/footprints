@@ -35,45 +35,32 @@ module.exports = {
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
   signup: function(params, callback) {
-    var queryStr = "insert into users(userName, firstName, lastName, password) \
-                    value (?, ?, ?, ?)";
-    db.query(queryStr, params, function(err, results) {
-      if(err) {
-        callback(err);
-      } else {
-        // console.log("insertid......: ", results.insertId)
-        var userQuery = "SELECT * from users WHERE id = ?";
-          
-        db.query(userQuery, results.insertId, function(err, info) {
-          if (err) {
-            console.log(err);
-          }
-          //generate a salt
-          bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
-            if (err) {
-              console.log(err);
-            }
-            // hash the password along with our new salt
-            bcrypt.hash(info[0].password, salt, null, function (err, hash) {
-              if (err) {
-                console.log(err);
-              }
-              // override the cleartext password with the hashed one
-              var userUpdateQuery = 'UPDATE users SET password=' + 
-                                    "'" + hash + "'" + ', salt=' + 
-                                    "'" +salt + "'" + ' WHERE Id = ?';
-              db.query(userUpdateQuery, results.insertId, function(err, updatedUserInfo) {
-                if (err) {
-                  console.log(err);
-                }
-                // console.log('updatedUserInfo......', updatedUserInfo);
-              });
-            });
-          });
-        });
-        // console.log("signup successful: ", results)
-        callback(err, results[0]);        
+    
+    //generate a salt
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+      if (err) {
+        console.log(err);
       }
+      // hash the password along with our new salt
+      bcrypt.hash(params[3], salt, null, function (err, hash) {
+        if (err) {
+          console.log(err);
+        }
+        // override the cleartext password with the hashed one
+        params[3] = hash;
+
+        var queryStr = "insert into users(userName, firstName, lastName, password) \
+                        value (?, ?, ?, ?)";
+
+        db.query(queryStr, params, function(err, results) {
+          if(err) {
+            callback(err);
+          } else {  
+            console.log("signup successful: ", results)
+            callback(err, results[0]);        
+          }
+        });
+      });
     });
   },
 
@@ -94,17 +81,21 @@ module.exports = {
     })
   },
 
-  comparePasswords: function (savedPassword, candidatePassword) {
+  comparePassword: function (params, callback) { 
     var defer = Q.defer();
-    // var savedPassword = this.password;
-    bcrypt.compare(savedPassword, candidatePassword, function (err, isMatch) {
-      if (err) {
-        defer.reject(err);
+    var passwordQuery = "select * from users where userName = ?";
+    db.query(passwordQuery, params[0], function(err, results) {
+      if (results.length === 0) {
+        callback('User does not exist!');
       } else {
-        defer.resolve(isMatch);
-      }
+          if (bcrypt.compareSync(params[1], results[0].password)) {
+            results[0].password = "";
+            callback(err, results[0]);
+          } else {
+            callback("Username and password do not match");
+          }
+        }
     });
-    return defer.promise;
   },
 
   /**

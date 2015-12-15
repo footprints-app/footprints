@@ -49,7 +49,7 @@ module.exports = {
    */
   login: function (req, res, next) {
     var params = [req.body.userName, req.body.password];
-    users.checkUserPassword(params, function(err, results) {
+    users.comparePassword(params, function(err, results) {
       if(err) {
         console.error(err);
         res.status(400).json({error: err});
@@ -59,5 +59,16 @@ module.exports = {
       }
     });
   }
+
+  //   users.checkUserPassword(params, function(err, results) {
+  //     if(err) {
+  //       console.error(err);
+  //       res.status(400).json({error: err});
+  //       next(err);
+  //     } else {
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // }
 
 };
