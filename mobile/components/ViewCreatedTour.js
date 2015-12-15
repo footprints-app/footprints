@@ -62,7 +62,6 @@ class ViewCreatedTour extends Component {
   }
 
   editDone() {
-    var MyTours = require('./MyTours');
     var reqBody = this.state.tour;
     console.log('reqBody from editDone button: ', reqBody);
     var reqParam = this.state.tourId;
@@ -102,151 +101,154 @@ class ViewCreatedTour extends Component {
     );
   }
 
-  render () {
-    console.log('View Created Tour is rendering...');
-    
+  renderEditMode() {
+    return (
+      <View style={styles.container}>
+        
+        <View style={ styles.inputs }>
+        
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.tourName }
+              placeholderTextColor="black"
+              value={ this.state.tourName }
+              onChange={ utils.tourNameInput.bind(this) }/>
+          </View>
+         
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.category }
+              placeholderTextColor="black"
+              value={ this.state.category }
+              onChange={ utils.categoryInput.bind(this) }/>
+          </View>
+          
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.description }
+              placeholderTextColor="black"
+              value={this.state.description}
+              onChange={ utils.descriptionInput.bind(this) }/>
+          </View>
+          
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.duration }
+              placeholderTextColor="black"
+              value={ this.state.duration }
+              onChange={ utils.durationInput.bind(this) }/>
+          </View>
+
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.cityName }
+              placeholderTextColor="black"
+              value={ this.state.cityName }
+              onChange={ utils.cityNameInput.bind(this) }/>
+          </View>
+
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.state }
+              placeholderTextColor="black"
+              value={ this.state.state }
+              onChange={ utils.stateInput.bind(this) }/>
+          </View>
+
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.country }
+              placeholderTextColor="black"
+              value={ this.state.country }
+              onChange={ utils.countryInput.bind(this) }/>
+          </View>
+
+        </View>
+
+        <View style={ styles.panel }>
+          <ListView
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderPlace.bind(this) }
+            style={ styles.listView }/>
+        </View>
+
+        <TouchableHighlight 
+          onPress={ this.addPlace.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.addPlaceBtn }>
+            <Text style={ styles.whiteFont }>Add Place</Text>
+          </View>  
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.editDone.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.doneBtn }>
+            <Text style={ styles.whiteFont }>Done</Text>
+          </View>  
+        </TouchableHighlight>
+      
+      </View>
+    )
+  }
+
+  renderViewMode() {
+    return (
+      <View style={styles.container}>
+        
+        <Text style={ styles.description }>Tour Name: { this.state.tour.tourName }</Text>
+        <Text style={ styles.description }>Category : { this.state.tour.category }</Text>
+        <Text style={ styles.description }>Duration: { this.state.tour.duration }</Text>
+        <Text style={ styles.description }>City Name: { this.state.tour.cityName }   State: { this.state.tour.state }   Country: { this.state.tour.country }</Text> 
+        <Text style={ styles.description }>Places: </Text>
+
+        <View style={ styles.panel }>
+          <ListView
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderPlace.bind(this) }
+            style={ styles.listView }/>
+        </View>
+
+        <TouchableHighlight
+          onPress={ this.toggleEdit.bind(this) }
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.editBtn }>
+            <Text style={ styles.whiteFont }>Edit Tour</Text>
+          </View>  
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.addPlace.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.addPlaceBtn }>
+            <Text style={ styles.whiteFont }>Add Place</Text>
+          </View>  
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.onPressDone.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.doneBtn }>
+            <Text style={ styles.whiteFont }>Done</Text>
+          </View>  
+        </TouchableHighlight>
+      
+      </View>
+    );
+  }
+
+  render () {    
     if(this.state.editMode) {
-      console.log("editMode is true", this.state.editMode);
-      return (
-        <View style={styles.container}>
-          
-          <View style={ styles.inputs }>
-          
-            <View style={ styles.inputContainer }>
-              <TextInput
-                style={ [styles.input] }
-                placeholder={ this.state.tour.tourName }
-                placeholderTextColor="black"
-                value={ this.state.tourName }
-                onChange={ utils.tourNameInput.bind(this) }/>
-            </View>
-           
-            <View style={ styles.inputContainer }>
-              <TextInput
-                style={ [styles.input] }
-                placeholder={ this.state.tour.category }
-                placeholderTextColor="black"
-                value={ this.state.category }
-                onChange={ utils.categoryInput.bind(this) }/>
-            </View>
-            
-            <View style={ styles.inputContainer }>
-              <TextInput
-                style={ [styles.input] }
-                placeholder={ this.state.tour.description }
-                placeholderTextColor="black"
-                value={this.state.description}
-                onChange={ utils.descriptionInput.bind(this) }/>
-            </View>
-            
-            <View style={ styles.inputContainer }>
-              <TextInput
-                style={ [styles.input] }
-                placeholder={ this.state.tour.duration }
-                placeholderTextColor="black"
-                value={ this.state.duration }
-                onChange={ utils.durationInput.bind(this) }/>
-            </View>
-
-            <View style={ styles.inputContainer }>
-              <TextInput
-                style={ [styles.input] }
-                placeholder={ this.state.tour.cityName }
-                placeholderTextColor="black"
-                value={ this.state.cityName }
-                onChange={ utils.cityNameInput.bind(this) }/>
-            </View>
-
-            <View style={ styles.inputContainer }>
-              <TextInput
-                style={ [styles.input] }
-                placeholder={ this.state.tour.state }
-                placeholderTextColor="black"
-                value={ this.state.state }
-                onChange={ utils.stateInput.bind(this) }/>
-            </View>
-
-            <View style={ styles.inputContainer }>
-              <TextInput
-                style={ [styles.input] }
-                placeholder={ this.state.tour.country }
-                placeholderTextColor="black"
-                value={ this.state.country }
-                onChange={ utils.countryInput.bind(this) }/>
-            </View>
-
-          </View>
-
-          <View style={ styles.panel }>
-            <ListView
-              dataSource={ this.state.dataSource }
-              renderRow={ this.renderPlace.bind(this) }
-              style={ styles.listView }/>
-          </View>
-
-          <TouchableHighlight 
-            onPress={ this.addPlace.bind(this) } 
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.addPlaceBtn }>
-              <Text style={ styles.whiteFont }>Add Place</Text>
-            </View>  
-          </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.editDone.bind(this) } 
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.doneBtn }>
-              <Text style={ styles.whiteFont }>Done</Text>
-            </View>  
-          </TouchableHighlight>
-        
-        </View>
-      )
+      return this.renderEditMode();
     } else {
-
-      return (
-        <View style={styles.container}>
-          
-          <Text style={ styles.description }>Tour Name: { this.state.tour.tourName }</Text>
-          <Text style={ styles.description }>Category : { this.state.tour.category }</Text>
-          <Text style={ styles.description }>Duration: { this.state.tour.duration }</Text>
-          <Text style={ styles.description }>City Name: { this.state.tour.cityName }   State: { this.state.tour.state }   Country: { this.state.tour.country }</Text> 
-          <Text style={ styles.description }>Places: </Text>
-
-          <View style={ styles.panel }>
-            <ListView
-              dataSource={ this.state.dataSource }
-              renderRow={ this.renderPlace.bind(this) }
-              style={ styles.listView }/>
-          </View>
-
-          <TouchableHighlight
-            onPress={ this.toggleEdit.bind(this) }
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.editBtn }>
-              <Text style={ styles.whiteFont }>Edit Tour</Text>
-            </View>  
-          </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.addPlace.bind(this) } 
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.addPlaceBtn }>
-              <Text style={ styles.whiteFont }>Add Place</Text>
-            </View>  
-          </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.onPressDone.bind(this) } 
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.doneBtn }>
-              <Text style={ styles.whiteFont }>Done</Text>
-            </View>  
-          </TouchableHighlight>
-        
-        </View>
-      );
-
+      return this.renderViewMode();
     }
   }
 };
@@ -263,7 +265,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff2f2',
     flex: 1,
     padding: 10,
-    marginTop: 150
+    marginTop: 100
   },
   placeContainer: {
     flex: 1,
