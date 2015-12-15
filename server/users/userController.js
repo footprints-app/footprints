@@ -39,7 +39,7 @@ module.exports = {
     });
   },
   /**
-   * Calls checkUserPassword function from userModel.
+   * Calls comparePassword function from userModel.
    * Checks if user name exists.  If not, then will send error message.
    * Checks if password is correct.
    * If there is a match, will retrieve user info.
