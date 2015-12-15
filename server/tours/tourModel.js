@@ -201,7 +201,7 @@ module.exports = {
    * @param {int} placeId - placeId of tour to be deleted
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
-  deleteTour: function(placeId, callback) {
+  deletePlace: function(placeId, callback) {
     var deleteQuery = "DELETE FROM places WHERE id = ?";
     db.query(deleteQuery, placeId, function (err, results) {
       if (err) {
