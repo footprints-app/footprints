@@ -177,4 +177,22 @@ module.exports = {
       }
 	  });
 	}
+  /**
+   * Updates a specific place in the places table.
+   * If successful, gives a callback the placeId.
+   *
+   * @param {string} params - an array containing the placeName, address, description, placeOrder, tourId, placeId
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+  updatePlace: function(params, callback) {
+    var updatePlaceQuery = "UPDATE places SET placeName = ?, address = ?, description = ?, placeOrder = ?, tourId = ? WHERE id = ?";
+    db.query(updatePlaceQuery, params, function (err, results) {
+      if(err) {
+        callback(err);
+      } else {
+        callback(err, results);
+      }
+    })
+
+  },
 };

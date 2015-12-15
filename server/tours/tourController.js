@@ -171,5 +171,23 @@ module.exports = {
          res.status(201).json({id: results})
 			}
 		});
+	},
+		/** Receives updated tour information from client and updates the tour in the database
+	 * Gets cityId from addOrGetCity method
+	 * Updates tour in database through updateTour method
+	 *
+	 * @method updateTour
+	 * @param req {object} Request object that includes updated tour data
+	 * @param res {object} Response status
+	 */
+	updatePlace: function(req, res) {
+		var params = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration, req.params.id];
+		tours.updatePlace(params, function(err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				res.status(201).json(results);
+			}
+		});
 	}
 }
