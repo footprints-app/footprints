@@ -1,8 +1,8 @@
 'use strict';
 var React = require('react-native');
 
-var request_url = 'http://localhost:8000';
-// var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+//var request_url = 'http://localhost:8000';
+var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
@@ -11,7 +11,8 @@ var requests = {
     myTours: {reqMethod: 'GET', endPoint: '/tours/mytours/'},
     tour: {reqMethod: 'GET', endPoint: '/tours/'},
     createTour: {reqMethod: 'POST', endPoint: '/tours/createtour'},
-    addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'}
+    addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'},
+    editTour: {reqMethod: 'PUT', endPoint: '/tours/edit/'}
   }; 
 
 var Utility = {
@@ -24,6 +25,7 @@ var Utility = {
    */
   tourNameInput: function(event) {
     this.setState({ tourName: event.nativeEvent.text });
+    console.log('From utility: ', this.state);
   },
   /**
    * Updates description property of state to user input.
@@ -110,7 +112,16 @@ var Utility = {
    */
   passwordInput: function(event) {
     this.setState({ password: event.nativeEvent.text });
-  }, 
+  },
+
+  setStateFromInput: function(event, state, stateProperty) {
+    console.log("Event from set tour name: ", event);
+    this.setState(function() {
+      var toUpdate = {};
+      toUpdate[state][stateProperty] = event.nativeEvent.text;
+      return toUpdate;
+    });
+  },
 
   /**
    * Navigates user to the next component, passing specificed props.

@@ -13,7 +13,8 @@ var {
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  TextInput
 } = React;
 
 class ViewCreatedTour extends Component {
@@ -25,12 +26,22 @@ class ViewCreatedTour extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tourId: this.props.tourId,
+      tourId: this.props.tourId || this.props.tour.id,
       tour: {},
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      }),
+      editMode: false,
+      tourName: '',
+      userId: '',
+      description: '',
+      category: '',
+      duration: '',
+      userName: '',
+      cityName: '',
+      state: '',
+      country: ''
     };
   }
   /**
@@ -53,6 +64,24 @@ class ViewCreatedTour extends Component {
     utils.navigateTo.call(this, "My Tours", MyTours, {userId});
   }
 
+  toggleEdit () {
+    var newEditState = !this.state.editMode;
+    this.setState({editMode: newEditState});
+    console.log("Edit Mode: ", this.state.editMode);
+  }
+
+  editDone() {
+    var reqBody = this.state;
+    console.log('reqBody from editDone button: ', reqBody);
+    var reqParam = this.state.tourId;
+    utils.makeRequest('editTour', reqBody, reqParam)
+      .then(response => {
+        console.log('Response body from Edit Tour: ', response);
+        this.setState({editMode: false});
+        this.fetchData();
+      })
+  }
+
   fetchData() {
     utils.makeRequest('tour', {}, this.state.tourId)
     .then((response) => {
@@ -60,6 +89,15 @@ class ViewCreatedTour extends Component {
       var places = response.places;
       this.setState({
         tour: response,
+        userId: response.userId,
+        tourName: response.tourName,
+        description: response.description,
+        category: response.category,
+        duration: response.duration,
+        userName: response.userName,
+        cityName: response.cityName,
+        state: response.state,
+        country: response.country,
         dataSource: this.state.dataSource.cloneWithRows(places),
         isLoading: false
       });
@@ -82,8 +120,108 @@ class ViewCreatedTour extends Component {
     );
   }
 
-  render () {
-    
+  renderEditMode() {
+    return (
+      <View style={styles.container}>
+        
+        <View style={ styles.inputs }>
+        
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.tourName }
+              placeholderTextColor="black"
+              value={ this.state.tourName }
+              //onChange={ this.updateTourFromInput(value, "tourName") } />
+              //onChange={ utils.setStateFromInput.bind(this, ["tour", "tourName"]) }/>
+              //onChangeText={(text) => this.setState({tourName: text})} />
+              onChange={ utils.tourNameInput.bind(this) }/>              
+          </View>
+         
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.category }
+              placeholderTextColor="black"
+              value={ this.state.category }
+              onChange={ utils.categoryInput.bind(this) }/>
+          </View>
+          
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.description }
+              placeholderTextColor="black"
+              value={this.state.description}
+              onChange={ utils.descriptionInput.bind(this) }/>
+          </View>
+          
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.duration }
+              placeholderTextColor="black"
+              value={ this.state.duration }
+              onChange={ utils.durationInput.bind(this) }/>
+          </View>
+
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.cityName }
+              placeholderTextColor="black"
+              value={ this.state.cityName }
+              onChange={ utils.cityNameInput.bind(this) }/>
+          </View>
+
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.state }
+              placeholderTextColor="black"
+              value={ this.state.state }
+              onChange={ utils.stateInput.bind(this) }/>
+          </View>
+
+          <View style={ styles.inputContainer }>
+            <TextInput
+              style={ [styles.input] }
+              placeholder={ this.state.tour.country }
+              placeholderTextColor="black"
+              value={ this.state.country }
+              onChange={ utils.countryInput.bind(this) }/>
+          </View>
+
+        </View>
+
+        <View style={ styles.panel }>
+          <ListView
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderPlace.bind(this) }
+            style={ styles.listView }/>
+        </View>
+
+        <TouchableHighlight 
+          onPress={ this.addPlace.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.addPlaceBtn }>
+            <Text style={ styles.whiteFont }>Add Place</Text>
+          </View>  
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.editDone.bind(this) } 
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.doneBtn }>
+            <Text style={ styles.whiteFont }>Done</Text>
+          </View>
+        </TouchableHighlight>
+      
+      </View>
+    )
+  }
+
+  renderViewMode() {
     return (
       <View style={styles.container}>
         
@@ -99,6 +237,14 @@ class ViewCreatedTour extends Component {
             renderRow={ this.renderPlace.bind(this) }
             style={ styles.listView }/>
         </View>
+
+        <TouchableHighlight
+          onPress={ this.toggleEdit.bind(this) }
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.editBtn }>
+            <Text style={ styles.whiteFont }>Edit Tour</Text>
+          </View>  
+        </TouchableHighlight>
 
         <TouchableHighlight 
           onPress={ this.addPlace.bind(this) } 
@@ -119,6 +265,14 @@ class ViewCreatedTour extends Component {
       </View>
     );
   }
+
+  render () {    
+    if(this.state.editMode) {
+      return this.renderEditMode();
+    } else {
+      return this.renderViewMode();
+    }
+  }
 };
 
 var styles = StyleSheet.create({
@@ -133,6 +287,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#fff2f2',
     flex: 1,
     padding: 10,
+    marginTop: 100
   },
   placeContainer: {
     flex: 1,
@@ -164,6 +319,12 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 50,
   },
+  editBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 25,
+  },
   doneBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
@@ -178,8 +339,26 @@ var styles = StyleSheet.create({
    },
   touchable: {
     borderRadius: 100
+  },
+  inputs: {
+    marginTop: 25,
+    marginBottom: 10,
+    flex: .25
+  },
+  inputContainer: {
+    padding: 10,
+    borderWidth: 1,
+    borderBottomColor: 'black',
+    borderColor: 'transparent'
+  },
+  input: {
+    position: 'absolute',
+    left: 10,
+    top: 4,
+    right: 0,
+    height: 20,
+    fontSize: 14
   }
-
 });
 
 module.exports = ViewCreatedTour;

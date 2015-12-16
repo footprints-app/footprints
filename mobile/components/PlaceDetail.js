@@ -25,6 +25,7 @@ class PlaceDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: (typeof this.props.place.id !== 'undefined') ? this.props.place.id : '',
       placeName: (typeof this.props.place.placeName !== 'undefined') ? this.props.place.placeName : '',
       image: (typeof this.props.place.image !== 'undefined') ? this.props.place.image : '',
       description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',

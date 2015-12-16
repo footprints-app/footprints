@@ -6,6 +6,7 @@ var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
 var CreateTour = require('./CreateTour');
+var ViewCreatedTour = require('./ViewCreatedTour');
 
 var FAKE_MY_TOUR_DATA = [
 
@@ -155,7 +156,7 @@ class MyTours extends Component {
   renderTour (tour) {
     return (
       <TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) } 
+        onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) } 
         underlayColor='#dddddd'>
         <View>
           <View style={ styles.container }>
