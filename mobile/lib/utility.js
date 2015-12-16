@@ -1,8 +1,8 @@
 'use strict';
 var React = require('react-native');
 
-var request_url = 'http://localhost:8000';
-//var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+//var request_url = 'http://localhost:8000';
+var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
