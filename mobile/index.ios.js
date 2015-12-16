@@ -6,6 +6,7 @@
 
 var React = require('react-native');
 var Login = require('./components/Login');
+var Main = require('./components/Main');
 var MyTours = require('./components/MyTours');
 var AllTours = require('./components/AllTours');
 var CreateTour = require('./components/CreateTour');
@@ -14,7 +15,7 @@ var {
   AppRegistry,
   StyleSheet,
   Component,
-  Navigator,
+  NavigatorIOS,
   TabBarIOS
 } = React;
 
@@ -23,7 +24,8 @@ class mobile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: ''
+      selectedTab: 'main',
+      userId: 2
     };
   }
 
@@ -34,12 +36,24 @@ class mobile extends Component {
   }
 
   render () {
+    if(this.state.userId === null) {
+      return(
+        <NavigatorIOS style={styles.container} initialRoute={{ title: 'Login', component: Login }} />
+      )
+    }
     return (
-      //<Navigator style={styles.container} initialRoute={{ title: 'Login', component: Login }} />
       <TabBarIOS
         tintColor="#00BCD4"
         barTintColor="#F0F0F0"
         selectedTab={this.state.selectedTab}>
+
+        <TabBarIOS.Item
+          title="Home"
+          icon={require('./assets/homeicon.png')}
+          selected={this.state.selectedTab === 'main'}
+          onPress={this.selectTab.bind(this, 'main')}>
+          <Main/>
+        </TabBarIOS.Item>
 
         <TabBarIOS.Item
           title="My Tours"
@@ -48,6 +62,7 @@ class mobile extends Component {
           onPress={this.selectTab.bind(this, 'myTours')}>
           <MyTours/>
         </TabBarIOS.Item>
+
         <TabBarIOS.Item
           title="All Tours"
           icon={require('./assets/alltoursicon.png')}
@@ -55,6 +70,7 @@ class mobile extends Component {
           onPress={this.selectTab.bind(this, 'allTours')}>
           <AllTours/>
         </TabBarIOS.Item>
+
         <TabBarIOS.Item
           title="Create Tour"
           icon={require('./assets/createtouricon.png')}
@@ -68,20 +84,9 @@ class mobile extends Component {
 }
 
 var styles = StyleSheet.create({
-  
   container: {
     flex: 1,
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+  }
 });
 
 AppRegistry.registerComponent('mobile', () => mobile);

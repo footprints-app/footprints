@@ -31,7 +31,7 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.userId,
+      userId: 2/*this.props.userId*/,
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
