@@ -118,6 +118,24 @@ module.exports = {
 		})
 
 	},
+  /**
+   * Updates a specific tour with a new image url.
+   * If successful, gives a callback the queryResult.
+   *
+   * @param {string} params - an array containing the imageUrl and tourId
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+  addImageToTour: function(params, callback) {
+    var updateTourQuery = "UPDATE tours SET image = ? WHERE id = ?";
+    db.query(updateTourQuery, params, function (err, results) {
+      if(err) {
+        callback(err);
+      } else {
+        callback(err, results);
+      }
+    })
+
+  },
 	 /**
    * Deletes tour with given id from the table.
    * If successful, gives a callback with the query result.
