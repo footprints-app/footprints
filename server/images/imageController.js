@@ -1,3 +1,10 @@
+/**
+ * A module that contains all functions to interact with our image hosting service
+ * @module images/imageController
+ * @requires cloudinary
+ * @requires config
+ */
+
 var cloudinary = require('cloudinary');
 var config = require('../config/config')
 
@@ -8,7 +15,8 @@ cloudinary.config({
 });
 
 module.exports = {
-/** A cloudinary upload API call returns a Hash with content similar to that shown in the following example:
+/** 
+    A cloudinary upload API call returns a Hash with content similar to that shown in the following example:
     { 
       public_id: 'cr4mxeqx5zb8rlakpfkg',
       version: 1372275963,
@@ -24,10 +32,19 @@ module.exports = {
       secure_url: 'https://res.cloudinary.com/demo/image/upload/v1372275963/cr4mxeqx5zb8rlakpfkg.jpg' 
     }
 */
-  upload: function(file) {
+/**
+ * Receives an image file and uploads it our cloundinary account for hosting
+ * 
+ * @param {file} image file to upload
+ * @param {function} callback that receives the uploaded image url as a parameter
+ */
+  upload: function(file, callback) {
     cloudinary.uploader.upload(file, function(result){
-      console.log('image url: ', result.secure_url);
-      return result.secure_url; 
+        if(!result.secure_url) {
+          console.log('error: ', result);
+        } else {
+          callback(result.secure_url); 
+        }
     });
   }
 }
