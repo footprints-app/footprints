@@ -78,6 +78,7 @@ class ViewCreatedTour extends Component {
       .then(response => {
         console.log('Response body from Edit Tour: ', response);
         this.setState({editMode: false});
+        this.fetchData();
       })
   }
 
@@ -102,12 +103,6 @@ class ViewCreatedTour extends Component {
       });
     })
     .done();
-  }
-
-  updateTourFromInput(text, stateProperty) {
-    var updatedTour = this.state.tour;
-    updatedTour[stateProperty] = text;
-    this.setState({tour: updatedTour});
   }
 
   renderPlace (place) {
