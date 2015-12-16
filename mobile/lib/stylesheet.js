@@ -104,13 +104,13 @@ var styles = StyleSheet.create({
   },
   mainButton: {
     height: 80,
-    width: 250,
+    width: 280,
     backgroundColor: '#FCC107',
     borderRadius: 20,
     justifyContent:'center'
   },
   mainButtonBottom: {
-    marginTop: 25,
+    marginTop: 55,
   },
   mainButtonText: {
     fontSize: 24,

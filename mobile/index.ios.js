@@ -25,7 +25,7 @@ class mobile extends Component {
     super(props);
     this.state = {
       selectedTab: 'main',
-      userId: 2
+      userId: null
     };
   }
 
