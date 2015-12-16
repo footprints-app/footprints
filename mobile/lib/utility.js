@@ -25,8 +25,8 @@ var Utility = {
    * @param {event} text input event
    */
   tourNameInput: function(event) {
+    console.log('event from tournameinput: ', event);
     this.setState({ tourName: event.nativeEvent.text });
-    console.log('From utility: ', this.state);
   },
   /**
    * Updates description property of state to user input.
@@ -115,13 +115,14 @@ var Utility = {
     this.setState({ password: event.nativeEvent.text });
   },
 
-  setStateFromInput: function(event, state, stateProperty) {
-    console.log("Event from set tour name: ", event);
-    this.setState(function() {
-      var toUpdate = {};
-      toUpdate[state][stateProperty] = event.nativeEvent.text;
-      return toUpdate;
-    });
+  setStateFromInput: function(state, event) {
+    console.log("Event from setStateFromInput: ", event);
+    // this.setState(function() {
+    //   var toUpdate = {};
+    //   toUpdate[state][stateProperty] = event.nativeEvent.text;
+    //   return toUpdate;
+    // });
+    this.setState({state: event.nativeEvent.text});
   },
 
   /**

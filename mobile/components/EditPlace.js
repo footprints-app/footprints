@@ -61,7 +61,7 @@ class EditPlace extends Component {
               placeholder={ this.state.placeName }
               placeholderTextColor="black"
               value={ this.state.placeName }
-              onChange={ utils.tourNameInput.bind(this) }/>              
+              onChange={ utils.setStateFromInput.bind(this, 'placeName') }/>              
           </View>
 
           <View style={ styles.inputContainer }>
