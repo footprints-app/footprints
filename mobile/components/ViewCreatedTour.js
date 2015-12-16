@@ -89,7 +89,13 @@ class ViewCreatedTour extends Component {
     utils.makeRequest('deletePlace', reqBody, reqParam)
       .then(response => {
         console.log('Response body from server after deleting a place: ', response);
-        this.fetchData();
+        utils.makeRequest('tour', {}, this.state.tourId)
+         .then((response) => {
+          var places = response.places;
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(places)
+          })
+         })
       })
   }
 
