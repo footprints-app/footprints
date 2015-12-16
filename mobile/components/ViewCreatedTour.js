@@ -4,6 +4,8 @@ var React = require('react-native');
 // var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 var PlaceDetail = require('./PlaceDetail.js');
+var EditPlace = require('./EditPlace.js');
+
 
 var {
   StyleSheet,
@@ -145,7 +147,7 @@ class ViewCreatedTour extends Component {
           <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
             <Text style={ styles.deleteName }>Delete</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={ styles.rightContainer } onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }>
+          <TouchableHighlight style={ styles.rightContainer } onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
             <Text style={ styles.placeName }>{ place.placeName }</Text>
           </TouchableHighlight>
         </View>
