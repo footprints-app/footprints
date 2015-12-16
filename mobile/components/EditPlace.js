@@ -116,8 +116,7 @@ var styles = StyleSheet.create({
   doneBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
-    alignItems: 'center',
-    marginTop: -40,
+    alignItems: 'center'
   },  
   image: {
     width: 350,
