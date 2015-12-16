@@ -140,16 +140,17 @@ class ViewCreatedTour extends Component {
   renderEditablePlace (place) {
     console.log('renderEditablePlace reached, place: ', place);
     return (
-      <TouchableHighlight onPress={ this.deletePlace.bind(this, place) }  underlayColor='#dddddd'>
-        <View>
-          <View style={ styles.placeContainer }>
-            <View style={ styles.rightContainer }>
-              <Text style={ styles.placeName }>{ place.placeName }</Text>
-            </View>
-          </View>
-          <View style={ styles.separator } />
+      <View>
+        <View style={ styles.placeContainer }>
+          <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
+            <Text style={ styles.deleteName }>Delete</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={ styles.rightContainer } onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }>
+            <Text style={ styles.placeName }>{ place.placeName }</Text>
+          </TouchableHighlight>
         </View>
-      </TouchableHighlight>
+        <View style={ styles.separator } />
+      </View>
     );    
   }
 
@@ -333,6 +334,13 @@ var styles = StyleSheet.create({
   placeName: {
     fontSize: 14,
     marginBottom: 8,
+  },
+  deleteContainer: {
+    flex: 1
+  },
+  deleteName: {
+    fontSize: 12,
+    marginBottom: 8
   },
   separator: {
     height: 1,
