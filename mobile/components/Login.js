@@ -16,7 +16,8 @@ var {
   TouchableHighlight,
   Component,
   ActivityIndicatorIOS,
-  NavigatorIOS
+  NavigatorIOS,
+  AsyncStorage
 } = React;
 
 class Login extends Component {
@@ -51,7 +52,13 @@ class Login extends Component {
         } else if(response.error === 'Username and password do not match') {
           this.setState({validPassword: false, username: '', password: ''});        }
       } else {
-        var user = response;
+        var user = response.userInfo;
+        var token = response.token;
+        AsyncStorage.multiSet([
+          ['token', token],
+          ['user', user]
+        ]);
+        // console.log('from login client.....', user, token)
         utils.navigateTo.call(this, "Welcome", Main, {user});
       }
     })

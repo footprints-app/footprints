@@ -4,6 +4,8 @@
  * @module users/userController
  */
 var users = require('./userModel.js');
+var Q = require('q');
+var jwt = require('jwt-simple');
 
 module.exports = {
   /**
@@ -26,11 +28,16 @@ module.exports = {
           if(err) {
             res.status(404).json({error: err});
           } else {
-            users.getUserInfo(params[0], function(err, results) {
+            users.getUserInfo(params[0], function(err, user) {
               if(err) {
                 res.status(404).json({error: err});
               } else {
-                res.status(201).json(results);
+                  if (user) {
+                    var token = jwt.encode(user.userName, 'secret');
+                    // console.log('token......', token);
+                    res.status(200).json({token: token, userInfo: user});
+                  } 
+                // res.status(201).json(results);
               }
             });
           }
@@ -49,25 +56,61 @@ module.exports = {
    */
   login: function (req, res, next) {
     var params = [req.body.userName, req.body.password];
-    users.comparePassword(params, function(err, results) {
+    
+    users.comparePassword(params, function(err, user) {
+      console.log('result after login......', user)
       if(err) {
         console.error(err);
         res.status(400).json({error: err});
         next(err);
       } else {
-        res.status(200).json(results);
+          if (user) {
+            var token = jwt.encode(user.userName, 'secret');
+            // console.log('token......', token);
+            res.status(200).json({token: token, userInfo: user});
+          } else {
+            console.error('No User', err);
+          }
+        // res.status(200).json(results);
       }
     });
+  },
+
+  checkAuth: function (req, res, next) {
+    // checking to see if the user is authenticated
+    // grab the token in the header is any
+    // then decode the token, which we end up being the user object
+    // check to see if that user exists in the database
+    var token = req.headers['x-access-token'];
+    console.log('token from checkAuth.....', token)
+    if (!token) {
+      next(new Error('No token'));
+    } else {
+        var user = jwt.decode(token, 'secret');
+        var queryStr = "select * from users where userName = ?";
+
+        db.query(queryStr, user, function(err, userInfo) {
+          if(userInfo.length !== 0) {
+            res.send(200);
+          } else {
+            res.send(401);
+          }
+        });
+      }
   }
-  //   users.checkUserPassword(params, function(err, results) {
-  //     if(err) {
-  //       console.error(err);
-  //       res.status(400).json({error: err});
-  //       next(err);
-  //     } else {
-  //       res.status(200).json(results);
-  //     }
-  //   });
-  // }
 
 };
+
+// AsyncStorage.multiGet(['token', 'user']).then((data) => {
+      //make a call to backend for validating token
+    //   if (data[0][1]) {
+    //     console.log("Token...", data[0][1]);
+    //     var user = data[1][1];
+    //     return this.props.navigator.push({
+    //   title: "Welcome",
+    //   component: Main,
+    //   passProps: {user}
+    // });
+    //     //return utils.navigateTo.call(this, "Welcome", Main, {user});
+    //   }
+    // })
