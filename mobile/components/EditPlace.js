@@ -105,8 +105,9 @@ var styles = StyleSheet.create({
     marginLeft: 20
   },
   container: {
-    marginTop: 75,
-    alignItems: 'center'
+    marginTop: 70,
+    flexDirection: 'column',
+    flex: 1
   },
   description: {
     padding: 10,
