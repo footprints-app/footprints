@@ -46,22 +46,22 @@ class Main extends Component {
       <View style={ styles.mainContainer }>
 
         <View style={styles.mainButtonTop} >
-        <TouchableHighlight 
-          onPress={ this.userTours.bind(this) } 
+        <TouchableHighlight
+          onPress={ this.userTours.bind(this) }
           style={ styles.mainTouchable } underlayColor="white">
-          <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>Your Tours</Text></View>  
+          <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>Your Tours</Text></View>
         </TouchableHighlight>
         </View>
 
         <View style={styles.mainButtonBottom}>
-        <TouchableHighlight 
-          onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) } 
+        <TouchableHighlight
+          onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) }
           style={ styles.mainTouchable } underlayColor="white">
-          <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>All Tours</Text></View>  
+          <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>All Tours</Text></View>
         </TouchableHighlight>
         </View>
-      
-      </View>          
+
+      </View>
     );
   }
 };
