@@ -32,7 +32,16 @@ class ViewCreatedTour extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       }),
-      editMode: false
+      editMode: false,
+      tourName: '',
+      userId: '',
+      description: '',
+      category: '',
+      duration: '',
+      userName: '',
+      cityName: '',
+      state: '',
+      country: ''
     };
   }
   /**
@@ -62,7 +71,7 @@ class ViewCreatedTour extends Component {
   }
 
   editDone() {
-    var reqBody = this.state.tour;
+    var reqBody = this.state;
     console.log('reqBody from editDone button: ', reqBody);
     var reqParam = this.state.tourId;
     utils.makeRequest('editTour', reqBody, reqParam)
@@ -79,11 +88,26 @@ class ViewCreatedTour extends Component {
       var places = response.places;
       this.setState({
         tour: response,
+        userId: response.userId,
+        tourName: response.tourName,
+        description: response.description,
+        category: response.category,
+        duration: response.duration,
+        userName: response.userName,
+        cityName: response.cityName,
+        state: response.state,
+        country: response.country,
         dataSource: this.state.dataSource.cloneWithRows(places),
         isLoading: false
       });
     })
     .done();
+  }
+
+  updateTourFromInput(text, stateProperty) {
+    var updatedTour = this.state.tour;
+    updatedTour[stateProperty] = text;
+    this.setState({tour: updatedTour});
   }
 
   renderPlace (place) {
@@ -113,7 +137,10 @@ class ViewCreatedTour extends Component {
               placeholder={ this.state.tour.tourName }
               placeholderTextColor="black"
               value={ this.state.tourName }
-              onChange={ utils.tourNameInput.bind(this) }/>
+              //onChange={ this.updateTourFromInput(value, "tourName") } />
+              //onChange={ utils.setStateFromInput.bind(this, ["tour", "tourName"]) }/>
+              //onChangeText={(text) => this.setState({tourName: text})} />
+              onChange={ utils.tourNameInput.bind(this) }/>              
           </View>
          
           <View style={ styles.inputContainer }>
@@ -192,7 +219,7 @@ class ViewCreatedTour extends Component {
           style={ styles.touchable } underlayColor="white">
           <View style={ styles.doneBtn }>
             <Text style={ styles.whiteFont }>Done</Text>
-          </View>  
+          </View>
         </TouchableHighlight>
       
       </View>
