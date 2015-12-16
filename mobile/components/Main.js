@@ -8,7 +8,6 @@ var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
 
 var {
-  StyleSheet,
   View,
   Component,
   Text,
@@ -35,7 +34,7 @@ class Main extends Component {
    * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
    */
   userTours () {
-    var userId = this.state.user.id;
+    var userId = 2/*this.state.user.id*/;
     console.log('user in Main: ', this.state.user);
     utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
   }  
@@ -45,7 +44,7 @@ class Main extends Component {
 
       <View style={ styles.mainContainer }>
 
-        <View style={styles.mainButtonTop} >
+        <View  >
         <TouchableHighlight
           onPress={ this.userTours.bind(this) }
           style={ styles.mainTouchable } underlayColor="white">
