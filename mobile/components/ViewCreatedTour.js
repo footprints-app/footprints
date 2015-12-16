@@ -132,8 +132,9 @@ class ViewCreatedTour extends Component {
   }
 
   renderEditablePlace (place) {
+    console.log('renderEditablePlace reached, place: ', place);
     return (
-      <TouchableHighlight onPress={ this.deletePlace({place}) }  underlayColor='#dddddd'>
+      <TouchableHighlight onPress={ this.deletePlace.bind(this, place) }  underlayColor='#dddddd'>
         <View>
           <View style={ styles.placeContainer }>
             <View style={ styles.rightContainer }>
@@ -158,9 +159,6 @@ class ViewCreatedTour extends Component {
               placeholder={ this.state.tour.tourName }
               placeholderTextColor="black"
               value={ this.state.tourName }
-              //onChange={ this.updateTourFromInput(value, "tourName") } />
-              //onChange={ utils.setStateFromInput.bind(this, ["tour", "tourName"]) }/>
-              //onChangeText={(text) => this.setState({tourName: text})} />
               onChange={ utils.tourNameInput.bind(this) }/>              
           </View>
          
