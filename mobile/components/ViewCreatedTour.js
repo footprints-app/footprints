@@ -76,8 +76,19 @@ class ViewCreatedTour extends Component {
     var reqParam = this.state.tourId;
     utils.makeRequest('editTour', reqBody, reqParam)
       .then(response => {
-        console.log('Response body from Edit Tour: ', response);
+        console.log('Response body from server after Editing a Tour: ', response);
         this.setState({editMode: false});
+        this.fetchData();
+      })
+  }
+
+  deletePlace(place) {
+    console.log(place);
+    var reqBody = place;
+    var reqParam = place.id;
+    utils.makeRequest('deletePlace', reqBody, reqParam)
+      .then(response => {
+        console.log('Response body from server after deleting a place: ', response);
         this.fetchData();
       })
   }
@@ -118,6 +129,21 @@ class ViewCreatedTour extends Component {
         </View>
       </TouchableHighlight>
     );
+  }
+
+  renderEditablePlace (place) {
+    return (
+      <TouchableHighlight onPress={ this.deletePlace({place}) }  underlayColor='#dddddd'>
+        <View>
+          <View style={ styles.placeContainer }>
+            <View style={ styles.rightContainer }>
+              <Text style={ styles.placeName }>{ place.placeName }</Text>
+            </View>
+          </View>
+          <View style={ styles.separator } />
+        </View>
+      </TouchableHighlight>
+    );    
   }
 
   renderEditMode() {
@@ -197,7 +223,7 @@ class ViewCreatedTour extends Component {
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
-            renderRow={ this.renderPlace.bind(this) }
+            renderRow={ this.renderEditablePlace.bind(this) }
             style={ styles.listView }/>
         </View>
 
