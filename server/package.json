@@ -8,6 +8,7 @@
     "bluebird": "^3.0.6",
     "body-parser": "^1.14.1",
     "chai": "^3.4.1",
+    "cloudinary": "^1.2.6",
     "express": "^4.13.3",
     "http": "0.0.0",
     "jwt-simple": "^0.4.0",
