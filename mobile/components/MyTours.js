@@ -5,6 +5,7 @@ var TourDetail = require('./TourDetail');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
 var CreateTour = require('./CreateTour');
 var ViewCreatedTour = require('./ViewCreatedTour');
 
@@ -156,14 +157,13 @@ class MyTours extends Component {
         onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) } 
         underlayColor='#dddddd'>
         <View>
-          <View style={ styles.tourContainer }>
-            <Image source={{ uri: tour.image }} style={ styles.thumbnail } />
-            <View style={ styles.rightContainer }>
+          <View>
+            <Image source={{ uri: tour.image }} style={ styles.thumbnail } >
               <Text style={ styles.title }>{ tour.tourName }</Text>
               <Text style={ styles.city }>{ tour.cityName }</Text>
-            </View>
-          </View>
+            </Image>
           <View style={ styles.separator } />
+          </View>
         </View>
       </TouchableHighlight>
     );
@@ -230,89 +230,5 @@ class MyTours extends Component {
     }
   }  
 };
-
-var styles = StyleSheet.create({
-  city: {
-    color: '#656565',
-    marginLeft: 20
-  },
-  container: { 
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
-  createBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 50,
-  },
-  deleteContainer: {
-    flex: 1
-  },
-  deleteText: {
-    fontSize: 12,
-    marginBottom: 8
-  },
-  doneBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 50,
-  },
-  editBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 25,
-  },
-  listView: {
-    backgroundColor: '#F5FCFF',
-    height: windowSize.height
-   },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  panel: {
-    backgroundColor: '#fff2f2',
-    flex: 1,
-    padding: 10,
-    marginTop: 50
-  },
-  rightContainer: {
-    flex: 1
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
-  touchable: {
-    borderRadius: 5
-  },
-  tourContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  whiteFont: {
-    color: '#FFF'
-  },
-});
  
 module.exports = MyTours;

@@ -119,9 +119,71 @@ var styles = StyleSheet.create({
   },
   mainTouchable: {
     borderRadius: 100
-  }
+  },
   //End Main.js
-
+  //ToursView Styling
+  thumbnail: {
+    //width: 85,
+    //height: 81,
+    //marginRight: 10,
+    //marginTop: 10
+    //flex: 1,
+    backgroundColor: 'transparent',
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
+    color: 'white',
+    fontSize: 22,
+    fontFamily: 'Avenir',
+    fontWeight: '800',
+    paddingTop: 10
+  },
+  city: {
+    color: '#FFF',
+    marginLeft: 20,
+    fontFamily: 'Avenir',
+    fontSize: 15
+  },
+  separator: {
+    height: 3,
+    backgroundColor: '#FFF'
+  },
+  listView: {
+    flex: 1,
+    backgroundColor: '#F5FCFF'
+  },
+  createTour: {
+    backgroundColor: '#FFC107',
+    padding: 20,
+    alignItems: 'center'
+  },
+  createBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  deleteContainer: {
+    flex: 1
+  },
+  deleteText: {
+    fontSize: 12,
+    marginBottom: 8
+  },
+  doneBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  editBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 25,
+  }
 })
 
 module.exports = styles;
