@@ -123,7 +123,9 @@ var Utility = {
     //   toUpdate[state][stateProperty] = event.nativeEvent.text;
     //   return toUpdate;
     // });
-    this.setState({state: event.nativeEvent.text});
+    var toUpdate = {};
+    toUpdate[state] = event.nativeEvent.text;
+    this.setState(toUpdate);
   },
 
   /**
