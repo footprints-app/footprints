@@ -4,6 +4,8 @@ var React = require('react-native');
 // var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 var PlaceDetail = require('./PlaceDetail.js');
+var EditPlace = require('./EditPlace.js');
+
 
 var {
   StyleSheet,
@@ -32,7 +34,7 @@ class ViewCreatedTour extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       }),
-      editMode: false,
+      editMode: this.props.editMode || false,
       tourName: '',
       userId: '',
       description: '',
@@ -76,9 +78,26 @@ class ViewCreatedTour extends Component {
     var reqParam = this.state.tourId;
     utils.makeRequest('editTour', reqBody, reqParam)
       .then(response => {
-        console.log('Response body from Edit Tour: ', response);
+        console.log('Response body from server after Editing a Tour: ', response);
         this.setState({editMode: false});
         this.fetchData();
+      })
+  }
+
+  deletePlace(place) {
+    console.log(place);
+    var reqBody = place;
+    var reqParam = place.id;
+    utils.makeRequest('deletePlace', reqBody, reqParam)
+      .then(response => {
+        console.log('Response body from server after deleting a place: ', response);
+        utils.makeRequest('tour', {}, this.state.tourId)
+         .then((response) => {
+          var places = response.places;
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(places)
+          })
+         })
       })
   }
 
@@ -120,6 +139,23 @@ class ViewCreatedTour extends Component {
     );
   }
 
+  renderEditablePlace (place) {
+    console.log('renderEditablePlace reached, place: ', place);
+    return (
+      <View>
+        <View style={ styles.placeContainer }>
+          <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
+            <Text style={ styles.deleteName }>Delete</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={ styles.rightContainer } onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
+            <Text style={ styles.placeName }>{ place.placeName }</Text>
+          </TouchableHighlight>
+        </View>
+        <View style={ styles.separator } />
+      </View>
+    );    
+  }
+
   renderEditMode() {
     return (
       <View style={styles.container}>
@@ -132,9 +168,6 @@ class ViewCreatedTour extends Component {
               placeholder={ this.state.tour.tourName }
               placeholderTextColor="black"
               value={ this.state.tourName }
-              //onChange={ this.updateTourFromInput(value, "tourName") } />
-              //onChange={ utils.setStateFromInput.bind(this, ["tour", "tourName"]) }/>
-              //onChangeText={(text) => this.setState({tourName: text})} />
               onChange={ utils.tourNameInput.bind(this) }/>              
           </View>
          
@@ -197,7 +230,7 @@ class ViewCreatedTour extends Component {
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
-            renderRow={ this.renderPlace.bind(this) }
+            renderRow={ this.renderEditablePlace.bind(this) }
             style={ styles.listView }/>
         </View>
 
@@ -303,6 +336,13 @@ var styles = StyleSheet.create({
   placeName: {
     fontSize: 14,
     marginBottom: 8,
+  },
+  deleteContainer: {
+    flex: 1
+  },
+  deleteName: {
+    fontSize: 12,
+    marginBottom: 8
   },
   separator: {
     height: 1,
