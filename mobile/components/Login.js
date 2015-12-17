@@ -54,11 +54,15 @@ class Login extends Component {
       } else {
         var user = response.userInfo;
         var token = response.token;
+        console.log(user, token)
         AsyncStorage.multiSet([
           ['token', token],
-          ['user', user]
-        ]);
-        // console.log('from login client.....', user, token)
+          ['user', user.id.toString()]
+        ], function(err) {
+          if(err) {
+            console.error('Storage error', err)
+          }
+        });
         utils.navigateTo.call(this, "Welcome", Main, {user});
       }
     })
