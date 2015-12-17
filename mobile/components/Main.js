@@ -101,7 +101,12 @@ class Main extends Component {
           icon={require('../assets/mytoursicon.png')}
           selected={this.state.selectedTab === 'myTours'}
           onPress={this.selectTab.bind(this, 'myTours')}>
-          <NavigatorIOS style={styles.container} initialRoute={{ title: 'My Tours', component: MyTours }} />
+          <NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            initialRoute={{ title: 'My Tours', component: MyTours }} />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -109,7 +114,12 @@ class Main extends Component {
           icon={require('../assets/alltoursicon.png')}
           selected={this.state.selectedTab === 'allTours'}
           onPress={this.selectTab.bind(this, 'allTours')}>
-          <NavigatorIOS style={styles.container} initialRoute={{ title: 'All Tours', component: AllTours }} />
+          <NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            initialRoute={{ title: 'All Tours', component: AllTours }} />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -117,7 +127,12 @@ class Main extends Component {
           icon={require('../assets/createtouricon.png')}
           selected={this.state.selectedTab === 'createTour'}
           onPress={this.selectTab.bind(this, 'createTour')}>
-          <NavigatorIOS style={styles.container} initialRoute={{ title: 'Create a Tour', component: CreateTour }} />
+          <NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            initialRoute={{ title: 'Create a Tour', component: CreateTour }} />
         </TabBarIOS.Item>
       </TabBarIOS>
     );
