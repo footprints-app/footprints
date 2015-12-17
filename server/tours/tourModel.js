@@ -126,10 +126,13 @@ module.exports = {
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
   addImageToTour: function(params, callback) {
+    console.log('addImageToTour called');
+    console.log('params: ', params);
     var updateTourQuery = "UPDATE tours SET image = ? WHERE id = ?";
     db.query(updateTourQuery, params, function (err, results) {
       if(err) {
         callback(err);
+        console.log('error: ', err);
       } else {
         callback(err, results);
       }

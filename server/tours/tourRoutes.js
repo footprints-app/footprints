@@ -12,6 +12,11 @@ module.exports = function (app) {
 
 	app.post('/createtour', tourController.createTour);
 	app.post('/addplace', tourController.addPlace);
+  app.post('/tourphoto/:id', tourController.addTourPhoto);
+  // app.post('/placephoto/:id', tourController.addPlacePhoto);
+  // app.post('/audio/:id', tourController.addAudioToPlace);
+
+
 
   app.put('/edit/:id', tourController.updateTour);
   app.put('/editplace/:id', tourController.updatePlace);
