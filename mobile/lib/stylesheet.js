@@ -4,14 +4,7 @@ var windowSize = Dimensions.get('window');
 var React = require('react-native');
 
 var {
-  AppRegistry,
   StyleSheet,
-  View,
-  Text,
-  TextInput,
-  Image,
-  Component,
-  TouchableHighlight
 } = React;
 
 var styles = StyleSheet.create({
@@ -104,25 +97,24 @@ var styles = StyleSheet.create({
   //Start Main.js
   mainContainer: {
     marginTop: 65,
-    padding: 10
+    backgroundColor: '#727272',
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
   },
   mainButton: {
-    height: 200,
-    width: 200,
-    backgroundColor: '#FFF366',
-    borderRadius: 100,
-    justifyContent: 'center',
-    marginLeft: 75
-  },
-  mainButtonTop: {
-    marginTop: 60,
+    height: 80,
+    width: 280,
+    backgroundColor: '#FCC107',
+    borderRadius: 20,
+    justifyContent:'center'
   },
   mainButtonBottom: {
-    marginTop: 15,
+    marginTop: 55,
   },
   mainButtonText: {
     fontSize: 24,
-    color: 'gray',
+    color: 'white',
     alignSelf: 'center'
   },
   mainTouchable: {

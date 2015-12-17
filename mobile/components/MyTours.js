@@ -8,69 +8,6 @@ var utils = require('../lib/utility');
 var CreateTour = require('./CreateTour');
 var ViewCreatedTour = require('./ViewCreatedTour');
 
-var FAKE_MY_TOUR_DATA = [
-
-  {tourName: 'Mission', cityName: "San Jose", description: "cool place", 
-  category: "sports", duration: "", userName:"Jira", state: "CA", country: "USA", 
-  places: [
-  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
-  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
-  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
-  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
-  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
-  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
-  ],
-  image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Santa Cruz', cityName: "Santa Cruz", description: "Super duper cool place", 
-  category: "Relax", duration: "", userName:"Si", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Boardwalk", address: "3rd street, Santa Cruz", description: "Relaxing place", order: 3,
-    image: 'http://api2.ning.com/files/nBD8FQWarq-hjMAPw1Qee0imzGMlA*6DGSe0uXvibAd7CiCPg-leen18UZ7GVdpzJosmOHBmBHlojFDZyIYv0P1LNDOBzDtp/Summer~_Boardwalk_California.jpg'
-  }],
-  image: 'http://api2.ning.com/files/nBD8FQWarq-hjMAPw1Qee0imzGMlA*6DGSe0uXvibAd7CiCPg-leen18UZ7GVdpzJosmOHBmBHlojFDZyIYv0P1LNDOBzDtp/Summer~_Boardwalk_California.jpg'},
-];
-
 var {
   Image,
   StyleSheet,
@@ -79,7 +16,8 @@ var {
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  AsyncStorage
  } = React;
  
 class MyTours extends Component {
@@ -94,7 +32,7 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: this.props.userId,
+      userId: null/*this.props.userId*/,
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -115,7 +53,18 @@ class MyTours extends Component {
     // });
 
     /* Use this code to make actual API request to fetch data from database */
-    this.fetchData();
+    var that = this;
+    AsyncStorage.multiGet(['token', 'user'])
+      .then(function(data) {
+        if(data) {
+          that.setState({
+            token: data[0][1],
+            userId: +data[1][1]
+          });
+        }
+        that.fetchData()
+      });
+
   }
 
   /**
