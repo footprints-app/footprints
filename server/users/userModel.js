@@ -19,7 +19,7 @@ module.exports = {
   checkNameAvailability: function(params, callback) {
     var queryStr = "select userName from users where userName = ?";
     db.query(queryStr, params, function(err, results) {
-      if(results.length !== 0) {
+      if(results.length) {
         callback("Username already exists");
       } else {
         callback(err, results[0]);
@@ -88,6 +88,7 @@ module.exports = {
         callback('User does not exist!');
       } else {
           if (bcrypt.compareSync(params[1], results[0].password)) {
+            //resetting the password to empty string before sending user info to client - for security reasons
             results[0].password = "";
             callback(err, results[0]);
           } else {
