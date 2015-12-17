@@ -15,7 +15,8 @@ var requests = {
     editTour: {reqMethod: 'PUT', endPoint: '/tours/edit/'},
     deletePlace: {reqMethod: 'DELETE', endPoint: '/tours/deleteplace/'},
     editPlace: {reqMethod: 'PUT', endPoint: '/tours/editplace/'},
-    deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'}
+    deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
+    checkAuth: { reqMethod: 'GET', endPoint: '/users/auth' }
   }; 
 
 var Utility = {
@@ -149,13 +150,18 @@ var Utility = {
    * @param {string, object, [string]} requestType is a key in the request's object, reqBody is the object that is being sent in the request, reqParam is an optional argument for ids.
    * @return {Promise} promise with the parsed response body
    */
-  makeRequest: function(requestType, reqBody, reqParam) {
+  makeRequest: function(requestType, reqBody, token, reqParam) {
     var param = reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
-    console.log('request url: ', reqUrl);
-    console.log('reqParam: ', param);
-    console.log('reqBody in request: ', reqBody);
+    // console.log('request url: ', reqUrl);
+    // console.log('reqParam: ', param);
+    // console.log('reqBody in request: ', reqBody);
     var requestMethod = requests[requestType].reqMethod;
+    var headersObj = headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'x-access-token': token
+          }
     if(requestMethod === 'GET') {
       return fetch(reqUrl)
       .then(response => response.json());
@@ -163,10 +169,7 @@ var Utility = {
       return fetch(reqUrl, 
         {
           method: requestMethod,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
+          headersObj,
           body: JSON.stringify(reqBody)
         }
       ).then((response) => response.json()); 
