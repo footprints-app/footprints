@@ -34,7 +34,7 @@ class ViewCreatedTour extends Component {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       }),
-      editMode: false,
+      editMode: this.props.editMode || false,
       tourName: '',
       userId: '',
       description: '',
