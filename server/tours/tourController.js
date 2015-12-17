@@ -208,7 +208,9 @@ module.exports = {
 
 	addTourPhoto: function(req, res) {
 		var tourId = req.params.id;
-		images.upload(req.body, function(imageUrl) {
+		var base64Image = new Buffer(req.body, 'utf8').toString('base64');
+		
+		images.upload(base64Image, function(imageUrl) {
 			if(!imageUrl) {
 				console.log('error uploading image');
 			} else {
@@ -217,7 +219,7 @@ module.exports = {
 					if(err) {
 						res.status(404).json({error: err});
 					} else {
-						res.status(201).send(imageUrl);
+						res.status(201).json(imageUrl);
 					}
 				});
 			}

@@ -6,7 +6,8 @@
  */
 
 var cloudinary = require('cloudinary');
-var config = require('../config/config')
+var config = require('../config/config');
+var fs = require('fs');
 
 cloudinary.config({ 
   cloud_name: config.cloud_name, 
@@ -35,11 +36,12 @@ module.exports = {
 /**
  * Receives an image file and uploads it our cloundinary account for hosting
  * 
- * @param {file} image file to upload
+ * @param {data} base64 image data to upload
  * @param {function} callback that receives the uploaded image url as a parameter
  */
-  upload: function(file, callback) {
-    cloudinary.uploader.upload(file, function(result){
+  upload: function(data, callback) {
+    var dataString = "data:image/jpg;base64," + data; 
+    cloudinary.uploader.upload(dataString, function(result){
         if(!result.secure_url) {
           console.log('error: ', result);
         } else {
