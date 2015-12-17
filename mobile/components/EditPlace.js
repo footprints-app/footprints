@@ -33,15 +33,29 @@ class EditPlace extends Component {
       image: (typeof this.props.place.image !== 'undefined') ? this.props.place.image : '',
       description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',
       address: (typeof this.props.place.address !== 'undefined') ? this.props.place.address : '',
-      editId: '',
+      tourId: this.props.place.tourId,
       editPlaceName: '',
-      editImage: '',
       editDescription: '',
       editAddress: ''
     };
    }
 
    editDone() {
+    var reqBody = this.state;
+    console.log('reqBody from editDone button: ', reqBody);
+    var reqParam = this.state.id;
+    utils.makeRequest('editPlace', reqBody, reqParam)
+      .then(response => {
+        console.log('Response body from server after editing place: ', response.body);
+        utils.makeRequest('tour', {}, this.state.tourId)
+          .then((response) => {
+            this.props.navigator.replace({
+              title: response.body.tourName,
+              component: ViewCreatedTour,
+              passProps: {tour}
+            });
+          })
+      })
 
    }
 
@@ -70,7 +84,7 @@ class EditPlace extends Component {
               placeholder={ this.state.address }
               placeholderTextColor="black"
               value={ this.state.address }
-              onChange={ utils.tourNameInput.bind(this) }/>              
+              onChange={ utils.setStateFromInput.bind(this, 'address') }/>              
           </View>
           
           <View style={ styles.inputContainer }>
@@ -79,7 +93,7 @@ class EditPlace extends Component {
               placeholder={ this.state.description }
               placeholderTextColor="black"
               value={ this.state.description }
-              onChange={ utils.tourNameInput.bind(this) }/>              
+              onChange={ utils.setStateFromInput.bind(this, 'description') }/>              
           </View>
 
         </View>
