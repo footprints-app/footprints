@@ -31,7 +31,8 @@
     "supertest": "^1.1.0"
   },
   "scripts": {
-    "test": "grunt travis --verbose"
+    "test": "grunt travis --verbose",
+    "server": "node-inspector & nodemon --debug server/server.js"
   },
   "dependencies": {}
 }

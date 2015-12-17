@@ -64,14 +64,9 @@ module.exports = {
         res.status(400).json({error: err});
         next(err);
       } else {
-          if (user) {
-            var token = jwt.encode(user.userName, 'secret');
-            // console.log('token......', token);
-            res.status(200).json({token: token, userInfo: user});
-          } else {
-            console.error('No User', err);
-          }
-        // res.status(200).json(results);
+        var token = jwt.encode(user.userName, 'secret');
+        // console.log('token......', token);
+        res.status(200).json({token: token, userInfo: user});
       }
     });
   },
@@ -91,9 +86,9 @@ module.exports = {
 
         db.query(queryStr, user, function(err, userInfo) {
           if(userInfo.length !== 0) {
-            res.send(200);
+            next(userInfo);
           } else {
-            res.send(401);
+            //error: can't find user in user
           }
         });
       }
