@@ -15,8 +15,8 @@ var {
   AppRegistry,
   StyleSheet,
   Component,
-  NavigatorIOS,
-  TabBarIOS
+  Navigator,
+  View
 } = React;
 
 class mobile extends Component {
@@ -24,62 +24,38 @@ class mobile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: 'main',
-      userId: null
+      userId: null,
+      token: null
     };
   }
 
-  selectTab (tab) {
-    this.setState({
-      selectedTab: tab
-    });
+  renderScene (route, navigator) {
+  var Component = route.component;
+  return (
+      <View style={styles.container}>
+        <Component
+          route={route}
+          navigator={navigator}
+          topNavigator={navigator}/>
+      </View>
+    )
   }
 
   render () {
-    if(this.state.userId === null) {
-      return(
-        <NavigatorIOS style={styles.container} initialRoute={{ title: 'Login', component: Login }} />
-      )
-    }
-    return (
-      <TabBarIOS
-        tintColor="#00BCD4"
-        barTintColor="#F0F0F0"
-        selectedTab={this.state.selectedTab}>
-
-        <TabBarIOS.Item
-          title="Home"
-          icon={require('./assets/homeicon.png')}
-          selected={this.state.selectedTab === 'main'}
-          onPress={this.selectTab.bind(this, 'main')}>
-          <Main/>
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          title="My Tours"
-          icon={require('./assets/mytoursicon.png')}
-          selected={this.state.selectedTab === 'myTours'}
-          onPress={this.selectTab.bind(this, 'myTours')}>
-          <MyTours/>
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          title="All Tours"
-          icon={require('./assets/alltoursicon.png')}
-          selected={this.state.selectedTab === 'allTours'}
-          onPress={this.selectTab.bind(this, 'allTours')}>
-          <AllTours/>
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          title="Create Tour"
-          icon={require('./assets/createtouricon.png')}
-          selected={this.state.selectedTab === 'createTour'}
-          onPress={this.selectTab.bind(this, 'createTour')}>
-          <CreateTour/>
-        </TabBarIOS.Item>
-      </TabBarIOS>
-    );
+    return(
+      <Navigator
+        sceneStyle={styles.container}
+        ref={(navigator) => { this.navigator = navigator; }}
+        renderScene={this.renderScene}
+        tintColor='#D6573D'
+        barTintColor='#0097A7'
+        titleTextColor='#D6573D'
+        navigationBarHidden={true}
+        initialRoute={{
+          title: 'Login',
+          component: Login,
+        }} />
+    )
   }
 }
 

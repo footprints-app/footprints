@@ -16,7 +16,8 @@ var {
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  AsyncStorage
  } = React;
  
 class MyTours extends Component {
@@ -31,7 +32,7 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 2/*this.props.userId*/,
+      userId: null/*this.props.userId*/,
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -52,7 +53,18 @@ class MyTours extends Component {
     // });
 
     /* Use this code to make actual API request to fetch data from database */
-    this.fetchData();
+    var that = this;
+    AsyncStorage.multiGet(['token', 'user'])
+      .then(function(data) {
+        if(data) {
+          that.setState({
+            token: data[0][1],
+            userId: +data[1][1]
+          });
+        }
+        that.fetchData()
+      });
+
   }
 
   /**
