@@ -206,10 +206,17 @@ module.exports = {
 		});
 	},
 
+	/** Receives tourId and utf-8 encoded image data to be added to the database
+	 * Convers image to base64 and sends to cloudinary to host image, receives image url as response and stores in DB
+	 *
+	 * @method addTourPhoto
+	 * @param req {object} includes params property which is the tourId, body is utf-8 encoded image data
+	 * @param res {object} Response status
+	 */
 	addTourPhoto: function(req, res) {
 		var tourId = req.params.id;
 		var base64Image = new Buffer(req.body, 'utf8').toString('base64');
-		
+
 		images.upload(base64Image, function(imageUrl) {
 			if(!imageUrl) {
 				console.log('error uploading image');
