@@ -36,7 +36,8 @@ class MyTours extends Component {
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      }),
+      editMode: this.props.editMode || false
     };
   }
 
@@ -65,6 +66,12 @@ class MyTours extends Component {
         that.fetchData()
       });
 
+  }
+
+  toggleEdit () {
+    var newEditState = !this.state.editMode;
+    this.setState({editMode: newEditState});
+    console.log("Edit Mode: ", this.state.editMode);
   }
 
   /**
@@ -128,7 +135,15 @@ class MyTours extends Component {
           dataSource={ this.state.dataSource }
           renderRow={ this.renderTour.bind(this) }
           style={ styles.listView }/>
-      
+        
+        <TouchableHighlight
+          onPress={ this.toggleEdit.bind(this) }
+          style={ styles.touchable } underlayColor="#FF3366">
+          <View style={ styles.createTour }>
+            <Text style={ styles.whiteFont }>Create Tour</Text>
+          </View>
+        </TouchableHighlight>
+
         <TouchableHighlight 
           onPress={ this.createTour.bind(this) } 
           style={ styles.touchable } underlayColor="#FF3366">  
