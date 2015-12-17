@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var utils = require('../lib/utility');
+var ViewCreatedTour = require('./ViewCreatedTour');
 
 
 var {
@@ -44,17 +45,24 @@ class EditPlace extends Component {
     var reqBody = this.state;
     console.log('reqBody from editDone button: ', reqBody);
     var reqParam = this.state.id;
+    var that = this;
     utils.makeRequest('editPlace', reqBody, reqParam)
       .then(response => {
         console.log('Response body from server after editing place: ', response.body);
-        utils.makeRequest('tour', {}, this.state.tourId)
+        console.log('tourid: ', that.state.tourId);
+        utils.makeRequest('tour', {}, that.state.tourId)
           .then((response) => {
-            this.props.navigator.replace({
-              title: response.body.tourName,
+            console.log('Tour recieved from request: ', response);
+            var ViewCreatedTour = require('./ViewCreatedTour');
+            var tourId = that.state.tourId;
+            that.props.navigator.popToRoute({
+              title: response.tourName,
               component: ViewCreatedTour,
-              passProps: {tour}
+              passProps: {tourId}
             });
+            //utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId});
           })
+        // that.props.navigator.pop();
       })
 
    }
