@@ -6,6 +6,7 @@
 var users = require('./userModel.js');
 var Q = require('q');
 var jwt = require('jwt-simple');
+var db = require('../db');
 
 module.exports = {
   /**
@@ -65,7 +66,7 @@ module.exports = {
         next(err);
       } else {
         var token = jwt.encode(user.userName, 'secret');
-        // console.log('token......', token);
+        console.log('token......', token);
         res.status(200).json({token: token, userInfo: user});
       }
     });
@@ -76,6 +77,12 @@ module.exports = {
     // grab the token in the header is any
     // then decode the token, which we end up being the user object
     // check to see if that user exists in the database
+    console.log('in checkAuth....');
+    if(!req.body) {
+      console.log('handling get request');
+    }
+    console.log('request.headers: ', req.headers);
+
     var token = req.headers['x-access-token'];
     console.log('token from checkAuth.....', token)
     if (!token) {
@@ -83,14 +90,22 @@ module.exports = {
     } else {
         var user = jwt.decode(token, 'secret');
         var queryStr = "select * from users where userName = ?";
+        console.log('found token, user = ', user);
 
         db.query(queryStr, user, function(err, userInfo) {
-          if(userInfo.length !== 0) {
-            next(userInfo);
+          if(userInfo.length) {
+            // res.sendStatus(200);
+            console.log('found user in DB');
+            next();
           } else {
+            res.sendStatus(400);
+            next(err);
             //error: can't find user in user
           }
         });
+        // .fail(function(error) {
+        //   next(error);
+        // });
       }
   }
 

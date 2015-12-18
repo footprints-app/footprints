@@ -16,7 +16,8 @@ var {
   StyleSheet,
   Component,
   Navigator,
-  View
+  View,
+  AsyncStorage
 } = React;
 
 class mobile extends Component {
@@ -27,6 +28,16 @@ class mobile extends Component {
       userId: null,
       token: null
     };
+  }
+
+  componentDidMount () {
+    AsyncStorage.multiGet(['token', 'user'])
+      .then(function(data) {
+        if (data) {
+          console.log('token and user from index.ios:.....', data[0][1])
+          utils.makeRequest('checkAuth', {}, "", data[0][1])
+        }
+      });
   }
 
   renderScene (route, navigator) {
