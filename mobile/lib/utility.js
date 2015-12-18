@@ -158,19 +158,12 @@ var Utility = {
     // console.log('reqBody in request: ', reqBody);
     console.log('token in makeRequest: ', token);
     var requestMethod = requests[requestType].reqMethod;
-    var headersObj = {
-            'Accept': 'application/json',
-            // 'Content-Type': 'application/json',
-            'Allow-Control-Allow-Origin': '*',
-            'x-access-token': token
-          };
     console.log('headersObj: ', headersObj);
     if(requestMethod === 'GET') {
       return fetch(reqUrl, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
-            // 'Content-Type': 'application/json',
             'Allow-Control-Allow-Origin': '*',
             'x-access-token': token,
             'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
@@ -184,7 +177,6 @@ var Utility = {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            // 'Allow-Control-Allow-Origin': '*',
             'x-access-token': token
           },
           body: JSON.stringify(reqBody)

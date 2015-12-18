@@ -61,6 +61,7 @@ class AllTours extends Component {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(response),
         isLoading: false
+
       });
   }
 
