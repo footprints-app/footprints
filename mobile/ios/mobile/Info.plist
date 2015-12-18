@@ -4,16 +4,13 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Roboto-Medium.ttf</string>
+		<string>Roboto-Regular.ttf</string>
 		<string>OpenSans-Medium.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
-		<string>Questrial-Regular.ttf</string>
-		<string>Roboto-Regular.ttf</string>
-		<string>Roboto-Medium.ttf</string>
 		<string>Raleway-Regular.ttf</string>
-		<string>Mallanna-Regular.ttf</string>
 		<string>Raleway-Bold.ttf</string>
-		<string>NewsCycle-Regular.ttf</string>
-		<string>Metrophobic.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
