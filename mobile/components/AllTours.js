@@ -12,7 +12,8 @@ var {
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  AsyncStorage
  } = React;
  
 class AllTours extends Component {
@@ -61,8 +62,6 @@ class AllTours extends Component {
         dataSource: this.state.dataSource.cloneWithRows(response),
         isLoading: false
       });
-    })
-    .done();
   }
 
   renderLoadingView() {

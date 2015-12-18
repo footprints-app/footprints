@@ -2,7 +2,7 @@
 var React = require('react-native');
 
 var request_url = 'http://localhost:8000';
-//var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+// var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
@@ -150,26 +150,43 @@ var Utility = {
    * @param {string, object, [string]} requestType is a key in the request's object, reqBody is the object that is being sent in the request, reqParam is an optional argument for ids.
    * @return {Promise} promise with the parsed response body
    */
-  makeRequest: function(requestType, reqBody, token, reqParam) {
+  makeRequest: function(requestType, reqBody, reqParam, token) {
     var param = reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
     // console.log('request url: ', reqUrl);
     // console.log('reqParam: ', param);
     // console.log('reqBody in request: ', reqBody);
+    console.log('token in makeRequest: ', token);
     var requestMethod = requests[requestType].reqMethod;
-    var headersObj = headers: {
+    var headersObj = {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/json',
+            'Allow-Control-Allow-Origin': '*',
             'x-access-token': token
-          }
+          };
+    console.log('headersObj: ', headersObj);
     if(requestMethod === 'GET') {
-      return fetch(reqUrl)
+      return fetch(reqUrl, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            // 'Content-Type': 'application/json',
+            'Allow-Control-Allow-Origin': '*',
+            'x-access-token': token,
+            'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
+          }
+        })
       .then(response => response.json());
     } else {
       return fetch(reqUrl, 
         {
           method: requestMethod,
-          headersObj,
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            // 'Allow-Control-Allow-Origin': '*',
+            'x-access-token': token
+          },
           body: JSON.stringify(reqBody)
         }
       ).then((response) => response.json()); 
