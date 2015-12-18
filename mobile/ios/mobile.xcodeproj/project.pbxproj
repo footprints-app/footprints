@@ -58,7 +58,7 @@
 		D08F36C41C31CBA1002D8394 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */; };
 		D08F36C51C31CBA1002D8394 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */; };
 		D08F36C61C31CBA1002D8394 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */; };
-
+		977BE63E1C24984900461484 /* libRNRecordAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 977BE6391C2495F000461484 /* libRNRecordAudio.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +152,19 @@
 			proxyType = 2;
 			remoteGlobalIDString = 2F5A3EB81ACDBF8000439386;
 			remoteInfo = ReactNativeIcons;
+		977BE6381C2495F000461484 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DFC145751BAB2BA0008BCF87;
+			remoteInfo = RNRecordAudio;
+		};
+		977BE63A1C2495F000461484 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DFC145801BAB2BA0008BCF87;
+			remoteInfo = RNRecordAudioTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -207,13 +220,7 @@
 		D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../fonts/Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		9B0ACA591C250503007AFB4C /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "../../../../../Downloads/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		9B0ACA5A1C250503007AFB4C /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "../../../../../Downloads/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
-		9B0ACA5B1C250503007AFB4C /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../../../../../Downloads/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		9B0ACA5C1C250503007AFB4C /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../../../Downloads/Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		9B0ACA5D1C250503007AFB4C /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../../../../../Downloads/Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		9B0ACA5E1C250503007AFB4C /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../../../../../Downloads/Raleway-Regular.ttf"; sourceTree = "<group>"; };
-		9B0ACA5F1C250503007AFB4C /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Bold.ttf"; path = "../../../../../Downloads/Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRecordAudio.xcodeproj; path = "../node_modules/react-native-record-audio-ios/RNRecordAudio.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B10939F1C261D3B009059AC /* libReactNativeIcons.a in Frameworks */,
+				977BE63E1C24984900461484 /* libRNRecordAudio.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -360,6 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */,
+				977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -442,6 +451,14 @@
 			isa = PBXGroup;
 			children = (
 				9B10939E1C261D15009059AC /* libReactNativeIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		977BE6341C2495F000461484 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				977BE6391C2495F000461484 /* libRNRecordAudio.a */,
+				977BE63B1C2495F000461484 /* RNRecordAudioTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -562,6 +579,8 @@
 				{
 					ProductGroup = 9B10939A1C261D15009059AC /* Products */;
 					ProjectRef = 9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */;
+					ProductGroup = 977BE6341C2495F000461484 /* Products */;
+					ProjectRef = 977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -655,6 +674,18 @@
 			fileType = archive.ar;
 			path = libReactNativeIcons.a;
 			remoteRef = 9B10939D1C261D15009059AC /* PBXContainerItemProxy */;
+		977BE6391C2495F000461484 /* libRNRecordAudio.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNRecordAudio.a;
+			remoteRef = 977BE6381C2495F000461484 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		977BE63B1C2495F000461484 /* RNRecordAudioTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNRecordAudioTests.xctest;
+			remoteRef = 977BE63A1C2495F000461484 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -888,6 +919,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				New_Setting = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -928,6 +960,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				New_Setting = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
