@@ -74,7 +74,7 @@ class AllTours extends Component {
           <View>
             <Image
               source={{uri: tour.image}}
-              style={[styles.thumbnail,
+              style={[styles.tourPhoto,
                          {resizeMode: Image.resizeMode.cover}]} >
             <Text style={styles.title}> {tour.tourName} </Text>
             <Text style={styles.city}> {tour.cityName} </Text></Image>

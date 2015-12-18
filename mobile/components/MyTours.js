@@ -158,7 +158,7 @@ class MyTours extends Component {
         underlayColor='#dddddd'>
         <View>
           <View>
-            <Image source={{ uri: tour.image }} style={ styles.thumbnail } >
+            <Image source={{ uri: tour.image }} style={ styles.tourPhoto } >
               <Text style={ styles.title }>{ tour.tourName }</Text>
               <Text style={ styles.city }>{ tour.cityName }</Text>
             </Image>
