@@ -99,7 +99,22 @@ class MyTours extends Component {
   }
 
   deleteTour(tour) {
-
+    console.log(tour);
+    var reqBody = tour;
+    var reqParam = tour.id;
+    utils.makeRequest('deleteTour', reqBody, reqParam)
+      .then(response => {
+        console.log('Response body from server after deleting a tour: ', response);
+        utils.makeRequest('myTours', {}, this.state.userId)
+        .then((response) => {
+          console.log('response body from MyTours: ', response);
+          var tours = response;
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(tours),
+            isLoading: false
+          });
+        })
+      })
   }
 
   renderLoadingView () {
