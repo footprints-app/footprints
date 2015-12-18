@@ -7,11 +7,13 @@ var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
 var CreateTour = require('./CreateTour');
 var ViewCreatedTour = require('./ViewCreatedTour');
+var styles = require('../lib/stylesheet')
 
 var {
   Image,
   StyleSheet,
   View,
+  Text,
   Component,
   TouchableHighlight,
   ActivityIndicatorIOS,
@@ -81,26 +83,47 @@ class SelectImage extends Component {
     console.log(err);
   }
 
-  selectImage(uri) {
+  selectImage(image) {
     this.setState({
-      selected: uri,
+      selected: image,
     });
-    console.log('Selected image: ', uri);
-  },
+    console.log('Selected image: ', image.uri);
+  }
 
+  submitSelection() {
+    console.log('submit selection');
+  }
 
-render() {
+  render() {
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.imageGrid}>
-            { this.state.images.map(image => <Image style={styles.image} source={{ uri: image.uri }} />) }
-            </View>
+      <View>
+        <ScrollView style={comp_styles.container}>
+          <View style={comp_styles.imageGrid}>
+            { this.state.images.map((image) => {
+                return (
+                  <TouchableHighlight key={image.uri} onPress={this.selectImage.bind(this, image)}>
+                    <Image style={image === this.state.selected ? comp_styles.selectedImage : comp_styles.image} source={{ uri: image.uri }} />
+                  </TouchableHighlight>
+                );
+              })
+            }
+          </View>
         </ScrollView>
+        <TouchableHighlight
+            onPress={ this.submitSelection.bind(this) } 
+            style={ styles.touchable } 
+            underlayColor="#FF3366">  
+            <View style={ comp_styles.submit }>
+              <Text style={ styles.whiteFont }>Select Image</Text>
+            </View>
+        </TouchableHighlight> 
+      </View>
     );
   } 
 };
 
-var styles = StyleSheet.create({
+
+var comp_styles = StyleSheet.create({
   container: {
     margin: 20,
     flex: 1,
@@ -116,6 +139,19 @@ var styles = StyleSheet.create({
     width: 100,
     height: 100,
     margin: 10,
+  },
+  selectedImage: {
+    width: 100,
+    height: 100,
+    margin: 10,
+    borderWidth: 10,
+    borderColor: 'black'
+  },
+  submit: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 10,
   }
 });
  
