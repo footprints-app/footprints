@@ -119,9 +119,139 @@ var styles = StyleSheet.create({
   },
   mainTouchable: {
     borderRadius: 100
-  }
+  },
   //End Main.js
 
-})
+  //ToursView Styling
+  tourPhoto: {
+    backgroundColor: 'transparent',
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
+    color: 'white',
+    fontSize: 22,
+    fontFamily: 'Raleway',
+    fontWeight: '800',
+    paddingTop: 10
+  },
+  city: {
+    color: '#FFF',
+    fontFamily: 'Roboto',
+    fontWeight: '800',
+    fontSize: 16
+  },
+  separator: {
+    height: 3,
+    backgroundColor: '#FFF'
+  },
+  listView: {
+    flex: 1,
+    backgroundColor: '#727272'
+  },
+  createTour: {
+    backgroundColor: '#FFC107',
+    padding: 20,
+    alignItems: 'center'
+  },
+  createBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  deleteContainer: {
+    flex: 1
+  },
+  deleteText: {
+    fontSize: 12,
+    marginBottom: 8
+  },
+  doneBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 50,
+  },
+  editBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 25
+  },
+  //Tour Detail
+  tourContainer: {
+    flex: 1,
+    backgroundColor: '#727272'
+  },
+  panel: {
+    backgroundColor: '#727272',
+    flex: 1
+  },
+  placeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  headerPhoto: {
+    marginTop: 60,
+    backgroundColor: 'transparent',
+    height: 150
+  },
+  description: {
+    fontSize: 15,
+    color: '#FFF',
+    fontFamily: 'OpenSans',
+    marginLeft: 12
+  },
+  thumbnail: {
+    width: 85,
+    height: 81
+  },
+  rightContainer: {
+    flex: 1
+  },
+  placeName: {
+    fontSize: 14,
+    fontFamily: 'OpenSans',
+    color: '#FFF',
+    marginBottom: 8,
+    marginLeft: 8
+  },
+  tourTitle: {
+    fontSize: 25,
+    fontFamily: 'Raleway',
+    fontWeight: '500',
+    color: '#00BCD4',
+    marginLeft: 10,
+    marginBottom: 8,
+    marginTop: 13,
+    justifyContent: 'center'
+  },
+  bold: {
+    fontWeight: 'bold'
+  },
+  tourSeparator: {
+    height: 1,
+    backgroundColor: '#FFF'
+  },
+  arrow: {
+    marginRight: 7
+  },
+
+  //PlaceDetail
+  detailContainer: {
+    alignItems: 'center',
+    marginTop: 75
+  },
+  story: {
+    fontFamily: 'Raleway',
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginTop: 15
+  }
+});
 
 module.exports = styles;

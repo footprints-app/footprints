@@ -22,6 +22,13 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		D0C71FD61C23764C009CC11D /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C71FD41C23764C009CC11D /* Raleway-Bold.ttf */; };
+		D0C71FD71C23764C009CC11D /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C71FD51C23764C009CC11D /* Raleway-Regular.ttf */; };
+		D0C720AC1C24892F00122DD4 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C720AA1C24892F00122DD4 /* OpenSans-Regular.ttf */; };
+		D0C720AD1C24892F00122DD4 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C720AB1C24892F00122DD4 /* OpenSans-Semibold.ttf */; };
+		D0C720BA1C24894F00122DD4 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C720B81C24894F00122DD4 /* Roboto-Medium.ttf */; };
+		D0C720BB1C24894F00122DD4 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C720B91C24894F00122DD4 /* Roboto-Regular.ttf */; };
+		D0C720BD1C2493E400122DD4 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D0C720BC1C2493E400122DD4 /* OpenSans-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +133,13 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		D0C71FD41C23764C009CC11D /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Bold.ttf"; path = "../../../fonts/Raleway/Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		D0C71FD51C23764C009CC11D /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../../../fonts/Raleway/Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		D0C720AA1C24892F00122DD4 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "../../../fonts/fonts/Open_Sans/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		D0C720AB1C24892F00122DD4 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "../../../fonts/fonts/Open_Sans/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		D0C720B81C24894F00122DD4 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../../../fonts/fonts/Roboto/Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		D0C720B91C24894F00122DD4 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../fonts/fonts/Roboto/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		D0C720BC1C2493E400122DD4 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../../../fonts/fonts/Open_Sans/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -287,6 +301,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				D0C720BC1C2493E400122DD4 /* OpenSans-Bold.ttf */,
+				D0C720B81C24894F00122DD4 /* Roboto-Medium.ttf */,
+				D0C720B91C24894F00122DD4 /* Roboto-Regular.ttf */,
+				D0C720AA1C24892F00122DD4 /* OpenSans-Regular.ttf */,
+				D0C720AB1C24892F00122DD4 /* OpenSans-Semibold.ttf */,
+				D0C71FD41C23764C009CC11D /* Raleway-Bold.ttf */,
+				D0C71FD51C23764C009CC11D /* Raleway-Regular.ttf */,
 				13B07FAE1A68108700A75B9A /* mobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* mobileTests */,
@@ -508,7 +529,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0C71FD71C23764C009CC11D /* Raleway-Regular.ttf in Resources */,
+				D0C720AD1C24892F00122DD4 /* OpenSans-Semibold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				D0C720BB1C24894F00122DD4 /* Roboto-Regular.ttf in Resources */,
+				D0C71FD61C23764C009CC11D /* Raleway-Bold.ttf in Resources */,
+				D0C720BA1C24894F00122DD4 /* Roboto-Medium.ttf in Resources */,
+				D0C720BD1C2493E400122DD4 /* OpenSans-Bold.ttf in Resources */,
+				D0C720AC1C24892F00122DD4 /* OpenSans-Regular.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

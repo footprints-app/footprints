@@ -3,9 +3,9 @@
 var React = require('react-native');
 var PlaceDetail = require('./PlaceDetail');
 var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
 
 var {
-  StyleSheet,
   Image,
   View,
   Text,
@@ -73,15 +73,18 @@ class TourDetail extends Component {
   }
 
   renderPlace(place) {
+    var imageURI = (typeof place.image !== 'undefined') ? place.image : '';
     return (
       <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
         <View>
           <View style={styles.placeContainer}>
+            <Image source={{uri: imageURI }} style={styles.thumbnail}  />
             <View style={styles.rightContainer}>
               <Text style={styles.placeName}>{place.placeName}</Text>
             </View>
+            <Image source={require('../assets/arrow.png')} style={styles.arrow}></Image>
           </View>
-          <View style={styles.separator} />
+          <View style={styles.tourSeparator} />
         </View>
       </TouchableHighlight>
     );
@@ -90,26 +93,35 @@ class TourDetail extends Component {
   render() {
     var tour = this.props.tour;
     var imageURI = (typeof tour.image !== 'undefined') ? tour.image : '';
+    var tourName = (typeof tour.tourName !== 'undefined') ? tour.tourName : '';
     var description = (typeof tour.description !== 'undefined') ? tour.description : '';
     var cityName = (typeof tour.cityName !== 'undefined') ? tour.cityName : '';
     var category = (typeof tour.category !== 'undefined') ? tour.category : '';
     var duration = (typeof tour.duration !== 'undefined') ? tour.duration : '';
-    
+
+    //if(this.state.isLoading) {
+    //  return this.renderLoadingView()
+    //}
+
     return (
-      <View style={styles.container}>
+      <View style={styles.tourContainer}>
         
-        <Image style={styles.image} source={{uri: imageURI}} />
-        <Text style={styles.description}>description: {description}</Text>
-        <Text style={styles.description}>City: {cityName}</Text>
-        <Text style={styles.description}>Category: {category}</Text>
-        <Text style={styles.description}>Duration: {duration}</Text>
-        <Text style={styles.description}>Places</Text>
+        <Image style={styles.headerPhoto} source={{uri: imageURI}} />
+        <Text style={styles.tourTitle}>{tourName}</Text>
+        <Text style={styles.description}>
+          <Text style={styles.bold}>Description:</Text> {description + '\n'}
+          <Text style={styles.bold}>City:</Text> {cityName + '\n'}
+          <Text style={styles.bold}>Category:</Text> {category + '\n'}
+          <Text style={styles.bold}>Duration:</Text> {duration}
+        </Text>
+        <Text style={styles.tourTitle}>Places</Text>
         
         <View style={styles.panel}>
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderPlace.bind(this)}
-            style={styles.listView}/>
+            style={styles.listView}
+            automaticallyAdjustContentInsets={false} />
         </View>
       </View>
       
@@ -117,82 +129,6 @@ class TourDetail extends Component {
 
   }
 };
-
-var styles = StyleSheet.create({
-
-  container: {
-    marginTop: 75,
-    flex: 1,
-    padding: 10,
-    marginLeft: 3
-    // alignItems: 'center',
-    // justifyContent: 'center'
-  },
-  panel: {
-    backgroundColor: '#fff2f2',
-    flex: 1,
-    // marginTop: -50,
-    padding: 10,
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    
-  },
-  placeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  image: {
-    width: 350,
-    height: 165,
-    padding: 10
-  },
-  description: {
-    padding: 10,
-    fontSize: 15,
-    color: '#656565',
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
-  rightContainer: {
-    flex: 1
-  },
-  placeName: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
-  city: {
-    color: '#656565',
-    marginLeft: 20
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  listView: {
-    backgroundColor: '#fff2f2'
-   },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-
-
-});
 
 module.exports = TourDetail;
 

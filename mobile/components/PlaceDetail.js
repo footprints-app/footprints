@@ -1,16 +1,14 @@
 'use strict';
 
 var React = require('react-native');
+var styles = require('../lib/stylesheet');
 
 var {
   StyleSheet,
   Image,
   View,
   Text,
-  Component,
-  ListView,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  Component
 } = React;
 
 class PlaceDetail extends Component {
@@ -35,76 +33,17 @@ class PlaceDetail extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Image style={styles.image} source={{uri: this.state.image}} />
-        <Text style={styles.description}>Location: {this.state.placeName}</Text>
-        <Text style={styles.description}>Address: {this.state.address}</Text>
-        <Text style={styles.description}>description: {this.state.description}</Text>
+      <View style={styles.tourContainer}>
+        <Image style={styles.headerPhoto} source={{uri: this.state.image}} />
+          <Text style={[styles.story, {textAlign: 'center', color: '#00BCD4'}]}> {this.state.placeName}</Text>
+        <Text style={[styles.description, {textAlign: 'center'}]}>
+        <Text style={styles.bold}>Address:</Text> {this.state.address}
+        </Text>
+        <Text style={[styles.story, {color: '#FFC107', marginLeft: 10}]}>What's the Story?</Text>
+        <Text style={styles.description}>{this.state.description}</Text>
       </View>
     );
   }
 };
-
-var styles = StyleSheet.create({
-
-  container: {
-    marginTop: 75,
-    alignItems: 'center'
-  },
-  placeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  image: {
-    width: 350,
-    height: 165,
-    padding: 10
-  },
-  description: {
-    padding: 10,
-    fontSize: 15,
-    color: '#656565',
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
-  rightContainer: {
-    flex: 1
-  },
-  placeName: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
-  city: {
-    color: '#656565',
-    marginLeft: 20
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  listView: {
-    backgroundColor: '#F5FCFF'
-   },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-
-
-});
 
 module.exports = PlaceDetail;
