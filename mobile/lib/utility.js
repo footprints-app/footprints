@@ -14,7 +14,8 @@ var requests = {
     addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'},
     editTour: {reqMethod: 'PUT', endPoint: '/tours/edit/'},
     deletePlace: {reqMethod: 'DELETE', endPoint: '/tours/deleteplace/'},
-    editPlace: {reqMethod: 'PUT', endPoint: '/tours/editplace/'}
+    editPlace: {reqMethod: 'PUT', endPoint: '/tours/editplace/'},
+    deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'}
   }; 
 
 var Utility = {

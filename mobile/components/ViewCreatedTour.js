@@ -145,7 +145,7 @@ class ViewCreatedTour extends Component {
       <View>
         <View style={ styles.placeContainer }>
           <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
-            <Text style={ styles.deleteName }>Delete</Text>
+            <Text style={ styles.deleteText }>Delete</Text>
           </TouchableHighlight>
           <TouchableHighlight style={ styles.rightContainer } onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
             <Text style={ styles.placeName }>{ place.placeName }</Text>
@@ -340,7 +340,7 @@ var styles = StyleSheet.create({
   deleteContainer: {
     flex: 1
   },
-  deleteName: {
+  deleteText: {
     fontSize: 12,
     marginBottom: 8
   },
