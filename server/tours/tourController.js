@@ -48,7 +48,7 @@ module.exports = {
 				});
 			})
 			.then(function(data) {
-				console.log('found tour data');
+				console.log('found tour data', data);
 				res.status(200).json(data);
 			})
 			.catch(function(err) {
