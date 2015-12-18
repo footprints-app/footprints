@@ -115,7 +115,7 @@ class MyTours extends Component {
         onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) } 
         underlayColor='#dddddd'>
         <View>
-          <View style={ styles.container }>
+          <View style={ styles.tourContainer }>
             <Image source={{ uri: tour.image }} style={ styles.thumbnail } />
             <View style={ styles.rightContainer }>
               <Text style={ styles.title }>{ tour.tourName }</Text>
@@ -130,23 +130,25 @@ class MyTours extends Component {
 
   render () {
     return (
-      <View>
-        <ListView
-          dataSource={ this.state.dataSource }
-          renderRow={ this.renderTour.bind(this) }
-          style={ styles.listView }/>
+      <View style={ styles.container }>
+        <View style={ styles.panel }>
+          <ListView
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderTour.bind(this) }
+            style={ styles.listView }/>
+        </View>
         
         <TouchableHighlight
           onPress={ this.toggleEdit.bind(this) }
-          style={ styles.touchable } underlayColor="#FF3366">
-          <View style={ styles.createTour }>
-            <Text style={ styles.whiteFont }>Create Tour</Text>
+          style={ styles.touchable } underlayColor="white">
+          <View style={ styles.toggleEdit }>
+            <Text style={ styles.whiteFont }>Edit</Text>
           </View>
         </TouchableHighlight>
 
         <TouchableHighlight 
           onPress={ this.createTour.bind(this) } 
-          style={ styles.touchable } underlayColor="#FF3366">  
+          style={ styles.touchable } underlayColor="white">  
           <View style={ styles.createTour }>
             <Text style={ styles.whiteFont }>Create Tour</Text>
           </View>
@@ -157,35 +159,20 @@ class MyTours extends Component {
 };
 
 var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
-  rightContainer: {
-    flex: 1
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
   city: {
     color: '#656565',
     marginLeft: 20
   },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
+  container: { 
+    flexDirection: 'column',
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  createTour: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 50,
   },
   listView: {
     backgroundColor: '#F5FCFF',
@@ -196,17 +183,48 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  whiteFont: {
-    color: '#FFF'
+  panel: {
+    backgroundColor: '#fff2f2',
+    flex: 1,
+    padding: 10
+  },
+  rightContainer: {
+    flex: 1
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd'
+  },
+  thumbnail: {
+    width: 85,
+    height: 81,
+    marginRight: 10,
+    marginTop: 10
+  },
+  title: {
+    fontSize: 20,
+    marginBottom: 8,
+    marginLeft: 20
+  },
+  toggleEdit: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 25,
   },
   touchable: {
     borderRadius: 5
   },
-  createTour: {
-    backgroundColor: '#FF3366',
-    padding: 20,
+  tourContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -50,
+    backgroundColor: '#fff2f2',
+    padding: 10
+  },
+  whiteFont: {
+    color: '#FFF'
   },
 });
  
