@@ -72,6 +72,7 @@ class MyTours extends Component {
     var newEditState = !this.state.editMode;
     this.setState({editMode: newEditState});
     console.log("Edit Mode: ", this.state.editMode);
+    this.fetchData();
   }
 
   /**
@@ -97,6 +98,10 @@ class MyTours extends Component {
     utils.navigateTo.call(this, "Create Tour", CreateTour, {userId});
   }
 
+  deleteTour(tour) {
+
+  }
+
   renderLoadingView () {
     return (
       <View style={ styles.loading }>
@@ -109,7 +114,28 @@ class MyTours extends Component {
     );
   }
 
-  renderTour (tour) {
+  renderDeletableTour(tour) {
+    console.log('Rendering Deletable Tour');
+    return (
+      <View>
+        <View style={ styles.tourContainer }>
+          <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deleteTour.bind(this, tour) }>
+            <Text style={ styles.deleteText }>Delete</Text>
+          </TouchableHighlight>
+          <View style={ styles.rightContainer }>
+            <Image source={{ uri: tour.image }} style={ styles.thumbnail } />
+            <View style={ styles.rightContainer }>
+              <Text style={ styles.title }>{ tour.tourName }</Text>
+              <Text style={ styles.city }>{ tour.cityName }</Text>
+            </View>
+          </View>
+        </View>
+        <View style={ styles.separator } />
+      </View>
+    );
+  }
+
+  renderTour(tour) {
     return (
       <TouchableHighlight 
         onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) } 
@@ -134,7 +160,7 @@ class MyTours extends Component {
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
-            renderRow={ this.renderTour.bind(this) }
+            renderRow={ this.renderDeletableTour.bind(this) }
             style={ styles.listView }/>
         </View>
 
@@ -206,11 +232,24 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 50,
   },
+  deleteContainer: {
+    flex: 1
+  },
+  deleteText: {
+    fontSize: 12,
+    marginBottom: 8
+  },
   doneBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
     marginBottom: 50,
+  },
+  editBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginBottom: 25,
   },
   listView: {
     backgroundColor: '#F5FCFF',
@@ -244,12 +283,6 @@ var styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 8,
     marginLeft: 20
-  },
-  editBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 25,
   },
   touchable: {
     borderRadius: 5
