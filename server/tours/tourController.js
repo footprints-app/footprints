@@ -6,6 +6,7 @@
 var tours = require('./tourModel');
 var Promise = require('bluebird');
 var Query = Promise.promisifyAll(tours);
+var images = require('../images/imageController');
 
 module.exports = {
 	/** Receives a tourId from request and calls promisified querySpecificTour from the tourModel.
@@ -204,4 +205,33 @@ module.exports = {
 			}
 		});
 	},
+
+	/** Receives tourId and utf-8 encoded image data to be added to the database
+	 * Convers image to base64 and sends to cloudinary to host image, receives image url as response and stores in DB
+	 *
+	 * @method addTourPhoto
+	 * @param req {object} includes params property which is the tourId, body is utf-8 encoded image data
+	 * @param res {object} Response status
+	 */
+	addTourPhoto: function(req, res) {
+		console.log('addTourPhoto called');
+		var tourId = req.params.id;
+		var base64Image = req.body.encodedData;
+		// var base64Image = new Buffer(req.body.encodedData, 'utf8').toString('base64');
+
+		images.upload(base64Image, function(imageUrl) {
+			if(!imageUrl) {
+				console.log('error uploading image');
+			} else {
+				var params = [imageUrl, tourId];
+				tours.addImageToTour(params, function (err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json(imageUrl);
+					}
+				});
+			}
+		});
+	}
 }
