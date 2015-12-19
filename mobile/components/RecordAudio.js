@@ -136,7 +136,7 @@ class RecordAudio extends Component {
           onPress={ this.stopRec.bind(this) } 
           style={ styles.touchable } underlayColor="white">  
           <View style={ styles.stopRecBtn }>
-            <Text style={ styles.whiteFont }>Stop</Text>
+            <Text style={ styles.whiteFont }>Stop Recording</Text>
           </View>
         </TouchableHighlight>
 
@@ -144,7 +144,7 @@ class RecordAudio extends Component {
           onPress={ this.play.bind(this) } 
           style={ styles.touchable } underlayColor="white">  
           <View style={ styles.playBtn }>
-            <Text style={ styles.whiteFont }>Stop</Text>
+            <Text style={ styles.whiteFont }>Play</Text>
           </View>
         </TouchableHighlight>
 
@@ -152,7 +152,7 @@ class RecordAudio extends Component {
           onPress={ this.pause.bind(this) } 
           style={ styles.touchable } underlayColor="white">  
           <View style={ styles.pauseBtn }>
-            <Text style={ styles.whiteFont }>Stop</Text>
+            <Text style={ styles.whiteFont }>Pause</Text>
           </View>
         </TouchableHighlight>
 
