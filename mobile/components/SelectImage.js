@@ -7,7 +7,7 @@ var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
 var CreateTour = require('./CreateTour');
 var ViewCreatedTour = require('./ViewCreatedTour');
-var styles = require('../lib/stylesheet')
+var styles = require('../lib/stylesheet');
 
 var {
   Image,
@@ -20,6 +20,7 @@ var {
   AsyncStorage,
   ScrollView,
   CameraRoll,
+  NativeModules
  } = React;
  
 class SelectImage extends Component {
@@ -92,11 +93,27 @@ class SelectImage extends Component {
 
   submitSelection() {
     console.log('submit selection');
+    NativeModules.ReadImageData.readImage(this.state.selected.uri, function(imageData) {
+      var encodedData = imageData.toString('base64');
+      utils.makeRequest('addTourPhoto', {encodedData})
+      .then(response => {
+        console.log('tour added to db: ', response);
+      });
+    });
   }
 
   render() {
     return (
       <View>
+        <TouchableHighlight
+            onPress={ this.submitSelection.bind(this) } 
+            style={ styles.touchable } 
+            underlayColor="#FF3366">  
+            <View style={ comp_styles.submit }>
+              <Text style={ styles.whiteFont }>Select Image</Text>
+            </View>
+        </TouchableHighlight> 
+
         <ScrollView style={comp_styles.container}>
           <View style={comp_styles.imageGrid}>
             { this.state.images.map((image) => {
@@ -109,14 +126,6 @@ class SelectImage extends Component {
             }
           </View>
         </ScrollView>
-        <TouchableHighlight
-            onPress={ this.submitSelection.bind(this) } 
-            style={ styles.touchable } 
-            underlayColor="#FF3366">  
-            <View style={ comp_styles.submit }>
-              <Text style={ styles.whiteFont }>Select Image</Text>
-            </View>
-        </TouchableHighlight> 
       </View>
     );
   } 
@@ -151,7 +160,7 @@ var comp_styles = StyleSheet.create({
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
   }
 });
  

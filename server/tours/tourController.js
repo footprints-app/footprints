@@ -214,8 +214,10 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	addTourPhoto: function(req, res) {
+		console.log('addTourPhoto called');
 		var tourId = req.params.id;
-		var base64Image = new Buffer(req.body, 'utf8').toString('base64');
+		var base64Image = req.body.encodedData;
+		// var base64Image = new Buffer(req.body.encodedData, 'utf8').toString('base64');
 
 		images.upload(base64Image, function(imageUrl) {
 			if(!imageUrl) {
