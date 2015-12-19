@@ -167,7 +167,7 @@ var Utility = {
    * @return {Promise} promise with the parsed response body
    */
   makeRequest: function(requestType, reqBody, reqParam) {
-    var token = getToken();
+    getToken();
     var param = reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
     // console.log('request url: ', reqUrl);
