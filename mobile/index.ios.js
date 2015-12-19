@@ -10,6 +10,7 @@ var Main = require('./components/Main');
 var MyTours = require('./components/MyTours');
 var AllTours = require('./components/AllTours');
 var CreateTour = require('./components/CreateTour');
+var utils = require('./lib/utility');
 
 var {
   AppRegistry,
@@ -37,7 +38,8 @@ class mobile extends Component {
           console.log('token and user from index.ios:.....', data[0][1])
           utils.makeRequest('checkAuth', {}, "", data[0][1])
         }
-      });
+      })
+      .done()
   }
 
   renderScene (route, navigator) {
@@ -53,6 +55,19 @@ class mobile extends Component {
   }
 
   render () {
+    // var that = this;
+    // AsyncStorage.multiGet(['token', 'user'])
+    // .then(function(data) {
+    //   if (data) {
+    //     console.log('token and user from index.ios:.....', data[0][1])
+    //     utils.makeRequest('allTours', {}, "", data[0][1])
+    //     .then((response) => {
+    //       console.log('response body from index.ios: ', response);
+    //       utils.navigateTo.call(this, "All Tours", AllTours, {});
+    //     })
+    //     .done();
+    //   }
+    // })
     return(
       <Navigator
         sceneStyle={styles.container}
