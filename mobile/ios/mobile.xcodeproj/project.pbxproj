@@ -61,6 +61,7 @@
 		977BE63E1C24984900461484 /* libRNRecordAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 977BE6391C2495F000461484 /* libRNRecordAudio.a */; };
 		977BE63E1C24984900461484 /* libRNRecordAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 977BE6391C2495F000461484 /* libRNRecordAudio.a */; };
 		97F8BF721C251C2900E7F6A7 /* libRNPlayAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F8BF6D1C251BEC00E7F6A7 /* libRNPlayAudio.a */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +240,7 @@
 		977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRecordAudio.xcodeproj; path = "../node_modules/react-native-record-audio-ios/RNRecordAudio.xcodeproj"; sourceTree = "<group>"; };
 		977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRecordAudio.xcodeproj; path = "../node_modules/react-native-record-audio-ios/RNRecordAudio.xcodeproj"; sourceTree = "<group>"; };
 		97F8BF5D1C251BEB00E7F6A7 /* RNPlayAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPlayAudio.xcodeproj; path = "../node_modules/react-native-play-audio-ios/RNPlayAudio.xcodeproj"; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -749,6 +751,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< 98739c38ceff736e0b1bcd6501c4e9d220b051e5
 				9B1093B51C261DC5009059AC /* FAKOcticons.h in Resources */,
 				9B1093B61C261DC5009059AC /* FAKOcticons.m in Resources */,
 				D08F36C01C31CBA1002D8394 /* OpenSans-Bold.ttf in Resources */,
@@ -777,6 +780,8 @@
 				D08F36C11C31CBA1002D8394 /* OpenSans-Regular.ttf in Resources */,
 				9B1093C81C261DC5009059AC /* Material-Design-Iconic-Font.ttf in Resources */,
 				9B1093C91C261DC5009059AC /* zocial-regular-webfont.ttf in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				97F8BF7F1C25EB3400E7F6A7 /* Roboto-Medium.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				743731721C26229D00EB0C55 /* Raleway-Regular.ttf in Resources */,

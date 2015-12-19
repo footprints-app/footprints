@@ -66,7 +66,7 @@ class RecordAudio extends Component {
   play() {
     RNPlayAudio.startAudio(
 
-      "test.wav", // filename
+      "test.m4a", // filename
 
       function errorCallback(results) {
 
@@ -85,7 +85,7 @@ class RecordAudio extends Component {
   pause() {
     RNPlayAudio.pauseAudio(
 
-      "test.wav", // filename
+      "test.m4a", // filename
 
       function errorCallback(results) {
 
@@ -104,7 +104,7 @@ class RecordAudio extends Component {
   stop() {
     RNPlayAudio.stopAudio(
 
-      "test.wav", // filename
+      "test.m4a", // filename
 
       function errorCallback(results) {
 
@@ -139,6 +139,30 @@ class RecordAudio extends Component {
             <Text style={ styles.whiteFont }>Stop</Text>
           </View>
         </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.play.bind(this) } 
+          style={ styles.touchable } underlayColor="white">  
+          <View style={ styles.playBtn }>
+            <Text style={ styles.whiteFont }>Stop</Text>
+          </View>
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.pause.bind(this) } 
+          style={ styles.touchable } underlayColor="white">  
+          <View style={ styles.pauseBtn }>
+            <Text style={ styles.whiteFont }>Stop</Text>
+          </View>
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.stop.bind(this) } 
+          style={ styles.touchable } underlayColor="white">  
+          <View style={ styles.stopBtn }>
+            <Text style={ styles.whiteFont }>Stop</Text>
+          </View>
+        </TouchableHighlight>
       </View>
     );
   }
@@ -153,6 +177,24 @@ var styles = StyleSheet.create({
     marginTop: 50,
   },
   stopRecBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  playBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  pauseBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  stopBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
