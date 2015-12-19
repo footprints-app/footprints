@@ -6,6 +6,7 @@ var Login = require('./Login');
 var Main = require('./Main');
 var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
+var KeyboardAwareScrollView = require('react-native-keyboard-aware-scroll-view');
 
 var {
   AppRegistry,
@@ -15,7 +16,8 @@ var {
   TextInput,
   Image,
   Component,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView
 } = React;
 
 class Signup extends Component {
@@ -65,7 +67,8 @@ class Signup extends Component {
 
   render () {
     return (
-
+<KeyboardAwareScrollView>
+  <ScrollView>
       <View style={ styles.container }>
         <Image style={ styles.bg } source={{ uri: 'http://i.imgur.com/xlQ56UK.jpg' }} />
         
@@ -130,6 +133,8 @@ class Signup extends Component {
         </View>
 
       </View>
+    </ScrollView>
+  </KeyboardAwareScrollView>
     );
   }
 };
