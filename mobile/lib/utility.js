@@ -1,5 +1,8 @@
 'use strict';
 var React = require('react-native');
+var {
+  AsyncStorage
+} = React;
 
 var request_url = 'http://localhost:8000';
 // var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
@@ -18,6 +21,18 @@ var requests = {
     deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
     checkAuth: { reqMethod: 'GET', endPoint: '/users/auth' }
   }; 
+
+  var token;
+  function getToken() {
+    AsyncStorage.multiGet(['token', 'user'])
+    .then(function(data) {
+      if (data) {
+        token = data[0][1];
+        console.log('token and user from Utility getToken:.....', token)
+      }
+    })
+    return token;
+  };
 
 var Utility = {
 
@@ -144,13 +159,15 @@ var Utility = {
     });
   },
 
+ 
   /**
    * Calls fetch to make a specified API request to the server. 
    *
    * @param {string, object, [string]} requestType is a key in the request's object, reqBody is the object that is being sent in the request, reqParam is an optional argument for ids.
    * @return {Promise} promise with the parsed response body
    */
-  makeRequest: function(requestType, reqBody, reqParam, token) {
+  makeRequest: function(requestType, reqBody, reqParam) {
+    var token = getToken();
     var param = reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
     // console.log('request url: ', reqUrl);

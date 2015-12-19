@@ -31,15 +31,18 @@ class mobile extends Component {
     };
   }
 
-  componentDidMount () {
-    AsyncStorage.multiGet(['token', 'user'])
-      .then(function(data) {
-        if (data) {
-          console.log('token and user from index.ios:.....', data[0][1])
-          utils.makeRequest('checkAuth', {}, "", data[0][1])
-        }
-      })
-      .done()
+  //componentDidMount () {
+    // AsyncStorage.multiGet(['token', 'user'])
+    //   .then(function(data) {
+    //     if (data) {
+    //       console.log('token and user from index.ios:.....', data[0][1])
+          // utils.makeRequest('allTours', {}, "")
+          // .then(function(data){
+          //   console.log('alltours data from index.ios....', data);
+          // })
+    //     }
+    //   })
+    //   .done()
   }
 
   renderScene (route, navigator) {
