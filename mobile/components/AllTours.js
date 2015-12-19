@@ -12,8 +12,7 @@ var {
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS,
-  AsyncStorage
+  ActivityIndicatorIOS
  } = React;
  
 class AllTours extends Component {
@@ -45,22 +44,15 @@ class AllTours extends Component {
    *
    */
   fetchData() {
-    var that = this;
-    AsyncStorage.multiGet(['token', 'user'])
-      .then(function(data) {
-        if (data) {
-          console.log('token and user from alltours:.....', data[0][1])
-          utils.makeRequest('allTours', {}, "", data[0][1])
-          .then((response) => {
-            console.log('response body from allTours: ', response);
-            that.setState({
-              dataSource: that.state.dataSource.cloneWithRows(response),
-              isLoading: false
-            });
-          })
-          .done();
-        }
+    utils.makeRequest('allTours', {})
+    .then((response) => {
+      console.log('response body from allTours: ', response);
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(response),
+        isLoading: false
       });
+    })
+    .done();
   }
 
   renderLoadingView() {

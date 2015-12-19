@@ -158,7 +158,6 @@ var Utility = {
     // console.log('reqBody in request: ', reqBody);
     console.log('token in makeRequest: ', token);
     var requestMethod = requests[requestType].reqMethod;
-    console.log('headersObj: ', headersObj);
     if(requestMethod === 'GET') {
       return fetch(reqUrl, {
         method: 'GET',
