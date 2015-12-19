@@ -98,14 +98,11 @@ module.exports = {
             console.log('found user in DB');
             next();
           } else {
+            //error: can't find user in user
             res.sendStatus(400);
             next(err);
-            //error: can't find user in user
           }
         });
-        // .fail(function(error) {
-        //   next(error);
-        // });
       }
   }
 
