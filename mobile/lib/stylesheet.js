@@ -9,23 +9,19 @@ var {
 
 var styles = StyleSheet.create({
   //Start Shared Styles login-signup
-  container: {
-    flexDirection: 'column',
+  loginContainer: {
+    //flexDirection: 'column',
     flex: 1,
-    backgroundColor: 'transparent'
-  },
-  bg: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: windowSize.width,
-    height: windowSize.height
+    backgroundColor: '#0097A7'
   },
   signin: {
-    backgroundColor: '#FF3366',
+    backgroundColor: '#FFC107',
     padding: 20,
     alignItems: 'center',
-    marginTop: -75
+    marginTop: 10,
+    marginLeft: 25,
+    borderRadius: 10,
+    width: 120
   },
   inputPassword: {
     marginLeft: 15,
@@ -57,16 +53,25 @@ var styles = StyleSheet.create({
   whiteFont: {
     color: '#FFF'
   },
+  goldFont: {
+    color: '#FFC107'
+  },
   touchable: {
-    borderRadius: 5
+    borderRadius: 10
   },
   //End Shared Styles
 
   //Login.js Styles  
   loginSignup: {
-    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    padding: 20,
     alignItems: 'center',
-    flex: .15
+    marginTop: 20,
+    marginLeft: 25,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#FFC107',
+    width: 120
   },
   loginInputs: {
     marginTop: 300,
