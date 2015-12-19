@@ -64,24 +64,35 @@ class Signup extends Component {
       });
   }
 
+  inputFocused (refName) {
+    var that = this;
+    setTimeout(function() {
+      var scrollResponder = that.refs.scrollView.getScrollResponder();
+      scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+        React.findNodeHandle(that.refs[refName]),
+        80, //additionalOffset
+        true
+      );
+    }, 50);
+  }
 
   render () {
     return (
-<KeyboardAwareScrollView>
-  <ScrollView>
-      <View style={ styles.container }>
-        <Image style={ styles.bg } source={{ uri: 'http://i.imgur.com/xlQ56UK.jpg' }} />
-        
-        <View style={ styles.signupInputs }>
-
-        <View style={ styles.inputContainer }>
+      <View style={ styles.signupContainer }>
+        <ScrollView ref="scrollView">
+          <Image style = {{height: 270, width: 320}} source={require('../assets/logogold.png')}/>
+      <View>
+        <View style={ {marginTop: 20} }>
+          <View style={ styles.inputContainer }>
           <Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             <TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="First Name"
               placeholderTextColor="#FFF"
               value={ this.state.firstName }
-              onChange={ utils.firstNameInput.bind(this) }/>
+              onChange={ utils.firstNameInput.bind(this) }
+              ref='firstname'
+              onFocus={this.inputFocused.bind(this, 'firstname')}/>
           </View>
 
           <View style={ styles.inputContainer }>
@@ -91,7 +102,9 @@ class Signup extends Component {
               placeholder="Last Name"
               placeholderTextColor="#FFF"
               value={ this.state.lastName }
-              onChange={ utils.lastNameInput.bind(this) }/>
+              onChange={ utils.lastNameInput.bind(this) }
+              ref='lastname'
+              onFocus={this.inputFocused.bind(this, 'lastname')}/>
           </View>
 
           <View style={ styles.inputContainer }>
@@ -101,7 +114,9 @@ class Signup extends Component {
               placeholder="Username"
               placeholderTextColor="#FFF"
               value={ this.state.username }
-              onChange={ utils.usernameInput.bind(this) }/>
+              onChange={ utils.usernameInput.bind(this) }
+              ref='username'
+              onFocus={this.inputFocused.bind(this, 'username')}/>
           </View>
 
           <View style={ styles.inputContainer }> 
@@ -112,7 +127,9 @@ class Signup extends Component {
               placeholder="Password"
               placeholderTextColor="#FFF"
               value={ this.state.password }
-              onChange={ utils.passwordInput.bind(this) }/>
+              onChange={ utils.passwordInput.bind(this) }
+              ref='password'
+              onFocus={this.inputFocused.bind(this, 'password')}/>
           </View>
 
             <Text style={ styles.whiteFont }>
@@ -120,21 +137,22 @@ class Signup extends Component {
             </Text>
 
         </View>
-        
-        <View style={ styles.signup }>
-          <Text style={ styles.whiteFont } onPress={ this.submitSignup.bind(this) }>Sign Up</Text>
         </View>
+        </ScrollView>
 
-        <View style={ styles.login }>
-          <Text style={ styles.greyFont }>Already have an account?</Text>
-          <TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }>  
+        <View style={{flexDirection: 'row'}}>
+          <TouchableHighlight
+            onPress={ this.submitSignup.bind(this) }
+            style={[styles.loginSignup, {backgroundColor: '#00BCD4'}]}>
+            <Text style={ styles.whiteFont }>Sign Up</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }
+            style={styles.loginSignup}>
             <Text style={ styles.whiteFont }>Login</Text>
           </TouchableHighlight>
         </View>
-
       </View>
-    </ScrollView>
-  </KeyboardAwareScrollView>
     );
   }
 };

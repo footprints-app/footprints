@@ -87,7 +87,7 @@ class Login extends Component {
       <ScrollView ref="scrollView">
       <Image style = {{height: 300, width: 320}} source={require('../assets/logo.png')}/>
       <View>
-        <View style={ styles.loginInputs }>
+        <View style={ styles.inputs }>
           <View style={ styles.inputContainer }>
             <Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             <TextInput 

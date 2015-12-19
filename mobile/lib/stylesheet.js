@@ -18,15 +18,19 @@ var styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#B2EBF2'
   },
+  signupContainer: {
+    flex: 1,
+    backgroundColor: '#fbda7a'
+  },
   loginSignup: {
     backgroundColor: 'transparent',
-    padding: 20,
+    padding: 16,
     alignItems: 'center',
     marginLeft: 25,
     marginBottom: 35,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: '#FFC107',
+    borderColor: '#FFF',
     width: 120
   },
   inputPassword: {
@@ -65,11 +69,9 @@ var styles = StyleSheet.create({
   //End Shared Styles
 
   //Login.js Styles
-  loginInputs: {
-    marginTop: 50,
+  inputs: {
+    marginTop: 40,
     flex: 1
-    //marginBottom: 10
-    //flex: .25
   },
   //End of Login.js Styles
 
@@ -85,11 +87,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     flex: .15
   },
-  signupInputs: {
-    marginTop: 200,
-    marginBottom: 10,
-    flex: .25
-  },  
   //End SignUp.js
 
   //Start Main.js
