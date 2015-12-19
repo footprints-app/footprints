@@ -170,6 +170,7 @@
 		74C480361C23841200EFD1BD /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
 		9B1093A01C261DC5009059AC /* FAKOcticons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FAKOcticons.h; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKOcticons.h"; sourceTree = "<group>"; };
 		9B1093A11C261DC5009059AC /* FAKOcticons.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FAKOcticons.m; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKOcticons.m"; sourceTree = "<group>"; };
@@ -199,6 +200,15 @@
 		D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../fonts/Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+=======
+		9B0ACA591C250503007AFB4C /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "../../../../../Downloads/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		9B0ACA5A1C250503007AFB4C /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "../../../../../Downloads/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		9B0ACA5B1C250503007AFB4C /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../../../../../Downloads/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		9B0ACA5C1C250503007AFB4C /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../../../Downloads/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		9B0ACA5D1C250503007AFB4C /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../../../../../Downloads/Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		9B0ACA5E1C250503007AFB4C /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../../../../../Downloads/Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		9B0ACA5F1C250503007AFB4C /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Bold.ttf"; path = "../../../../../Downloads/Raleway-Bold.ttf"; sourceTree = "<group>"; };
+>>>>>>> refactored gettoken fn
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,6 +380,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				9B1093A01C261DC5009059AC /* FAKOcticons.h */,
 				9B1093A11C261DC5009059AC /* FAKOcticons.m */,
 				9B1093A21C261DC5009059AC /* FontAwesomeKit.h */,
@@ -398,6 +409,15 @@
 				9B1093B21C261DC5009059AC /* ionicons.ttf */,
 				9B1093B31C261DC5009059AC /* Material-Design-Iconic-Font.ttf */,
 				9B1093B41C261DC5009059AC /* zocial-regular-webfont.ttf */,
+=======
+				9B0ACA591C250503007AFB4C /* OpenSans-Semibold.ttf */,
+				9B0ACA5A1C250503007AFB4C /* OpenSans-Regular.ttf */,
+				9B0ACA5B1C250503007AFB4C /* OpenSans-Bold.ttf */,
+				9B0ACA5C1C250503007AFB4C /* Roboto-Regular.ttf */,
+				9B0ACA5D1C250503007AFB4C /* Roboto-Medium.ttf */,
+				9B0ACA5E1C250503007AFB4C /* Raleway-Regular.ttf */,
+				9B0ACA5F1C250503007AFB4C /* Raleway-Bold.ttf */,
+>>>>>>> refactored gettoken fn
 				13B07FAE1A68108700A75B9A /* mobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* mobileTests */,
@@ -649,6 +669,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				9B1093B51C261DC5009059AC /* FAKOcticons.h in Resources */,
 				9B1093B61C261DC5009059AC /* FAKOcticons.m in Resources */,
 				D08F36C01C31CBA1002D8394 /* OpenSans-Bold.ttf in Resources */,
@@ -678,7 +699,17 @@
 				9B1093C81C261DC5009059AC /* Material-Design-Iconic-Font.ttf in Resources */,
 				9B1093C91C261DC5009059AC /* zocial-regular-webfont.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+=======
+				9B0ACA651C250503007AFB4C /* Raleway-Regular.ttf in Resources */,
+				9B0ACA611C250503007AFB4C /* OpenSans-Regular.ttf in Resources */,
+				9B0ACA621C250503007AFB4C /* OpenSans-Bold.ttf in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				9B0ACA601C250503007AFB4C /* OpenSans-Semibold.ttf in Resources */,
+				9B0ACA641C250503007AFB4C /* Roboto-Medium.ttf in Resources */,
+				9B0ACA631C250503007AFB4C /* Roboto-Regular.ttf in Resources */,
+>>>>>>> refactored gettoken fn
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				9B0ACA661C250503007AFB4C /* Raleway-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
