@@ -9,18 +9,24 @@ var {
 
 var styles = StyleSheet.create({
   //Start Shared Styles login-signup
-  loginContainer: {
-    //flexDirection: 'column',
+  container: {
+    flexDirection: 'column',
     flex: 1,
     backgroundColor: '#0097A7'
   },
-  signin: {
-    backgroundColor: '#FFC107',
+  loginContainer: {
+    flex: 1,
+    backgroundColor: '#B2EBF2'
+  },
+  loginSignup: {
+    backgroundColor: 'transparent',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
     marginLeft: 25,
-    borderRadius: 10,
+    marginBottom: 35,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#FFC107',
     width: 120
   },
   inputPassword: {
@@ -33,13 +39,10 @@ var styles = StyleSheet.create({
     width: 20,
     height: 20
   },
-  greyFont: {
-    color: '#D8D8D8'
-  },
   inputContainer: {
     padding: 10,
     borderWidth: 1,
-    borderBottomColor: '#CCC',
+    borderBottomColor: '#FFF',
     borderColor: 'transparent'
   },
   input: {
@@ -51,32 +54,22 @@ var styles = StyleSheet.create({
     fontSize: 14
   },
   whiteFont: {
-    color: '#FFF'
+    color: '#FFF',
+    fontFamily: 'Raleway',
+    fontSize: 20,
+    fontWeight: 'bold'
   },
   goldFont: {
     color: '#FFC107'
   },
-  touchable: {
-    borderRadius: 10
-  },
   //End Shared Styles
 
-  //Login.js Styles  
-  loginSignup: {
-    backgroundColor: 'transparent',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 20,
-    marginLeft: 25,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#FFC107',
-    width: 120
-  },
+  //Login.js Styles
   loginInputs: {
-    marginTop: 300,
-    marginBottom: 10,
-    flex: .25
+    marginTop: 50,
+    flex: 1
+    //marginBottom: 10
+    //flex: .25
   },
   //End of Login.js Styles
 

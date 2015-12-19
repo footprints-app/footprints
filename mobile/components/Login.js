@@ -85,8 +85,8 @@ class Login extends Component {
     return (
       <View style={ styles.loginContainer }>
       <ScrollView ref="scrollView">
+      <Image style = {{height: 300, width: 320}} source={require('../assets/logo.png')}/>
       <View>
-
         <View style={ styles.loginInputs }>
           <View style={ styles.inputContainer }>
             <Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
@@ -124,10 +124,10 @@ class Login extends Component {
         </View>
         </ScrollView>
 
-        <View>
+        <View style={{flexDirection: 'row'}}>
         <TouchableHighlight 
           onPress={ this.submitLogin.bind(this) }
-          style={styles.signin}>
+          style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}>
             <Text style={ styles.whiteFont }>Login</Text>
         </TouchableHighlight>
           <TouchableHighlight
