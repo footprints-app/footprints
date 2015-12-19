@@ -44,16 +44,14 @@ describe('Server signup functionality', function() {
     });
   });
   
-  it("should return a user's information after signup", function (done) {
+  it("should return a user's token after signup", function (done) {
     var userInfo = {firstName: "Ray", lastName: "Bradbury", userName: "rbrad", password: "mars"};
     request({method: "POST",
              uri: "http://127.0.0.1:8000/users/signup",
              json: userInfo
             },
             function(error, response, body) {
-              expect(body.userName).to.equal(userInfo.userName);
-              expect(body.lastName).to.equal(userInfo.lastName);
-              expect(body.firstName).to.equal(userInfo.firstName);
+              expect(body.token).to.be.a('string');
               done();
             });
   });

@@ -34,11 +34,10 @@ module.exports = {
                 res.status(404).json({error: err});
               } else {
                   if (user) {
-                    var token = jwt.encode(user.userName, 'secret');
+                    var token = jwt.encode(user.id, 'secret');
                     // console.log('token......', token);
-                    res.status(200).json({token: token, userInfo: user});
+                    res.status(200).json({token: token});
                   } 
-                // res.status(201).json(results);
               }
             });
           }
@@ -65,42 +64,35 @@ module.exports = {
         res.status(400).json({error: err});
         next(err);
       } else {
-        var token = jwt.encode(user.userName, 'secret');
+        var token = jwt.encode(user.id, 'secret');
         console.log('token......', token);
-        res.status(200).json({token: token, userInfo: user});
+        res.status(200).json({token: token});
       }
     });
   },
-
+  /**
+   * Checks from token in request header and uses jwt to decode the token to get the userId
+   * Uses userId decoded from toekn to check that user exists in the database. If the user exists, invoke next function. 
+   * If there is no match, send a 401 status
+   *
+   * @param {object} req - Request from the client
+   * @param {object} res - Response to be sent to the client
+   * @param {object} next - Function to be invoked next with the same request and response parameters
+   */
   checkAuth: function (req, res, next) {
-    // checking to see if the user is authenticated
-    // grab the token in the header is any
-    // then decode the token, which we end up being the user object
-    // check to see if that user exists in the database
-    console.log('in checkAuth....');
-    if(!req.body) {
-      console.log('handling get request');
-    }
-    console.log('request.headers: ', req.headers);
-
     var token = req.headers['x-access-token'];
-    console.log('token from checkAuth.....', token)
     if (!token) {
-      next(new Error('No token'));
+      res.sendStatus(401);
     } else {
         var user = jwt.decode(token, 'secret');
         var queryStr = "select * from users where userName = ?";
         console.log('found token, user = ', user);
-
         db.query(queryStr, user, function(err, userInfo) {
           if(userInfo.length) {
-            // res.sendStatus(200);
             console.log('found user in DB');
             next();
           } else {
-            //error: can't find user in user
-            res.sendStatus(404);
-            next(err);
+            res.sendStatus(401);
           }
         });
       }
@@ -108,16 +100,3 @@ module.exports = {
 
 };
 
-// AsyncStorage.multiGet(['token', 'user']).then((data) => {
-      //make a call to backend for validating token
-    //   if (data[0][1]) {
-    //     console.log("Token...", data[0][1]);
-    //     var user = data[1][1];
-    //     return this.props.navigator.push({
-    //   title: "Welcome",
-    //   component: Main,
-    //   passProps: {user}
-    // });
-    //     //return utils.navigateTo.call(this, "Welcome", Main, {user});
-    //   }
-    // })
