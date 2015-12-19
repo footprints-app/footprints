@@ -99,7 +99,7 @@ module.exports = {
             next();
           } else {
             //error: can't find user in user
-            res.sendStatus(400);
+            res.sendStatus(404);
             next(err);
           }
         });
