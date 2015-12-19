@@ -84,44 +84,49 @@ class Login extends Component {
   render () {
     return (
       <View style={ styles.loginContainer }>
-      <ScrollView ref="scrollView">
-      <Image style = {{height: 300, width: 320}} source={require('../assets/logo.png')}/>
-      <View>
-        <View style={ styles.inputs }>
-          <View style={ styles.inputContainer }>
-            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-            <TextInput 
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Username"
-              placeholderTextColor="#FFF"
-              value={ this.state.username }
-              onChange={ utils.usernameInput.bind(this) }
-              ref='username'
-              onFocus={this.inputFocused.bind(this, 'username')}
-            />
+        <ScrollView ref="scrollView">
+          
+          <View style  = {{flex: 1}}>
+            <Image style = {{height: 300, width: 375}} source={require('../assets/logo.png')}/>
           </View>
-          <View style={ styles.inputContainer }>
-            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
-            <TextInput
-              password={true}
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Password"
-              placeholderTextColor="#FFF"
-              value={ this.state.password }
-              onChange={ utils.passwordInput.bind(this) }
-              ref="password"
-              onFocus={this.inputFocused.bind(this,'password')} />
+          
+          <View>
+            <View style={ styles.inputs }>
+
+              <View style={ styles.inputContainer }>
+                <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+                <TextInput 
+                  style={ [styles.input, styles.whiteFont] }
+                  placeholder="Username"
+                  placeholderTextColor="#FFF"
+                  value={ this.state.username }
+                  onChange={ utils.usernameInput.bind(this) }
+                  ref='username'
+                  onFocus={this.inputFocused.bind(this, 'username')}/>
+              </View>
+
+              <View style={ styles.inputContainer }>
+                <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
+                <TextInput
+                  password={true}
+                  style={ [styles.input, styles.whiteFont] }
+                  placeholder="Password"
+                  placeholderTextColor="#FFF"
+                  value={ this.state.password }
+                  onChange={ utils.passwordInput.bind(this) }
+                  ref="password"
+                  onFocus={this.inputFocused.bind(this,'password')} />
+              </View>
+
+              <Text style={ styles.whiteFont }>
+                { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
+              </Text>
+              <Text style={ styles.whiteFont }>
+                { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
+              </Text>
+
+            </View>
           </View>
-
-          <Text style={ styles.whiteFont }>
-            { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
-          </Text>
-          <Text style={ styles.whiteFont }>
-            { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
-          </Text>
-
-        </View>
-        </View>
         </ScrollView>
 
         <View style={{flexDirection: 'row'}}>
@@ -136,7 +141,8 @@ class Login extends Component {
             <Text style={ styles.whiteFont }>Sign Up</Text>
           </TouchableHighlight>
         </View>
-</View>
+
+      </View>
 
     );
   }

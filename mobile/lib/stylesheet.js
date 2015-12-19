@@ -25,7 +25,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
     padding: 16,
     alignItems: 'center',
-    marginLeft: 25,
+    marginLeft: 45,
     marginBottom: 35,
     borderRadius: 30,
     borderWidth: 2,
