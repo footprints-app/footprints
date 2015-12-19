@@ -8,42 +8,39 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  //Start Shared Styles login-signup
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: 'transparent'
+    backgroundColor: '#0097A7'
   },
-  bg: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: windowSize.width,
-    height: windowSize.height
+  loginContainer: {
+    flex: 1,
+    backgroundColor: '#B2EBF2'
   },
-  signin: {
-    backgroundColor: '#FF3366',
-    padding: 20,
+  signupContainer: {
+    flex: 1,
+    backgroundColor: '#fbda7a'
+  },
+  loginSignup: {
+    backgroundColor: 'transparent',
+    padding: 16,
     alignItems: 'center',
-    marginTop: -75
+    marginLeft: 25,
+    marginBottom: 35,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#FFF',
+    width: 120
   },
-  inputPassword: {
+  inputIcon: {
     marginLeft: 15,
     width: 20,
     height: 21
   },
-  inputUsername: {
-    marginLeft: 15,
-    width: 20,
-    height: 20
-  },
-  greyFont: {
-    color: '#D8D8D8'
-  },
   inputContainer: {
     padding: 10,
     borderWidth: 1,
-    borderBottomColor: '#CCC',
+    borderBottomColor: '#FFF',
     borderColor: 'transparent'
   },
   input: {
@@ -55,44 +52,18 @@ var styles = StyleSheet.create({
     fontSize: 14
   },
   whiteFont: {
-    color: '#FFF'
+    color: '#FFF',
+    fontFamily: 'Raleway',
+    fontSize: 20,
+    fontWeight: 'bold'
   },
-  touchable: {
-    borderRadius: 5
+  goldFont: {
+    color: '#FFC107'
   },
-  //End Shared Styles
-
-  //Login.js Styles  
-  loginSignup: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .15
+  inputs: {
+    marginTop: 40,
+    flex: 1
   },
-  loginInputs: {
-    marginTop: 300,
-    marginBottom: 10,
-    flex: .25
-  },
-  //End of Login.js Styles
-
-  //Start SignUp.js  
-  signup: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: -8.5
-  },
-  login: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .15
-  },
-  signupInputs: {
-    marginTop: 200,
-    marginBottom: 10,
-    flex: .25
-  },  
-  //End SignUp.js
 
   //Start Main.js
   mainContainer: {
@@ -216,7 +187,7 @@ var styles = StyleSheet.create({
   placeName: {
     fontSize: 14,
     fontFamily: 'OpenSans',
-    color: '#FFF',
+    color: '#FFC107',
     marginBottom: 8,
     marginLeft: 8
   },

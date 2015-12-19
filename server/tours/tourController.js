@@ -15,7 +15,7 @@ module.exports = {
 	 * @param {object} res - Response object with a single tour
 	 */
 	getOneTour: function(req, res) {
-		var tourId = JSON.parse(req.params.id);
+		var tourId = req.params.id;
 
 		Query.querySpecificTourAsync({tourId: tourId})
 				.then(function(tour) {
@@ -48,6 +48,7 @@ module.exports = {
 				});
 			})
 			.then(function(data) {
+				console.log('found tour data', data);
 				res.status(200).json(data);
 			})
 			.catch(function(err) {

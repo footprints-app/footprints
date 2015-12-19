@@ -1,8 +1,11 @@
 'use strict';
 var React = require('react-native');
+var {
+  AsyncStorage
+} = React;
 
 var request_url = 'http://localhost:8000';
-//var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+// var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
@@ -15,8 +18,21 @@ var requests = {
     editTour: {reqMethod: 'PUT', endPoint: '/tours/edit/'},
     deletePlace: {reqMethod: 'DELETE', endPoint: '/tours/deleteplace/'},
     editPlace: {reqMethod: 'PUT', endPoint: '/tours/editplace/'},
-    deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'}
+    deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
+    checkAuth: { reqMethod: 'GET', endPoint: '/users/auth' }
   }; 
+
+  var token;
+  function getToken() {
+    AsyncStorage.multiGet(['token', 'user'])
+    .then(function(data) {
+      if (data) {
+        token = data[0][1];
+        console.log('token and user from Utility getToken:.....', token)
+      }
+    })
+    return token;
+  };
 
 var Utility = {
 
@@ -143,6 +159,7 @@ var Utility = {
     });
   },
 
+ 
   /**
    * Calls fetch to make a specified API request to the server. 
    *
@@ -150,14 +167,24 @@ var Utility = {
    * @return {Promise} promise with the parsed response body
    */
   makeRequest: function(requestType, reqBody, reqParam) {
+    getToken();
     var param = reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
-    console.log('request url: ', reqUrl);
-    console.log('reqParam: ', param);
-    console.log('reqBody in request: ', reqBody);
+    // console.log('request url: ', reqUrl);
+    // console.log('reqParam: ', param);
+    // console.log('reqBody in request: ', reqBody);
+    console.log('token in makeRequest: ', token);
     var requestMethod = requests[requestType].reqMethod;
     if(requestMethod === 'GET') {
-      return fetch(reqUrl)
+      return fetch(reqUrl, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Allow-Control-Allow-Origin': '*',
+            'x-access-token': token,
+            'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
+          }
+        })
       .then(response => response.json());
     } else {
       return fetch(reqUrl, 
@@ -166,6 +193,7 @@ var Utility = {
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
+            'x-access-token': token
           },
           body: JSON.stringify(reqBody)
         }
