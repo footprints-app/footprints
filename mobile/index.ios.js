@@ -43,7 +43,7 @@ class mobile extends Component {
     //     }
     //   })
     //   .done()
-  }
+  // }
 
   renderScene (route, navigator) {
   var Component = route.component;
