@@ -187,7 +187,7 @@ var styles = StyleSheet.create({
   placeName: {
     fontSize: 14,
     fontFamily: 'OpenSans',
-    color: '#FFF',
+    color: '#FFC107',
     marginBottom: 8,
     marginLeft: 8
   },
