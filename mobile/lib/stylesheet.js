@@ -8,7 +8,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  //Start Shared Styles login-signup
   container: {
     flexDirection: 'column',
     flex: 1,
@@ -33,15 +32,10 @@ var styles = StyleSheet.create({
     borderColor: '#FFF',
     width: 120
   },
-  inputPassword: {
+  inputIcon: {
     marginLeft: 15,
     width: 20,
     height: 21
-  },
-  inputUsername: {
-    marginLeft: 15,
-    width: 20,
-    height: 20
   },
   inputContainer: {
     padding: 10,
@@ -66,28 +60,10 @@ var styles = StyleSheet.create({
   goldFont: {
     color: '#FFC107'
   },
-  //End Shared Styles
-
-  //Login.js Styles
   inputs: {
     marginTop: 40,
     flex: 1
   },
-  //End of Login.js Styles
-
-  //Start SignUp.js  
-  signup: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: -8.5
-  },
-  login: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .15
-  },
-  //End SignUp.js
 
   //Start Main.js
   mainContainer: {

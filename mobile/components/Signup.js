@@ -6,11 +6,8 @@ var Login = require('./Login');
 var Main = require('./Main');
 var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
-var KeyboardAwareScrollView = require('react-native-keyboard-aware-scroll-view');
 
 var {
-  AppRegistry,
-  StyleSheet,
   View,
   Text,
   TextInput,
@@ -70,7 +67,7 @@ class Signup extends Component {
       var scrollResponder = that.refs.scrollView.getScrollResponder();
       scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
         React.findNodeHandle(that.refs[refName]),
-        80, //additionalOffset
+        80,
         true
       );
     }, 50);
@@ -84,7 +81,7 @@ class Signup extends Component {
       <View>
         <View style={ {marginTop: 20} }>
           <View style={ styles.inputContainer }>
-          <Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             <TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="First Name"
@@ -96,7 +93,7 @@ class Signup extends Component {
           </View>
 
           <View style={ styles.inputContainer }>
-            <Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             <TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="Last Name"
@@ -108,7 +105,7 @@ class Signup extends Component {
           </View>
 
           <View style={ styles.inputContainer }>
-            <Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             <TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="Username"
@@ -120,7 +117,7 @@ class Signup extends Component {
           </View>
 
           <View style={ styles.inputContainer }> 
-            <Image style={ styles.inputPassword } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/> 
+            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
             <TextInput
               password={true}
               style={ [styles.input, styles.whiteFont] }

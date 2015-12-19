@@ -75,7 +75,7 @@ class Login extends Component {
       var scrollResponder = that.refs.scrollView.getScrollResponder();
       scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
         React.findNodeHandle(that.refs[refName]),
-        80, //additionalOffset
+        80,
         true
       );
     }, 50);
@@ -89,7 +89,7 @@ class Login extends Component {
       <View>
         <View style={ styles.inputs }>
           <View style={ styles.inputContainer }>
-            <Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             <TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="Username"
@@ -101,7 +101,7 @@ class Login extends Component {
             />
           </View>
           <View style={ styles.inputContainer }>
-            <Image style={ styles.inputPassword } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
+            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
             <TextInput
               password={true}
               style={ [styles.input, styles.whiteFont] }
