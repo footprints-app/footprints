@@ -59,6 +59,8 @@
 		D08F36C51C31CBA1002D8394 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */; };
 		D08F36C61C31CBA1002D8394 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */; };
 		977BE63E1C24984900461484 /* libRNRecordAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 977BE6391C2495F000461484 /* libRNRecordAudio.a */; };
+		977BE63E1C24984900461484 /* libRNRecordAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 977BE6391C2495F000461484 /* libRNRecordAudio.a */; };
+		97F8BF721C251C2900E7F6A7 /* libRNPlayAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F8BF6D1C251BEC00E7F6A7 /* libRNPlayAudio.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -166,6 +168,20 @@
 			remoteGlobalIDString = DFC145801BAB2BA0008BCF87;
 			remoteInfo = RNRecordAudioTests;
 		};
+		97F8BF6C1C251BEC00E7F6A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97F8BF5D1C251BEB00E7F6A7 /* RNPlayAudio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DFC145481BAA56D2008BCF87;
+			remoteInfo = RNPlayAudio;
+		};
+		97F8BF6E1C251BEC00E7F6A7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97F8BF5D1C251BEB00E7F6A7 /* RNPlayAudio.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DFC145531BAA56D2008BCF87;
+			remoteInfo = RNPlayAudioTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -221,6 +237,8 @@
 		D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRecordAudio.xcodeproj; path = "../node_modules/react-native-record-audio-ios/RNRecordAudio.xcodeproj"; sourceTree = "<group>"; };
+		977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRecordAudio.xcodeproj; path = "../node_modules/react-native-record-audio-ios/RNRecordAudio.xcodeproj"; sourceTree = "<group>"; };
+		97F8BF5D1C251BEB00E7F6A7 /* RNPlayAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPlayAudio.xcodeproj; path = "../node_modules/react-native-play-audio-ios/RNPlayAudio.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B10939F1C261D3B009059AC /* libReactNativeIcons.a in Frameworks */,
+				97F8BF721C251C2900E7F6A7 /* libRNPlayAudio.a in Frameworks */,
 				977BE63E1C24984900461484 /* libRNRecordAudio.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -429,6 +448,7 @@
 				9B0ACA5D1C250503007AFB4C /* Roboto-Medium.ttf */,
 				9B0ACA5E1C250503007AFB4C /* Raleway-Regular.ttf */,
 				9B0ACA5F1C250503007AFB4C /* Raleway-Bold.ttf */,
+				97F8BF5D1C251BEB00E7F6A7 /* RNPlayAudio.xcodeproj */,
 				13B07FAE1A68108700A75B9A /* mobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* mobileTests */,
@@ -459,6 +479,15 @@
 			children = (
 				977BE6391C2495F000461484 /* libRNRecordAudio.a */,
 				977BE63B1C2495F000461484 /* RNRecordAudioTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		97F8BF5E1C251BEB00E7F6A7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				97F8BF6D1C251BEC00E7F6A7 /* libRNPlayAudio.a */,
+				97F8BF6F1C251BEC00E7F6A7 /* RNPlayAudioTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -579,6 +608,10 @@
 				{
 					ProductGroup = 9B10939A1C261D15009059AC /* Products */;
 					ProjectRef = 9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */;
+					ProductGroup = 97F8BF5E1C251BEB00E7F6A7 /* Products */;
+					ProjectRef = 97F8BF5D1C251BEB00E7F6A7 /* RNPlayAudio.xcodeproj */;
+				},
+				{
 					ProductGroup = 977BE6341C2495F000461484 /* Products */;
 					ProjectRef = 977BE6331C2495F000461484 /* RNRecordAudio.xcodeproj */;
 				},
@@ -686,6 +719,20 @@
 			fileType = wrapper.cfbundle;
 			path = RNRecordAudioTests.xctest;
 			remoteRef = 977BE63A1C2495F000461484 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		97F8BF6D1C251BEC00E7F6A7 /* libRNPlayAudio.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNPlayAudio.a;
+			remoteRef = 97F8BF6C1C251BEC00E7F6A7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		97F8BF6F1C251BEC00E7F6A7 /* RNPlayAudioTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RNPlayAudioTests.xctest;
+			remoteRef = 97F8BF6E1C251BEC00E7F6A7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

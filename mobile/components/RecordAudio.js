@@ -14,7 +14,8 @@ var {
 } = React;
 
 var {
-  RNRecordAudio
+  RNRecordAudio,
+  RNPlayAudio
 } = NativeModules;
 
 class RecordAudio extends Component {
@@ -43,7 +44,7 @@ class RecordAudio extends Component {
     );
   }
 
-  stop() {
+  stopRec() {
     RNRecordAudio.stopRecord(
 
       "test.m4a", // filename
@@ -62,6 +63,64 @@ class RecordAudio extends Component {
     );
   }
 
+  play() {
+    RNPlayAudio.startAudio(
+
+      "test.wav", // filename
+
+      function errorCallback(results) {
+
+          console.log('JS Error: ' + results['errMsg']);
+
+      },
+
+      function successCallback(results) {
+
+          console.log('JS Success: ' + results['successMsg']);
+
+      }
+    );
+  }
+
+  pause() {
+    RNPlayAudio.pauseAudio(
+
+      "test.wav", // filename
+
+      function errorCallback(results) {
+
+          console.log('JS Error: ' + results['errMsg']);
+
+      },
+
+      function successCallback(results) {
+
+          console.log('JS Success: ' + results['successMsg']);
+
+      }
+    );
+  }
+
+  stop() {
+    RNPlayAudio.stopAudio(
+
+      "test.wav", // filename
+
+      function errorCallback(results) {
+
+          console.log('JS Error: ' + results['errMsg']);
+
+      },
+
+      function successCallback(results) {
+
+          console.log('JS Success: ' + results['successMsg']);
+
+      }
+    );
+
+  }
+
   render() {
     return (
       <View>
@@ -74,9 +133,9 @@ class RecordAudio extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          onPress={ this.stop.bind(this) } 
+          onPress={ this.stopRec.bind(this) } 
           style={ styles.touchable } underlayColor="white">  
-          <View style={ styles.stopBtn }>
+          <View style={ styles.stopRecBtn }>
             <Text style={ styles.whiteFont }>Stop</Text>
           </View>
         </TouchableHighlight>
@@ -93,7 +152,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 50,
   },
-  stopBtn: {
+  stopRecBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
