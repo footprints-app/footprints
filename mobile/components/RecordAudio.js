@@ -8,7 +8,9 @@ var {
   View,
   TouchableHighlight,
   Text,
-  StyleSheet
+  StyleSheet,
+  ActivityIndicatorIOS,
+  AsyncStorage
 } = React;
 
 var {
@@ -16,6 +18,11 @@ var {
 } = NativeModules;
 
 class RecordAudio extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = this.props;
+  }
   
   record() {
     RNRecordAudio.startRecord(
@@ -59,7 +66,7 @@ class RecordAudio extends Component {
     return (
       <View>
         <TouchableHighlight
-          onPress={ this.record() }
+          onPress={ this.record.bind(this) }
           style={ styles.touchable } underlayColor="white">
           <View style={ styles.recordBtn }>
             <Text style={ styles.whiteFont }>Record</Text>
@@ -67,7 +74,7 @@ class RecordAudio extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          onPress={ this.stop() } 
+          onPress={ this.stop.bind(this) } 
           style={ styles.touchable } underlayColor="white">  
           <View style={ styles.stopBtn }>
             <Text style={ styles.whiteFont }>Stop</Text>
@@ -84,13 +91,13 @@ var styles = StyleSheet.create({
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginBottom: 50,
+    marginTop: 50,
   },
   stopBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginBottom: 50,
+    marginTop: 50,
   },
   touchable: {
     borderRadius: 5
