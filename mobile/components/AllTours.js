@@ -12,8 +12,7 @@ var {
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS,
-  AsyncStorage
+  ActivityIndicatorIOS
  } = React;
  
 class AllTours extends Component {
@@ -54,7 +53,6 @@ class AllTours extends Component {
    *
    */
   fetchData() {
-    // alert('in all tours fetch data')
     utils.makeRequest('allTours', {})
     .then((response) => {
       console.log('response body from allTours: ', response);
@@ -63,6 +61,8 @@ class AllTours extends Component {
         isLoading: false
 
       });
+    })
+    .done();
   }
 
   renderLoadingView() {
