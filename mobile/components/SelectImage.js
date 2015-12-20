@@ -8,6 +8,7 @@ var utils = require('../lib/utility');
 var CreateTour = require('./CreateTour');
 var ViewCreatedTour = require('./ViewCreatedTour');
 var styles = require('../lib/stylesheet');
+var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 
 var {
   Image,
@@ -69,7 +70,36 @@ class SelectImage extends Component {
       var fetchParams = {
           first: 25,
       };
-    CameraRoll.getPhotos(fetchParams, this.storeImages.bind(this), this.logImageError);
+    //CameraRoll.getPhotos(fetchParams, this.storeImages.bind(this), this.logImageError);
+
+  }
+
+  launchCamera () {
+    var options = {
+      title: 'Select a Tour Photo',
+      cancelButtonTitle: 'Cancel',
+      takePhotoButtonTitle: 'Take Photo...',
+      chooseFromLibraryButtonTitle: 'Choose from Library...',
+      //maxWidth: 200,
+      maxHeight: 500,
+      quality: 1,
+      allowsEditing: true,
+      noData: false,
+      storageOptions: {
+        skipBackup: true
+      }
+    };
+
+    UIImagePickerManager.showImagePicker(options, (didCancel, response)  => {
+      console.log('image picker res:', response)
+      this.submitSelection(response.data.toString())
+
+      if(response.takePhotoButtonTitle) {
+        UIImagePickerManager.launchCamera(options, (didCancel, response)  => {
+          this.submitSelection(response.data.toString())
+        });
+      }
+    });
   }
 
   storeImages(data) {
@@ -88,44 +118,26 @@ class SelectImage extends Component {
     this.setState({
       selected: image,
     });
-    console.log('Selected image: ', image.uri);
+    console.log('Selected image: ', image);
   }
 
-  submitSelection() {
+  submitSelection(encodedData) {
     console.log('submit selection');
-    NativeModules.ReadImageData.readImage(this.state.selected.uri, function(imageData) {
-      var encodedData = imageData.toString('base64');
       utils.makeRequest('addTourPhoto', {encodedData})
       .then(response => {
         console.log('tour added to db: ', response);
       });
-    });
   }
 
   render() {
     return (
-      <View>
+      <View style={comp_styles.uploadContainer}>
         <TouchableHighlight
-            onPress={ this.submitSelection.bind(this) } 
-            style={ styles.touchable } 
-            underlayColor="#FF3366">  
-            <View style={ comp_styles.submit }>
+            onPress={ this.launchCamera.bind(this) }>
+            <View style={ comp_styles.selectImage }>
               <Text style={ styles.whiteFont }>Select Image</Text>
             </View>
-        </TouchableHighlight> 
-
-        <ScrollView style={comp_styles.container}>
-          <View style={comp_styles.imageGrid}>
-            { this.state.images.map((image) => {
-                return (
-                  <TouchableHighlight key={image.uri} onPress={this.selectImage.bind(this, image)}>
-                    <Image style={image === this.state.selected ? comp_styles.selectedImage : comp_styles.image} source={{ uri: image.uri }} />
-                  </TouchableHighlight>
-                );
-              })
-            }
-          </View>
-        </ScrollView>
+        </TouchableHighlight>
       </View>
     );
   } 
@@ -133,31 +145,14 @@ class SelectImage extends Component {
 
 
 var comp_styles = StyleSheet.create({
-  container: {
-    margin: 20,
+  uploadContainer: {
     flex: 1,
-    backgroundColor: '#F5FCFF'
+    backgroundColor: '#727272',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  imageGrid: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center'
-  },
-  image: {
-    width: 100,
-    height: 100,
-    margin: 10,
-  },
-  selectedImage: {
-    width: 100,
-    height: 100,
-    margin: 10,
-    borderWidth: 10,
-    borderColor: 'black'
-  },
-  submit: {
-    backgroundColor: '#FF3366',
+  selectImage: {
+    backgroundColor: '#FFC107',
     padding: 20,
     alignItems: 'center',
     marginBottom: 20,

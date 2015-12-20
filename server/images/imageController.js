@@ -34,7 +34,7 @@ module.exports = {
     }
 */
 /**
- * Receives an image file and uploads it our cloundinary account for hosting
+ * Receives an image file and uploads it to our cloundinary account for hosting
  * 
  * @param {data} base64 image data to upload
  * @param {function} callback that receives the uploaded image url as a parameter
