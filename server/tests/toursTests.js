@@ -4,6 +4,8 @@ var expect = chai.expect;
 var mysql = require("mysql");
 var request = require("supertest");
 var Promise = require('bluebird');
+var jwt = require('jwt-simple');
+
 
 describe('/tours functionality', function(done) {
 	var dbConnection;
@@ -39,29 +41,19 @@ describe('/tours functionality', function(done) {
 
     var tableQueryAsync = Promise.promisify(tableQuery);
 
-		var tours = [ ["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
+    var userInfo = [["Rochelle", "lee", "roch", "mars"], ["Mario", "Peach", "yoshi", "pw"]] ;
+
+
+		var tours = [["By the water", 1, "Take a walk along the Embacadero", "Leisure", 2.5, 2],
 				[ "Midnight walk", 1, "Stroll on 6th street", "Sports", 3, 1],
 				[ "Watch your feet!", 2, "Enjoy the streets of the Tenderloin", "Adventure", 2, 1]]
 		var cities = [["San Francisco", "CA", "USA"], ["Cupertino", "CA", "USA"]];
 		var places = [["Hack Reactor", 1, "123 Market St.", "Learn to code here!", 2], ["Saigon Sandwiches", 1, "598 Larkin St.", "Yum!", 1], ["Civic Center", 1, "456 Hayes St.", "Nice grass lawn", 0], ["Gym", 2, "233 Market St.", "Work it!", 1]];
 		
-		var toursQuery = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)"
+		var toursQuery = "INSERT into tours (tourName, userId, description, category, duration, cityId) VALUES (?, ?, ?, ?, ?, ?)";
 		var citiesQuery = "INSERT into cities (cityName, state, country) VALUES(?, ?, ?)";
 		var placesQuery = "INSERT into places (placeName, tourId, address, description, placeOrder) VALUES(?, ?, ?, ?, ?)";
-
-		//**** A much cleaner way to use promises, but it doesn't work for some reason.... ****
-		// Promise.each(tours, function (value, index, length) {
-		// 	tableQueryAsync(toursQuery, value, "tours");
-		// })
-		// .then(Promise.each(cities, function (value, index, length) {
-		// 	tableQueryAsync(citiesQuery, value, "cities");
-		// }))
-		// .then(Promise.each(places, function (value, index, length) {
-		// 	tableQueryAsync(placesQuery, value, "places");
-		// }))
-		// .then(function() {
-		// 	done();
-		// })
+		var userQuery = "INSERT into users (firstName, lastName, userName, password) VALUES (?, ?, ?, ?)";
 
 		tableQueryAsync(toursQuery, tours[0], "tours")
 		.then(tableQueryAsync(toursQuery, tours[1], "tours"))
@@ -72,6 +64,9 @@ describe('/tours functionality', function(done) {
 		.then(tableQueryAsync(placesQuery, places[1], "places"))
 		.then(tableQueryAsync(placesQuery, places[2], "places"))
 		.then(tableQueryAsync(placesQuery, places[3], "places"))
+		.then(tableQueryAsync(userQuery, userInfo[0], "users"))
+		.then(tableQueryAsync(userQuery, userInfo[1], "users"))
+
 
 		.then(function() {
             done();
@@ -112,9 +107,11 @@ describe('/tours functionality', function(done) {
 
 	describe('getOneTour functionality', function() {
 		var paramId = 2;
+		var token = jwt.encode(2, 'secret');
 		it('should retrieve a tour based on id', function(done) {
 			request(url)
-				.get('/tours/' + paramId)
+				.get('/tours/tour/' + paramId)
+				.set({'x-access-token': token})
 				.expect(200)
 				.end(function(err, res) {
 					expect(res.body.id).to.equal(paramId);
@@ -129,7 +126,8 @@ describe('/tours functionality', function(done) {
 		it('should have an array of places sorted by placeOrder', function(done) {
 			var paramId = 1;
 			request(url)
-				.get('/tours/' + paramId)
+				.get('/tours/tour/' + paramId)
+				.set({'x-access-token': token})
 				.expect(200)
 				.end(function(err, res) {
 					expect(res.body.places[0].placeOrder).to.equal(0);
@@ -142,10 +140,12 @@ describe('/tours functionality', function(done) {
 	});
 
 	describe('getAllTours functionality', function() {
+		var token = jwt.encode(2, 'secret');
 
 		it('should retrieve all tours', function(done){
 			request(url)
 				.get('/tours/alltours')
+				.set({'x-access-token': token})
 				.expect(200)
 				.end(function(err, res) {
 					if(err) {
@@ -161,6 +161,7 @@ describe('/tours functionality', function(done) {
 		it('should respond with an array of objects', function(done){
 			request(url)
 				.get('/tours/alltours')
+				.set({'x-access-token': token})
 				.expect(200)
 				.end(function(err, res) {
 					if(err) {
@@ -176,12 +177,13 @@ describe('/tours functionality', function(done) {
 	});
 
 	describe('getUserTours functionality', function() {
+		var user = 1;
+		var token = jwt.encode(user, 'secret');
 
 		it('should retrieve user specific tours', function(done){
-			var user = 1;
-
 			request(url)
-				.get('/tours/mytours/1')
+				.get('/tours/mytours')
+				.set({'x-access-token': token})
 				.expect(200)
 				.end(function(err, res) {
 					if(err) {
@@ -198,7 +200,8 @@ describe('/tours functionality', function(done) {
 
 		it('should respond with an array of objects', function(done) {
 			request(url)
-				.get('/tours/mytours/1')
+				.get('/tours/mytours')
+				.set({'x-access-token': token})
 				.expect(200)
 				.end(function (err, res) {
 					if (err) {
@@ -215,6 +218,8 @@ describe('/tours functionality', function(done) {
 	});
 
 	describe('createTour functionality', function() {
+		var user = 1;
+		var token = jwt.encode(user, 'secret');
 		var tourInfo = { tourName: "By the Bay",
 										userId: 1,
 										description: "Take a walk along the Embacadero",
@@ -227,6 +232,7 @@ describe('/tours functionality', function(done) {
 		it('should create new tour entry in database', function(done){
 			request(url)
 				.post('/tours/createtour')
+				.set({'x-access-token': token})
 				.send(tourInfo)
 				.expect('Content-Type', /json/)
 				.expect(201)
@@ -241,6 +247,8 @@ describe('/tours functionality', function(done) {
 	});
 
 	describe('addPlace functionality', function() {
+		var user = 1;
+		var token = jwt.encode(user, 'secret');
 		var placeInfo = { placeName: "Ferry Building",
 											address: "San Francisco Ferry Bldg, San Francisco, CA 94105",
 											description: "The San Francisco Ferry Building is a terminal for \ " +
@@ -252,6 +260,7 @@ describe('/tours functionality', function(done) {
 		it('should add a place to the database', function(done) {
 			request(url)
 				.post('/tours/addplace')
+				.set({'x-access-token': token})
 				.send(placeInfo)
 				.expect('Content-Type', /json/)
 				.end(function(err, res) {
@@ -263,6 +272,8 @@ describe('/tours functionality', function(done) {
 	});
 
 	describe('updateTour functionality', function() {
+		var user = 1;
+		var token = jwt.encode(user, 'secret');
 		var tourInfo = { tourName: "By the water",
 										userId: 1,
 										description: "New Description",
@@ -275,6 +286,7 @@ describe('/tours functionality', function(done) {
 		it('should update the tour entry in database', function(done){
 			request(url)
 				.put('/tours/edit/1')//tourId = 1
+				.set({'x-access-token': token})
 				.send(tourInfo)
 				.expect('Content-Type', /json/)
 				.expect(201)
@@ -296,10 +308,12 @@ describe('/tours functionality', function(done) {
 	});
 
 	describe('deleteTour functionality', function() {
-
+		var user = 1;
+		var token = jwt.encode(user, 'secret');
 		it('should delete the tour entry from the database', function(done){
 			request(url)
 				.delete('/tours/delete/1')//tourId = 1
+				.set({'x-access-token': token})
 				.expect('Content-Type', /json/)
 				.expect(201)
 				.end(function(err, res) {
@@ -328,8 +342,11 @@ describe('/tours functionality', function(done) {
 		
 
 		it('should update the place entry in database', function(done){
+			var user = 1;
+			var token = jwt.encode(user, 'secret');
 			request(url)
 				.put('/tours/editplace/1')//placeId = 1
+				.set({'x-access-token': token})
 				.send(placeInfo)
 				.expect('Content-Type', /json/)
 				.expect(201)
@@ -352,10 +369,12 @@ describe('/tours functionality', function(done) {
 	});
 
 	describe('deletePlace functionality', function() {
-
+		var user = 1;
+		var token = jwt.encode(user, 'secret');
 		it('should delete the place entry in database', function(done){
 			request(url)
 				.delete('/tours/deleteplace/1')//placeId = 1
+				.set({'x-access-token': token})
 				.expect('Content-Type', /json/)
 				.expect(201)
 				.end(function(err, res) {

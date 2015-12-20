@@ -35,8 +35,8 @@ module.exports = {
               } else {
                   if (user) {
                     var token = jwt.encode(user.id, 'secret');
-                    // console.log('token......', token);
-                    res.status(200).json({token: token});
+                    console.log('token......', token);
+                    res.status(200).json({token: token, userId: user.id});
                   } 
               }
             });
@@ -65,8 +65,8 @@ module.exports = {
         next(err);
       } else {
         var token = jwt.encode(user.id, 'secret');
-        console.log('token......', token);
-        res.status(200).json({token: token});
+        console.log('token from login', token);
+        res.status(200).json({token: token, userId: user.id});
       }
     });
   },
@@ -85,11 +85,11 @@ module.exports = {
       res.sendStatus(401);
     } else {
         var user = jwt.decode(token, 'secret');
-        var queryStr = "select * from users where userName = ?";
-        console.log('found token, user = ', user);
+        var queryStr = "select * from users where id = ?";
+        // console.log('found token in checkAuth, user = ', user);
         db.query(queryStr, user, function(err, userInfo) {
-          if(userInfo.length) {
-            console.log('found user in DB');
+          if(userInfo.length !== 0) {
+            // console.log('found user in DB');
             next();
           } else {
             res.sendStatus(401);

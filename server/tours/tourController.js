@@ -7,6 +7,7 @@ var tours = require('./tourModel');
 var Promise = require('bluebird');
 var Query = Promise.promisifyAll(tours);
 var images = require('../images/imageController');
+var jwt = require('jwt-simple');
 
 module.exports = {
 	/** Receives a tourId from request and calls promisified querySpecificTour from the tourModel.
@@ -40,6 +41,7 @@ module.exports = {
 	 * @param {object} res Response object with all tours from database
 	 */
 	getAllTours: function(req, res) {
+		console.log('req headers: ', req.headers);
 		Query.queryToursAsync()
 			.then(function(tours) {
 				return Promise.each(tours, function(tour) {
@@ -64,8 +66,7 @@ module.exports = {
 	 * @param res {object} Response object with tours that match user
 	 */
 	getUserTours: function(req, res) {
-		var userId = JSON.parse(req.params.id);
-
+    var userId = jwt.decode(req.headers['x-access-token'], 'secret');
 		Query.querySpecificTourAsync({userId: userId})
 			.then(function(tours) {
 				return Promise.each(tours, function(tour) {
