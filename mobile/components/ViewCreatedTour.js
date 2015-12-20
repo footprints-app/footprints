@@ -6,7 +6,7 @@ var utils = require('../lib/utility');
 var PlaceDetail = require('./PlaceDetail.js');
 var EditPlace = require('./EditPlace.js');
 var styles = require('../lib/stylesheet');
-
+var SelectImage = require('./SelectImage');
 
 var {
   StyleSheet,
@@ -17,7 +17,9 @@ var {
   ListView,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  TextInput
+  TextInput,
+  AsyncStorage,
+  ScrollView
 } = React;
 
 class ViewCreatedTour extends Component {
@@ -54,6 +56,15 @@ class ViewCreatedTour extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
   componentDidMount () {
+    AsyncStorage.multiGet(['token', 'user'])
+      .then(function(data) {
+        if(data) {
+          this.setState({
+            token: data[0][1],
+            userId: +data[1][1]
+          });
+        }
+      });
     this.fetchData();
   }
 
@@ -63,6 +74,11 @@ class ViewCreatedTour extends Component {
     utils.navigateTo.call(this, "Add Place", AddPlace, {tourId});
   }
 
+  addPhoto () {
+    /*TODO: this should send a put request to update tour photo*/
+    var tourId = this.state.tourId;
+    utils.navigateTo.call(this, "Select a Tour Photo", SelectImage, {tourId});
+  }
   onPressDone () {
     var MyTours = require('./MyTours');
     var userId = this.state.tour.userId;
@@ -238,7 +254,13 @@ class ViewCreatedTour extends Component {
               value={ this.state.country }
               onChange={ utils.countryInput.bind(this) }/>
           </View>
-
+          <TouchableHighlight
+            onPress={ this.addPhoto.bind(this) }
+            style={ styles.touchable } underlayColor="white">
+            <View style={ styles.addPlaceBtn }>
+              <Text style={ styles.whiteFont }>Edit Photo</Text>
+            </View>
+          </TouchableHighlight>
         </View>
 
         <View style={ styles.panel }>
@@ -257,6 +279,7 @@ class ViewCreatedTour extends Component {
             </View>  
           </TouchableHighlight>
         */}
+
 
         <TouchableHighlight 
           onPress={ this.editDone.bind(this) } 
@@ -312,7 +335,6 @@ class ViewCreatedTour extends Component {
               </View>
             </View>  
           </TouchableHighlight>
-
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
@@ -321,17 +343,6 @@ class ViewCreatedTour extends Component {
             automaticallyAdjustContentInsets={false} />
         </View>
 
-       
-        {/*
-        <TouchableHighlight 
-          onPress={ this.onPressDone.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.doneBtn }>
-            <Text style={ styles.whiteFont }>Done</Text>
-          </View>  
-        </TouchableHighlight>
-        */}
-      
       </View>
     );
   }
@@ -347,7 +358,7 @@ class ViewCreatedTour extends Component {
 
 // var styles = StyleSheet.create({
 
-//   container: { 
+//   container: {
 //     flexDirection: 'column',
 //     flex: 1,
 //     backgroundColor: 'transparent',
@@ -437,5 +448,100 @@ class ViewCreatedTour extends Component {
 //     fontSize: 14
 //   }
 // });
+//
+//  container: {
+//    flexDirection: 'column',
+//    flex: 1,
+//    backgroundColor: 'transparent',
+//    marginTop: 70
+//  },
+//  panel: {
+//    backgroundColor: '#fff2f2',
+//    flex: 1,
+//    padding: 10,
+//    marginTop: 100
+//  },
+//  placeContainer: {
+//    flex: 1,
+//    flexDirection: 'row',
+//    justifyContent: 'center',
+//    alignItems: 'center',
+//    backgroundColor: '#fff2f2',
+//    padding: 10
+//  },
+//  rightContainer: {
+//    flex: 1
+//  },
+//  placeName: {
+//    fontSize: 14,
+//    marginBottom: 8,
+//  },
+//  deleteContainer: {
+//    flex: 1
+//  },
+//  deleteText: {
+//    fontSize: 12,
+//    marginBottom: 8
+//  },
+//  separator: {
+//    height: 1,
+//    backgroundColor: '#dddddd'
+//  },
+//  description: {
+//    padding: 10,
+//    fontSize: 15,
+//    color: '#656565',
+//  },
+//  addPlaceBtn: {
+//    backgroundColor: '#FF3366',
+//    padding: 20,
+//    alignItems: 'center',
+//    marginBottom: 80,
+//  },
+//  editBtn: {
+//    backgroundColor: '#FF3366',
+//    padding: 20,
+//    alignItems: 'center',
+//    marginBottom: 25,
+//  },
+//  doneBtn: {
+//    backgroundColor: '#FF3366',
+//    padding: 20,
+//    alignItems: 'center',
+//    marginBottom: 40,
+//  },
+//  whiteFont: {
+//    color: '#FFF'
+//  },
+//  listView: {
+//    backgroundColor: '#fff2f2'
+//   },
+//  touchable: {
+//    borderRadius: 100
+//  },
+//  inputs: {
+//    marginTop: 25,
+//    marginBottom: 10,
+//    flex: .25
+//  },
+//  inputContainer: {
+//    padding: 10,
+//    borderWidth: 1,
+//    borderBottomColor: 'black',
+//    borderColor: 'transparent'
+//  },
+//  input: {
+//    position: 'absolute',
+//    left: 10,
+//    top: 4,
+//    right: 0,
+//    height: 20,
+//    fontSize: 14
+//  },
+//  headerPhoto: {
+//    backgroundColor: 'transparent',
+//    height: 150
+//  }
+//});
 
 module.exports = ViewCreatedTour;

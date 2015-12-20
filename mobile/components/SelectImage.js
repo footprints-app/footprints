@@ -6,7 +6,6 @@ var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
 var CreateTour = require('./CreateTour');
-var ViewCreatedTour = require('./ViewCreatedTour');
 var styles = require('../lib/stylesheet');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 
@@ -19,7 +18,6 @@ var {
   TouchableHighlight,
   ActivityIndicatorIOS,
   AsyncStorage,
-  ScrollView,
   CameraRoll,
   NativeModules
  } = React;
@@ -41,9 +39,6 @@ class SelectImage extends Component {
       placeId: this.props.placeId || null,
       selected: '',
       isLoading: true
-      // dataSource: new ListView.DataSource({
-      //   rowHasChanged: (row1, row2) => row1 !== row2
-      // })
     };
   }
 
@@ -92,7 +87,9 @@ class SelectImage extends Component {
 
     UIImagePickerManager.showImagePicker(options, (didCancel, response)  => {
       console.log('image picker res:', response)
+      var tourId = this.state.tourId;
       this.submitSelection(response.data.toString())
+
 
       if(response.takePhotoButtonTitle) {
         UIImagePickerManager.launchCamera(options, (didCancel, response)  => {
@@ -110,23 +107,20 @@ class SelectImage extends Component {
     });
   }
 
-  logImageError(err) {
-    console.log(err);
-  }
-
-  selectImage(image) {
-    this.setState({
-      selected: image,
-    });
-    console.log('Selected image: ', image);
-  }
-
   submitSelection(encodedData) {
+    var tourId = this.state.tourId;
     console.log('submit selection');
-      utils.makeRequest('addTourPhoto', {encodedData})
+      utils.makeRequest('addTourPhoto', {encodedData}, tourId)
       .then(response => {
         console.log('tour added to db: ', response);
-      });
+      })
+
+    var ViewCreatedTour = require('./ViewCreatedTour')
+    this.props.navigator.replace({
+      title: "Your Tour",
+      component: ViewCreatedTour,
+      passProps: {tourId}
+    });
   }
 
   render() {

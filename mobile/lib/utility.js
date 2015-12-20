@@ -1,8 +1,8 @@
 'use strict';
 var React = require('react-native');
 
-//var request_url = 'http://localhost:8000';
-var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+var request_url = 'http://localhost:8000';
+//var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
@@ -16,7 +16,7 @@ var requests = {
     deletePlace: {reqMethod: 'DELETE', endPoint: '/tours/deleteplace/'},
     editPlace: {reqMethod: 'PUT', endPoint: '/tours/editplace/'},
     deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
-    addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/1'}
+    addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'}
   }; 
 
 var Utility = {

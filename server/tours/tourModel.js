@@ -139,6 +139,8 @@ module.exports = {
     })
 
   },
+
+	//TODO: addImageToPlace
 	 /**
    * Deletes tour with given id from the table.
    * If successful, gives a callback with the query result.
