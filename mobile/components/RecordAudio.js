@@ -22,7 +22,10 @@ class RecordAudio extends Component {
 
   constructor(props) {
     super(props);
-    this.state = this.props;
+    this.state = {
+      cassetteGif: require('../assets/cassette.gif')
+      //cassetteGif: 'http://www.clicktorelease.com/code/gif/1.gif'
+    }
   }
   
   record() {
@@ -124,45 +127,51 @@ class RecordAudio extends Component {
   render() {
     return (
       <View>
-        <TouchableHighlight
-          onPress={ this.record.bind(this) }
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.recordBtn }>
-            <Text style={ styles.whiteFont }>Record</Text>
-          </View>
-        </TouchableHighlight>
+        <View style={ styles.gifContainer }>
+          <Image style={{width: 400, height: 200}} source={this.state.cassetteGif} />
+        </View>
 
-        <TouchableHighlight 
-          onPress={ this.stopRec.bind(this) } 
-          style={ styles.touchable } underlayColor="white">  
-          <View style={ styles.stopRecBtn }>
-            <Text style={ styles.whiteFont }>Stop Recording</Text>
-          </View>
-        </TouchableHighlight>
+        <View style={ styles.controlsContainer }>
+          <TouchableHighlight
+            onPress={ this.record.bind(this) }
+            style={ styles.touchable } underlayColor="white">
+            <View style={ styles.recordBtn }>
+              <Text style={ styles.whiteFont }>Record</Text>
+            </View>
+          </TouchableHighlight>
 
-        <TouchableHighlight 
-          onPress={ this.play.bind(this) } 
-          style={ styles.touchable } underlayColor="white">  
-          <View style={ styles.playBtn }>
-            <Text style={ styles.whiteFont }>Play</Text>
-          </View>
-        </TouchableHighlight>
+          <TouchableHighlight 
+            onPress={ this.stopRec.bind(this) } 
+            style={ styles.touchable } underlayColor="white">  
+            <View style={ styles.stopRecBtn }>
+              <Text style={ styles.whiteFont }>Stop Recording</Text>
+            </View>
+          </TouchableHighlight>
 
-        <TouchableHighlight 
-          onPress={ this.pause.bind(this) } 
-          style={ styles.touchable } underlayColor="white">  
-          <View style={ styles.pauseBtn }>
-            <Text style={ styles.whiteFont }>Pause</Text>
-          </View>
-        </TouchableHighlight>
+          <TouchableHighlight 
+            onPress={ this.play.bind(this) } 
+            style={ styles.touchable } underlayColor="white">  
+            <View style={ styles.playBtn }>
+              <Text style={ styles.whiteFont }>Play</Text>
+            </View>
+          </TouchableHighlight>
 
-        <TouchableHighlight 
-          onPress={ this.stop.bind(this) } 
-          style={ styles.touchable } underlayColor="white">  
-          <View style={ styles.stopBtn }>
-            <Text style={ styles.whiteFont }>Stop</Text>
-          </View>
-        </TouchableHighlight>
+          <TouchableHighlight 
+            onPress={ this.pause.bind(this) } 
+            style={ styles.touchable } underlayColor="white">  
+            <View style={ styles.pauseBtn }>
+              <Text style={ styles.whiteFont }>Pause</Text>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight 
+            onPress={ this.stop.bind(this) } 
+            style={ styles.touchable } underlayColor="white">  
+            <View style={ styles.stopBtn }>
+              <Text style={ styles.whiteFont }>Stop</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
