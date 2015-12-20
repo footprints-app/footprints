@@ -12,7 +12,7 @@ var requests = {
     login: { reqMethod: 'POST', endPoint: '/users/login' },
     allTours: { reqMethod: 'GET', endPoint: '/tours/alltours'},
     myTours: {reqMethod: 'GET', endPoint: '/tours/mytours/'},
-    tour: {reqMethod: 'GET', endPoint: '/tours/'},
+    tour: {reqMethod: 'GET', endPoint: '/tours/tour/'},
     createTour: {reqMethod: 'POST', endPoint: '/tours/createtour'},
     addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'},
     editTour: {reqMethod: 'PUT', endPoint: '/tours/edit/'},
