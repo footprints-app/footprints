@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var RNFS = require('react-native-fs');
 
 var {
   NativeModules,
@@ -23,12 +24,13 @@ class RecordAudio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cassetteGif: require('../assets/cassette.gif')
+      cassetteGif: require('../assets/cassette.png')
       //cassetteGif: 'http://www.clicktorelease.com/code/gif/1.gif'
     }
   }
   
   record() {
+    this.setState({cassetteGif: require('../assets/cassette.gif')});
     RNRecordAudio.startRecord(
 
       "test.m4a", // filename
@@ -48,6 +50,7 @@ class RecordAudio extends Component {
   }
 
   stopRec() {
+    this.setState({cassetteGif: require('../assets/cassette.png')});
     RNRecordAudio.stopRecord(
 
       "test.m4a", // filename
@@ -67,6 +70,7 @@ class RecordAudio extends Component {
   }
 
   play() {
+    this.setState({cassetteGif: require('../assets/cassette.gif')});
     RNPlayAudio.startAudio(
 
       "test.m4a", // filename
@@ -86,6 +90,7 @@ class RecordAudio extends Component {
   }
 
   pause() {
+    this.setState({cassetteGif: require('../assets/cassette.png')});
     RNPlayAudio.pauseAudio(
 
       "test.m4a", // filename
@@ -105,6 +110,7 @@ class RecordAudio extends Component {
   }
 
   stop() {
+    this.setState({cassetteGif: require('../assets/cassette.png')});
     RNPlayAudio.stopAudio(
 
       "test.m4a", // filename
