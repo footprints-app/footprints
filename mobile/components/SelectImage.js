@@ -86,15 +86,16 @@ class SelectImage extends Component {
     };
 
     UIImagePickerManager.showImagePicker(options, (didCancel, response)  => {
-      console.log('image picker res:', response)
-      var tourId = this.state.tourId;
-      this.submitSelection(response.data.toString())
+      if(!didCancel) {
+        console.log('image picker res:', response)
+        var tourId = this.state.tourId;
+        this.submitSelection(response.data.toString())
 
-
-      if(response.takePhotoButtonTitle) {
-        UIImagePickerManager.launchCamera(options, (didCancel, response)  => {
-          this.submitSelection(response.data.toString())
-        });
+        if (response.takePhotoButtonTitle) {
+          UIImagePickerManager.launchCamera(options, (didCancel, response)  => {
+            this.submitSelection(response.data.toString())
+          });
+        }
       }
     });
   }
