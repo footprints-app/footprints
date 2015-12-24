@@ -5,6 +5,7 @@ var ViewCreatedTour = require('./ViewCreatedTour');
 var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+var styles = require('../lib/stylesheet');
 
 var {
   Component,
@@ -17,13 +18,15 @@ var {
 
 // Place defines domain model for form.
 var Place = t.struct({
-  placeName: t.maybe(t.String),
-  address: t.maybe(t.String),
-  description: t.maybe(t.String),
-  placeOrder: t.maybe(t.Number)
+  Place: t.String,
+  Address: t.String,
+  Description: t.String,
+  // placeOrder: t.Number
 });
 
-var options = {};
+var options = {
+  auto: 'placeholders',
+};
 
 class AddPlace extends Component {
   
@@ -46,11 +49,12 @@ class AddPlace extends Component {
      */
     var tourId = this.state.tourId;
     var newPlace = this.refs.form.getValue();
+    console.log('getvalue addplace.....', newPlace);
     var reqBody = {
-      placeName: newPlace.placeName,
-      address: newPlace.address,
-      description: newPlace.description,
-      placeOrder: newPlace.placeOrder,
+      Place: newPlace.Place,
+      Address: newPlace.Address,
+      Description: newPlace.Description,
+      // placeOrder: newPlace.placeOrder,
       tourId: tourId
     };
 
@@ -68,13 +72,24 @@ class AddPlace extends Component {
     return (
       <View style={ styles.container }>
       {/* display */}
-      <Form
-        ref="form"
-        type={ Place }
-        options={ options }/>
+      <View>
+        <Form
+          ref="form"
+          type={ Place }
+          options={ options }/>
+      </View>
+
+      <View style={ styles.photoContainer }>
+      <Text style={ styles.text }>Add a Photo</Text> 
+      </View>
+      <View style={ styles.photoContainer }>
+        <View>
+          <Text style={ styles.text }>Add Audio</Text>
+        </View>
+      </View>
 
       <TouchableHighlight style={ styles.button } onPress={ this.onPressSave.bind(this) } underlayColor='#99d9f4'>
-        <Text style={ styles.buttonText }>Save</Text>
+        <Text style={ styles.buttonText }>Add Place</Text>
       </TouchableHighlight>
     </View>
     );
@@ -83,31 +98,45 @@ class AddPlace extends Component {
 
 var styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#727272',
     justifyContent: 'center',
-    marginTop: 50,
     padding: 20,
-    backgroundColor: '#ffffff',
   },
   title: {
     fontSize: 30,
     alignSelf: 'center',
     marginBottom: 30
   },
+  photoContainer: {
+    justifyContent: 'center',
+    padding: 20,
+  },
   buttonText: {
-    fontSize: 18,
-    color: 'white',
-    alignSelf: 'center'
+    color: '#FFF',
+    fontFamily: 'Raleway',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  text: {
+    color: '#00BCD4',
+    fontFamily: 'Raleway',
+    fontSize: 20,
+    fontWeight: 'bold',
+    justifyContent: 'center'
   },
   button: {
-    height: 36,
-    backgroundColor: '#FF3366',
-    borderColor: '#48BBEC',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
+    backgroundColor: '#FFC107',
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 25,
+    marginBottom: 35,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#FFC107',
+    justifyContent: 'center',
     alignSelf: 'stretch',
-    justifyContent: 'center'
-  }
+  },
 });
 
 module.exports = AddPlace;
