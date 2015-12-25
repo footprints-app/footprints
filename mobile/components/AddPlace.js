@@ -19,14 +19,28 @@ var {
 
 // Place defines domain model for form.
 var Place = t.struct({
-  Place: t.String,
-  Address: t.String,
-  Description: t.String,
-  // placeOrder: t.Number
+  placeName: t.maybe(t.String),
+  address: t.maybe(t.String),
+  description: t.maybe(t.String),
+  // placeOrder: t.maybe(t.Number)
 });
 
 var options = {
   auto: 'placeholders',
+  fields: {
+    placeName: {
+      placeholder: 'Place',
+      placeholderTextColor: '#FFF',
+    },
+    address: {
+      placeholder: 'Address',
+      placeholderTextColor: '#FFF'
+    },
+    description: {
+      placeholder: 'Description',
+      placeholderTextColor: '#FFF'
+    }
+  },
 };
 
 class AddPlace extends Component {
@@ -50,11 +64,10 @@ class AddPlace extends Component {
      */
     var tourId = this.state.tourId;
     var newPlace = this.refs.form.getValue();
-    console.log('getvalue addplace.....', newPlace);
     var reqBody = {
-      Place: newPlace.Place,
-      Address: newPlace.Address,
-      Description: newPlace.Description,
+      placeName: newPlace.placeName,
+      address: newPlace.address,
+      description: newPlace.description,
       // placeOrder: newPlace.placeOrder,
       tourId: tourId
     };
@@ -73,7 +86,7 @@ class AddPlace extends Component {
     return (
       <View style={ styles.container }>
         {/* display */}
-        <View>
+        <View style={styles.textboxStyle}>
           <Form
             ref="form"
             type={ Place }
@@ -81,7 +94,7 @@ class AddPlace extends Component {
         </View>
        
         
-          <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272'>
+          <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 25}}>
             <View style={ styles.photoAudioContainer }>   
               <View>
                 <Text style={ styles.text }>Add a Photo</Text>
@@ -113,6 +126,9 @@ class AddPlace extends Component {
 }
 
 var styles = StyleSheet.create({
+  textboxStyle: {
+    marginTop: 70,
+  },
   container: {
     flex: 1,
     backgroundColor: '#727272',
@@ -121,7 +137,7 @@ var styles = StyleSheet.create({
   },
   photoAudioContainer: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   title: {
     fontSize: 30,
@@ -145,7 +161,6 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center',
     marginTop: 25,
-    
   },
   button: {
     backgroundColor: '#FFC107',
@@ -153,29 +168,47 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 45,
     marginBottom: 35,
-    borderRadius: 10,
+    borderRadius: 20,
     borderWidth: 2,
     borderColor: '#FFC107',
     justifyContent: 'center',
     alignSelf: 'stretch',
   },
-  // arrow: {
-  //   marginRight: -50
-  // },
   photoIcon: { 
     marginLeft: 70,
     width: 50,
     height: 50,
     marginTop: 10,
-    // justifyContent: 'center',
   },
   audioIcon: { 
     marginLeft: 90,
     width: 50,
     height: 50,
     marginTop: 10,
-    // justifyContent: 'center',
   },
 });
+
+//node-modules/tcomb-form-native/lib/stylesheet/bootstrap
+// var LABEL_COLOR = '#000000';
+// var INPUT_COLOR = '#FFF';
+// var ERROR_COLOR = '#a94442';
+// var HELP_COLOR = '#999999';
+// var BORDER_COLOR = '#cccccc';
+// var DISABLED_COLOR = '#777777';
+// var DISABLED_BACKGROUND_COLOR = '#D8D8D8';
+// var FONT_SIZE = 17;
+// var FONT_WEIGHT = '500';
+// textbox: {
+//     normal: {
+//       color: INPUT_COLOR,
+//       fontSize: FONT_SIZE,
+//       height: 45,
+//       padding: 7,
+//       borderRadius: 5,
+//       borderColor: BORDER_COLOR,
+//       borderWidth: 1,
+//       marginBottom: 10,
+//       backgroundColor: DISABLED_BACKGROUND_COLOR
+//     },
 
 module.exports = AddPlace;
