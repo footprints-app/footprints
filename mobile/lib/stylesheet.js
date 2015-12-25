@@ -191,6 +191,13 @@ var styles = StyleSheet.create({
     marginBottom: 8,
     marginLeft: 8
   },
+  address: {
+    fontSize: 14,
+    fontFamily: 'OpenSans',
+    color: '#FFF',
+    marginBottom: 8,
+    marginLeft: 8
+  },
   tourTitle: {
     fontSize: 25,
     fontFamily: 'Raleway',
@@ -222,7 +229,35 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginTop: 15
-  }
+  },
+  editIconContainer: { 
+    marginLeft: 95,
+    marginTop: 75,
+  },
+  editIcon: { 
+    // marginLeft: 50,
+    width: 50,
+    height: 50,
+    // marginTop: 100,
+  },
+  photoAudioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#00BCD4',
+    fontFamily: 'Raleway',
+    fontSize: 20,
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    marginTop: 25,
+  },
+  addPlaceIcon: { 
+    marginLeft: 50,
+    width: 50,
+    height: 50,
+    marginTop: 10,
+  },
 });
 
 module.exports = styles;
