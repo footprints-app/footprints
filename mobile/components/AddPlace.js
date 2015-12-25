@@ -14,6 +14,7 @@ var {
   TextInput,
   TouchableHighlight,
   View,
+  Image
 } = React;
 
 // Place defines domain model for form.
@@ -71,27 +72,42 @@ class AddPlace extends Component {
   render () {
     return (
       <View style={ styles.container }>
-      {/* display */}
-      <View>
-        <Form
-          ref="form"
-          type={ Place }
-          options={ options }/>
-      </View>
-
-      <View style={ styles.photoContainer }>
-      <Text style={ styles.text }>Add a Photo</Text> 
-      </View>
-      <View style={ styles.photoContainer }>
+        {/* display */}
         <View>
-          <Text style={ styles.text }>Add Audio</Text>
+          <Form
+            ref="form"
+            type={ Place }
+            options={ options }/>
         </View>
-      </View>
+       
+        
+          <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272'>
+            <View style={ styles.photoAudioContainer }>   
+              <View>
+                <Text style={ styles.text }>Add a Photo</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
+              </View>
+            </View>   
+          </TouchableHighlight>
+          
+            
+          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
+            <View style={ styles.photoAudioContainer }>
+              <View>
+                <Text style={ styles.text }>Add Audio</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
+              </View>
+            </View>  
+          </TouchableHighlight>
 
-      <TouchableHighlight style={ styles.button } onPress={ this.onPressSave.bind(this) } underlayColor='#99d9f4'>
-        <Text style={ styles.buttonText }>Add Place</Text>
-      </TouchableHighlight>
-    </View>
+        <TouchableHighlight style={ styles.button } onPress={ this.onPressSave.bind(this) } underlayColor='#99d9f4'>
+          <Text style={ styles.buttonText }>Add Place</Text>
+        </TouchableHighlight>
+      </View>
     );
   }
 }
@@ -102,6 +118,10 @@ var styles = StyleSheet.create({
     backgroundColor: '#727272',
     justifyContent: 'center',
     padding: 20,
+  },
+  photoAudioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   title: {
     fontSize: 30,
@@ -123,19 +143,38 @@ var styles = StyleSheet.create({
     fontFamily: 'Raleway',
     fontSize: 20,
     fontWeight: 'bold',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginTop: 25,
+    
   },
   button: {
     backgroundColor: '#FFC107',
     padding: 16,
     alignItems: 'center',
-    marginTop: 25,
+    marginTop: 45,
     marginBottom: 35,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#FFC107',
     justifyContent: 'center',
     alignSelf: 'stretch',
+  },
+  // arrow: {
+  //   marginRight: -50
+  // },
+  photoIcon: { 
+    marginLeft: 70,
+    width: 50,
+    height: 50,
+    marginTop: 10,
+    // justifyContent: 'center',
+  },
+  audioIcon: { 
+    marginLeft: 90,
+    width: 50,
+    height: 50,
+    marginTop: 10,
+    // justifyContent: 'center',
   },
 });
 
