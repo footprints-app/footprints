@@ -22,17 +22,17 @@ var requests = {
     addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'}
   }; 
 
-  var token;
-  function getToken() {
-    AsyncStorage.multiGet(['token', 'user'])
-    .then(function(data) {
-      if (data) {
-        token = data[0][1];
-        console.log('token and user from Utility getToken:.....', token)
-      }
-    })
-    return token;
-  };
+var token;
+function getToken() {
+  AsyncStorage.multiGet(['token', 'user'])
+  .then(function(data) {
+    if (data) {
+      token = data[0][1];
+      console.log('token and user from Utility getToken:.....', token)
+    }
+  })
+  return token;
+};
 
 var Utility = {
 
@@ -175,26 +175,24 @@ var Utility = {
     // console.log('reqBody in request: ', reqBody);
     console.log('token in makeRequest: ', token);
     var requestMethod = requests[requestType].reqMethod;
+    var headerBody = {
+      'Accept': 'application/json',
+      // 'Allow-Control-Allow-Origin': '*',
+      'x-access-token': token,
+      'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
+    };
     if(requestMethod === 'GET') {
       return fetch(reqUrl, {
         method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Allow-Control-Allow-Origin': '*',
-            'x-access-token': token,
-            'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
-          }
+        headers: headerBody
         })
       .then(response => response.json());
     } else {
+      headerBody['Content-Type'] = 'application/json';
       return fetch(reqUrl, 
         {
           method: requestMethod,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'x-access-token': token
-          },
+          headers: headerBody,
           body: JSON.stringify(reqBody)
         }
       ).then((response) => response.json()); 

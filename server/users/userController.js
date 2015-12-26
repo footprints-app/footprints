@@ -81,17 +81,19 @@ module.exports = {
    */
   checkAuth: function (req, res, next) {
     var token = req.headers['x-access-token'];
+    console.log('token in checkAuth: ', token);
     if (!token) {
       res.sendStatus(401);
     } else {
         var user = jwt.decode(token, 'secret');
         var queryStr = "select * from users where id = ?";
-        // console.log('found token in checkAuth, user = ', user);
+        console.log('found token in checkAuth, userId = ', user);
         db.query(queryStr, user, function(err, userInfo) {
           if(userInfo.length !== 0) {
-            // console.log('found user in DB');
+            console.log('found user in DB');
             next();
           } else {
+            console.log('user is not in DB?');
             res.sendStatus(401);
           }
         });

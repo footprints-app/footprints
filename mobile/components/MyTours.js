@@ -47,17 +47,7 @@ class MyTours extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
   componentDidMount () {
-    var that = this;
-    AsyncStorage.multiGet(['token', 'user'])
-    .then(function(data) {
-      if(data) {
-        that.setState({
-          token: data[0][1],
-          userId: +data[1][1]
-        });
-      }
-      that.fetchData()
-    });
+    this.fetchData();
   }
 
   /**

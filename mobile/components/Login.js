@@ -1,6 +1,7 @@
 'use strict';
 var React = require('react-native');
 var Main = require('./Main');
+var MyTours = require('./MyTours');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var DeviceWidth = Dimensions.get('window').width;
@@ -43,6 +44,8 @@ class Login extends Component {
       password: this.state.password
     };
 
+    var component = this;
+
     utils.makeRequest('login', reqBody)
     .then((response) => {
       console.log('response body from login: ', response);
@@ -52,15 +55,11 @@ class Login extends Component {
         } else if(response.error === 'Username and password do not match') {
           this.setState({validPassword: false, username: '', password: ''});        }
       } else {
-        var user = response.userInfo;
-        var token = response.token;
-        console.log(user, token)
-        AsyncStorage.multiSet([
-          ['token', token],
-          ['user', user.id.toString()]
-        ]);
-        console.log('from login client.....', user, token)
-        utils.navigateTo.call(this, "Welcome", Main, {user});
+        AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+        .then(() => {
+          console.log('from login client.....', response.userId, response.token);
+          utils.navigateTo.call(component, "Your Tours", MyTours, {});
+        });
       }
     })
     .catch((error) => {

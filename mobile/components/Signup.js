@@ -52,7 +52,12 @@ class Signup extends Component {
         if( response.error ) {
           this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
         } else {
-          var user = response;
+          var user = response.userInfo;
+          var token = response.token;
+          AsyncStorage.multiSet([
+            ['token', token],
+            ['user', user.id.toString()]
+          ]);
           utils.navigateTo.call(this, "Tours", Main, {user} );
         }
       })
