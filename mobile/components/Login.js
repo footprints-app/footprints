@@ -1,6 +1,5 @@
 'use strict';
 var React = require('react-native');
-var Main = require('./Main');
 var MyTours = require('./MyTours');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
