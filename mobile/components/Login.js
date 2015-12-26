@@ -3,6 +3,8 @@ var React = require('react-native');
 var Main = require('./Main');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
+var DeviceWidth = Dimensions.get('window').width;
+var DeviceHeight = Dimensions.get('window').height;
 var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
 
@@ -86,58 +88,57 @@ class Login extends Component {
       <View style={ styles.loginContainer }>
         <ScrollView ref="scrollView">
           
-          <View style  = {{flex: 1}}>
-            <Image style = {{height: 300, width: 375}} source={require('../assets/logo.png')}/>
+          <View style={{ justifyContent: 'center', flex: 1 }}>
+            <Image 
+              style={{ height: DeviceHeight/2.15, width: DeviceWidth }} 
+              source={require('../assets/logo.png')}/>
           </View>
           
-          <View>
-            <View style={ styles.inputs }>
-
-              <View style={ styles.inputContainer }>
-                <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-                <TextInput 
-                  style={ [styles.input, styles.whiteFont] }
-                  placeholder="Username"
-                  placeholderTextColor="#FFF"
-                  value={ this.state.username }
-                  onChange={ utils.usernameInput.bind(this) }
-                  ref='username'
-                  onFocus={this.inputFocused.bind(this, 'username')}/>
-              </View>
-
-              <View style={ styles.inputContainer }>
-                <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
-                <TextInput
-                  password={true}
-                  style={ [styles.input, styles.whiteFont] }
-                  placeholder="Password"
-                  placeholderTextColor="#FFF"
-                  value={ this.state.password }
-                  onChange={ utils.passwordInput.bind(this) }
-                  ref="password"
-                  onFocus={this.inputFocused.bind(this,'password')} />
-              </View>
-
-              <Text style={ styles.whiteFont }>
-                { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
-              </Text>
-              <Text style={ styles.whiteFont }>
-                { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
-              </Text>
-
+          <View style={ styles.inputs }>
+            <View style={ styles.inputContainer }>
+              <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+              <TextInput 
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="Username"
+                placeholderTextColor="#FFF"
+                value={ this.state.username }
+                onChange={ utils.usernameInput.bind(this) }
+                ref='username'
+                onFocus={this.inputFocused.bind(this, 'username')}/>
             </View>
-          </View>
+
+            <View style={ styles.inputContainer }>
+              <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
+              <TextInput
+                password={true}
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="Password"
+                placeholderTextColor="#FFF"
+                value={ this.state.password }
+                onChange={ utils.passwordInput.bind(this) }
+                ref="password"
+                onFocus={this.inputFocused.bind(this,'password')} />
+            </View>
+
+            <Text style={ styles.whiteFont }>
+              { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
+            </Text>
+            <Text style={ styles.whiteFont }>
+              { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
+            </Text>
+          </View>    
         </ScrollView>
 
-        <View style={{flexDirection: 'row'}}>
-        <TouchableHighlight 
-          onPress={ this.submitLogin.bind(this) }
-          style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}>
-            <Text style={ styles.whiteFont }>Login</Text>
-        </TouchableHighlight>
+        <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 30}}>
+          <TouchableHighlight 
+            onPress={ this.submitLogin.bind(this) }
+            style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}>
+              <Text style={ styles.whiteFont }>Login</Text>
+          </TouchableHighlight>
+
           <TouchableHighlight
             onPress={ utils.navigateTo.bind(this, 'Signup', require('./Signup'), {}) }
-            style={styles.loginSignup}>
+            style={ [styles.loginSignup, {marginLeft: 25}] }>
             <Text style={ styles.whiteFont }>Sign Up</Text>
           </TouchableHighlight>
         </View>

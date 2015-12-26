@@ -175,63 +175,63 @@ class ViewCreatedTour extends Component {
         
         <View style={ styles.inputs }>
         
-          <View style={ styles.inputContainer }>
+          <View style={ styles.editContainer }>
             <TextInput
-              style={ [styles.input] }
+              style={ [styles.editInput] }
               placeholder={ this.state.tour.tourName }
               placeholderTextColor="black"
               value={ this.state.tourName }
               onChange={ utils.tourNameInput.bind(this) }/>              
           </View>
          
-          <View style={ styles.inputContainer }>
+          <View style={ styles.editContainer }>
             <TextInput
-              style={ [styles.input] }
+              style={ [styles.editInput] }
               placeholder={ this.state.tour.category }
               placeholderTextColor="black"
               value={ this.state.category }
               onChange={ utils.categoryInput.bind(this) }/>
           </View>
           
-          <View style={ styles.inputContainer }>
+          <View style={ styles.editContainer }>
             <TextInput
-              style={ [styles.input] }
+              style={ [styles.editInput] }
               placeholder={ this.state.tour.description }
               placeholderTextColor="black"
               value={this.state.description}
               onChange={ utils.descriptionInput.bind(this) }/>
           </View>
           
-          <View style={ styles.inputContainer }>
+          <View style={ styles.editContainer }>
             <TextInput
-              style={ [styles.input] }
+              style={ [styles.editInput] }
               placeholder={ this.state.tour.duration }
               placeholderTextColor="black"
               value={ this.state.duration }
               onChange={ utils.durationInput.bind(this) }/>
           </View>
 
-          <View style={ styles.inputContainer }>
+          <View style={ styles.editContainer }>
             <TextInput
-              style={ [styles.input] }
+              style={ [styles.editInput] }
               placeholder={ this.state.tour.cityName }
               placeholderTextColor="black"
               value={ this.state.cityName }
               onChange={ utils.cityNameInput.bind(this) }/>
           </View>
 
-          <View style={ styles.inputContainer }>
+          <View style={ styles.editContainer }>
             <TextInput
-              style={ [styles.input] }
+              style={ [styles.editInput] }
               placeholder={ this.state.tour.state }
               placeholderTextColor="black"
               value={ this.state.state }
               onChange={ utils.stateInput.bind(this) }/>
           </View>
 
-          <View style={ styles.inputContainer }>
+          <View style={ styles.editContainer }>
             <TextInput
-              style={ [styles.input] }
+              style={ [styles.editInput] }
               placeholder={ this.state.tour.country }
               placeholderTextColor="black"
               value={ this.state.country }
@@ -268,11 +268,11 @@ class ViewCreatedTour extends Component {
   }
 
   renderViewMode() {
-    var imageURI = (typeof this.state.tour.image !== 'undefined') ? this.state.tour.image : '';
+    var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : '';
     return (
-      <View style={styles.tourContainer}>
+      <View style={ styles.tourContainer }>
         
-        <View><Image style={styles.headerPhoto} source={{uri: imageURI}} /></View>
+        <View><Image style={ styles.headerPhoto } source={{ uri: imageURI }} /></View>
 
         <View style={{flexDirection: 'row'}}>
           <View style={{marginLeft: 20}}>
@@ -296,13 +296,16 @@ class ViewCreatedTour extends Component {
           </View>
         </View>
 
-        <TouchableHighlight onPress={ this.addPlace.bind(this) } underlayColor='#727272' style={{marginBottom: 20}}>
+        <TouchableHighlight 
+          onPress={ this.addPlace.bind(this) } 
+          underlayColor='#727272' 
+          style={{ marginBottom: 20 }}>
             <View style={ styles.photoAudioContainer }>
               <View>
                 <Text style={ styles.text }>Add Place</Text>
               </View>
               <View>
-                <Image source={require('../assets/editiconteal.png')} style={styles.addPlaceIcon}/>
+                <Image source={ require('../assets/editiconteal.png') } style={ styles.addPlaceIcon }/>
               </View>
             </View>  
           </TouchableHighlight>

@@ -25,7 +25,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
     padding: 16,
     alignItems: 'center',
-    marginLeft: 25,
+    // marginLeft: 25,
     marginBottom: 35,
     borderRadius: 30,
     borderWidth: 2,
@@ -50,6 +50,21 @@ var styles = StyleSheet.create({
     right: 0,
     height: 20,
     fontSize: 14
+  },
+  editContainer: {
+    height: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderBottomColor: '#FFF',
+    borderColor: 'transparent'
+  },
+  editInput: {
+    position: 'absolute',
+    left: 10,
+    top: 1,
+    right: 0,
+    height: 30,
+    fontSize: 12
   },
   whiteFont: {
     color: '#FFF',
@@ -235,10 +250,8 @@ var styles = StyleSheet.create({
     marginTop: 75,
   },
   editIcon: { 
-    // marginLeft: 50,
     width: 50,
     height: 50,
-    // marginTop: 100,
   },
   photoAudioContainer: {
     flexDirection: 'row',
@@ -253,10 +266,10 @@ var styles = StyleSheet.create({
     marginTop: 25,
   },
   addPlaceIcon: { 
-    marginLeft: 50,
-    width: 50,
-    height: 50,
-    marginTop: 10,
+    marginLeft: 12,
+    width: 30,
+    height: 30,
+    marginTop: 20,
   },
 });
 
