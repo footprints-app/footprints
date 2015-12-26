@@ -70,6 +70,7 @@ class MyTours extends Component {
   }
 
   toggleEdit () {
+    alert('in toggleEdit')
     var newEditState = !this.state.editMode;
     this.setState({editMode: newEditState});
     console.log("Edit Mode: ", this.state.editMode);
@@ -116,6 +117,7 @@ class MyTours extends Component {
           });
         })
       })
+      this.fetchData();
   }
 
   renderLoadingView () {
@@ -176,7 +178,8 @@ class MyTours extends Component {
           <ListView
             dataSource={ this.state.dataSource }
             renderRow={ this.renderDeletableTour.bind(this) }
-            style={ styles.listView }/>
+            style={ styles.listView }
+            automaticallyAdjustContentInsets={false}/>
         </View>
 
         <TouchableHighlight 
@@ -191,13 +194,16 @@ class MyTours extends Component {
   }
 
   renderViewMode() {
+    {/*this.fetchData();*/}
     return (
       <View style={ styles.container }>
+
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
             renderRow={ this.renderTour.bind(this) }
-            style={ styles.listView }/>
+            style={ styles.listView }
+            automaticallyAdjustContentInsets={false}/>
         </View>
         
         <TouchableHighlight
@@ -208,7 +214,6 @@ class MyTours extends Component {
           </View>
         </TouchableHighlight>
 
-        
       </View>
     );
   }

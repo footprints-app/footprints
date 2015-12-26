@@ -27,6 +27,7 @@ class ViewCreatedTour extends Component {
    * @this {ViewCreatedTours}
    */
   constructor(props) {
+    console.log('props in view ViewCreatedTours', props)
     super(props);
     this.state = {
       tourId: this.props.tourId || this.props.tour.id,
@@ -246,14 +247,16 @@ class ViewCreatedTour extends Component {
             renderRow={ this.renderEditablePlace.bind(this) }
             style={ styles.listView }/>
         </View>
-
-        <TouchableHighlight 
-          onPress={ this.addPlace.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.addPlaceBtn }>
-            <Text style={ styles.whiteFont }>Add Place</Text>
-          </View>  
-        </TouchableHighlight>
+        
+        {/*
+          <TouchableHighlight 
+            onPress={ this.addPlace.bind(this) } 
+            style={ styles.touchable } underlayColor="white">
+            <View style={ styles.addPlaceBtn }>
+              <Text style={ styles.whiteFont }>Add Place</Text>
+            </View>  
+          </TouchableHighlight>
+        */}
 
         <TouchableHighlight 
           onPress={ this.editDone.bind(this) } 
@@ -319,7 +322,7 @@ class ViewCreatedTour extends Component {
         </View>
 
        
-
+        {/*
         <TouchableHighlight 
           onPress={ this.onPressDone.bind(this) } 
           style={ styles.touchable } underlayColor="white">
@@ -327,6 +330,7 @@ class ViewCreatedTour extends Component {
             <Text style={ styles.whiteFont }>Done</Text>
           </View>  
         </TouchableHighlight>
+        */}
       
       </View>
     );

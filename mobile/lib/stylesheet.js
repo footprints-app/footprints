@@ -11,7 +11,8 @@ var styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#0097A7'
+    backgroundColor: '#0097A7',
+    marginTop: 40
   },
   loginContainer: {
     flex: 1,
