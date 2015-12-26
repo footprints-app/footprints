@@ -156,6 +156,21 @@ class RecordAudio extends Component {
 
   }
 
+  done() {
+    var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
+    var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
+
+    fetch(awsUrl, {
+      method: "POST",
+      headers: {},
+      body: JSON.stringify({
+        AWSAccessKeyId: "",
+        file: storyPath,
+        key: 
+      })
+    })
+  }
+
   render() {
     return (
       <View>
