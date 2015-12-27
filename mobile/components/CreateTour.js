@@ -60,6 +60,7 @@ class CreateTour extends Component {
       .then(response => {
         console.log('response body in Create Tour: ', response);
         var tourId = response.id;
+        console.log('tourId in create tour: ', tourId)
         utils.navigateTo.call(component, "View Tour", ViewCreatedTour, {tourId});
       })
       .done();

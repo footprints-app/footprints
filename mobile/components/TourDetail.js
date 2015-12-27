@@ -49,7 +49,13 @@ class TourDetail extends Component {
    *
    */
   fetchData() {
-    utils.makeRequest('tours', {}, this.state.tourId)
+    var component = this;
+    var options = {
+      reqBody: {},
+      reqParam: this.state.tourId
+    }; 
+
+    utils.makeRequest('tours', component, options)
     .then((response) => {
       console.log('response body from TourDetail: ', response);
       this.setState({
