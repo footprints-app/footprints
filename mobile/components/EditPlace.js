@@ -42,15 +42,21 @@ class EditPlace extends Component {
    }
 
    editDone() {
-    var reqBody = this.state;
-    console.log('reqBody from editDone button: ', reqBody);
-    var reqParam = this.state.id;
+    console.log('reqBody from editDone button: ', this.state);
+    var options = {
+      reqBody: this.state,
+      reqParam: this.state.id
+    };
     var that = this;
-    utils.makeRequest('editPlace', reqBody, reqParam)
+    utils.makeRequest('editPlace', that, options)
       .then(response => {
         console.log('Response body from server after editing place: ', response.body);
         console.log('tourid: ', that.state.tourId);
-        utils.makeRequest('tour', {}, that.state.tourId)
+        var tourOptions = {
+          reqBody: {},
+          reqParam: that.state.tourId
+        };
+        utils.makeRequest('tour', that, tourOptions)
           .then((response) => {
             console.log('Tour recieved from request: ', response);
             var ViewCreatedTour = require('./ViewCreatedTour');
