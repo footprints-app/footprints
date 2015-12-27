@@ -1,5 +1,7 @@
 'use strict';
 var React = require('react-native');
+var Login = require('../components/Login');
+
 var {
   AsyncStorage
 } = React;
@@ -22,16 +24,21 @@ var requests = {
     addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'}
   }; 
 
-var token;
-function getToken() {
-  AsyncStorage.multiGet(['token', 'user'])
-  .then(function(data) {
-    if (data) {
-      token = data[0][1];
-      console.log('token and user from Utility getToken:.....', token)
-    }
+var token = '';
+function getToken(requestType) {
+  // if(requestType === 'signup' || requestType === 'login') {
+  //   return new Promise(function)
+
+  return AsyncStorage.getItem('token')
+  .then((token) => {
+    console.log('token in getToken: ', token);
+    return token;
   })
-  return token;
+  .catch((error) => {
+    return '';
+    console.log('error?');
+    console.warn(error)
+  });
 };
 
 var Utility = {
@@ -166,37 +173,56 @@ var Utility = {
    * @param {string, object, [string]} requestType is a key in the request's object, reqBody is the object that is being sent in the request, reqParam is an optional argument for ids.
    * @return {Promise} promise with the parsed response body
    */
-  makeRequest: function(requestType, reqBody, reqParam) {
-    getToken();
-    var param = reqParam || '';
-    var reqUrl = request_url + requests[requestType].endPoint + param;
-    // console.log('request url: ', reqUrl);
-    // console.log('reqParam: ', param);
-    // console.log('reqBody in request: ', reqBody);
-    console.log('token in makeRequest: ', token);
+  makeRequest: function(requestType, component, options) {
     var requestMethod = requests[requestType].reqMethod;
+    var reqBody = options.reqBody || {};
+    var param = options.reqParam || '';
+    var reqUrl = request_url + requests[requestType].endPoint + param;
+    console.log('request url: ', reqUrl);
+    console.log('reqParam: ', param);
+    console.log('reqBody in request: ', reqBody);
+    
     var headerBody = {
       'Accept': 'application/json',
       // 'Allow-Control-Allow-Origin': '*',
       'x-access-token': token,
       'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
     };
-    if(requestMethod === 'GET') {
-      return fetch(reqUrl, {
-        method: 'GET',
-        headers: headerBody
-        })
-      .then(response => response.json());
-    } else {
-      headerBody['Content-Type'] = 'application/json';
-      return fetch(reqUrl, 
-        {
-          method: requestMethod,
-          headers: headerBody,
-          body: JSON.stringify(reqBody)
+
+    if(requestType !== 'signup' && requestType !== 'login') {
+      return getToken(requestType).then((token) => {
+        console.log('token in makeRequest: ', token);
+        headerBody['x-access-token'] = token;
+        if(requestMethod === 'GET') {
+          console.log('get request with token');
+          return fetch(reqUrl, {
+            method: 'GET',
+            headers: headerBody
+            })
+          .then((response) => response.json());
+        } else {
+          headerBody['Content-Type'] = 'application/json';
+          console.log('post request with token');
+          return fetch(reqUrl, 
+            {
+              method: requestMethod,
+              headers: headerBody,
+              body: JSON.stringify(reqBody)
+            }
+          ).then((response) => response.json()); 
         }
-      ).then((response) => response.json()); 
-    }
+      });
+    } else {
+        headerBody['Content-Type'] = 'application/json';
+        console.log('post request');
+        return fetch(reqUrl, 
+          {
+            method: requestMethod,
+            headers: headerBody,
+            body: JSON.stringify(reqBody)
+          }
+        ).then((response) => response.json()); 
+      }
   }
 }
 

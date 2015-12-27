@@ -33,7 +33,7 @@ class ViewCreatedTour extends Component {
     console.log('props in view ViewCreatedTours', props)
     super(props);
     this.state = {
-      tourId: this.props.tourId || this.props.tour.id,
+      tourId: this.props.tourId,
       tour: {},
       isLoading: true,
       dataSource: new ListView.DataSource({
@@ -134,27 +134,33 @@ class ViewCreatedTour extends Component {
   }
 
   fetchData() {
-    utils.makeRequest('tour', {}, this.state.tourId)
-      .then((response) => {
-        console.log('response body from View Created Tour: ', response);
-        var places = response.places;
-        this.setState({
-          tour: response,
-          userId: response.userId,
-          tourName: response.tourName,
-          description: response.description,
-          image: response.image,
-          category: response.category,
-          duration: response.duration,
-          userName: response.userName,
-          cityName: response.cityName,
-          state: response.state,
-          country: response.country,
-          dataSource: this.state.dataSource.cloneWithRows(places),
-          isLoading: false
-        });
-      })
-      .done();
+    var component = this;
+    console.log('tourId: ', this.state.tourId);
+    var options = {
+      reqParam: this.state.tourId,
+      reqBody: {}
+    }; 
+    console.log('view created tour fetch data');
+    utils.makeRequest('tour', component, options)
+    .then((response) => {
+      console.log('response body from View Created Tour: ', response);
+      var places = response.places;
+      this.setState({
+        tour: response,
+        userId: response.userId,
+        tourName: response.tourName,
+        description: response.description,
+        category: response.category,
+        duration: response.duration,
+        userName: response.userName,
+        cityName: response.cityName,
+        state: response.state,
+        country: response.country,
+        dataSource: this.state.dataSource.cloneWithRows(places),
+        isLoading: false
+      });
+    })
+    .done();
   }
 
   renderPlace(place) {

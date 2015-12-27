@@ -38,14 +38,13 @@ class Login extends Component {
   submitLogin () {
     this.setState({validUsername: true, validPassword: true});
 
-    var reqBody = {
-      userName: this.state.username,
-      password: this.state.password
+    var options = {
+      reqBody: { userName: this.state.username, password: this.state.password }
     };
+  
 
     var component = this;
-
-    utils.makeRequest('login', reqBody)
+    utils.makeRequest('login', component, options)
     .then((response) => {
       console.log('response body from login: ', response);
       if(response.error) {
@@ -54,9 +53,10 @@ class Login extends Component {
         } else if(response.error === 'Username and password do not match') {
           this.setState({validPassword: false, username: '', password: ''});        }
       } else {
-        AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+        // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+        AsyncStorage.setItem('token', response.token)
         .then(() => {
-          console.log('from login client.....', response.userId, response.token);
+          console.log('from login client.....', response.token);
           utils.navigateTo.call(component, "Your Tours", MyTours, {});
         });
       }

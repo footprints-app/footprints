@@ -41,23 +41,26 @@ class Signup extends Component {
    */
   submitSignup () {
     this.setState({ validUsername: true });
-    var reqBody = {
-      userName: this.state.username,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      password: this.state.password
+
+    var options = {
+      reqBody: {userName: this.state.username,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                password: this.state.password
+                }
     };
 
     var component = this;
 
-    utils.makeRequest('signup', reqBody)
+    utils.makeRequest('signup', component, options)
       .then((response) => {
         if( response.error ) {
           this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
         } else {
-          AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+          // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+          AsyncStorage.setItem('token', response.token)
           .then(() => {
-            console.log('from signup client.....', response.userId, response.token);
+            console.log('from signup client.....', response.token);
             utils.navigateTo.call(component, "Your Tours", MyTours, {});
           });
         }
@@ -66,6 +69,7 @@ class Signup extends Component {
         console.warn(error);
       });
   }
+   
 
   inputFocused (refName) {
     var that = this;
