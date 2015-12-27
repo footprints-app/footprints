@@ -166,6 +166,17 @@ var Utility = {
     });
   },
 
+  requestHelper: function(reqUrl, requestMethod, header, body) {
+    var requestObject = { method: requestMethod, headers: header};
+    if(requestMethod !== 'GET') {
+      requestObject['body'] = JSON.stringify(body);
+      requestObject.headers['Content-Type'] = 'application/json';
+    } 
+    // console.log('requestObject: ', requestObject);
+    // console.log('headers: ', requestObject.headers);
+    return fetch(reqUrl, requestObject)
+            .then((response) => response.json());
+  },
  
   /**
    * Calls fetch to make a specified API request to the server. 
@@ -175,7 +186,7 @@ var Utility = {
    */
   makeRequest: function(requestType, component, options) {
     var requestMethod = requests[requestType].reqMethod;
-    var reqBody = options.reqBody || {};
+    var reqBody = options.reqBody || null;
     var param = options.reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
     console.log('request url: ', reqUrl);
@@ -184,45 +195,27 @@ var Utility = {
     
     var headerBody = {
       'Accept': 'application/json',
-      // 'Allow-Control-Allow-Origin': '*',
       'x-access-token': token,
       'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
     };
 
     if(requestType !== 'signup' && requestType !== 'login') {
+      console.log('requestType in signup condition: ', requestType);
       return getToken(requestType).then((token) => {
         console.log('token in makeRequest: ', token);
         headerBody['x-access-token'] = token;
-        if(requestMethod === 'GET') {
-          console.log('get request with token');
-          return fetch(reqUrl, {
-            method: 'GET',
-            headers: headerBody
-            })
-          .then((response) => response.json());
-        } else {
-          headerBody['Content-Type'] = 'application/json';
-          console.log('post request with token');
-          return fetch(reqUrl, 
-            {
-              method: requestMethod,
-              headers: headerBody,
-              body: JSON.stringify(reqBody)
+        return this.requestHelper(reqUrl, requestMethod, headerBody, reqBody)
+          .then((response) => {
+            if(response.status === 404) {
+              this.navigateTo.call(component, 'Login', Login, {});
+            } else {
+              return response;
             }
-          ).then((response) => response.json()); 
-        }
-      });
+          });
+      });         
     } else {
-        headerBody['Content-Type'] = 'application/json';
-        console.log('post request');
-        return fetch(reqUrl, 
-          {
-            method: requestMethod,
-            headers: headerBody,
-            body: JSON.stringify(reqBody)
-          }
-        ).then((response) => response.json()); 
-      }
+      return this.requestHelper(reqUrl, requestMethod, headerBody, reqBody);
+    }
   }
 }
 
