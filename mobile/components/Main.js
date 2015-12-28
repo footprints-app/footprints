@@ -9,10 +9,7 @@ var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
 
 var {
-  View,
   Component,
-  Text,
-  TouchableHighlight,
   TabBarIOS,
   NavigatorIOS,
   AsyncStorage
@@ -70,10 +67,6 @@ class Main extends Component {
     }
   }
 
-  getUserId () {
-    return this.state.userId
-  }
-
   render () {
     return (
       <TabBarIOS
@@ -85,7 +78,7 @@ class Main extends Component {
           title="My Tours"
           icon={require('../assets/mytoursicon.png')}
           selected={this.state.selectedTab === 'myTours'}
-          onPress={this.selectTab.bind(this, 'myTours', 'myToursView')}>
+          onPress={this.selectTab.bind(this, 'myTours', 'myToursView', MyTours)}>
           <NavigatorIOS
             ref="nav"
             barTintColor="#0097A7"
@@ -113,7 +106,7 @@ class Main extends Component {
           title="All Tours"
           icon={require('../assets/alltoursicon.png')}
           selected={this.state.selectedTab === 'allTours'}
-          onPress={this.selectTab.bind(this, 'allTours', 'allToursView')}>
+          onPress={this.selectTab.bind(this, 'allTours', 'allToursView', AllTours)}>
           <NavigatorIOS
             barTintColor="#0097A7"
             tintColor="#FFF"
@@ -127,7 +120,7 @@ class Main extends Component {
           title="Create Tour"
           icon={require('../assets/createtouricon.png')}
           selected={this.state.selectedTab === 'createTour'}
-          onPress={this.selectTab.bind(this, 'createTour', 'createTourView')}>
+          onPress={this.selectTab.bind(this, 'createTour', 'createTourView', CreateTour)}>
           <NavigatorIOS
             barTintColor="#0097A7"
             tintColor="#FFF"
