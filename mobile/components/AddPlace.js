@@ -82,7 +82,6 @@ class AddPlace extends Component {
         var placeId = response.id
         utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
       });
-
   }
 
   addPhoto() {
