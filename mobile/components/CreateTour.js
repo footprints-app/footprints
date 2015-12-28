@@ -4,6 +4,9 @@ var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var ViewCreatedTour = require('./ViewCreatedTour');
 var utils = require('../lib/utility');
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
+var styles = require('../lib/stylesheet');
 
 var {
   StyleSheet,
@@ -16,6 +19,51 @@ var {
   AsyncStorage,
   NavigatorIOS
 } = React;
+
+var Tour = t.struct({
+  tourName: t.maybe(t.String),
+  category: t.maybe(t.String),
+  description: t.maybe(t.String),
+  duration: t.maybe(t.String),
+  cityName: t.maybe(t.String),
+  state: t.maybe(t.String),
+  country: t.maybe(t.String),
+});
+
+var options = {
+  auto: 'placeholders',
+  fields: {
+    tourName: {
+      placeholder: 'Tour Name',
+      placeholderTextColor: '#FFF',
+    },
+    category: {
+      placeholder: 'Category',
+      placeholderTextColor: '#FFF'
+    },
+    description: {
+      placeholder: 'Description',
+      placeholderTextColor: '#FFF'
+    },
+    duration: {
+      placeholder: 'Duration',
+      placeholderTextColor: '#FFF',
+    },
+    cityName: {
+      placeholder: 'City',
+      placeholderTextColor: '#FFF',
+    },
+    state: {
+      placeholder: 'State',
+      placeholderTextColor: '#FFF',
+    },
+    country: {
+      placeholder: 'Country',
+      placeholderTextColor: '#FFF',
+    },
+  },
+};
+
 
 class CreateTour extends Component {
 
@@ -66,139 +114,180 @@ class CreateTour extends Component {
       .done();
   }
 
+  onChange(value) {
+    // var value = this.refs.form.getValue();
+    this.setState({value});
+  }
+
+  onPress (value) {
+    var value = this.refs.form.getValue();
+    if (value) {
+      console.log('value from create tour', value);
+    }
+  }
+
   render () {
     return (
-      <View style={ styles.container }>
-        <Image style={ styles.bg } source={{ uri: 'http://i.imgur.com/xlQ56UK.jpg' }} />
+      <View style={ styles.addPlaceContainer }>
+
+        <View style={ [styles.photoAudioContainer, {marginTop: 50}] }>   
+          <Text style={ styles.text }>Add a Photo</Text>
+        </View>
         
-        <View style={ styles.inputs }>
-          
-          <View style={ styles.inputContainer }>
-            <TextInput 
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Tour Name"
-              placeholderTextColor="#FFF"
-              value={ this.state.tourName }
-              onChange={ utils.tourNameInput.bind(this) }/>
-          </View>
-         
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Category"
-              placeholderTextColor="#FFF"
-              value={ this.state.category }
-              onChange={ utils.categoryInput.bind(this) }/>
-          </View>
-          
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Description"
-              placeholderTextColor="#FFF"
-              value={this.state.description}
-              onChange={ utils.descriptionInput.bind(this) }/>
-          </View>
-          
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Duration"
-              placeholderTextColor="#FFF"
-              value={ this.state.duration }
-              onChange={ utils.durationInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="City"
-              placeholderTextColor="#FFF"
-              value={ this.state.cityName }
-              onChange={ utils.cityNameInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="State"
-              placeholderTextColor="#FFF"
-              value={ this.state.state }
-              onChange={ utils.stateInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Country"
-              placeholderTextColor="#FFF"
-              value={ this.state.country }
-              onChange={ utils.countryInput.bind(this) }/>
-          </View>
-
+        <View style={{marginTop: 10}}>
+          <Form
+            ref="form"
+            type={Tour}
+            options={ options }
+            value={ this.state.value }
+            onChange={this.onChange}/>
         </View>
 
-        <TouchableHighlight 
-          onPress={ this.viewTour.bind(this) } 
-          style={ styles.touchable } underlayColor="#FF3366">  
-          <View style={ styles.createTour }>
-            <Text style={ styles.whiteFont }>View Tour</Text>
-          </View>
+          {/*// <View style={ styles.inputContainer }>
+          //   <TextInput 
+          //     style={ [styles.input, styles.whiteFont] }
+          //     placeholder="Tour Name"
+          //     placeholderTextColor="#FFF"
+          //     value={ this.state.tourName }
+          //     onChange={ utils.tourNameInput.bind(this) }/>
+          // </View>
+         
+          // <View style={ styles.inputContainer }>
+          //   <TextInput
+          //     style={ [styles.input, styles.whiteFont] }
+          //     placeholder="Category"
+          //     placeholderTextColor="#FFF"
+          //     value={ this.state.category }
+          //     onChange={ utils.categoryInput.bind(this) }/>
+          // </View>
+          
+          // <View style={ styles.inputContainer }>
+          //   <TextInput
+          //     style={ [styles.input, styles.whiteFont] }
+          //     placeholder="Description"
+          //     placeholderTextColor="#FFF"
+          //     value={this.state.description}
+          //     onChange={ utils.descriptionInput.bind(this) }/>
+          // </View>
+          
+          // <View style={ styles.inputContainer }>
+          //   <TextInput
+          //     style={ [styles.input, styles.whiteFont] }
+          //     placeholder="Duration"
+          //     placeholderTextColor="#FFF"
+          //     value={ this.state.duration }
+          //     onChange={ utils.durationInput.bind(this) }/>
+          // </View>
+
+          // <View style={ styles.inputContainer }>
+          //   <TextInput
+          //     style={ [styles.input, styles.whiteFont] }
+          //     placeholder="City"
+          //     placeholderTextColor="#FFF"
+          //     value={ this.state.cityName }
+          //     onChange={ utils.cityNameInput.bind(this) }/>
+          // </View>
+
+          // <View style={ styles.inputContainer }>
+          //   <TextInput
+          //     style={ [styles.input, styles.whiteFont] }
+          //     placeholder="State"
+          //     placeholderTextColor="#FFF"
+          //     value={ this.state.state }
+          //     onChange={ utils.stateInput.bind(this) }/>
+          // </View>
+
+          // <View style={ styles.inputContainer }>
+          //   <TextInput
+          //     style={ [styles.input, styles.whiteFont] }
+          //     placeholder="Country"
+          //     placeholderTextColor="#FFF"
+          //     value={ this.state.country }
+          //     onChange={ utils.countryInput.bind(this) }/>
+          // </View>
+
+        
+
+        // <TouchableHighlight 
+        //   onPress={ this.viewTour.bind(this) } 
+        //   style={ styles.touchable } underlayColor="#FF3366">  
+        //   <View style={ styles.createTour }>
+        //     <Text style={ styles.whiteFont }>View Tour</Text>
+        //   </View>
+        // </TouchableHighlight>
+
+      // </View>*/}
+
+        <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 5}}>
+          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
+            <View style={{marginTop: 15}}>
+              <Text style={ styles.text }>Add a Photo</Text>
+            </View>
+            <View>
+              <Image source={require('../assets/photoicon.png')} style={[styles.photoIcon, {marginTop: 5}, {marginLeft: 15}]}/> 
+            </View>
+          </View>   
         </TouchableHighlight>
 
+        <TouchableHighlight 
+          style={ [styles.button, {marginTop: 15}] } 
+          onPress={ this.viewTour.bind(this) } 
+          underlayColor='#99d9f4'>
+          <Text style={ styles.buttonText }>Create Tour</Text>
+        </TouchableHighlight>
       </View>
     );
   }
 };
 
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: 'transparent'
-  },
-  bg: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: windowSize.width,
-    height: windowSize.height
-  },
-  createTour: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: -200,
-  },
-  inputs: {
-    marginTop: 100,
-    marginBottom: 10,
-    flex: .25
-  },
-  inputContainer: {
-    padding: 10,
-    borderWidth: 1,
-    borderBottomColor: '#CCC',
-    borderColor: 'transparent'
-  },
-  input: {
-    position: 'absolute',
-    left: 10,
-    top: 4,
-    right: 0,
-    height: 20,
-    fontSize: 14
-  },
-  greyFont: {
-    color: '#D8D8D8'
-  },
-  whiteFont: {
-    color: '#FFF'
-  },
-  touchable: {
-    borderRadius: 5
-  }
-});
+// var styles = StyleSheet.create({
+//   container: {
+//     flexDirection: 'column',
+//     flex: 1,
+//     backgroundColor: 'transparent'
+//   },
+//   bg: {
+//     position: 'absolute',
+//     left: 0,
+//     top: 0,
+//     width: windowSize.width,
+//     height: windowSize.height
+//   },
+//   createTour: {
+//     backgroundColor: '#FF3366',
+//     padding: 20,
+//     alignItems: 'center',
+//     marginTop: -200,
+//   },
+//   inputs: {
+//     marginTop: 100,
+//     marginBottom: 10,
+//     flex: .25
+//   },
+//   inputContainer: {
+//     padding: 10,
+//     borderWidth: 1,
+//     borderBottomColor: '#CCC',
+//     borderColor: 'transparent'
+//   },
+//   input: {
+//     position: 'absolute',
+//     left: 10,
+//     top: 4,
+//     right: 0,
+//     height: 20,
+//     fontSize: 14
+//   },
+//   greyFont: {
+//     color: '#D8D8D8'
+//   },
+//   whiteFont: {
+//     color: '#FFF'
+//   },
+//   touchable: {
+//     borderRadius: 5
+//   }
+// });
 
 module.exports = CreateTour;
 

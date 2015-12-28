@@ -163,7 +163,7 @@ class MyTours extends Component {
 
   renderEditMode() {
     return (
-      <View style={ [styles.container, {marginTop: 65}] }>
+      <View style={ [styles.container, {marginTop: 64}] }>
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
@@ -185,7 +185,7 @@ class MyTours extends Component {
   renderViewMode() {
     {/*this.fetchData();*/}
     return (
-      <View style={ [styles.container, {marginTop: 65}] }>
+      <View style={ [styles.container, {marginTop: 64}] }>
 
         <View style={ styles.panel }>
           <ListView
