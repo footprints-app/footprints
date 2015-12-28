@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var ViewCreatedTour = require('./ViewCreatedTour');
+var SelectImage = require('./SelectImage');
 var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -75,7 +76,8 @@ class AddPlace extends Component {
     utils.makeRequest('addPlace', reqBody)
       .then(response => {
         console.log('response body in Add Place: ', response);
-        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tourId});
+        var placeId = response.id
+        utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
       });
   }
 
