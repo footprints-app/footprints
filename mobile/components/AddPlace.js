@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var ViewCreatedTour = require('./ViewCreatedTour');
+var SelectImage = require('./SelectImage');
 var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -75,8 +76,15 @@ class AddPlace extends Component {
     utils.makeRequest('addPlace', reqBody)
       .then(response => {
         console.log('response body in Add Place: ', response);
-        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tourId});
+        var placeId = response.id
+        utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
       });
+  }
+
+  addPhoto() {
+    /*TODO: this should send a put request to update place photo, needs placeId*/
+    var tourId = this.state.tourId;
+    utils.navigateTo.call(this, "Select a Tour Photo", SelectImage, {tourId});
   }
 
   /**
@@ -94,7 +102,7 @@ class AddPlace extends Component {
         </View>
        
         
-          <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 25}}>
+          <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
             <View style={ styles.photoAudioContainer }>   
               <View>
                 <Text style={ styles.text }>Add a Photo</Text>

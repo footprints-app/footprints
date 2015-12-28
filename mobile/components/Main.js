@@ -9,10 +9,7 @@ var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
 
 var {
-  View,
   Component,
-  Text,
-  TouchableHighlight,
   TabBarIOS,
   NavigatorIOS,
   AsyncStorage
@@ -60,39 +57,17 @@ class Main extends Component {
     utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
   }
 
-  selectTab (tab) {
-    this.setState({
-      selectedTab: tab
-    });
-  }
-
-  getUserId () {
-    return this.state.userId
+  selectTab (tab, ref) {
+    if(this.state.selectedTab !== tab) {
+      this.setState({
+        selectedTab: tab
+      });
+    } else {
+      this.refs[ref].popToTop()
+    }
   }
 
   render () {
-    //return (
-
-      //<View style={ styles.mainContainer }>
-			//
-      //  <View  >
-      //  <TouchableHighlight
-      //    onPress={ this.userTours.bind(this) }
-      //    style={ styles.mainTouchable } underlayColor="white">
-      //    <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>Your Tours</Text></View>
-      //  </TouchableHighlight>
-      //  </View>
-			//
-      //  <View style={styles.mainButtonBottom}>
-      //  <TouchableHighlight
-      //    onPress={ utils.navigateTo.bind(this, "All Tours", AllTours, {}) }
-      //    style={ styles.mainTouchable } underlayColor="white">
-      //    <View style={ styles.mainButton }><Text style={ styles.mainButtonText }>All Tours</Text></View>
-      //  </TouchableHighlight>
-      //  </View>
-			//
-      //</View>
-
     return (
       <TabBarIOS
         tintColor="#00BCD4"
@@ -103,24 +78,24 @@ class Main extends Component {
           title="My Tours"
           icon={require('../assets/mytoursicon.png')}
           selected={this.state.selectedTab === 'myTours'}
-          onPress={this.selectTab.bind(this, 'myTours')}>
+          onPress={this.selectTab.bind(this, 'myTours', 'myToursView', MyTours)}>
           <NavigatorIOS
-            ref="nav"
             barTintColor="#0097A7"
             tintColor="#FFF"
             titleTextColor="#FFF"
             style={styles.container}
+            ref="myToursView"
             initialRoute={{ 
               title: 'My Tours', 
               component: MyTours, 
               rightButtonTitle: 'Edit', 
               onRightButtonPress: () => {
-                this.refs.nav.navigator.push({
+                this.refs.myToursView.navigator.push({
                   title: "My Tours",
                   component: MyTours,
                   rightButtonTitle: 'Done',
                   passProps: { editMode: true },
-                  onRightButtonPress: () => { this.refs.nav.navigator.pop();}
+                  onRightButtonPress: () => { this.refs.myToursView.navigator.pop();}
                 });}
             }} />
         </TabBarIOS.Item>
@@ -129,12 +104,13 @@ class Main extends Component {
           title="All Tours"
           icon={require('../assets/alltoursicon.png')}
           selected={this.state.selectedTab === 'allTours'}
-          onPress={this.selectTab.bind(this, 'allTours')}>
+          onPress={this.selectTab.bind(this, 'allTours', 'allToursView', AllTours)}>
           <NavigatorIOS
             barTintColor="#0097A7"
             tintColor="#FFF"
             titleTextColor="#FFF"
             style={styles.container}
+            ref="allToursView"
             initialRoute={{ title: 'All Tours', component: AllTours }} />
         </TabBarIOS.Item>
 
@@ -142,13 +118,14 @@ class Main extends Component {
           title="Create Tour"
           icon={require('../assets/createtouricon.png')}
           selected={this.state.selectedTab === 'createTour'}
-          onPress={this.selectTab.bind(this, 'createTour')}>
+          onPress={this.selectTab.bind(this, 'createTour', 'createTourView', CreateTour)}>
           <NavigatorIOS
             barTintColor="#0097A7"
             tintColor="#FFF"
             titleTextColor="#FFF"
             style={styles.container}
-            initialRoute={{ title: 'Create a Tour', component: CreateTour, passProps: { userId: this.state.userId } }} />
+            ref="createTourView"
+            initialRoute={{ title: 'Create a Tour', component: CreateTour }} />
         </TabBarIOS.Item>
       </TabBarIOS>
     );

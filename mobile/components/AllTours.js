@@ -39,6 +39,15 @@ class AllTours extends Component {
     this.fetchData();
   }
 
+  componentWillReceiveProps (nextProps) {
+    this.fetchData();
+  }
+
+  //forceUpdate() {
+  //  console.log('WHOA')
+  //  this.fetchData();
+  //}
+
   /**
    * Makes GET request to server and sets all tours in DB to the state.
    *
@@ -92,6 +101,8 @@ class AllTours extends Component {
     // if (this.state.isLoading) {
     //   return this.renderLoadingView();
     // }
+    //the method below works but it constantly makes requests.
+    //this.forceUpdate();
     return (
       <ListView
         dataSource={this.state.dataSource}

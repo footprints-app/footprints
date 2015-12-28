@@ -6,7 +6,6 @@ var ViewCreatedTour = require('./ViewCreatedTour');
 var utils = require('../lib/utility');
 
 var {
-  AppRegistry,
   StyleSheet,
   View,
   Text,
@@ -14,7 +13,7 @@ var {
   Image,
   TouchableHighlight,
   Component,
-  ActivityIndicatorIOS,
+  AsyncStorage,
   NavigatorIOS
 } = React;
 
@@ -29,7 +28,7 @@ class CreateTour extends Component {
     super(props);
     this.state = {
       tourName: '',
-      userId: this.props.userId,
+      userId: null/*this.props.userId*/,
       description: '',
       category: '',
       duration: '',
@@ -38,6 +37,18 @@ class CreateTour extends Component {
       state: '',
       country: '',
     };
+  }
+
+  componentDidMount () {
+    var that = this;
+
+    AsyncStorage.multiGet(['token', 'user'])
+      .then(function(data) {
+        that.setState({
+          token: data[0][1],
+          userId: data[1][1]
+        })
+      });
   }
 
   viewTour (newTour) {

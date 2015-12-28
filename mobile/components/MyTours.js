@@ -60,6 +60,14 @@ class MyTours extends Component {
     });
   }
 
+  /**
+   * This will rerender changes from edit mode
+   * @param nextProps
+	 */
+  componentWillReceiveProps (nextProps) {
+    this.fetchData();
+  }
+
   toggleEdit () {
     alert('in toggleEdit')
     var newEditState = !this.state.editMode;
@@ -148,8 +156,7 @@ class MyTours extends Component {
   renderTour(tour) {
     return (
       <TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) } 
-        underlayColor='#dddddd'>
+        onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
         <View>
           <View>
             <Image source={{ uri: tour.image }} style={ styles.tourPhoto } >
@@ -175,7 +182,7 @@ class MyTours extends Component {
 
         <TouchableHighlight 
           onPress={ this.toggleEdit.bind(this) } 
-          style={ styles.touchable } underlayColor="white">  
+          style={ styles.touchable }>
           <View style={ styles.doneBtn }>
             <Text style={ styles.whiteFont }>Done</Text>
           </View>
@@ -195,15 +202,6 @@ class MyTours extends Component {
             renderRow={ this.renderTour.bind(this) }
             style={ styles.listView }/>
         </View>
-        
-        {/*<TouchableHighlight
-          onPress={ this.toggleEdit.bind(this) }
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.editBtn }>
-            <Text style={ styles.whiteFont }>Edit</Text>
-          </View>
-        </TouchableHighlight>*/}
-
       </View>
     );
   }

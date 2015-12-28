@@ -3,10 +3,11 @@
 var React = require('react-native');
 // var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
+var style = require('../lib/stylesheet');
 var PlaceDetail = require('./PlaceDetail.js');
 var EditPlace = require('./EditPlace.js');
 var styles = require('../lib/stylesheet');
-
+var SelectImage = require('./SelectImage');
 
 var {
   StyleSheet,
@@ -17,7 +18,9 @@ var {
   ListView,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  TextInput
+  TextInput,
+  AsyncStorage,
+  ScrollView
 } = React;
 
 class ViewCreatedTour extends Component {
@@ -49,27 +52,53 @@ class ViewCreatedTour extends Component {
       country: ''
     };
   }
+
   /**
    * ComponentDidMount function is called as soon as the render method is executed.
    * It fetches data from the database and sets the state with the fetched data.
    */
-  componentDidMount () {
+  componentDidMount() {
+    AsyncStorage.multiGet(['token', 'user'])
+      .then(function (data) {
+        if (data) {
+          this.setState({
+            token: data[0][1],
+            userId: +data[1][1]
+          });
+        }
+      });
     this.fetchData();
   }
 
-  addPlace () {
+  componentWillReceiveProps(nextProps) {
+
+    var that = this;
+    setTimeout(function () {
+      console.log('refetching')
+      that.fetchData();
+    }, 5000)
+
+  }
+
+  addPlace() {
     var tourId = this.state.tourId;
     var AddPlace = require('./AddPlace');
     utils.navigateTo.call(this, "Add Place", AddPlace, {tourId});
   }
 
-  onPressDone () {
+  addPhoto() {
+    /*TODO: this should send a put request to update tour photo*/
+    var tourId = this.state.tourId;
+    utils.navigateTo.call(this, "Select a Tour Photo", SelectImage, {tourId});
+  }
+
+  onPressDone() {
     var MyTours = require('./MyTours');
     var userId = this.state.tour.userId;
     utils.navigateTo.call(this, "My Tours", MyTours, {userId});
   }
 
-  toggleEdit () {
+  toggleEdit() {
     var newEditState = !this.state.editMode;
     this.setState({editMode: newEditState});
     console.log("Edit Mode: ", this.state.editMode);
@@ -80,11 +109,11 @@ class ViewCreatedTour extends Component {
     console.log('reqBody from editDone button: ', reqBody);
     var reqParam = this.state.tourId;
     utils.makeRequest('editTour', reqBody, reqParam)
-    .then(response => {
-      console.log('Response body from server after Editing a Tour: ', response);
-      this.setState({editMode: false});
-      this.fetchData();
-    })
+      .then(response => {
+        console.log('Response body from server after Editing a Tour: ', response);
+        this.setState({editMode: false});
+        this.fetchData();
+      })
   }
 
   deletePlace(place) {
@@ -92,50 +121,50 @@ class ViewCreatedTour extends Component {
     var reqBody = place;
     var reqParam = place.id;
     utils.makeRequest('deletePlace', reqBody, reqParam)
-    .then(response => {
-      console.log('Response body from server after deleting a place: ', response);
-      utils.makeRequest('tour', {}, this.state.tourId)
-       .then((response) => {
-        var places = response.places;
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(places)
-        })
-       })
-    })
+      .then(response => {
+        console.log('Response body from server after deleting a place: ', response);
+        utils.makeRequest('tour', {}, this.state.tourId)
+          .then((response) => {
+            var places = response.places;
+            this.setState({
+              dataSource: this.state.dataSource.cloneWithRows(places)
+            })
+          })
+      })
   }
 
   fetchData() {
     utils.makeRequest('tour', {}, this.state.tourId)
-    .then((response) => {
-      console.log('response body from View Created Tour: ', response);
-      var places = response.places;
-      this.setState({
-        tour: response,
-        userId: response.userId,
-        tourName: response.tourName,
-        description: response.description,
-        image: response.image,
-        category: response.category,
-        duration: response.duration,
-        userName: response.userName,
-        cityName: response.cityName,
-        state: response.state,
-        country: response.country,
-        dataSource: this.state.dataSource.cloneWithRows(places),
-        isLoading: false
-      });
-    })
-    .done();
+      .then((response) => {
+        console.log('response body from View Created Tour: ', response);
+        var places = response.places;
+        this.setState({
+          tour: response,
+          userId: response.userId,
+          tourName: response.tourName,
+          description: response.description,
+          image: response.image,
+          category: response.category,
+          duration: response.duration,
+          userName: response.userName,
+          cityName: response.cityName,
+          state: response.state,
+          country: response.country,
+          dataSource: this.state.dataSource.cloneWithRows(places),
+          isLoading: false
+        });
+      })
+      .done();
   }
 
-  renderPlace (place) {
+  renderPlace(place) {
     var imageURI = (typeof place.image !== 'undefined') ? place.image : '';
     return (
-      <TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }  
+      <TouchableHighlight
+        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }
         underlayColor='#dddddd'>
         <View>
-        <View style={ styles.tourSeparator } />
+          <View style={ styles.tourSeparator }/>
           <View style={ styles.placeContainer }>
             <View>
               <Image source={{uri: imageURI }} style={styles.thumbnail}/>
@@ -146,14 +175,14 @@ class ViewCreatedTour extends Component {
             </View>
             <Image source={require('../assets/arrow.png')} style={styles.arrow}></Image>
           </View>
-            
-          <View style={ styles.tourSeparator } />
+
+          <View style={ styles.tourSeparator }/>
         </View>
       </TouchableHighlight>
     );
   }
 
-  renderEditablePlace (place) {
+  renderEditablePlace(place) {
     console.log('renderEditablePlace reached, place: ', place);
     return (
       <View>
@@ -161,30 +190,31 @@ class ViewCreatedTour extends Component {
           <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
             <Text style={ styles.deleteText }>Delete</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={ styles.rightContainer } onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
+          <TouchableHighlight style={ styles.rightContainer }
+                              onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
             <Text style={ styles.placeName }>{ place.placeName }</Text>
           </TouchableHighlight>
         </View>
-        <View style={ styles.separator } />
+        <View style={ styles.separator }/>
       </View>
-    );    
+    );
   }
 
   renderEditMode() {
     return (
       <View style={styles.container}>
-        
+
         <View style={ styles.inputs }>
-        
+
           <View style={ styles.editContainer }>
             <TextInput
               style={ [styles.editInput] }
               placeholder={ this.state.tour.tourName }
               placeholderTextColor="black"
               value={ this.state.tourName }
-              onChange={ utils.tourNameInput.bind(this) }/>              
+              onChange={ utils.tourNameInput.bind(this) }/>
           </View>
-         
+
           <View style={ styles.editContainer }>
             <TextInput
               style={ [styles.editInput] }
@@ -193,7 +223,7 @@ class ViewCreatedTour extends Component {
               value={ this.state.category }
               onChange={ utils.categoryInput.bind(this) }/>
           </View>
-          
+
           <View style={ styles.editContainer }>
             <TextInput
               style={ [styles.editInput] }
@@ -202,7 +232,7 @@ class ViewCreatedTour extends Component {
               value={this.state.description}
               onChange={ utils.descriptionInput.bind(this) }/>
           </View>
-          
+
           <View style={ styles.editContainer }>
             <TextInput
               style={ [styles.editInput] }
@@ -238,7 +268,13 @@ class ViewCreatedTour extends Component {
               value={ this.state.country }
               onChange={ utils.countryInput.bind(this) }/>
           </View>
-
+          <TouchableHighlight
+            onPress={ this.addPhoto.bind(this) }
+            style={ styles.touchable } underlayColor="white">
+            <View style={ styles.addPlaceBtn }>
+              <Text style={ styles.whiteFont }>Edit Photo</Text>
+            </View>
+          </TouchableHighlight>
         </View>
 
         <View style={ styles.panel }>
@@ -247,25 +283,15 @@ class ViewCreatedTour extends Component {
             renderRow={ this.renderEditablePlace.bind(this) }
             style={ styles.listView }/>
         </View>
-        
-        {/*
-          <TouchableHighlight 
-            onPress={ this.addPlace.bind(this) } 
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.addPlaceBtn }>
-              <Text style={ styles.whiteFont }>Add Place</Text>
-            </View>  
-          </TouchableHighlight>
-        */}
 
-        <TouchableHighlight 
-          onPress={ this.editDone.bind(this) } 
+        <TouchableHighlight
+          onPress={ this.editDone.bind(this) }
           style={ styles.touchable } underlayColor="white">
           <View style={ styles.doneBtn }>
             <Text style={ styles.whiteFont }>Done</Text>
           </View>
         </TouchableHighlight>
-      
+
       </View>
     )
   }
@@ -274,35 +300,35 @@ class ViewCreatedTour extends Component {
     var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : '';
     return (
       <View style={ styles.tourContainer }>
-        
-        <View><Image style={ styles.headerPhoto } source={{ uri: imageURI }} /></View>
 
-        <View style={{flexDirection: 'row'}}>
-          <View style={{marginLeft: 20}}>
-            <Text style={ styles.tourTitle }>{ this.state.tour.tourName }</Text>
-            <Text style={styles.description}>
-              <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
-              <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
-              <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
-              <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category + '\n' }
-            </Text>
+        <ScrollView automaticallyAdjustContentInsets={false}>
+          <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{marginLeft: 20}}>
+              <Text style={ styles.tourTitle }>{ this.state.tour.tourName }</Text>
+              <Text style={styles.description}>
+                <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
+                <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
+                <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
+                <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category + '\n' }
+              </Text>
+            </View>
+
+            <View style={styles.editIconContainer}>
+              <TouchableHighlight
+                onPress={ this.toggleEdit.bind(this) }
+                style={ styles.touchable } underlayColor="white">
+                <View>
+                  <Image source={require('../assets/editiconteal.png')} style={styles.editIcon}/>
+                </View>
+              </TouchableHighlight>
+            </View>
           </View>
 
-          <View style={styles.editIconContainer}>
-            <TouchableHighlight
-              onPress={ this.toggleEdit.bind(this) }
-              style={ styles.touchable } underlayColor="white">
-              <View>
-                <Image source={require('../assets/editiconteal.png')} style={styles.editIcon}/>
-              </View>
-            </TouchableHighlight>
-          </View>
-        </View>
-
-        <TouchableHighlight 
-          onPress={ this.addPlace.bind(this) } 
-          underlayColor='#727272' 
-          style={{ marginBottom: 20 }}>
+          <TouchableHighlight
+            onPress={ this.addPlace.bind(this) }
+            underlayColor='#727272'
+            style={{ marginBottom: 20 }}>
             <View style={ styles.photoAudioContainer }>
               <View>
                 <Text style={ styles.text }>Add Place</Text>
@@ -310,44 +336,31 @@ class ViewCreatedTour extends Component {
               <View>
                 <Image source={ require('../assets/editiconteal.png') } style={ styles.addPlaceIcon }/>
               </View>
-            </View>  
+            </View>
           </TouchableHighlight>
-
-        <View style={ styles.panel }>
-          <ListView
-            dataSource={ this.state.dataSource }
-            renderRow={ this.renderPlace.bind(this) }
-            style={ styles.listView }
-            automaticallyAdjustContentInsets={false} />
-        </View>
-
-       
-        {/*
-        <TouchableHighlight 
-          onPress={ this.onPressDone.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.doneBtn }>
-            <Text style={ styles.whiteFont }>Done</Text>
-          </View>  
-        </TouchableHighlight>
-        */}
-      
+          <View style={ styles.panel }>
+            <ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderPlace.bind(this) }
+              style={ styles.listView }
+              automaticallyAdjustContentInsets={false}/>
+          </View>
+        </ScrollView>
       </View>
     );
   }
 
-  render () {
-    if(this.state.editMode) {
+  render() {
+    if (this.state.editMode) {
       return this.renderEditMode();
     } else {
       return this.renderViewMode();
     }
   }
 };
+//var styles = StyleSheet.create({
 
-// var styles = StyleSheet.create({
-
-//   container: { 
+//   container: {
 //     flexDirection: 'column',
 //     flex: 1,
 //     backgroundColor: 'transparent',
@@ -436,6 +449,6 @@ class ViewCreatedTour extends Component {
 //     height: 20,
 //     fontSize: 14
 //   }
-// });
+//});
 
 module.exports = ViewCreatedTour;
