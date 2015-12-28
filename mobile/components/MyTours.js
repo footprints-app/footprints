@@ -108,8 +108,7 @@ class MyTours extends Component {
           });
         })
       })
-    })
-    this.fetchData();
+    // this.fetchData();
   }
 
   renderLoadingView () {
