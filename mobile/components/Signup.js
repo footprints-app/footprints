@@ -77,7 +77,9 @@ class Signup extends Component {
     return (
       <View style={ styles.signupContainer }>
         <ScrollView ref="scrollView">
-          <Image style = {{height: 270, width: 320}} source={require('../assets/logogold.png')}/>
+        <View style  = {{flex: 1}}>
+          <Image style = {{height: 270, width: 375}} source={require('../assets/logogold.png')}/>
+        </View>
       <View>
         <View style={ {marginTop: 20} }>
           <View style={ styles.inputContainer }>

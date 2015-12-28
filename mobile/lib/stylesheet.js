@@ -11,7 +11,8 @@ var styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: '#0097A7'
+    backgroundColor: '#0097A7',
+    // marginTop: 40
   },
   loginContainer: {
     flex: 1,
@@ -25,7 +26,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent',
     padding: 16,
     alignItems: 'center',
-    marginLeft: 25,
+    // marginLeft: 25,
     marginBottom: 35,
     borderRadius: 30,
     borderWidth: 2,
@@ -50,6 +51,21 @@ var styles = StyleSheet.create({
     right: 0,
     height: 20,
     fontSize: 14
+  },
+  editContainer: {
+    height: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderBottomColor: '#FFF',
+    borderColor: 'transparent'
+  },
+  editInput: {
+    position: 'absolute',
+    left: 10,
+    top: 1,
+    right: 0,
+    height: 30,
+    fontSize: 12
   },
   whiteFont: {
     color: '#FFF',
@@ -191,6 +207,13 @@ var styles = StyleSheet.create({
     marginBottom: 8,
     marginLeft: 8
   },
+  address: {
+    fontSize: 14,
+    fontFamily: 'OpenSans',
+    color: '#FFF',
+    marginBottom: 8,
+    marginLeft: 8
+  },
   tourTitle: {
     fontSize: 25,
     fontFamily: 'Raleway',
@@ -222,7 +245,33 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
     marginTop: 15
-  }
+  },
+  editIconContainer: { 
+    marginLeft: 95,
+    marginTop: 75,
+  },
+  editIcon: { 
+    width: 50,
+    height: 50,
+  },
+  photoAudioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#00BCD4',
+    fontFamily: 'Raleway',
+    fontSize: 20,
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    marginTop: 25,
+  },
+  addPlaceIcon: { 
+    marginLeft: 12,
+    width: 30,
+    height: 30,
+    marginTop: 20,
+  },
 });
 
 module.exports = styles;

@@ -44,6 +44,7 @@ class AllTours extends Component {
    *
    */
   fetchData() {
+    // alert('in all tours fetch data')
     utils.makeRequest('allTours', {})
     .then((response) => {
       console.log('response body from allTours: ', response);
@@ -69,13 +70,15 @@ class AllTours extends Component {
 
   renderTour(tour) {
     return (
-      <TouchableHighlight onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) }  underlayColor='#dddddd'>
+      <TouchableHighlight 
+        onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) }  
+        underlayColor='#dddddd'>
         <View>
           <View>
             <Image
               source={{uri: tour.image}}
               style={[styles.tourPhoto,
-                         {resizeMode: Image.resizeMode.cover}]} >
+              {resizeMode: Image.resizeMode.cover}]} >
             <Text style={styles.title}> {tour.tourName} </Text>
             <Text style={styles.city}> {tour.cityName} </Text></Image>
           </View>

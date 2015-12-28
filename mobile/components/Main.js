@@ -38,15 +38,18 @@ class Main extends Component {
   }
 
   componentDidMount () {
+    var that = this;
     AsyncStorage.multiGet(['token', 'user'])
-      .then(function(data) {
-        if(data) {
-          this.setState({
-            token: data[0][1],
-            userId: +data[1][1]
-          });
-        }
-      });
+    .then(function(data) {
+      console.log('in main userinfo', data);
+      if(data) {
+        console.log('reached')
+        that.setState({
+          token: data[0][1],
+          userId: +data[1][1]
+        });
+      }
+    });
   }
   /**
    * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
@@ -102,11 +105,24 @@ class Main extends Component {
           selected={this.state.selectedTab === 'myTours'}
           onPress={this.selectTab.bind(this, 'myTours')}>
           <NavigatorIOS
+            ref="nav"
             barTintColor="#0097A7"
             tintColor="#FFF"
             titleTextColor="#FFF"
             style={styles.container}
-            initialRoute={{ title: 'My Tours', component: MyTours }} />
+            initialRoute={{ 
+              title: 'My Tours', 
+              component: MyTours, 
+              rightButtonTitle: 'Edit', 
+              onRightButtonPress: () => {
+                this.refs.nav.navigator.push({
+                  title: "My Tours",
+                  component: MyTours,
+                  rightButtonTitle: 'Done',
+                  passProps: { editMode: true },
+                  onRightButtonPress: () => { this.refs.nav.navigator.pop();}
+                });}
+            }} />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -132,7 +148,7 @@ class Main extends Component {
             tintColor="#FFF"
             titleTextColor="#FFF"
             style={styles.container}
-            initialRoute={{ title: 'Create a Tour', component: CreateTour }} />
+            initialRoute={{ title: 'Create a Tour', component: CreateTour, passProps: { userId: this.state.userId } }} />
         </TabBarIOS.Item>
       </TabBarIOS>
     );
