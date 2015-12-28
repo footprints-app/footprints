@@ -22,13 +22,6 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		9B1093881C25E9B8009059AC /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093811C25E9B8009059AC /* OpenSans-Semibold.ttf */; };
-        9B1093891C25E9B8009059AC /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093821C25E9B8009059AC /* OpenSans-Regular.ttf */; };
-        9B10938A1C25E9B8009059AC /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093831C25E9B8009059AC /* OpenSans-Bold.ttf */; };
-        9B10938B1C25E9B8009059AC /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093841C25E9B8009059AC /* Roboto-Regular.ttf */; };
-        9B10938C1C25E9B8009059AC /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093851C25E9B8009059AC /* Roboto-Medium.ttf */; };
-        9B10938D1C25E9B8009059AC /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093861C25E9B8009059AC /* Raleway-Regular.ttf */; };
-        9B10938E1C25E9B8009059AC /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093871C25E9B8009059AC /* Raleway-Bold.ttf */; };
 		9B10939F1C261D3B009059AC /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B10939E1C261D15009059AC /* libReactNativeIcons.a */; };
 		9B1093B51C261DC5009059AC /* FAKOcticons.h in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093A01C261DC5009059AC /* FAKOcticons.h */; };
 		9B1093B61C261DC5009059AC /* FAKOcticons.m in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093A11C261DC5009059AC /* FAKOcticons.m */; };
@@ -51,6 +44,13 @@
 		9B1093C71C261DC5009059AC /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093B21C261DC5009059AC /* ionicons.ttf */; };
 		9B1093C81C261DC5009059AC /* Material-Design-Iconic-Font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093B31C261DC5009059AC /* Material-Design-Iconic-Font.ttf */; };
 		9B1093C91C261DC5009059AC /* zocial-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093B41C261DC5009059AC /* zocial-regular-webfont.ttf */; };
+		D08F36C01C31CBA1002D8394 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36B91C31CBA1002D8394 /* OpenSans-Bold.ttf */; };
+		D08F36C11C31CBA1002D8394 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BA1C31CBA1002D8394 /* OpenSans-Regular.ttf */; };
+		D08F36C21C31CBA1002D8394 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BB1C31CBA1002D8394 /* OpenSans-Semibold.ttf */; };
+		D08F36C31C31CBA1002D8394 /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BC1C31CBA1002D8394 /* Raleway-Bold.ttf */; };
+		D08F36C41C31CBA1002D8394 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */; };
+		D08F36C51C31CBA1002D8394 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */; };
+		D08F36C61C31CBA1002D8394 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,6 +192,13 @@
 		9B1093B21C261DC5009059AC /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ionicons.ttf; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/ionicons.ttf"; sourceTree = "<group>"; };
 		9B1093B31C261DC5009059AC /* Material-Design-Iconic-Font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Material-Design-Iconic-Font.ttf"; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/Material-Design-Iconic-Font.ttf"; sourceTree = "<group>"; };
 		9B1093B41C261DC5009059AC /* zocial-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zocial-regular-webfont.ttf"; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/zocial-regular-webfont.ttf"; sourceTree = "<group>"; };
+		D08F36B91C31CBA1002D8394 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
+		D08F36BA1C31CBA1002D8394 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "../fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
+		D08F36BB1C31CBA1002D8394 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "../fonts/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		D08F36BC1C31CBA1002D8394 /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Bold.ttf"; path = "../fonts/Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../fonts/Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -379,6 +386,13 @@
 				9B1093AD1C261DC5009059AC /* FAKMaterial.m */,
 				9B1093AE1C261DC5009059AC /* FAKZocial.h */,
 				9B1093AF1C261DC5009059AC /* FAKZocial.m */,
+				D08F36B91C31CBA1002D8394 /* OpenSans-Bold.ttf */,
+				D08F36BA1C31CBA1002D8394 /* OpenSans-Regular.ttf */,
+				D08F36BB1C31CBA1002D8394 /* OpenSans-Semibold.ttf */,
+				D08F36BC1C31CBA1002D8394 /* Raleway-Bold.ttf */,
+				D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */,
+				D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */,
+				D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */,
 				9B1093B01C261DC5009059AC /* FontAwesome.otf */,
 				9B1093B11C261DC5009059AC /* foundation-icons.ttf */,
 				9B1093B21C261DC5009059AC /* ionicons.ttf */,
@@ -463,7 +477,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 2768JNL3Z6;
+						DevelopmentTeam = U5D9C4S85W;
 					};
 				};
 			};
@@ -637,23 +651,30 @@
 			files = (
 				9B1093B51C261DC5009059AC /* FAKOcticons.h in Resources */,
 				9B1093B61C261DC5009059AC /* FAKOcticons.m in Resources */,
+				D08F36C01C31CBA1002D8394 /* OpenSans-Bold.ttf in Resources */,
+				D08F36C41C31CBA1002D8394 /* Raleway-Regular.ttf in Resources */,
 				9B1093B71C261DC5009059AC /* FontAwesomeKit.h in Resources */,
 				9B1093B81C261DC5009059AC /* octicons.ttf in Resources */,
 				9B1093B91C261DC5009059AC /* FAKFontAwesome.h in Resources */,
 				9B1093BA1C261DC5009059AC /* FAKFontAwesome.m in Resources */,
+				D08F36C51C31CBA1002D8394 /* Roboto-Medium.ttf in Resources */,
 				9B1093BB1C261DC5009059AC /* FAKFoundationIcons.h in Resources */,
 				9B1093BC1C261DC5009059AC /* FAKFoundationIcons.m in Resources */,
 				9B1093BD1C261DC5009059AC /* FAKIcon.h in Resources */,
+				D08F36C61C31CBA1002D8394 /* Roboto-Regular.ttf in Resources */,
 				9B1093BE1C261DC5009059AC /* FAKIcon.m in Resources */,
 				9B1093BF1C261DC5009059AC /* FAKIonIcons.h in Resources */,
 				9B1093C01C261DC5009059AC /* FAKIonIcons.m in Resources */,
 				9B1093C11C261DC5009059AC /* FAKMaterial.h in Resources */,
 				9B1093C21C261DC5009059AC /* FAKMaterial.m in Resources */,
 				9B1093C31C261DC5009059AC /* FAKZocial.h in Resources */,
+				D08F36C21C31CBA1002D8394 /* OpenSans-Semibold.ttf in Resources */,
 				9B1093C41C261DC5009059AC /* FAKZocial.m in Resources */,
 				9B1093C51C261DC5009059AC /* FontAwesome.otf in Resources */,
+				D08F36C31C31CBA1002D8394 /* Raleway-Bold.ttf in Resources */,
 				9B1093C61C261DC5009059AC /* foundation-icons.ttf in Resources */,
 				9B1093C71C261DC5009059AC /* ionicons.ttf in Resources */,
+				D08F36C11C31CBA1002D8394 /* OpenSans-Regular.ttf in Resources */,
 				9B1093C81C261DC5009059AC /* Material-Design-Iconic-Font.ttf in Resources */,
 				9B1093C91C261DC5009059AC /* zocial-regular-webfont.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
@@ -773,7 +794,7 @@
 				INFOPLIST_FILE = mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "jira.vinyoo-gmail.com";
+				PRODUCT_BUNDLE_IDENTIFIER = "siwang22-gmail.com";
 				PRODUCT_NAME = mobile;
 				PROVISIONING_PROFILE = "";
 			};
@@ -793,7 +814,7 @@
 				INFOPLIST_FILE = mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "jira.vinyoo-gmail.com";
+				PRODUCT_BUNDLE_IDENTIFIER = "siwang22-gmail.com";
 				PRODUCT_NAME = mobile;
 				PROVISIONING_PROFILE = "";
 			};
