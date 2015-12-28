@@ -6,6 +6,7 @@
 var users = require('./userModel.js');
 var Q = require('q');
 var jwt = require('jwt-simple');
+var db = require('../db');
 
 module.exports = {
   /**
@@ -33,11 +34,10 @@ module.exports = {
                 res.status(404).json({error: err});
               } else {
                   if (user) {
-                    var token = jwt.encode(user.userName, 'secret');
-                    // console.log('token......', token);
-                    res.status(200).json({token: token, userInfo: user});
+                    var token = jwt.encode(user.id, 'secret');
+                    console.log('token......', token);
+                    res.status(200).json({token: token, userId: user.id});
                   } 
-                // res.status(201).json(results);
               }
             });
           }
@@ -64,36 +64,37 @@ module.exports = {
         res.status(400).json({error: err});
         next(err);
       } else {
-          if (user) {
-            var token = jwt.encode(user.userName, 'secret');
-            // console.log('token......', token);
-            res.status(200).json({token: token, userInfo: user});
-          } else {
-            console.error('No User', err);
-          }
-        // res.status(200).json(results);
+        var token = jwt.encode(user.id, 'secret');
+        console.log('token from login', token);
+        res.status(200).json({token: token, userId: user.id});
       }
     });
   },
-
+  /**
+   * Checks from token in request header and uses jwt to decode the token to get the userId
+   * Uses userId decoded from toekn to check that user exists in the database. If the user exists, invoke next function. 
+   * If there is no match, send a 401 status
+   *
+   * @param {object} req - Request from the client
+   * @param {object} res - Response to be sent to the client
+   * @param {object} next - Function to be invoked next with the same request and response parameters
+   */
   checkAuth: function (req, res, next) {
-    // checking to see if the user is authenticated
-    // grab the token in the header is any
-    // then decode the token, which we end up being the user object
-    // check to see if that user exists in the database
     var token = req.headers['x-access-token'];
-    console.log('token from checkAuth.....', token)
+    console.log('token in checkAuth: ', token);
     if (!token) {
-      next(new Error('No token'));
+      res.sendStatus(401);
     } else {
         var user = jwt.decode(token, 'secret');
-        var queryStr = "select * from users where userName = ?";
-
+        var queryStr = "select * from users where id = ?";
+        console.log('found token in checkAuth, userId = ', user);
         db.query(queryStr, user, function(err, userInfo) {
           if(userInfo.length !== 0) {
-            res.send(200);
+            console.log('found user in DB');
+            next();
           } else {
-            res.send(401);
+            console.log('user is not in DB');
+            res.sendStatus(401);
           }
         });
       }
@@ -101,16 +102,3 @@ module.exports = {
 
 };
 
-// AsyncStorage.multiGet(['token', 'user']).then((data) => {
-      //make a call to backend for validating token
-    //   if (data[0][1]) {
-    //     console.log("Token...", data[0][1]);
-    //     var user = data[1][1];
-    //     return this.props.navigator.push({
-    //   title: "Welcome",
-    //   component: Main,
-    //   passProps: {user}
-    // });
-    //     //return utils.navigateTo.call(this, "Welcome", Main, {user});
-    //   }
-    // })

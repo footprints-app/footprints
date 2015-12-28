@@ -1,15 +1,20 @@
 'use strict';
 var React = require('react-native');
+var Login = require('../components/Login');
+
+var {
+  AsyncStorage
+} = React;
 
 var request_url = 'http://localhost:8000';
-//var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+// var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
     login: { reqMethod: 'POST', endPoint: '/users/login' },
     allTours: { reqMethod: 'GET', endPoint: '/tours/alltours'},
     myTours: {reqMethod: 'GET', endPoint: '/tours/mytours/'},
-    tour: {reqMethod: 'GET', endPoint: '/tours/'},
+    tour: {reqMethod: 'GET', endPoint: '/tours/tour/'},
     createTour: {reqMethod: 'POST', endPoint: '/tours/createtour'},
     addPlace: {reqMethod: 'POST', endPoint: '/tours/addplace'},
     editTour: {reqMethod: 'PUT', endPoint: '/tours/edit/'},
@@ -18,6 +23,20 @@ var requests = {
     deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
     addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'}
   }; 
+
+var token = '';
+// function getToken(requestType) {
+//   return AsyncStorage.getItem('token')
+//   .then((token) => {
+//     console.log('token in getToken: ', token);
+//     return token;
+//   })
+//   .catch((error) => {
+//     return '';
+//     console.log('error?');
+//     console.warn(error)
+//   });
+// };
 
 var Utility = {
 
@@ -137,7 +156,9 @@ var Utility = {
    */
   navigateTo: function(titleName, toComponent, props) {
     console.log('navigate: ', titleName);
-    this.props.navigator.push({
+    console.log('this: ', this);
+    var navigator = this.props.navigator || this.navigator;
+    navigator.push({
       title: titleName,
       component: toComponent,
       passProps: props
@@ -145,32 +166,78 @@ var Utility = {
   },
 
   /**
-   * Calls fetch to make a specified API request to the server. 
+   * Accesses the token from AsyncStorage.  
    *
-   * @param {string, object, [string]} requestType is a key in the request's object, reqBody is the object that is being sent in the request, reqParam is an optional argument for ids.
-   * @return {Promise} promise with the parsed response body
+   * @return {Promise} promise with token string
    */
-  makeRequest: function(requestType, reqBody, reqParam) {
-    var param = reqParam || '';
+  getToken: function() {
+    return AsyncStorage.getItem('token')
+    .then((token) => {
+      console.log('token in getToken: ', token);
+      return token;
+    })
+    .catch((error) => {
+      return '';
+      console.log('error from getToken');
+      console.warn(error)
+    });
+  },
+
+   /**
+   * Calls fetch to make a specified API request to the server. 
+   * 
+   * @param {string, string, object, object} reqUrl is the root url + parameters, requestMethod, header and body are the paramaters for fetch.
+   * @return {Promise} promise with parsed API response
+   */
+  requestHelper: function(reqUrl, requestMethod, header, body) {
+    var requestObject = { method: requestMethod, headers: header};
+    if(requestMethod !== 'GET') {
+      requestObject['body'] = JSON.stringify(body);
+      requestObject.headers['Content-Type'] = 'application/json';
+    } 
+    // console.log('requestObject: ', requestObject);
+    // console.log('headers: ', requestObject.headers);
+    return fetch(reqUrl, requestObject)
+            .then((response) => response.json());
+  },
+ 
+  /**
+   * Creates the parameters for the the fetch request and calls requestHelper to make the appropriate API request. 
+   *
+   * @param {string, object, object} requestType is a key in the request's object, component is the React component from where the function is being called, options is holds the option requestBody and requestParams
+   * @return {Promise} promise with the parsed response
+   */
+  makeRequest: function(requestType, component, options) {
+    var requestMethod = requests[requestType].reqMethod;
+    var reqBody = options.reqBody || null;
+    var param = options.reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
     console.log('request url: ', reqUrl);
     console.log('reqParam: ', param);
     console.log('reqBody in request: ', reqBody);
-    var requestMethod = requests[requestType].reqMethod;
-    if(requestMethod === 'GET') {
-      return fetch(reqUrl)
-      .then(response => response.json());
+    
+    var headerBody = {
+      'Accept': 'application/json',
+      'x-access-token': token,
+      'If-Modified-Since': 'Sat, 29 Oct 1994 19:43:31 GMT'
+    };
+
+    if(requestType !== 'signup' && requestType !== 'login') {
+      console.log('requestType in signup condition: ', requestType);
+      return this.getToken().then((token) => {
+        console.log('token in makeRequest: ', token);
+        headerBody['x-access-token'] = token;
+        return this.requestHelper(reqUrl, requestMethod, headerBody, reqBody)
+          .then((response) => {
+            if(response.status === 404) {
+              this.navigateTo.call(component, 'Login', Login, {});
+            } else {
+              return response;
+            }
+          });
+      });         
     } else {
-      return fetch(reqUrl, 
-        {
-          method: requestMethod,
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(reqBody)
-        }
-      ).then((response) => response.json()); 
+      return this.requestHelper(reqUrl, requestMethod, headerBody, reqBody);
     }
   }
 }

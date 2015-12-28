@@ -3,7 +3,7 @@ var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var Login = require('./Login');
-var Main = require('./Main');
+var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
 
@@ -14,7 +14,8 @@ var {
   Image,
   Component,
   TouchableHighlight,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } = React;
 
 class Signup extends Component {
@@ -40,26 +41,35 @@ class Signup extends Component {
    */
   submitSignup () {
     this.setState({ validUsername: true });
-    var reqBody = {
-      userName: this.state.username,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      password: this.state.password
+
+    var options = {
+      reqBody: {userName: this.state.username,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                password: this.state.password
+                }
     };
 
-    utils.makeRequest('signup', reqBody)
+    var component = this;
+
+    utils.makeRequest('signup', component, options)
       .then((response) => {
         if( response.error ) {
           this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
         } else {
-          var user = response;
-          utils.navigateTo.call(this, "Tours", Main, {user} );
+          // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+          AsyncStorage.setItem('token', response.token)
+          .then(() => {
+            console.log('from signup client.....', response.token);
+            utils.navigateTo.call(component, "Your Tours", MyTours, {});
+          });
         }
       })
       .catch((error) => {
         console.warn(error);
       });
   }
+   
 
   inputFocused (refName) {
     var that = this;

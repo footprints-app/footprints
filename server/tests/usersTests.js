@@ -44,16 +44,14 @@ describe('Server signup functionality', function() {
     });
   });
   
-  it("should return a user's information after signup", function (done) {
+  it("should return a user's token after signup", function (done) {
     var userInfo = {firstName: "Ray", lastName: "Bradbury", userName: "rbrad", password: "mars"};
     request({method: "POST",
              uri: "http://127.0.0.1:8000/users/signup",
              json: userInfo
             },
             function(error, response, body) {
-              expect(body.userName).to.equal(userInfo.userName);
-              expect(body.lastName).to.equal(userInfo.lastName);
-              expect(body.firstName).to.equal(userInfo.firstName);
+              expect(body.token).to.be.a('string');
               done();
             });
   });
@@ -130,7 +128,7 @@ describe('Server login functionality', function() {
              json: userInfo
             },
             function(error, response, body) {
-              expect(body.userName).to.equal(userInfo.userName);
+              // expect(body.userName).to.equal(userInfo.userName);
               userInfo.password = "wrongPassword";
               request({method: "POST",
                        uri: "http://127.0.0.1:8000/users/login",
@@ -142,21 +140,22 @@ describe('Server login functionality', function() {
             })
   });
 
-  it("should return a user's information if the passwords match", function (done) {
+  it("should return a user's token if the passwords match", function (done) {
     var userInfo = {firstName: "Kurt", lastName: "Vonnegut", userName: "kvonn", password: "soItGoes"};
     request({method: "POST",
              uri: "http://127.0.0.1:8000/users/signup",
              json: userInfo
             },
             function(error, response, body) {
-              expect(body.userName).to.equal(userInfo.userName);
+              // expect(body.userName).to.equal(userInfo.userName);
               request({method: "POST",
                        uri: "http://127.0.0.1:8000/users/login",
                        json: userInfo
                       }, function(error, response, body) {
-                          expect(body.userName).to.equal(userInfo.userName);
-                          expect(body.lastName).to.equal(userInfo.lastName);
-                          expect(body.firstName).to.equal(userInfo.firstName);
+                          expect(body.token).to.be.a('string');
+                          // expect(body.userName).to.equal(userInfo.userName);
+                          // expect(body.lastName).to.equal(userInfo.lastName);
+                          // expect(body.firstName).to.equal(userInfo.firstName);
                           done();
                       });
             })
@@ -169,7 +168,7 @@ describe('Server login functionality', function() {
              json: userInfo
             },
             function(error, response, body) {
-              expect(body.userName).to.equal(userInfo.userName);
+              // expect(body.userName).to.equal(userInfo.userName);
               userInfo.userName = "nonexistingUserName";
               request({method: "POST",
                        uri: "http://127.0.0.1:8000/users/login",

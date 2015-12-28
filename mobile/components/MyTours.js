@@ -33,7 +33,6 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: null/*this.props.userId*/,
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -47,17 +46,8 @@ class MyTours extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
   componentDidMount () {
-    var that = this;
-    AsyncStorage.multiGet(['token', 'user'])
-    .then(function(data) {
-      if(data) {
-        that.setState({
-          token: data[0][1],
-          userId: +data[1][1]
-        });
-      }
-      that.fetchData()
-    });
+    this.fetchData();
+
   }
 
   /**
@@ -81,9 +71,8 @@ class MyTours extends Component {
    *
    */
   fetchData() {
-    // alert('in my tours fetch data')
-    console.log('userId in MyTours: ', this.state.userId);
-    utils.makeRequest('myTours', {}, this.state.userId)
+    var component = this;
+    utils.makeRequest('myTours', component, {})
     .then((response) => {
       console.log('response body from MyTours: ', response);
       var tours = response;
@@ -96,28 +85,30 @@ class MyTours extends Component {
   }
 
   createTour() {
-    var userId = this.state.userId;
-    utils.navigateTo.call(this, "Create Tour", CreateTour, {userId});
+    utils.navigateTo.call(this, "Create Tour", CreateTour, {});
   }
 
   deleteTour(tour) {
     console.log(tour);
-    var reqBody = tour;
-    var reqParam = tour.id;
-    utils.makeRequest('deleteTour', reqBody, reqParam)
-    .then(response => {
-      console.log('Response body from server after deleting a tour: ', response);
-      utils.makeRequest('myTours', {}, this.state.userId)
-      .then((response) => {
-        console.log('response body from MyTours: ', response);
-        var tours = response;
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(tours),
-          isLoading: false
-        });
+    var options = {
+      reqBody: tour,
+      reqParam: tour.id
+    };
+    var component = this;
+    utils.makeRequest('deleteTour', component, options)
+      .then(response => {
+        console.log('Response body from server after deleting a tour: ', response);
+        utils.makeRequest('myTours', component, {})
+        .then((response) => {
+          console.log('response body from MyTours: ', response);
+          var tours = response;
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(tours),
+            isLoading: false
+          });
+        })
       })
-    })
-    this.fetchData();
+    // this.fetchData();
   }
 
   renderLoadingView () {

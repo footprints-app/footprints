@@ -28,14 +28,6 @@ class AllTours extends Component {
   }
 
   componentDidMount() {
-
-    /* Use this code for fake front end data */
-    // var tours = FAKE_TOUR_DATA;
-    // this.setState({
-    //     dataSource: this.state.dataSource.cloneWithRows(tours)
-    // });
-
-    /* Use this code to make actual API request to fetch data from database */
     this.fetchData();
   }
 
@@ -53,13 +45,18 @@ class AllTours extends Component {
    *
    */
   fetchData() {
-    // alert('in all tours fetch data')
-    utils.makeRequest('allTours', {})
+    var component = this;
+    var options = {
+      reqBody: {},
+    };
+
+    utils.makeRequest('allTours', component, options)
     .then((response) => {
       console.log('response body from allTours: ', response);
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(response),
         isLoading: false
+
       });
     })
     .done();

@@ -33,7 +33,7 @@ class ViewCreatedTour extends Component {
     console.log('props in view ViewCreatedTours', props)
     super(props);
     this.state = {
-      tourId: this.props.tourId || this.props.tour.id,
+      tourId: this.props.tourId || this.props.route.passProps.tourId || this.props.route.passProps.tour.id,
       tour: {},
       isLoading: true,
       dataSource: new ListView.DataSource({
@@ -105,56 +105,62 @@ class ViewCreatedTour extends Component {
   }
 
   editDone() {
-    var reqBody = this.state;
-    console.log('reqBody from editDone button: ', reqBody);
-    var reqParam = this.state.tourId;
-    utils.makeRequest('editTour', reqBody, reqParam)
+    var component = this;
+    var options = {
+      reqBody: this.state,
+      reqParam: this.state.tourId
+    };
+    utils.makeRequest('editTour', component, options)
       .then(response => {
         console.log('Response body from server after Editing a Tour: ', response);
         this.setState({editMode: false});
         this.fetchData();
-      })
+      });
   }
 
   deletePlace(place) {
-    console.log(place);
-    var reqBody = place;
-    var reqParam = place.id;
-    utils.makeRequest('deletePlace', reqBody, reqParam)
+    var component = this;
+    var options = {
+      reqBody: place,
+      reqParam: place.id
+    };
+
+    utils.makeRequest('deletePlace', component, options)
       .then(response => {
         console.log('Response body from server after deleting a place: ', response);
-        utils.makeRequest('tour', {}, this.state.tourId)
-          .then((response) => {
-            var places = response.places;
-            this.setState({
-              dataSource: this.state.dataSource.cloneWithRows(places)
-            })
-          })
-      })
+        this.fetchData();
+      });
   }
 
   fetchData() {
-    utils.makeRequest('tour', {}, this.state.tourId)
-      .then((response) => {
-        console.log('response body from View Created Tour: ', response);
-        var places = response.places;
-        this.setState({
-          tour: response,
-          userId: response.userId,
-          tourName: response.tourName,
-          description: response.description,
-          image: response.image,
-          category: response.category,
-          duration: response.duration,
-          userName: response.userName,
-          cityName: response.cityName,
-          state: response.state,
-          country: response.country,
-          dataSource: this.state.dataSource.cloneWithRows(places),
-          isLoading: false
-        });
-      })
-      .done();
+    var component = this;
+    var options = {
+      reqParam: this.state.tourId,
+      reqBody: {}
+    }; 
+
+    console.log('tourId: ', this.state.tourId);
+    console.log('this.props: ', this.props);
+    utils.makeRequest('tour', component, options)
+    .then((response) => {
+      console.log('response body from View Created Tour: ', response);
+      var places = response.places;
+      this.setState({
+        tour: response,
+        userId: response.userId,
+        tourName: response.tourName,
+        description: response.description,
+        category: response.category,
+        duration: response.duration,
+        userName: response.userName,
+        cityName: response.cityName,
+        state: response.state,
+        country: response.country,
+        dataSource: this.state.dataSource.cloneWithRows(places),
+        isLoading: false
+      });
+    })
+    .done();
   }
 
   renderPlace(place) {

@@ -22,12 +22,13 @@ class PlaceDetail extends Component {
    */
   constructor(props) {
     super(props);
+    console.log('this.props in PlaceDetail: ', this.props);
     this.state = {
-      id: (typeof this.props.place.id !== 'undefined') ? this.props.place.id : '',
-      placeName: (typeof this.props.place.placeName !== 'undefined') ? this.props.place.placeName : '',
-      image: (typeof this.props.place.image !== 'undefined') ? this.props.place.image : '',
-      description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',
-      address: (typeof this.props.place.address !== 'undefined') ? this.props.place.address : ''
+      id: this.props.route.passProps.place.id || this.props.place.id,
+      placeName: this.props.route.passProps.place.placeName || this.props.place.placeName,
+      image: this.props.route.passProps.place.image || null,
+      description: this.props.route.passProps.place.description || this.props.place.description,
+      address: this.props.route.passProps.place.address || this.props.place.address,
     };
   }
 
@@ -39,7 +40,7 @@ class PlaceDetail extends Component {
         <Text style={[styles.description, {textAlign: 'center'}]}>
         <Text style={styles.bold}>Address:</Text> {this.state.address}
         </Text>
-        <Text style={[styles.story, {color: '#FFC107', marginLeft: 10}]}>What's the Story?</Text>
+        <Text style={[styles.story, {color: '#FFC107', marginLeft: 10}]}>What is the Story?</Text>
         <Text style={styles.description}>{this.state.description}</Text>
       </View>
     );

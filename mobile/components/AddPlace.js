@@ -52,7 +52,7 @@ class AddPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tourId: this.props.tourId
+      tourId: this.props.tourId || this.props.route.passProps.tourId
     };
   }
 
@@ -65,15 +65,17 @@ class AddPlace extends Component {
      */
     var tourId = this.state.tourId;
     var newPlace = this.refs.form.getValue();
-    var reqBody = {
-      placeName: newPlace.placeName,
-      address: newPlace.address,
-      description: newPlace.description,
-      // placeOrder: newPlace.placeOrder,
-      tourId: tourId
+    var options = {
+      reqBody: {
+                placeName: newPlace.placeName,
+                address: newPlace.address,
+                description: newPlace.description,
+                placeOrder: newPlace.placeOrder,
+                tourId: tourId
+              }
     };
-
-    utils.makeRequest('addPlace', reqBody)
+    var component = this;
+    utils.makeRequest('addPlace', component, options)
       .then(response => {
         console.log('response body in Add Place: ', response);
         var placeId = response.id
