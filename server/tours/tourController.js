@@ -41,7 +41,6 @@ module.exports = {
 	 * @param {object} res Response object with all tours from database
 	 */
 	getAllTours: function(req, res) {
-		console.log('req headers: ', req.headers);
 		Query.queryToursAsync()
 			.then(function(tours) {
 				return Promise.each(tours, function(tour) {
@@ -51,7 +50,6 @@ module.exports = {
 				});
 			})
 			.then(function(data) {
-				console.log('found tour data', data);
 				res.status(200).json(data);
 			})
 			.catch(function(err) {
@@ -79,6 +77,7 @@ module.exports = {
 				res.status(200).json(data)
 			})
 			.catch(function(err) {
+				console.log('error: ', err);
 				res.status(404).json({error: err})
 			});
 	},
@@ -91,16 +90,19 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	createTour: function(req, res) {
-		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
+    var userId = jwt.decode(req.headers['x-access-token'], 'secret');
+		var tourParams = [req.body.tourName, userId, req.body.description, req.body.category, req.body.duration];
 		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
 		tours.addOrGetCity(cityParams, function(err, results) {
 			if(err) {
+				console.log('city db error');
 				res.status(404).json({error: err});
 			} else {
 				tourParams.push(results);//Get city id from results
 				tours.insertTour(tourParams, function(err, results) {
 					if(err) {
+						console.log('error adding tour to db');
 						res.status(404).json({error: err});
 					} else {
 						res.status(201).json({id: results});//id refers to the tourId
@@ -118,7 +120,8 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	updateTour: function(req, res) {
-		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
+    var userId = jwt.decode(req.headers['x-access-token'], 'secret');
+		var tourParams = [req.body.tourName, userId, req.body.description, req.body.category, req.body.duration];
 		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
 		tours.addOrGetCity(cityParams, function(err, results) {
@@ -164,7 +167,6 @@ module.exports = {
 	 */
 	addPlace: function(req, res) {
 		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId];
-
 		tours.insertPlace(params, function(err, results) {
 			if(err) {
 				res.status(404).json({error: err});

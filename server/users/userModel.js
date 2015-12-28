@@ -82,6 +82,7 @@ module.exports = {
   },
 
   comparePassword: function (params, callback) { 
+    console.log('params: ', params);
     var passwordQuery = "select * from users where userName = ?";
     db.query(passwordQuery, params[0], function(err, results) {
       if (results.length === 0) {

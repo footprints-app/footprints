@@ -93,7 +93,7 @@ module.exports = {
             console.log('found user in DB');
             next();
           } else {
-            console.log('user is not in DB?');
+            console.log('user is not in DB');
             res.sendStatus(401);
           }
         });
