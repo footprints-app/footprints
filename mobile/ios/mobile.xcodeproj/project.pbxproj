@@ -21,15 +21,14 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		74C480461C23842700EFD1BD /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C4803C1C23841300EFD1BD /* libRCTCameraRoll.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9B1093881C25E9B8009059AC /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093811C25E9B8009059AC /* OpenSans-Semibold.ttf */; };
-		9B1093891C25E9B8009059AC /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093821C25E9B8009059AC /* OpenSans-Regular.ttf */; };
-		9B10938A1C25E9B8009059AC /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093831C25E9B8009059AC /* OpenSans-Bold.ttf */; };
-		9B10938B1C25E9B8009059AC /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093841C25E9B8009059AC /* Roboto-Regular.ttf */; };
-		9B10938C1C25E9B8009059AC /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093851C25E9B8009059AC /* Roboto-Medium.ttf */; };
-		9B10938D1C25E9B8009059AC /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093861C25E9B8009059AC /* Raleway-Regular.ttf */; };
-		9B10938E1C25E9B8009059AC /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093871C25E9B8009059AC /* Raleway-Bold.ttf */; };
+        9B1093891C25E9B8009059AC /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093821C25E9B8009059AC /* OpenSans-Regular.ttf */; };
+        9B10938A1C25E9B8009059AC /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093831C25E9B8009059AC /* OpenSans-Bold.ttf */; };
+        9B10938B1C25E9B8009059AC /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093841C25E9B8009059AC /* Roboto-Regular.ttf */; };
+        9B10938C1C25E9B8009059AC /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093851C25E9B8009059AC /* Roboto-Medium.ttf */; };
+        9B10938D1C25E9B8009059AC /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093861C25E9B8009059AC /* Raleway-Regular.ttf */; };
+        9B10938E1C25E9B8009059AC /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093871C25E9B8009059AC /* Raleway-Bold.ttf */; };
 		9B10939F1C261D3B009059AC /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B10939E1C261D15009059AC /* libReactNativeIcons.a */; };
 		9B1093B51C261DC5009059AC /* FAKOcticons.h in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093A01C261DC5009059AC /* FAKOcticons.h */; };
 		9B1093B61C261DC5009059AC /* FAKOcticons.m in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093A11C261DC5009059AC /* FAKOcticons.m */; };
@@ -171,13 +170,6 @@
 		74C480361C23841200EFD1BD /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		9B1093811C25E9B8009059AC /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "../../../../../../../Downloads/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
-		9B1093821C25E9B8009059AC /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "../../../../../../../Downloads/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
-		9B1093831C25E9B8009059AC /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../../../../../../../Downloads/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
-		9B1093841C25E9B8009059AC /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../../../../../Downloads/Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		9B1093851C25E9B8009059AC /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../../../../../../../Downloads/Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		9B1093861C25E9B8009059AC /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../../../../../../../Downloads/Raleway-Regular.ttf"; sourceTree = "<group>"; };
-		9B1093871C25E9B8009059AC /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Bold.ttf"; path = "../../../../../../../Downloads/Raleway-Bold.ttf"; sourceTree = "<group>"; };
 		9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
 		9B1093A01C261DC5009059AC /* FAKOcticons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FAKOcticons.h; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKOcticons.h"; sourceTree = "<group>"; };
 		9B1093A11C261DC5009059AC /* FAKOcticons.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FAKOcticons.m; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKOcticons.m"; sourceTree = "<group>"; };
@@ -392,13 +384,6 @@
 				9B1093B21C261DC5009059AC /* ionicons.ttf */,
 				9B1093B31C261DC5009059AC /* Material-Design-Iconic-Font.ttf */,
 				9B1093B41C261DC5009059AC /* zocial-regular-webfont.ttf */,
-				9B1093811C25E9B8009059AC /* OpenSans-Semibold.ttf */,
-				9B1093821C25E9B8009059AC /* OpenSans-Regular.ttf */,
-				9B1093831C25E9B8009059AC /* OpenSans-Bold.ttf */,
-				9B1093841C25E9B8009059AC /* Roboto-Regular.ttf */,
-				9B1093851C25E9B8009059AC /* Roboto-Medium.ttf */,
-				9B1093861C25E9B8009059AC /* Raleway-Regular.ttf */,
-				9B1093871C25E9B8009059AC /* Raleway-Bold.ttf */,
 				13B07FAE1A68108700A75B9A /* mobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* mobileTests */,
@@ -671,15 +656,8 @@
 				9B1093C71C261DC5009059AC /* ionicons.ttf in Resources */,
 				9B1093C81C261DC5009059AC /* Material-Design-Iconic-Font.ttf in Resources */,
 				9B1093C91C261DC5009059AC /* zocial-regular-webfont.ttf in Resources */,
-				9B10938D1C25E9B8009059AC /* Raleway-Regular.ttf in Resources */,
-				9B1093891C25E9B8009059AC /* OpenSans-Regular.ttf in Resources */,
-				9B10938A1C25E9B8009059AC /* OpenSans-Bold.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9B1093881C25E9B8009059AC /* OpenSans-Semibold.ttf in Resources */,
-				9B10938C1C25E9B8009059AC /* Roboto-Medium.ttf in Resources */,
-				9B10938B1C25E9B8009059AC /* Roboto-Regular.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				9B10938E1C25E9B8009059AC /* Raleway-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -717,7 +695,6 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				D03E55741C261C1000D5FC2E /* UIImagePickerManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

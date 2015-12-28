@@ -10,11 +10,8 @@
     "eventemitter": "^0.3.3",
     "react-native": "^0.16.0",
     "react-native-button": "^1.3.1",
-<<<<<<< 58a83d0e61cd60120fd9a85a28c4e524a2d9f6ad
     "react-native-icons": "^0.7.0",
-=======
     "react-native-image-picker": "^0.10.0",
->>>>>>> (test) Configuration for testing on device
     "react-native-keyboard-aware-scroll-view": "0.0.3",
     "react-native-responsive-image": "^1.0.0",
     "subscribable": "^0.4.0",
