@@ -80,26 +80,24 @@ class Main extends Component {
           selected={this.state.selectedTab === 'myTours'}
           onPress={this.selectTab.bind(this, 'myTours', 'myToursView', MyTours)}>
           <NavigatorIOS
-            ref="nav"
             barTintColor="#0097A7"
             tintColor="#FFF"
             titleTextColor="#FFF"
             style={styles.container}
+            ref="myToursView"
             initialRoute={{ 
               title: 'My Tours', 
               component: MyTours, 
               rightButtonTitle: 'Edit', 
               onRightButtonPress: () => {
-                this.refs.nav.navigator.push({
+                this.refs.myToursView.navigator.push({
                   title: "My Tours",
                   component: MyTours,
                   rightButtonTitle: 'Done',
                   passProps: { editMode: true },
-                  onRightButtonPress: () => { this.refs.nav.navigator.pop();}
+                  onRightButtonPress: () => { this.refs.myToursView.navigator.pop();}
                 });}
-            }}
-            ref="myToursView"
-             />
+            }} />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item

@@ -300,23 +300,9 @@ class ViewCreatedTour extends Component {
     var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : '';
     return (
       <View style={ styles.tourContainer }>
-        <View><Image style={ styles.headerPhoto } source={{ uri: imageURI }}/></View>
-        <ScrollView style={styles.container} automaticallyAdjustContentInsets={false}>
-          <Image source={{uri: this.state.tour.image}} style={style.tourPhoto}/>
-          <Text style={ styles.description }>Tour Name: { this.state.tour.tourName }</Text>
-          <Text style={ styles.description }>Category : { this.state.tour.category }</Text>
-          <Text style={ styles.description }>Duration: { this.state.tour.duration }</Text>
-          <Text style={ styles.description }>City Name: { this.state.tour.cityName } State: { this.state.tour.state }
-            Country: { this.state.tour.country }</Text>
-          <Text style={ styles.description }>Places: </Text>
 
-          <View style={ styles.panel }>
-            <ListView
-              dataSource={ this.state.dataSource }
-              renderRow={ this.renderPlace.bind(this) }
-              style={ styles.listView }/>
-          </View>
-
+        <ScrollView automaticallyAdjustContentInsets={false}>
+          <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
           <View style={{flexDirection: 'row'}}>
             <View style={{marginLeft: 20}}>
               <Text style={ styles.tourTitle }>{ this.state.tour.tourName }</Text>

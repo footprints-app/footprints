@@ -202,21 +202,6 @@ class MyTours extends Component {
             renderRow={ this.renderTour.bind(this) }
             style={ styles.listView }/>
         </View>
-        
-        {/*<TouchableHighlight
-          onPress={ this.toggleEdit.bind(this) }
-          style={ styles.touchable } >
-          <View style={ styles.editBtn }>
-            <Text style={ styles.whiteFont }>Edit</Text>
-          </View>
-        </TouchableHighlight>*/}
-        <TouchableHighlight 
-          onPress={ this.createTour.bind(this) } 
-          style={ styles.touchable } >
-          <View style={ styles.createBtn }>
-            <Text style={ styles.whiteFont }>Create Tour</Text>
-          </View>
-        </TouchableHighlight>
       </View>
     );
   }
