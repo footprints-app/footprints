@@ -80,11 +80,11 @@ class ViewCreatedTour extends Component {
     console.log('reqBody from editDone button: ', reqBody);
     var reqParam = this.state.tourId;
     utils.makeRequest('editTour', reqBody, reqParam)
-      .then(response => {
-        console.log('Response body from server after Editing a Tour: ', response);
-        this.setState({editMode: false});
-        this.fetchData();
-      })
+    .then(response => {
+      console.log('Response body from server after Editing a Tour: ', response);
+      this.setState({editMode: false});
+      this.fetchData();
+    })
   }
 
   deletePlace(place) {
@@ -92,16 +92,16 @@ class ViewCreatedTour extends Component {
     var reqBody = place;
     var reqParam = place.id;
     utils.makeRequest('deletePlace', reqBody, reqParam)
-      .then(response => {
-        console.log('Response body from server after deleting a place: ', response);
-        utils.makeRequest('tour', {}, this.state.tourId)
-         .then((response) => {
-          var places = response.places;
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(places)
-          })
-         })
-      })
+    .then(response => {
+      console.log('Response body from server after deleting a place: ', response);
+      utils.makeRequest('tour', {}, this.state.tourId)
+       .then((response) => {
+        var places = response.places;
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(places)
+        })
+       })
+    })
   }
 
   fetchData() {

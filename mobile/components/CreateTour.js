@@ -43,11 +43,11 @@ class CreateTour extends Component {
   viewTour (newTour) {
     var reqBody = this.state;
     utils.makeRequest('createTour', reqBody)
-      .then(response => {
-        console.log('response body in Create Tour: ', response);
-        var tourId = response.id;
-        utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tourId});
-      });
+    .then(response => {
+      console.log('response body in Create Tour: ', response);
+      var tourId = response.id;
+      utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {tourId});
+    });
   }
 
   render () {

@@ -12,7 +12,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
     backgroundColor: '#0097A7',
-    marginTop: 40
+    // marginTop: 40
   },
   loginContainer: {
     flex: 1,

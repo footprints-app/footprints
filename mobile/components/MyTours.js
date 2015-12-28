@@ -46,27 +46,18 @@ class MyTours extends Component {
    * ComponentDidMount function is called as soon as the render method is executed.
    * It fetches data from the database and sets the state with the fetched data.
    */
-
   componentDidMount () {
-    /* Use this code for fake front end data */
-    // var tours = FAKE_MY_TOUR_DATA;
-    // this.setState({
-    //     dataSource: this.state.dataSource.cloneWithRows(tours)
-    // });
-
-    /* Use this code to make actual API request to fetch data from database */
     var that = this;
     AsyncStorage.multiGet(['token', 'user'])
-      .then(function(data) {
-        if(data) {
-          that.setState({
-            token: data[0][1],
-            userId: +data[1][1]
-          });
-        }
-        that.fetchData()
-      });
-
+    .then(function(data) {
+      if(data) {
+        that.setState({
+          token: data[0][1],
+          userId: +data[1][1]
+        });
+      }
+      that.fetchData()
+    });
   }
 
   toggleEdit () {
@@ -82,6 +73,7 @@ class MyTours extends Component {
    *
    */
   fetchData() {
+    // alert('in my tours fetch data')
     console.log('userId in MyTours: ', this.state.userId);
     utils.makeRequest('myTours', {}, this.state.userId)
     .then((response) => {
@@ -105,19 +97,19 @@ class MyTours extends Component {
     var reqBody = tour;
     var reqParam = tour.id;
     utils.makeRequest('deleteTour', reqBody, reqParam)
-      .then(response => {
-        console.log('Response body from server after deleting a tour: ', response);
-        utils.makeRequest('myTours', {}, this.state.userId)
-        .then((response) => {
-          console.log('response body from MyTours: ', response);
-          var tours = response;
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(tours),
-            isLoading: false
-          });
-        })
+    .then(response => {
+      console.log('Response body from server after deleting a tour: ', response);
+      utils.makeRequest('myTours', {}, this.state.userId)
+      .then((response) => {
+        console.log('response body from MyTours: ', response);
+        var tours = response;
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(tours),
+          isLoading: false
+        });
       })
-      this.fetchData();
+    })
+    this.fetchData();
   }
 
   renderLoadingView () {
@@ -173,13 +165,12 @@ class MyTours extends Component {
 
   renderEditMode() {
     return (
-      <View style={ styles.container }>
+      <View style={ [styles.container, {marginTop: 65}] }>
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
             renderRow={ this.renderDeletableTour.bind(this) }
-            style={ styles.listView }
-            automaticallyAdjustContentInsets={false}/>
+            style={ styles.listView }/>
         </View>
 
         <TouchableHighlight 
@@ -196,23 +187,22 @@ class MyTours extends Component {
   renderViewMode() {
     {/*this.fetchData();*/}
     return (
-      <View style={ styles.container }>
+      <View style={ [styles.container, {marginTop: 65}] }>
 
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
             renderRow={ this.renderTour.bind(this) }
-            style={ styles.listView }
-            automaticallyAdjustContentInsets={false}/>
+            style={ styles.listView }/>
         </View>
         
-        <TouchableHighlight
+        {/*<TouchableHighlight
           onPress={ this.toggleEdit.bind(this) }
           style={ styles.touchable } underlayColor="white">
           <View style={ styles.editBtn }>
             <Text style={ styles.whiteFont }>Edit</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight>*/}
 
       </View>
     );
