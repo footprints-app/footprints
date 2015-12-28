@@ -109,7 +109,10 @@ class SelectImage extends Component {
   }
 
   submitSelection(encodedData) {
-    var tourId = this.state.tourId;
+    //var tourId = this.state.tourId;
+    //if(this.state.placeId !== null) {
+    //TODO: make request params contingent upon this condition
+    //}
     console.log('submit selection');
       utils.makeRequest('addTourPhoto', {encodedData}, tourId)
       .then(response => {
