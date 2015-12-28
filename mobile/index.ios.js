@@ -26,65 +26,94 @@ class mobile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: null,
-      token: null
+      tokenExists: false,
+      initialTitle: undefined,
+      initialComponent: undefined
     };
   }
 
-  //componentDidMount () {
-    // AsyncStorage.multiGet(['token', 'user'])
-    //   .then(function(data) {
-    //     if (data) {
-    //       console.log('token and user from index.ios:.....', data[0][1])
-          // utils.makeRequest('allTours', {}, "")
-          // .then(function(data){
-          //   console.log('alltours data from index.ios....', data);
-          // })
-    //     }
-    //   })
-    //   .done()
+
+  componentDidMount () {
+    console.log('componentDidMount called');
+    var that = this;
+    utils.getToken()
+    .then((token) => {
+      if(token) {
+        console.log('token in IOS: ', token);
+        this.setState({tokenExists: true, initialTitle: 'Welcome', initialComponent: Main});
+        console.log('this.state: ', this.state);
+        utils.navigateTo.call(that, "Welcome", Main, {});
+      } else {
+        this.setState({initialTitle: 'Login', initialComponent: Login});
+      }
+    })
+    .done();
+  }
+
+  // componentWillMount () {
+  //   console.log('componentWillMount called');
+  //   var that = this;
+  //   utils.getToken()
+  //   .then((token) => {
+  //     if(token) {
+  //       console.log('token in IOS: ', token);
+  //       this.setState({tokenExists: true, initialTitle: 'Welcome', initialComponent: Main});
+  //       console.log('this.state: ', this.state);
+  //     } else {
+  //       this.setState({initialTitle: 'Login', initialComponent: Login});
+  //     }
+  //   })
+  //   .done();
   // }
 
   renderScene (route, navigator) {
-  var Component = route.component;
-  return (
-      <View style={styles.container}>
-        <Component
-          route={route}
-          navigator={navigator}
-          topNavigator={navigator}/>
-      </View>
-    )
+    var Component = route.component;
+    console.log('renderScene called');
+    return (
+        <View style={styles.container}>
+          <Component
+            route={route}
+            navigator={navigator}
+            topNavigator={navigator}/>
+        </View>
+      )
   }
 
+ 
+
+  renderLogin () {
+    return (
+         <Navigator
+          sceneStyle={styles.container}
+          ref={(navigator) => { this.navigator = navigator; }}
+          renderScene={this.renderScene}
+          tintColor='#D6573D'
+          barTintColor='#0097A7'
+          titleTextColor='#D6573D'
+          navigationBarHidden={true}
+          initialRoute={{
+            title: 'Login',
+            component: Login,
+          }} />
+        )
+  }
+  
+
   render () {
-    // var that = this;
-    // AsyncStorage.multiGet(['token', 'user'])
-    // .then(function(data) {
-    //   if (data) {
-    //     console.log('token and user from index.ios:.....', data[0][1])
-    //     utils.makeRequest('allTours', {}, "", data[0][1])
-    //     .then((response) => {
-    //       console.log('response body from index.ios: ', response);
-    //       utils.navigateTo.call(this, "All Tours", AllTours, {});
-    //     })
-    //     .done();
-    //   }
-    // })
-    return(
-      <Navigator
-        sceneStyle={styles.container}
-        ref={(navigator) => { this.navigator = navigator; }}
-        renderScene={this.renderScene}
-        tintColor='#D6573D'
-        barTintColor='#0097A7'
-        titleTextColor='#D6573D'
-        navigationBarHidden={true}
-        initialRoute={{
-          title: 'Login',
-          component: Login,
-        }} />
-    )
+    return (
+         <Navigator
+          sceneStyle={styles.container}
+          ref={(navigator) => { this.navigator = navigator; }}
+          renderScene={this.renderScene}
+          tintColor='#D6573D'
+          barTintColor='#0097A7'
+          titleTextColor='#D6573D'
+          navigationBarHidden={true}
+          initialRoute={{
+            title: 'Login',
+            component: Login,
+          }} />
+        )
   }
 }
 

@@ -33,7 +33,7 @@ class ViewCreatedTour extends Component {
     console.log('props in view ViewCreatedTours', props)
     super(props);
     this.state = {
-      tourId: this.props.route.passProps.tourId || this.props.route.passProps.tour.id,
+      tourId: this.props.tourId || this.props.route.passProps.tourId || this.props.route.passProps.tour.id,
       tour: {},
       isLoading: true,
       dataSource: new ListView.DataSource({

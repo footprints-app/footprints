@@ -52,7 +52,7 @@ class AddPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tourId: this.props.route.passProps.tourId
+      tourId: this.props.tourId || this.props.route.passProps.tourId
     };
   }
 

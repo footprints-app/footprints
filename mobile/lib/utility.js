@@ -25,21 +25,18 @@ var requests = {
   }; 
 
 var token = '';
-function getToken(requestType) {
-  // if(requestType === 'signup' || requestType === 'login') {
-  //   return new Promise(function)
-
-  return AsyncStorage.getItem('token')
-  .then((token) => {
-    console.log('token in getToken: ', token);
-    return token;
-  })
-  .catch((error) => {
-    return '';
-    console.log('error?');
-    console.warn(error)
-  });
-};
+// function getToken(requestType) {
+//   return AsyncStorage.getItem('token')
+//   .then((token) => {
+//     console.log('token in getToken: ', token);
+//     return token;
+//   })
+//   .catch((error) => {
+//     return '';
+//     console.log('error?');
+//     console.warn(error)
+//   });
+// };
 
 var Utility = {
 
@@ -159,13 +156,39 @@ var Utility = {
    */
   navigateTo: function(titleName, toComponent, props) {
     console.log('navigate: ', titleName);
-    this.props.navigator.push({
+    console.log('this: ', this);
+    var navigator = this.props.navigator || this.navigator;
+    navigator.push({
       title: titleName,
       component: toComponent,
       passProps: props
     });
   },
 
+  /**
+   * Accesses the token from AsyncStorage.  
+   *
+   * @return {Promise} promise with token string
+   */
+  getToken: function() {
+    return AsyncStorage.getItem('token')
+    .then((token) => {
+      console.log('token in getToken: ', token);
+      return token;
+    })
+    .catch((error) => {
+      return '';
+      console.log('error from getToken');
+      console.warn(error)
+    });
+  },
+
+   /**
+   * Calls fetch to make a specified API request to the server. 
+   * 
+   * @param {string, string, object, object} reqUrl is the root url + parameters, requestMethod, header and body are the paramaters for fetch.
+   * @return {Promise} promise with parsed API response
+   */
   requestHelper: function(reqUrl, requestMethod, header, body) {
     var requestObject = { method: requestMethod, headers: header};
     if(requestMethod !== 'GET') {
@@ -179,10 +202,10 @@ var Utility = {
   },
  
   /**
-   * Calls fetch to make a specified API request to the server. 
+   * Creates the parameters for the the fetch request and calls requestHelper to make the appropriate API request. 
    *
-   * @param {string, object, [string]} requestType is a key in the request's object, reqBody is the object that is being sent in the request, reqParam is an optional argument for ids.
-   * @return {Promise} promise with the parsed response body
+   * @param {string, object, object} requestType is a key in the request's object, component is the React component from where the function is being called, options is holds the option requestBody and requestParams
+   * @return {Promise} promise with the parsed response
    */
   makeRequest: function(requestType, component, options) {
     var requestMethod = requests[requestType].reqMethod;
@@ -201,7 +224,7 @@ var Utility = {
 
     if(requestType !== 'signup' && requestType !== 'login') {
       console.log('requestType in signup condition: ', requestType);
-      return getToken(requestType).then((token) => {
+      return this.getToken().then((token) => {
         console.log('token in makeRequest: ', token);
         headerBody['x-access-token'] = token;
         return this.requestHelper(reqUrl, requestMethod, headerBody, reqBody)

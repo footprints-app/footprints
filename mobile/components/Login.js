@@ -1,6 +1,6 @@
 'use strict';
 var React = require('react-native');
-var MyTours = require('./MyTours');
+var Main = require('./Main');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var DeviceWidth = Dimensions.get('window').width;
@@ -57,7 +57,7 @@ class Login extends Component {
         AsyncStorage.setItem('token', response.token)
         .then(() => {
           console.log('from login client.....', response.token);
-          utils.navigateTo.call(component, "Your Tours", MyTours, {});
+          utils.navigateTo.call(component, "Welcom", Main, {});
         });
       }
     })
