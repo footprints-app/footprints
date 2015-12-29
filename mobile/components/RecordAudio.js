@@ -41,7 +41,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.gif')});
     RNRecordAudio.startRecord(
 
-      "test.m4a", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -61,7 +61,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNRecordAudio.stopRecord(
 
-      "test.m4a", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -78,10 +78,11 @@ class RecordAudio extends Component {
   }
 
   play() {
+    this.readDirectory();
     this.setState({cassette: require('../assets/cassette.gif')});
     RNPlayAudio.startAudio(
 
-      "test.m4a", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -101,7 +102,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.pauseAudio(
 
-      "test.m4a", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -121,7 +122,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.stopAudio(
 
-      "test.m4a", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
