@@ -7,6 +7,7 @@ var tours = require('./tourModel');
 var Promise = require('bluebird');
 var Query = Promise.promisifyAll(tours);
 var images = require('../images/imageController');
+var audio = require('../audio/audioController');
 var jwt = require('jwt-simple');
 
 module.exports = {
@@ -257,5 +258,9 @@ module.exports = {
 				});
 			}
 		});
+	},
+
+	getSignedS3Url: function(req, res) {
+		audio.signedUrl(req, res);
 	}
 }
