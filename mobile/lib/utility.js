@@ -21,7 +21,8 @@ var requests = {
     deletePlace: {reqMethod: 'DELETE', endPoint: '/tours/deleteplace/'},
     editPlace: {reqMethod: 'PUT', endPoint: '/tours/editplace/'},
     deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
-    addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'}
+    addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'},
+    addPlacePhoto: {reqMethod: 'POST', endPoint: '/tours/placephoto/'}
   }; 
 
 var token = '';
