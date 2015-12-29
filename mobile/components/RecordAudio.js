@@ -11,7 +11,8 @@ var {
   Text,
   StyleSheet,
   ActivityIndicatorIOS,
-  AsyncStorage
+  AsyncStorage,
+  Image
 } = React;
 
 var {
@@ -24,8 +25,7 @@ class RecordAudio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cassetteGif: require('../assets/cassette.png')
-      //cassetteGif: 'http://www.clicktorelease.com/code/gif/1.gif'
+      cassette: require('../assets/cassette.png')
     }
   }
 
@@ -34,29 +34,11 @@ class RecordAudio extends Component {
     RNFS.readDir(RNFS.DocumentDirectoryPath)
       .then((result) => {
         console.log('GOT RESULT', result);
-
-        // stat the first file
-        //return Promise.all([RNFS.stat(result[0].path), result[0].path]);
       })
-      // .then((statResult) => {
-      //   if (statResult[0].isFile()) {
-      //     // if we have a file, read it
-      //     return RNFS.readFile(statResult[1], 'utf8');
-      //   }
-
-      //   return 'no file';
-      // })
-      // .then((contents) => {
-      //   // log the file contents
-      //   console.log(contents);
-      // })
-      // .catch((err) => {
-      //   console.log(err.message, err.code);
-      // });
   }
   
   record() {
-    this.setState({cassetteGif: require('../assets/cassette.gif')});
+    this.setState({cassette: require('../assets/cassette.gif')});
     RNRecordAudio.startRecord(
 
       "test.m4a", // filename
@@ -76,7 +58,7 @@ class RecordAudio extends Component {
   }
 
   stopRec() {
-    this.setState({cassetteGif: require('../assets/cassette.png')});
+    this.setState({cassette: require('../assets/cassette.png')});
     RNRecordAudio.stopRecord(
 
       "test.m4a", // filename
@@ -96,7 +78,7 @@ class RecordAudio extends Component {
   }
 
   play() {
-    this.setState({cassetteGif: require('../assets/cassette.gif')});
+    this.setState({cassette: require('../assets/cassette.gif')});
     RNPlayAudio.startAudio(
 
       "test.m4a", // filename
@@ -116,7 +98,7 @@ class RecordAudio extends Component {
   }
 
   pause() {
-    this.setState({cassetteGif: require('../assets/cassette.png')});
+    this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.pauseAudio(
 
       "test.m4a", // filename
@@ -136,7 +118,7 @@ class RecordAudio extends Component {
   }
 
   stop() {
-    this.setState({cassetteGif: require('../assets/cassette.png')});
+    this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.stopAudio(
 
       "test.m4a", // filename
@@ -156,26 +138,26 @@ class RecordAudio extends Component {
 
   }
 
-  done() {
-    var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
-    var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
+  // done() {
+  //   var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
+  //   var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
 
-    fetch(awsUrl, {
-      method: "POST",
-      headers: {},
-      body: JSON.stringify({
-        AWSAccessKeyId: "",
-        file: storyPath,
-        key: 
-      })
-    })
-  }
+  //   fetch(awsUrl, {
+  //     method: "POST",
+  //     headers: {},
+  //     body: JSON.stringify({
+  //       AWSAccessKeyId: "",
+  //       file: storyPath,
+  //       key: 
+  //     })
+  //   })
+  // }
 
   render() {
     return (
       <View>
-        <View style={ styles.gifContainer }>
-          <Image style={{width: 400, height: 200}} source={this.state.cassetteGif} />
+        <View style={ styles.cassette }>
+          <Image style={{width: 400, height: 200}} source={this.state.cassette} />
         </View>
 
         <View style={ styles.controlsContainer }>
@@ -226,35 +208,41 @@ class RecordAudio extends Component {
 };
 
 var styles = StyleSheet.create({
+  cassette: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20
+  },
   recordBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
   stopRecBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
   playBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
   pauseBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
   stopBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 10,
   },
   touchable: {
     borderRadius: 5
