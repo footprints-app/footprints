@@ -6,7 +6,7 @@
 
 var aws = require('aws-sdk');
 
-var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID || 'AKIAJ5G5M3OP5NKBCCXA';
+var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID2 || 'AKIAJHNJSA3HCJDPQATQ';
 var AWS_SECRET_KEY = process.env.AWS_SECRET_ACCESS_KEY || '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';
 var S3_BUCKET = process.env.S3_BUCKET || 'walking-tour-media';
 
