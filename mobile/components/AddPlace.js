@@ -56,7 +56,8 @@ class AddPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tourId: this.props.tourId || this.props.route.passProps.tourId
+      tourId: this.props.tourId || this.props.route.passProps.tourId,
+      placeId: null
     };
   }
 
@@ -83,8 +84,15 @@ class AddPlace extends Component {
     utils.makeRequest('addPlace', component, options)
       .then(response => {
         console.log('response body in Add Place: ', response);
-        var placeId = response.id
-        utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
+        component.setState({
+          placeId: response.id.placeId
+        })
+        var props = {
+          placeId: this.state.placeId,
+          tourId: this.state.tourId,
+          addPlaceView: true
+        }
+        utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
       });
   }
 
@@ -107,30 +115,6 @@ class AddPlace extends Component {
             type={ Place }
             options={ options }/>
         </View>
-       
-        
-          <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
-            <View style={ styles.photoAudioContainer }>   
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add a Photo</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
-              </View>
-            </View>   
-          </TouchableHighlight>
-          
-            
-          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
-            <View style={ styles.photoAudioContainer }>
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add Audio</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
-              </View>
-            </View>  
-          </TouchableHighlight>
 
         <TouchableHighlight 
           style={ styles.button } 
@@ -142,6 +126,7 @@ class AddPlace extends Component {
     );
   }
 };
+
 
 //node-modules/tcomb-form-native/lib/stylesheet/bootstrap
 // var LABEL_COLOR = '#000000';

@@ -247,30 +247,30 @@ var styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 15
   },
-  editIconContainer: { 
-    marginLeft: 95,
-    marginTop: 75,
-  },
-  editIcon: { 
-    width: 50,
-    height: 50,
+  editIcon: {
+    marginLeft: 30,
+    width: 40,
+    height: 40,
   },
   photoAudioContainer: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom: 10
   },
   text: {
     color: '#00BCD4',
     fontFamily: 'Raleway',
     fontSize: 20,
     fontWeight: 'bold',
-    justifyContent: 'center',
-    // marginTop: 25,
+    justifyContent: 'center'
   },
   addPlaceIcon: { 
-    marginLeft: 12,
-    width: 30,
-    height: 30,
+    marginLeft: 22,
+    width: 50,
+    height: 50,
     marginTop: 20,
   },
   // Start Add Place
@@ -317,7 +317,7 @@ var styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginTop: 10,
-  },
+  }
   // End Add Place
 });
 

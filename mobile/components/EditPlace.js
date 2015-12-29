@@ -3,6 +3,7 @@
 var React = require('react-native');
 var utils = require('../lib/utility');
 var ViewCreatedTour = require('./ViewCreatedTour');
+var SelectImage = require('./SelectImage');
 
 
 var {
@@ -76,6 +77,15 @@ class EditPlace extends Component {
 
    }
 
+    editPhoto() {
+      /*TODO: this should send a put request to update tour photo*/
+      var props = {
+        tourId: this.state.tourId,
+        placeId: this.state.id
+      }
+      utils.navigateTo.call(this, "Select a Place Photo", SelectImage, props);
+    }
+
    render() {
  
     return (
@@ -114,6 +124,18 @@ class EditPlace extends Component {
           </View>
 
         </View>
+
+        <TouchableHighlight onPress={this.editPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
+          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+            <View style={{marginTop: 17}}>
+              <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
+            </View>
+            <View>
+              <Image source={require('../assets/photoicon.png')}
+                     style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
+            </View>
+          </View>
+        </TouchableHighlight>
 
         <TouchableHighlight 
           onPress={ this.editDone.bind(this) } 

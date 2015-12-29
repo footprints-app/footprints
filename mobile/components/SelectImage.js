@@ -10,15 +10,12 @@ var styles = require('../lib/stylesheet');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 
 var {
-  Image,
   StyleSheet,
   View,
   Text,
   Component,
   TouchableHighlight,
-  ActivityIndicatorIOS,
   AsyncStorage,
-  CameraRoll,
   NativeModules
  } = React;
  
@@ -34,10 +31,9 @@ class SelectImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: [],
       tourId: this.props.tourId || null,
       placeId: this.props.placeId || null,
-      selected: '',
+      addPlaceView: this.props.addPlaceView || false,
       isLoading: true
     };
   }
@@ -65,17 +61,18 @@ class SelectImage extends Component {
       var fetchParams = {
           first: 25,
       };
-    //CameraRoll.getPhotos(fetchParams, this.storeImages.bind(this), this.logImageError);
-
   }
 
+  /**
+   * This method is triggered when "Select Image" is pressed. It will launch an option to choose from
+   * library or take a new photo utilizing a react-native module called UIImagePicker
+   */
   launchCamera () {
     var options = {
       title: 'Select a Tour Photo',
       cancelButtonTitle: 'Cancel',
       takePhotoButtonTitle: 'Take Photo...',
       chooseFromLibraryButtonTitle: 'Choose from Library...',
-      //maxWidth: 200,
       maxHeight: 500,
       quality: 1,
       allowsEditing: true,
@@ -87,8 +84,6 @@ class SelectImage extends Component {
 
     UIImagePickerManager.showImagePicker(options, (didCancel, response)  => {
       if(!didCancel) {
-        console.log('image picker res:', response)
-        var tourId = this.state.tourId;
         this.submitSelection(response.data.toString())
 
         if (response.takePhotoButtonTitle) {
@@ -100,61 +95,86 @@ class SelectImage extends Component {
     });
   }
 
-  storeImages(data) {
-    var assets = data.edges;
-    var images = assets.map( asset => asset.node.image );
-    this.setState({
-        images: images,
-    });
-  }
-
+  /**
+   * This method is triggered when a photo is selected or taken. It makes a post request to either tours/tourphoto
+   * or tours/placephoto depending on the state. After post request has been made, navigator will route back to
+   * ViewCreatedTour view.
+   * @param encodedData - Base 64 encoding passed in from the UIImagePicker module
+	 */
   submitSelection(encodedData) {
-    //var tourId = this.state.tourId;
-    //if(this.state.placeId !== null) {
-    //TODO: make request params contingent upon this condition
-    //}
-    console.log('submit selection');
-      utils.makeRequest('addTourPhoto', {encodedData}, tourId)
+    var ViewCreatedTour = require('./ViewCreatedTour')
+    var reqType = 'addTourPhoto';
+    var component = this;
+    var props = {
+      tourId: this.state.tourId,
+      editMode: true
+    };
+    var options = {
+      reqParam: this.state.tourId,
+      reqBody: {
+        encodedData: encodedData
+      }
+    };
+
+    if(this.state.placeId !== null) {
+      reqType = 'addPlacePhoto'
+      options.reqParam = this.state.placeId
+    }
+
+      utils.makeRequest(reqType, component, options)
       .then(response => {
         console.log('tour added to db: ', response);
       })
 
-    var ViewCreatedTour = require('./ViewCreatedTour')
     this.props.navigator.replace({
       title: "Your Tour",
       component: ViewCreatedTour,
-      passProps: {tourId}
+      passProps: props
     });
   }
 
-  render() {
+  /**
+   * This renders if the previous component is from AddPlace to give the user an option to skip
+   * @returns {XML}
+	 */
+  renderAddPlacePhoto () {
     return (
-      <View style={comp_styles.uploadContainer}>
+      <View style={ [styles.mainContainer, {marginTop: 0}]}>
         <TouchableHighlight
-            onPress={ this.launchCamera.bind(this) }>
-            <View style={ comp_styles.selectImage }>
-              <Text style={ styles.whiteFont }>Select Image</Text>
-            </View>
+          onPress={ this.launchCamera.bind(this) }
+          underlayColor="#727272">
+          <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
+            <Text style={ styles.whiteFont }>Select Image</Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight
+          onPress={ () => alert('going to audio')}
+          underlayColor="#727272">
+          <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
+            <Text style={ styles.whiteFont }>Skip</Text>
+          </View>
         </TouchableHighlight>
       </View>
     );
+  }
+
+  render() {
+    if(this.state.addPlaceView) {
+      return this.renderAddPlacePhoto();
+    } else {
+      return (
+        <View style={ [styles.mainContainer, {marginTop: 0}] }>
+          <TouchableHighlight
+            onPress={ this.launchCamera.bind(this) }
+            underlayColor="#727272">
+            <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
+              <Text style={ styles.whiteFont }>Select Image</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      );
+    }
   } 
 };
-
-
-var comp_styles = StyleSheet.create({
-  uploadContainer: {
-    flex: 1,
-    backgroundColor: '#727272',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  selectImage: {
-    backgroundColor: '#FFC107',
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 20,
-  }
-});
  
 module.exports = SelectImage;

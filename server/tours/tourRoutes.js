@@ -14,6 +14,7 @@ module.exports = function (app) {
   app.post('/createtour', userController.checkAuth, tourController.createTour);
   app.post('/addplace', userController.checkAuth, tourController.addPlace);
   app.post('/tourphoto/:id', tourController.addTourPhoto);
+  app.post('/placephoto/:id', tourController.addPlacePhoto);
 
   app.put('/edit/:id', userController.checkAuth, tourController.updateTour);
   app.put('/editplace/:id', userController.checkAuth, tourController.updatePlace);

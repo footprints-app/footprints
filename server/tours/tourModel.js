@@ -140,7 +140,18 @@ module.exports = {
 
   },
 
-	//TODO: addImageToPlace
+	addImageToPlace: function(params, callback) {
+		console.log('IMAGE TO PLACE called');
+		var query = "UPDATE places SET image = ? WHERE id = ?";
+		db.query(query, params, function(err, results) {
+			if(err) {
+				callback(err);
+				console.log('error: ', err);
+			} else {
+				callback(err, results);
+			}
+		})
+	},
 	 /**
    * Deletes tour with given id from the table.
    * If successful, gives a callback with the query result.
@@ -190,11 +201,17 @@ module.exports = {
 			if (err) {
 				callback(err);
 			} else {
+				var data = {
+					placeId: results.insertId,
+					tourId: null
+				}
 				db.query(selectQuery, results.insertId, function (err, results) {
 					if (err) {
 						callback(err);
 					} else {
-						callback(err, results[0].tourId);
+						data.tourId = results[0].tourId
+						console.log('sending this back', data)
+						callback(err, data);
 					}
         });
       }

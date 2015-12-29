@@ -23,7 +23,7 @@ var {
   TextInput,
   AsyncStorage,
   ScrollView
-} = React;
+  } = React;
 
 var EditTour = t.struct({
   tourName: t.maybe(t.String),
@@ -156,30 +156,30 @@ class ViewCreatedTour extends Component {
     var options = {
       reqParam: this.state.tourId,
       reqBody: {}
-    }; 
+    };
 
     console.log('tourId: ', this.state.tourId);
     console.log('this.props: ', this.props);
     utils.makeRequest('tour', component, options)
-    .then((response) => {
-      console.log('response body from View Created Tour: ', response);
-      var places = response.places;
-      this.setState({
-        tour: response,
-        userId: response.userId,
-        tourName: response.tourName,
-        description: response.description,
-        category: response.category,
-        duration: response.duration,
-        userName: response.userName,
-        cityName: response.cityName,
-        state: response.state,
-        country: response.country,
-        dataSource: this.state.dataSource.cloneWithRows(places),
-        isLoading: false
-      });
-    })
-    .done();
+      .then((response) => {
+        console.log('response body from View Created Tour: ', response);
+        var places = response.places;
+        this.setState({
+          tour: response,
+          userId: response.userId,
+          tourName: response.tourName,
+          description: response.description,
+          category: response.category,
+          duration: response.duration,
+          userName: response.userName,
+          cityName: response.cityName,
+          state: response.state,
+          country: response.country,
+          dataSource: this.state.dataSource.cloneWithRows(places),
+          isLoading: false
+        });
+      })
+      .done();
   }
 
   renderPlace(place) {
@@ -213,8 +213,8 @@ class ViewCreatedTour extends Component {
           <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
             <Text style={ styles.deleteText }>Delete</Text>
           </TouchableHighlight>
-          <TouchableHighlight 
-            style={ styles.rightContainer } 
+          <TouchableHighlight
+            style={ styles.rightContainer }
             onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
             <Text style={ styles.placeName }>{ place.placeName }</Text>
           </TouchableHighlight>
@@ -262,46 +262,47 @@ class ViewCreatedTour extends Component {
     return (
 
       <View style={ styles.addPlaceContainer }>
-        
-        <View style={{marginTop: 60}}>
-          <Form
-            ref="form"
-            type={ EditTour }
-            options={ options }
-            value={ this.state.value }
-            onChange={this.onChange.bind(this)}/>
-        </View>
+        <ScrollView>
+          <View style={{marginTop: 60}}>
+            <Form
+              ref="form"
+              type={ EditTour }
+              options={ options }
+              value={ this.state.value }
+              onChange={this.onChange.bind(this)}/>
+          </View>
 
-        <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
-          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
-            <View style={{marginTop: 17}}>
-              <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
+          <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
+            <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+              <View style={{marginTop: 17}}>
+                <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/photoicon.png')}
+                       style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
+              </View>
             </View>
-            <View>
-              <Image source={require('../assets/photoicon.png')} 
-                style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/> 
-            </View>
-          </View>   
-        </TouchableHighlight>
-
-        <View style={ [styles.panel, {marginTop: 15}] }>
-        <View style={ styles.tourSeparator }/>
-          <ListView
-            dataSource={ this.state.dataSource }
-            renderRow={ this.renderEditablePlace.bind(this) }
-            style={ styles.listView }/>
-        </View>
-
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableHighlight 
-            style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] } 
-            onPress={ this.editDone.bind(this) } 
-            underlayColor='#FFC107'>
-            <Text style={ styles.buttonText }>Done</Text>
           </TouchableHighlight>
-        </View>
+
+          <View style={ [styles.panel, {marginTop: 15}] }>
+            <View style={ styles.tourSeparator }/>
+            <ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderEditablePlace.bind(this) }
+              style={ styles.listView }/>
+          </View>
+
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableHighlight
+              style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
+              onPress={ this.editDone.bind(this) }
+              underlayColor='#FFC107'>
+              <Text style={ styles.buttonText }>Done</Text>
+            </TouchableHighlight>
+          </View>
+        </ScrollView>
       </View>
-      
+
     )
   }
 
@@ -313,52 +314,52 @@ class ViewCreatedTour extends Component {
           <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
           <View>
             <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <Text style={ [styles.tourTitle, {alignSelf: 'center'} ] }>{ this.state.tour.tourName }</Text>
-            
-            <TouchableHighlight
-            onPress={ this.toggleEdit.bind(this) }
-            style={ [styles.touchable, {marginBottom: 10}] }
-            underlayColor='#727272'>
-              <Image source={require('../assets/editiconteal.png')} 
-                style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 40}, {marginTop: 10}]} />
-            
-            </TouchableHighlight>
+              <Text style={ [styles.tourTitle, {alignSelf: 'center'} ] }>{ this.state.tour.tourName }</Text>
+
+              <TouchableHighlight
+                onPress={ this.toggleEdit.bind(this) }
+                style={ [styles.touchable, {marginBottom: 10}] }
+                underlayColor='#727272'>
+                <Image source={require('../assets/editiconteal.png')}
+                       style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 40}, {marginTop: 10}]} />
+
+              </TouchableHighlight>
 
             </View>
-              <View style={{justifyContent: 'center'}}>
-                <Text style={styles.description}>
-                  <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
-                  <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
-                  <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
-                  <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }
-                </Text>
-              </View>
+            <View style={{justifyContent: 'center'}}>
+              <Text style={styles.description}>
+                <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
+                <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
+                <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
+                <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }
+              </Text>
+            </View>
           </View>
 
-            <View style={ [styles.photoAudioContainer, {marginTop: 10}, {marginBottom: 3} ] }>
-              <View>
-                <Text style={ [styles.text, {marginTop: 12}] }>Places</Text>
-              </View>
-              <TouchableHighlight
-                onPress={ this.addPlace.bind(this) }
-                style={ [styles.touchable, {marginTop: 8}] }
-                underlayColor='#727272'>
-                  <Image source={require('../assets/addplaceicon.png')} 
-                    style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
-              </TouchableHighlight>
+          <View style={ [styles.photoAudioContainer, {marginTop: 10}, {marginBottom: 3} ] }>
+            <View>
+              <Text style={ [styles.text, {marginTop: 12}] }>Places</Text>
             </View>
+            <TouchableHighlight
+              onPress={ this.addPlace.bind(this) }
+              style={ [styles.touchable, {marginTop: 8}] }
+              underlayColor='#727272'>
+              <Image source={require('../assets/addplaceicon.png')}
+                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
+            </TouchableHighlight>
+          </View>
 
           {/*<TouchableHighlight
-                      onPress={ this.toggleEdit.bind(this) }
-                      style={ [styles.touchable, {marginBottom: 10}] }>
-                      <View style={ [styles.photoAudioContainer, {marginTop: 10}] }>
-                        <View>
-                          <Text style={ [styles.text, {fontSize: 18}] }>Edit Tour Details</Text>
-                        </View>
-                          <Image source={require('../assets/editiconteal.png')} 
-                            style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 10}, {marginTop: -5}]} />
-                      </View>
-                    </TouchableHighlight>*/}
+           onPress={ this.toggleEdit.bind(this) }
+           style={ [styles.touchable, {marginBottom: 10}] }>
+           <View style={ [styles.photoAudioContainer, {marginTop: 10}] }>
+           <View>
+           <Text style={ [styles.text, {fontSize: 18}] }>Edit Tour Details</Text>
+           </View>
+           <Image source={require('../assets/editiconteal.png')}
+           style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 10}, {marginTop: -5}]} />
+           </View>
+           </TouchableHighlight>*/}
           <View style={ styles.tourSeparator }/>
 
           <View style={ styles.panel }>
