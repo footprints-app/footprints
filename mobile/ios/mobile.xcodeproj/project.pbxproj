@@ -52,7 +52,6 @@
 		9B1093C71C261DC5009059AC /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093B21C261DC5009059AC /* ionicons.ttf */; };
 		9B1093C81C261DC5009059AC /* Material-Design-Iconic-Font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093B31C261DC5009059AC /* Material-Design-Iconic-Font.ttf */; };
 		9B1093C91C261DC5009059AC /* zocial-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B1093B41C261DC5009059AC /* zocial-regular-webfont.ttf */; };
-		9B54B0351C330B3400873B33 /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B54B0341C330B3400873B33 /* UIImagePickerManager.m */; };
 		D08F36C01C31CBA1002D8394 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36B91C31CBA1002D8394 /* OpenSans-Bold.ttf */; };
 		D08F36C11C31CBA1002D8394 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BA1C31CBA1002D8394 /* OpenSans-Regular.ttf */; };
 		D08F36C21C31CBA1002D8394 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BB1C31CBA1002D8394 /* OpenSans-Semibold.ttf */; };
@@ -60,6 +59,7 @@
 		D08F36C41C31CBA1002D8394 /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */; };
 		D08F36C51C31CBA1002D8394 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */; };
 		D08F36C61C31CBA1002D8394 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */; };
+		D08F37041C32317D002D8394 /* UIImagePickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D08F37031C32317D002D8394 /* UIImagePickerManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,7 +240,6 @@
 		9B1093B21C261DC5009059AC /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ionicons.ttf; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/ionicons.ttf"; sourceTree = "<group>"; };
 		9B1093B31C261DC5009059AC /* Material-Design-Iconic-Font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Material-Design-Iconic-Font.ttf"; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/Material-Design-Iconic-Font.ttf"; sourceTree = "<group>"; };
 		9B1093B41C261DC5009059AC /* zocial-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zocial-regular-webfont.ttf"; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/zocial-regular-webfont.ttf"; sourceTree = "<group>"; };
-		9B54B0341C330B3400873B33 /* UIImagePickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIImagePickerManager.m; path = "../node_modules/react-native-image-picker/UIImagePickerManager/UIImagePickerManager.m"; sourceTree = "<group>"; };
 		D08F36B91C31CBA1002D8394 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Bold.ttf"; path = "../fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		D08F36BA1C31CBA1002D8394 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Regular.ttf"; path = "../fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		D08F36BB1C31CBA1002D8394 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "OpenSans-Semibold.ttf"; path = "../fonts/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
@@ -248,6 +247,7 @@
 		D08F36BD1C31CBA1002D8394 /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Raleway-Regular.ttf"; path = "../fonts/Raleway-Regular.ttf"; sourceTree = "<group>"; };
 		D08F36BE1C31CBA1002D8394 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Medium.ttf"; path = "../fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		D08F36BF1C31CBA1002D8394 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		D08F37031C32317D002D8394 /* UIImagePickerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIImagePickerManager.m; path = "../node_modules/react-native-image-picker/UIImagePickerManager/UIImagePickerManager.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -396,7 +396,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				9B54B0341C330B3400873B33 /* UIImagePickerManager.m */,
+				D08F37031C32317D002D8394 /* UIImagePickerManager.m */,
 				9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -850,7 +850,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				9B54B0351C330B3400873B33 /* UIImagePickerManager.m in Sources */,
+				D08F37041C32317D002D8394 /* UIImagePickerManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
