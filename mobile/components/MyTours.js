@@ -173,20 +173,11 @@ class MyTours extends Component {
             renderRow={ this.renderDeletableTour.bind(this) }
             style={ styles.listView }/>
         </View>
-
-        {/*<TouchableHighlight 
-          onPress={ this.toggleEdit.bind(this) } 
-          style={ styles.touchable }>
-          <View style={ styles.doneBtn }>
-            <Text style={ styles.whiteFont }>Done</Text>
-          </View>
-        </TouchableHighlight>*/}
       </View>
     );
   }
 
   renderViewMode() {
-    {/*this.fetchData();*/}
     return (
       <View style={ [styles.container, {marginTop: 64}] }>
 
