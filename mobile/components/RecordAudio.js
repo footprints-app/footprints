@@ -139,20 +139,58 @@ class RecordAudio extends Component {
 
   }
 
-  // done() {
-  //   var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
-  //   var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
+  done() {
+    var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
+    // var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
+    var request_url = 'http://10.6.32.174:8000';
+    // var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
-  //   fetch(awsUrl, {
-  //     method: "POST",
-  //     headers: {},
-  //     body: JSON.stringify({
-  //       AWSAccessKeyId: "",
-  //       file: storyPath,
-  //       key: 
-  //     })
-  //   })
-  // }
+    // fetch(awsUrl, {
+    //   method: "POST",
+    //   headers: {},
+    //   body: JSON.stringify({
+    //     AWSAccessKeyId: "",
+    //     file: storyPath,
+    //     key: 
+    //   })
+    // })
+    // fetch(request_url + '/tours/sign_s3', {
+    //       method: "GET",
+    //       headers: {},
+    //     })
+    //     .then((response) => {
+    //       var resp = JSON.parse(response.responseText);
+    //       console.log(resp);
+    //       console.log('Signed URL from Response: ', JSON.parse(response._bodyText).signed_request);
+    //       console.log('URL from Response: ', response._bodyText.url);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    RNFS.readFile(storyPath, 'base64')
+      .then((file) => {
+        console.log('File successfully read');
+        fetch(request_url + '/tours/sign_s3', {
+          method: "GET",
+          headers: {},
+        })
+        .then((response) => {
+          var resp = JSON.parse(response._bodyText);
+          console.log('Signed URL from Response: ', resp.signed_request);
+          console.log('URL from Response: ', resp.url);
+          fetch(resp.signed_request, {
+            method: "PUT",
+            headers: {
+              "x-amz-acl": 'public-read'
+            },
+            body: JSON.stringify(file)
+          })
+          .then((response) => {
+            console.log('Response after PUT request: ', response);
+          })
+        })
+      })
+  }
 
   render() {
     return (
@@ -201,6 +239,14 @@ class RecordAudio extends Component {
               <Text style={ styles.whiteFont }>Stop</Text>
             </View>
           </TouchableHighlight>
+
+          <TouchableHighlight 
+            onPress={ this.done.bind(this) } 
+            style={ styles.touchable } underlayColor="white">  
+            <View style={ styles.doneBtn }>
+              <Text style={ styles.whiteFont }>Done</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -215,35 +261,41 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20
   },
+  doneBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: 5,
+  },
   recordBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   stopRecBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   playBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   pauseBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   stopBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   touchable: {
     borderRadius: 5
