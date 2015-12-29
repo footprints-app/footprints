@@ -35,40 +35,6 @@ var EditTour = t.struct({
   country: t.maybe(t.String),
 });
 
-var options = {
-  auto: 'placeholders',
-  fields: {
-    tourName: {
-      // placeholder: this.state.tour.tourName,
-      placeholderTextColor: '#FFF',
-    },
-    category: {
-      // placeholder: this.state.tour.category,
-      placeholderTextColor: '#FFF'
-    },
-    description: {
-      // placeholder: this.state.tour.description,
-      placeholderTextColor: '#FFF'
-    },
-    duration: {
-      // placeholder: this.state.tour.duration,
-      placeholderTextColor: '#FFF',
-    },
-    cityName: {
-      // placeholder: this.state.tour.cityName,
-      placeholderTextColor: '#FFF',
-    },
-    state: {
-      // placeholder: this.state.tour.state,
-      placeholderTextColor: '#FFF',
-    },
-    country: {
-      // placeholder: this.state.tour.country,
-      placeholderTextColor: '#FFF',
-    },
-  },
-};
-
 class ViewCreatedTour extends Component {
   /**
    * Creates an instance of ViewCreatedTour.
@@ -104,6 +70,15 @@ class ViewCreatedTour extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
   componentDidMount() {
+    AsyncStorage.multiGet(['token', 'user'])
+      .then(function (data) {
+        if (data) {
+          this.setState({
+            token: data[0][1],
+            userId: +data[1][1]
+          });
+        }
+      });
     this.fetchData();
   }
 
@@ -154,12 +129,12 @@ class ViewCreatedTour extends Component {
     };
     var component = this;
     utils.makeRequest('editTour', component, options)
-    .then(response => {
-      console.log('Response body from server after Editing a Tour: ', response);
-      this.setState({editMode: false});
-      this.fetchData();
-      this.onPressDone();
-    });
+      .then(response => {
+        console.log('Response body from server after Editing a Tour: ', response);
+        this.setState({editMode: false});
+        this.fetchData();
+        this.onPressDone();
+      });
   }
 
   deletePlace(place) {
@@ -189,7 +164,7 @@ class ViewCreatedTour extends Component {
     .then((response) => {
       console.log('response body from View Created Tour: ', response);
       var places = response.places;
-      component.setState({
+      this.setState({
         tour: response,
         userId: response.userId,
         tourName: response.tourName,
@@ -211,10 +186,8 @@ class ViewCreatedTour extends Component {
     var imageURI = (typeof place.image !== 'undefined') ? place.image : '';
     return (
       <TouchableHighlight
-        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }
-        underlayColor='#dddddd'>
+        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }>
         <View>
-          <View style={ styles.tourSeparator }/>
           <View style={ styles.placeContainer }>
             <View>
               <Image source={{uri: imageURI }} style={styles.thumbnail}/>
@@ -299,14 +272,14 @@ class ViewCreatedTour extends Component {
             onChange={this.onChange.bind(this)}/>
         </View>
 
-        <TouchableHighlight onPress={() => alert('editMode photo')} underlayColor='#727272' style={{marginTop: -2}}>
+        <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
-            <View style={{marginTop: 5}}>
+            <View style={{marginTop: 17}}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
             </View>
             <View>
               <Image source={require('../assets/photoicon.png')} 
-                style={[styles.photoIcon, {marginTop: -2}, {marginLeft: 15}, {width: 35}, {height: 35}]}/> 
+                style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/> 
             </View>
           </View>   
         </TouchableHighlight>
@@ -336,44 +309,58 @@ class ViewCreatedTour extends Component {
     var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : '';
     return (
       <View style={ styles.tourContainer }>
-
         <ScrollView automaticallyAdjustContentInsets={false}>
           <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
-          <View style={{flexDirection: 'row'}}>
-            <View style={{marginLeft: 20}}>
-              <Text style={ styles.tourTitle }>{ this.state.tour.tourName }</Text>
-              <Text style={styles.description}>
-                <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
-                <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
-                <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
-                <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category + '\n' }
-              </Text>
-            </View>
+          <View>
+            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <Text style={ [styles.tourTitle, {alignSelf: 'center'} ] }>{ this.state.tour.tourName }</Text>
+            
+            <TouchableHighlight
+            onPress={ this.toggleEdit.bind(this) }
+            style={ [styles.touchable, {marginBottom: 10}] }
+            underlayColor='#727272'>
+              <Image source={require('../assets/editiconteal.png')} 
+                style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 40}, {marginTop: 10}]} />
+            
+            </TouchableHighlight>
 
-            <View style={styles.editIconContainer}>
-              <TouchableHighlight
-                onPress={ this.toggleEdit.bind(this) }
-                style={ styles.touchable } underlayColor="white">
-                <View>
-                  <Image source={require('../assets/editiconteal.png')} style={styles.editIcon}/>
-                </View>
-              </TouchableHighlight>
             </View>
+              <View style={{justifyContent: 'center'}}>
+                <Text style={styles.description}>
+                  <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
+                  <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
+                  <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
+                  <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }
+                </Text>
+              </View>
           </View>
 
-          <TouchableHighlight
-            onPress={ this.addPlace.bind(this) }
-            underlayColor='#727272'
-            style={{ marginBottom: 20 }}>
-            <View style={ styles.photoAudioContainer }>
+            <View style={ [styles.photoAudioContainer, {marginTop: 10}, {marginBottom: 3} ] }>
               <View>
-                <Text style={ styles.text }>Add Place</Text>
+                <Text style={ [styles.text, {marginTop: 12}] }>Places</Text>
               </View>
-              <View>
-                <Image source={ require('../assets/editiconteal.png') } style={ styles.addPlaceIcon }/>
-              </View>
+              <TouchableHighlight
+                onPress={ this.addPlace.bind(this) }
+                style={ [styles.touchable, {marginTop: 8}] }
+                underlayColor='#727272'>
+                  <Image source={require('../assets/addplaceicon.png')} 
+                    style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
+              </TouchableHighlight>
             </View>
-          </TouchableHighlight>
+
+          {/*<TouchableHighlight
+                      onPress={ this.toggleEdit.bind(this) }
+                      style={ [styles.touchable, {marginBottom: 10}] }>
+                      <View style={ [styles.photoAudioContainer, {marginTop: 10}] }>
+                        <View>
+                          <Text style={ [styles.text, {fontSize: 18}] }>Edit Tour Details</Text>
+                        </View>
+                          <Image source={require('../assets/editiconteal.png')} 
+                            style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 10}, {marginTop: -5}]} />
+                      </View>
+                    </TouchableHighlight>*/}
+          <View style={ styles.tourSeparator }/>
+
           <View style={ styles.panel }>
             <ListView
               dataSource={ this.state.dataSource }
@@ -396,95 +383,3 @@ class ViewCreatedTour extends Component {
 };
 
 module.exports = ViewCreatedTour;
-
-{/*<View style={styles.container}>
-
-        <View style={ styles.inputs }>
-
-          <View style={ styles.editContainer }>
-            <TextInput
-              style={ [styles.editInput] }
-              placeholder={ this.state.tour.tourName }
-              placeholderTextColor="black"
-              value={ this.state.tourName }
-              onChange={ utils.tourNameInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.editContainer }>
-            <TextInput
-              style={ [styles.editInput] }
-              placeholder={ this.state.tour.category }
-              placeholderTextColor="black"
-              value={ this.state.category }
-              onChange={ utils.categoryInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.editContainer }>
-            <TextInput
-              style={ [styles.editInput] }
-              placeholder={ this.state.tour.description }
-              placeholderTextColor="black"
-              value={this.state.description}
-              onChange={ utils.descriptionInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.editContainer }>
-            <TextInput
-              style={ [styles.editInput] }
-              placeholder={ this.state.tour.duration }
-              placeholderTextColor="black"
-              value={ this.state.duration }
-              onChange={ utils.durationInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.editContainer }>
-            <TextInput
-              style={ [styles.editInput] }
-              placeholder={ this.state.tour.cityName }
-              placeholderTextColor="black"
-              value={ this.state.cityName }
-              onChange={ utils.cityNameInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.editContainer }>
-            <TextInput
-              style={ [styles.editInput] }
-              placeholder={ this.state.tour.state }
-              placeholderTextColor="black"
-              value={ this.state.state }
-              onChange={ utils.stateInput.bind(this) }/>
-          </View>
-
-          <View style={ styles.editContainer }>
-            <TextInput
-              style={ [styles.editInput] }
-              placeholder={ this.state.tour.country }
-              placeholderTextColor="black"
-              value={ this.state.country }
-              onChange={ utils.countryInput.bind(this) }/>
-          </View>
-          <TouchableHighlight
-            onPress={ this.addPhoto.bind(this) }
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.addPlaceBtn }>
-              <Text style={ styles.whiteFont }>Edit Photo</Text>
-            </View>
-          </TouchableHighlight>
-        </View>
-
-        <View style={ styles.panel }>
-          <ListView
-            dataSource={ this.state.dataSource }
-            renderRow={ this.renderEditablePlace.bind(this) }
-            style={ styles.listView }/>
-        </View>
-
-        <TouchableHighlight
-          onPress={ this.editDone.bind(this) }
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.doneBtn }>
-            <Text style={ styles.whiteFont }>Done</Text>
-          </View>
-        </TouchableHighlight>
-
-      </View>*/}
