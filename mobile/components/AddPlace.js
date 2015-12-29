@@ -111,7 +111,7 @@ class AddPlace extends Component {
         
           <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
             <View style={ styles.photoAudioContainer }>   
-              <View>
+              <View style={{marginTop: 25}}>
                 <Text style={ styles.text }>Add a Photo</Text>
               </View>
               <View>
@@ -123,7 +123,7 @@ class AddPlace extends Component {
             
           <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
             <View style={ styles.photoAudioContainer }>
-              <View>
+              <View style={{marginTop: 25}}>
                 <Text style={ styles.text }>Add Audio</Text>
               </View>
               <View>
