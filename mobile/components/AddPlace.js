@@ -23,7 +23,7 @@ var Place = t.struct({
   placeName: t.maybe(t.String),
   address: t.maybe(t.String),
   description: t.maybe(t.String),
-  // placeOrder: t.maybe(t.Number)
+  placeOrder: t.maybe(t.Number)
 });
 
 var options = {
@@ -39,6 +39,10 @@ var options = {
     },
     description: {
       placeholder: 'Description',
+      placeholderTextColor: '#FFF'
+    },
+    placeOrder: {
+      placeholder: 'Order',
       placeholderTextColor: '#FFF'
     }
   },
@@ -74,6 +78,7 @@ class AddPlace extends Component {
                 tourId: tourId
               }
     };
+
     var component = this;
     utils.makeRequest('addPlace', component, options)
       .then(response => {
@@ -94,9 +99,9 @@ class AddPlace extends Component {
    */
   render () {
     return (
-      <View style={ styles.container }>
+      <View style={ styles.addPlaceContainer }>
         {/* display */}
-        <View style={styles.textboxStyle}>
+        <View style={{marginTop: 70}}>
           <Form
             ref="form"
             type={ Place }
@@ -106,7 +111,7 @@ class AddPlace extends Component {
         
           <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
             <View style={ styles.photoAudioContainer }>   
-              <View>
+              <View style={{marginTop: 25}}>
                 <Text style={ styles.text }>Add a Photo</Text>
               </View>
               <View>
@@ -118,7 +123,7 @@ class AddPlace extends Component {
             
           <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
             <View style={ styles.photoAudioContainer }>
-              <View>
+              <View style={{marginTop: 25}}>
                 <Text style={ styles.text }>Add Audio</Text>
               </View>
               <View>
@@ -127,76 +132,16 @@ class AddPlace extends Component {
             </View>  
           </TouchableHighlight>
 
-        <TouchableHighlight style={ styles.button } onPress={ this.onPressSave.bind(this) } underlayColor='#99d9f4'>
+        <TouchableHighlight 
+          style={ styles.button } 
+          onPress={ this.onPressSave.bind(this) } 
+          underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Add Place</Text>
         </TouchableHighlight>
       </View>
     );
   }
-}
-
-var styles = StyleSheet.create({
-  textboxStyle: {
-    marginTop: 70,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#727272',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  photoAudioContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 30,
-    alignSelf: 'center',
-    marginBottom: 30
-  },
-  photoContainer: {
-    justifyContent: 'center',
-    padding: 20,
-  },
-  buttonText: {
-    color: '#FFF',
-    fontFamily: 'Raleway',
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  text: {
-    color: '#00BCD4',
-    fontFamily: 'Raleway',
-    fontSize: 20,
-    fontWeight: 'bold',
-    justifyContent: 'center',
-    marginTop: 25,
-  },
-  button: {
-    backgroundColor: '#FFC107',
-    padding: 16,
-    alignItems: 'center',
-    marginTop: 45,
-    marginBottom: 35,
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: '#FFC107',
-    justifyContent: 'center',
-    alignSelf: 'stretch',
-  },
-  photoIcon: { 
-    marginLeft: 70,
-    width: 50,
-    height: 50,
-    marginTop: 10,
-  },
-  audioIcon: { 
-    marginLeft: 90,
-    width: 50,
-    height: 50,
-    marginTop: 10,
-  },
-});
+};
 
 //node-modules/tcomb-form-native/lib/stylesheet/bootstrap
 // var LABEL_COLOR = '#000000';

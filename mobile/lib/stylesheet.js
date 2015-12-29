@@ -149,7 +149,7 @@ var styles = StyleSheet.create({
     marginBottom: 50,
   },
   deleteContainer: {
-    flex: 1
+    flex: .15
   },
   deleteText: {
     fontSize: 12,
@@ -198,7 +198,8 @@ var styles = StyleSheet.create({
     height: 81
   },
   rightContainer: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   },
   placeName: {
     fontSize: 14,
@@ -264,7 +265,7 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     justifyContent: 'center',
-    marginTop: 25,
+    // marginTop: 25,
   },
   addPlaceIcon: { 
     marginLeft: 12,
@@ -272,6 +273,52 @@ var styles = StyleSheet.create({
     height: 30,
     marginTop: 20,
   },
+  // Start Add Place
+  addPlaceContainer: {
+    flex: 1,
+    backgroundColor: '#727272',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  photoAudioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  photoContainer: {
+    justifyContent: 'center',
+    padding: 20,
+  },
+  buttonText: {
+    color: '#FFF',
+    fontFamily: 'Raleway',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  button: {
+    backgroundColor: '#FFC107',
+    padding: 16,
+    alignItems: 'center',
+    marginTop: 45,
+    marginBottom: 35,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#FFC107',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
+  },
+  photoIcon: { 
+    marginLeft: 70,
+    width: 50,
+    height: 50,
+    marginTop: 10,
+  },
+  audioIcon: { 
+    marginLeft: 90,
+    width: 50,
+    height: 50,
+    marginTop: 10,
+  },
+  // End Add Place
 });
 
 module.exports = styles;

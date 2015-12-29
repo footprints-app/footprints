@@ -127,16 +127,19 @@ class MyTours extends Component {
     console.log('Rendering Deletable Tour');
     return (
       <View>
-        <View style={ styles.tourContainer }>
-          <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deleteTour.bind(this, tour) }>
-            <Text style={ styles.deleteText }>Delete</Text>
-          </TouchableHighlight>
+        <View style={ [styles.tourContainer, {flexDirection: 'row'}] }>
+          <View style={ styles.deleteContainer }>
+            <TouchableHighlight style={{marginTop: 30}} onPress={ this.deleteTour.bind(this, tour) }>
+              <Image source={ require('../assets/deleteicon.png') } style={ styles.addPlaceIcon }/>
+            </TouchableHighlight>
+          </View>
           <View style={ styles.rightContainer }>
-            <Image source={{ uri: tour.image }} style={ styles.thumbnail } />
-            <View style={ styles.rightContainer }>
-              <Text style={ styles.title }>{ tour.tourName }</Text>
-              <Text style={ styles.city }>{ tour.cityName }</Text>
-            </View>
+            <Image source={{ uri: tour.image }} style={ styles.tourPhoto }>
+              <View style={{marginBottom: 20}}>
+                <Text style={ styles.title }>{ tour.tourName }</Text>
+                <Text style={ styles.city }>{ tour.cityName }</Text>
+              </View>
+            </Image>
           </View>
         </View>
         <View style={ styles.separator } />
@@ -163,7 +166,7 @@ class MyTours extends Component {
 
   renderEditMode() {
     return (
-      <View style={ [styles.container, {marginTop: 65}] }>
+      <View style={ [styles.container, {marginTop: 64}] }>
         <View style={ styles.panel }>
           <ListView
             dataSource={ this.state.dataSource }
@@ -171,13 +174,13 @@ class MyTours extends Component {
             style={ styles.listView }/>
         </View>
 
-        <TouchableHighlight 
+        {/*<TouchableHighlight 
           onPress={ this.toggleEdit.bind(this) } 
           style={ styles.touchable }>
           <View style={ styles.doneBtn }>
             <Text style={ styles.whiteFont }>Done</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight>*/}
       </View>
     );
   }
@@ -185,7 +188,7 @@ class MyTours extends Component {
   renderViewMode() {
     {/*this.fetchData();*/}
     return (
-      <View style={ [styles.container, {marginTop: 65}] }>
+      <View style={ [styles.container, {marginTop: 64}] }>
 
         <View style={ styles.panel }>
           <ListView

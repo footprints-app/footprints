@@ -30,5 +30,6 @@ local.properties
 
 # node.js
 #
-node_modules/
+node_modules/*
+!node_modules/tcomb-form-native
 npm-debug.log
