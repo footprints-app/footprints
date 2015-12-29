@@ -1,3 +1,9 @@
+/**
+ * A module that contains all functions to interact with our audio hosting service (AWS, S3)
+ * @module audio/audioController
+ * @requires aws-sdk
+ */
+
 var aws = require('aws-sdk');
 
 var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID || 'AKIAJ5G5M3OP5NKBCCXA';
