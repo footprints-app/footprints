@@ -347,20 +347,7 @@ class ViewCreatedTour extends Component {
                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
               </TouchableHighlight>
             </View>
-
-          {/*<TouchableHighlight
-                      onPress={ this.toggleEdit.bind(this) }
-                      style={ [styles.touchable, {marginBottom: 10}] }>
-                      <View style={ [styles.photoAudioContainer, {marginTop: 10}] }>
-                        <View>
-                          <Text style={ [styles.text, {fontSize: 18}] }>Edit Tour Details</Text>
-                        </View>
-                          <Image source={require('../assets/editiconteal.png')} 
-                            style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 10}, {marginTop: -5}]} />
-                      </View>
-                    </TouchableHighlight>*/}
           <View style={ styles.tourSeparator }/>
-
           <View style={ styles.panel }>
             <ListView
               dataSource={ this.state.dataSource }

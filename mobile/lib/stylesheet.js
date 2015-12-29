@@ -247,10 +247,6 @@ var styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 15
   },
-  editIconContainer: { 
-    marginLeft: 95,
-    marginTop: 75,
-  },
   editIcon: { 
     width: 50,
     height: 50,
@@ -269,8 +265,8 @@ var styles = StyleSheet.create({
   },
   addPlaceIcon: { 
     marginLeft: 12,
-    width: 30,
-    height: 30,
+    width: 50,
+    height: 50,
     marginTop: 20,
   },
   // Start Add Place
