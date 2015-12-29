@@ -90,7 +90,8 @@ class AddPlace extends Component {
         })
         var props = {
           placeId: this.state.placeId,
-          tourId: this.state.tourId
+          tourId: this.state.tourId,
+          addPlaceView: true
         }
         utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
       });
