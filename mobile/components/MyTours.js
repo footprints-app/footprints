@@ -171,13 +171,13 @@ class MyTours extends Component {
             style={ styles.listView }/>
         </View>
 
-        <TouchableHighlight 
+        {/*<TouchableHighlight 
           onPress={ this.toggleEdit.bind(this) } 
           style={ styles.touchable }>
           <View style={ styles.doneBtn }>
             <Text style={ styles.whiteFont }>Done</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableHighlight>*/}
       </View>
     );
   }

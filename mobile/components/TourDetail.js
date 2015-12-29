@@ -83,6 +83,7 @@ class TourDetail extends Component {
     return (
       <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
         <View>
+          <View style={styles.tourSeparator} />
           <View style={styles.placeContainer}>
             <Image source={{uri: imageURI }} style={styles.thumbnail}  />
             <View style={styles.rightContainer}>

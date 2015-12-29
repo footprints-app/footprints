@@ -98,7 +98,7 @@ class CreateTour extends Component {
     });
   }
 
-  viewTour (newTour) {
+  viewTour () {
     var value = this.refs.form.getValue();
     console.log('input value...', value)
     var options = {
@@ -117,15 +117,7 @@ class CreateTour extends Component {
   }
 
   onChange(value) {
-    // var value = this.refs.form.getValue();
     this.setState(value);
-  }
-
-  onPress () {
-    var value = this.refs.form.getValue();
-    if (value) {
-      console.log('value from create tour', value);
-    }
   }
 
   render () {
@@ -144,81 +136,6 @@ class CreateTour extends Component {
             value={ this.state.value }
             onChange={this.onChange.bind(this)}/>
         </View>
-
-          {/*// <View style={ styles.inputContainer }>
-          //   <TextInput 
-          //     style={ [styles.input, styles.whiteFont] }
-          //     placeholder="Tour Name"
-          //     placeholderTextColor="#FFF"
-          //     value={ this.state.tourName }
-          //     onChange={ utils.tourNameInput.bind(this) }/>
-          // </View>
-         
-          // <View style={ styles.inputContainer }>
-          //   <TextInput
-          //     style={ [styles.input, styles.whiteFont] }
-          //     placeholder="Category"
-          //     placeholderTextColor="#FFF"
-          //     value={ this.state.category }
-          //     onChange={ utils.categoryInput.bind(this) }/>
-          // </View>
-          
-          // <View style={ styles.inputContainer }>
-          //   <TextInput
-          //     style={ [styles.input, styles.whiteFont] }
-          //     placeholder="Description"
-          //     placeholderTextColor="#FFF"
-          //     value={this.state.description}
-          //     onChange={ utils.descriptionInput.bind(this) }/>
-          // </View>
-          
-          // <View style={ styles.inputContainer }>
-          //   <TextInput
-          //     style={ [styles.input, styles.whiteFont] }
-          //     placeholder="Duration"
-          //     placeholderTextColor="#FFF"
-          //     value={ this.state.duration }
-          //     onChange={ utils.durationInput.bind(this) }/>
-          // </View>
-
-          // <View style={ styles.inputContainer }>
-          //   <TextInput
-          //     style={ [styles.input, styles.whiteFont] }
-          //     placeholder="City"
-          //     placeholderTextColor="#FFF"
-          //     value={ this.state.cityName }
-          //     onChange={ utils.cityNameInput.bind(this) }/>
-          // </View>
-
-          // <View style={ styles.inputContainer }>
-          //   <TextInput
-          //     style={ [styles.input, styles.whiteFont] }
-          //     placeholder="State"
-          //     placeholderTextColor="#FFF"
-          //     value={ this.state.state }
-          //     onChange={ utils.stateInput.bind(this) }/>
-          // </View>
-
-          // <View style={ styles.inputContainer }>
-          //   <TextInput
-          //     style={ [styles.input, styles.whiteFont] }
-          //     placeholder="Country"
-          //     placeholderTextColor="#FFF"
-          //     value={ this.state.country }
-          //     onChange={ utils.countryInput.bind(this) }/>
-          // </View>
-
-        
-
-        // <TouchableHighlight 
-        //   onPress={ this.viewTour.bind(this) } 
-        //   style={ styles.touchable } underlayColor="#FF3366">  
-        //   <View style={ styles.createTour }>
-        //     <Text style={ styles.whiteFont }>View Tour</Text>
-        //   </View>
-        // </TouchableHighlight>
-
-      // </View>*/}
 
         <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 5}}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
