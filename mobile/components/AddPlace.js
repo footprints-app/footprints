@@ -116,29 +116,6 @@ class AddPlace extends Component {
             options={ options }/>
         </View>
 
-          <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
-            <View style={ styles.photoAudioContainer }>   
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add a Photo</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
-              </View>
-            </View>   
-          </TouchableHighlight>
-          
-            
-          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
-            <View style={ styles.photoAudioContainer }>
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add Audio</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
-              </View>
-            </View>  
-          </TouchableHighlight>
-
         <TouchableHighlight 
           style={ styles.button } 
           onPress={ this.onPressSave.bind(this) } 
@@ -149,6 +126,7 @@ class AddPlace extends Component {
     );
   }
 };
+
 
 //node-modules/tcomb-form-native/lib/stylesheet/bootstrap
 // var LABEL_COLOR = '#000000';

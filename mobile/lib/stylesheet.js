@@ -317,7 +317,7 @@ var styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginTop: 10,
-  },
+  }
   // End Add Place
 });
 
