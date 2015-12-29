@@ -6,6 +6,7 @@ var ViewCreatedTour = require('./ViewCreatedTour');
 var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+var formStyles = require('../lib/form_stylesheet');
 var styles = require('../lib/stylesheet');
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 
@@ -26,43 +27,29 @@ var Tour = t.struct({
   category: t.maybe(t.String),
   description: t.maybe(t.String),
   duration: t.maybe(t.String),
-  // cityName: t.maybe(t.String),
-  // state: t.maybe(t.String),
-  // country: t.maybe(t.String),
 });
 
 var options = {
   auto: 'placeholders',
   fields: {
-    tourName: {
-      placeholder: 'Tour Name',
-      placeholderTextColor: '#FFF',
+      tourName: {
+        placeholder: 'Tour Name',
+        placeholderTextColor: '#FFF',
+      },
+      category: {
+        placeholder: 'Category',
+        placeholderTextColor: '#FFF'
+      },
+      description: {
+        placeholder: 'Description',
+        placeholderTextColor: '#FFF'
+      },
+      duration: {
+        placeholder: 'Duration',
+        placeholderTextColor: '#FFF',
+      },
     },
-    category: {
-      placeholder: 'Category',
-      placeholderTextColor: '#FFF'
-    },
-    description: {
-      placeholder: 'Description',
-      placeholderTextColor: '#FFF'
-    },
-    duration: {
-      placeholder: 'Duration',
-      placeholderTextColor: '#FFF',
-    },
-    // cityName: {
-    //   placeholder: 'City',
-    //   placeholderTextColor: '#FFF',
-    // },
-    // state: {
-    //   placeholder: 'State',
-    //   placeholderTextColor: '#FFF',
-    // },
-    // country: {
-    //   placeholder: 'Country',
-    //   placeholderTextColor: '#FFF',
-    // },
-  },
+  stylesheet: formStyles
 };
 
 
@@ -144,7 +131,7 @@ class CreateTour extends Component {
               language: 'en', // language of the results 
               types: '(cities)'
             }}
-            
+
             GooglePlacesSearchQuery={{
               rankby: 'distance',
             }}/>
