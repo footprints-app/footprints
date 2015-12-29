@@ -26,11 +26,15 @@ module.exports = {
             console.log(err);
         }
         else{
-            var return_data = {
-                signed_request: data,
-                url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.file_name
-            };
-            res.write(JSON.stringify(return_data));
+            // var return_data = {
+            //     signed_request: data,
+            //     url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.file_name
+            // };
+            // res.write(JSON.stringify(return_data));
+            res.status(200).json({
+              signed_request: data,
+              url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.file_name
+            })
             res.end();
         }
     });
