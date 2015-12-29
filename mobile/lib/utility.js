@@ -26,21 +26,34 @@ var requests = {
   }; 
 
 var token = '';
-// function getToken(requestType) {
-//   return AsyncStorage.getItem('token')
-//   .then((token) => {
-//     console.log('token in getToken: ', token);
-//     return token;
-//   })
-//   .catch((error) => {
-//     return '';
-//     console.log('error?');
-//     console.warn(error)
-//   });
-// };
 
 var Utility = {
   googlePlacesKey: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
+
+  googlePlacesStyles: {
+              description: {
+                fontWeight: 'bold',
+                color: '#FFF'
+              },
+              textInputContainer: {
+                backgroundColor: '#D8D8D8',
+                height: 40,
+                borderRadius: 5,
+                borderColor: '#cccccc',
+                marginBottom: 10,
+              },
+              textInput: {
+                color: '#FFF',
+                backgroundColor: '#D8D8D8',
+                height: 40,
+                borderRadius: 5,
+                padding: 7,
+                borderColor: '#cccccc',
+                borderWidth: 1,
+                marginBottom: 6,
+                fontSize: 17
+              }
+  },
 
   //CreateTour.js helper functions
   /**
