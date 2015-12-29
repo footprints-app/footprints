@@ -96,6 +96,9 @@ class AddPlace extends Component {
           addPlaceView: true
         }
         utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
+        // var placeId = response.id
+        // utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
+        // utils.navigateTo.call(this, 'View Tour', ViewCreatedTour, {tourId});
       });
   }
 
@@ -138,9 +141,9 @@ class AddPlace extends Component {
           language: 'en', // language of the results 
         }}
         
-        currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list 
-        currentLocationLabel="Current location"
-        currentLocationAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch 
+        // currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list 
+        // currentLocationLabel="Current location"
+        // currentLocationAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch 
         GooglePlacesSearchQuery={{
           // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search 
           rankby: 'distance',
