@@ -190,8 +190,11 @@ class ViewCreatedTour extends Component {
     return (
       <View>
         <View style={ styles.placeContainer }>
-          <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
-            <Text style={ styles.deleteText }>Delete</Text>
+          <TouchableHighlight 
+            style={ styles.deleteContainer } 
+            onPress={ this.deletePlace.bind(this, place) }
+            underlayColor='#727272'>
+            <Image source={ require('../assets/deleteicon.png') } style={ {width: 15, height: 15} }/>
           </TouchableHighlight>
           <TouchableHighlight
             style={ styles.rightContainer }
