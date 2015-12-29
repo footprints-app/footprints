@@ -68,7 +68,6 @@ class mobile extends Component {
 
   renderScene (route, navigator) {
     var Component = route.component;
-    console.log('renderScene called');
     return (
         <View style={styles.container}>
           <Component
@@ -78,8 +77,6 @@ class mobile extends Component {
         </View>
       )
   }
-
- 
 
   renderLogin () {
     return (
@@ -98,8 +95,8 @@ class mobile extends Component {
         )
   }
   
-
   render () {
+    console.log('render called');
     return (
          <Navigator
           sceneStyle={styles.container}

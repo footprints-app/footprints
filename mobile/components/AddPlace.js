@@ -7,6 +7,8 @@ var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 var styles = require('../lib/stylesheet');
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+
 
 var {
   Component,
@@ -115,6 +117,62 @@ class AddPlace extends Component {
             type={ Place }
             options={ options }/>
         </View>
+
+      <GooglePlacesAutocomplete
+        placeholder='Search'
+        minLength={2} // minimum length of text to search 
+        autoFocus={false}
+        fetchDetails={true}
+        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+          console.log(data);
+          console.log(details);
+        }}
+        getDefaultValue={() => {
+          return ''; // text input default value 
+        }}
+        query={{
+          // available options: https://developers.google.com/places/web-service/autocomplete 
+          key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
+          language: 'en', // language of the results 
+          // types: '(cities)', // default: 'geocode' 
+        }}
+        
+        currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list 
+        currentLocationLabel="Current location"
+        currentLocationAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch 
+        GoogleReverseGeocodingQuery={{
+          // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro 
+        }}
+        GooglePlacesSearchQuery={{
+          // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search 
+          rankby: 'distance',
+          // types: 'food',
+        }}/>
+ 
+       
+        
+          <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
+            <View style={ styles.photoAudioContainer }>   
+              <View style={{marginTop: 25}}>
+                <Text style={ styles.text }>Add a Photo</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
+              </View>
+            </View>   
+          </TouchableHighlight>
+          
+            
+          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
+            <View style={ styles.photoAudioContainer }>
+              <View style={{marginTop: 25}}>
+                <Text style={ styles.text }>Add Audio</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
+              </View>
+            </View>  
+          </TouchableHighlight>
 
         <TouchableHighlight 
           style={ styles.button } 

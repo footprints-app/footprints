@@ -40,6 +40,7 @@ var token = '';
 // };
 
 var Utility = {
+  googlePlacesKey: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
 
   //CreateTour.js helper functions
   /**
