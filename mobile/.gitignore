@@ -30,8 +30,9 @@ local.properties
 
 # node.js
 #
+!.gitignore
+node_modules/*
 !node_modules/tcomb-form-native/*
 !node_modules/react-native-google-places-autocomplete/*
-node_modules/*
 
 npm-debug.log
