@@ -63,13 +63,16 @@ class SelectImage extends Component {
       };
   }
 
+  /**
+   * This method is triggered when "Select Image" is pressed. It will launch an option to choose from
+   * library or take a new photo utilizing a react-native module called UIImagePicker
+   */
   launchCamera () {
     var options = {
       title: 'Select a Tour Photo',
       cancelButtonTitle: 'Cancel',
       takePhotoButtonTitle: 'Take Photo...',
       chooseFromLibraryButtonTitle: 'Choose from Library...',
-      //maxWidth: 200,
       maxHeight: 500,
       quality: 1,
       allowsEditing: true,
@@ -81,7 +84,6 @@ class SelectImage extends Component {
 
     UIImagePickerManager.showImagePicker(options, (didCancel, response)  => {
       if(!didCancel) {
-        console.log('image picker res:', response)
         this.submitSelection(response.data.toString())
 
         if (response.takePhotoButtonTitle) {
@@ -93,7 +95,12 @@ class SelectImage extends Component {
     });
   }
 
-
+  /**
+   * This method is triggered when a photo is selected or taken. It makes a post request to either tours/tourphoto
+   * or tours/placephoto depending on the state. After post request has been made, navigator will route back to
+   * ViewCreatedTour view.
+   * @param encodedData - Base 64 encoding passed in from the UIImagePicker module
+	 */
   submitSelection(encodedData) {
     var ViewCreatedTour = require('./ViewCreatedTour')
     var reqType = 'addTourPhoto';
@@ -110,7 +117,6 @@ class SelectImage extends Component {
     };
 
     if(this.state.placeId !== null) {
-      console.log('PLACE PHOTO');
       reqType = 'addPlacePhoto'
       options.reqParam = this.state.placeId
     }
@@ -127,17 +133,23 @@ class SelectImage extends Component {
     });
   }
 
+  /**
+   * This renders if the previous component is from AddPlace to give the user an option to skip
+   * @returns {XML}
+	 */
   renderAddPlacePhoto () {
     return (
       <View style={ [styles.mainContainer, {marginTop: 0}]}>
         <TouchableHighlight
-          onPress={ this.launchCamera.bind(this) }>
+          onPress={ this.launchCamera.bind(this) }
+          underlayColor="#727272">
           <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
             <Text style={ styles.whiteFont }>Select Image</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={ () => alert('going to audio')}>
+          onPress={ () => alert('going to audio')}
+          underlayColor="#727272">
           <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
             <Text style={ styles.whiteFont }>Skip</Text>
           </View>
@@ -153,7 +165,8 @@ class SelectImage extends Component {
       return (
         <View style={ [styles.mainContainer, {marginTop: 0}] }>
           <TouchableHighlight
-            onPress={ this.launchCamera.bind(this) }>
+            onPress={ this.launchCamera.bind(this) }
+            underlayColor="#727272">
             <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
               <Text style={ styles.whiteFont }>Select Image</Text>
             </View>
