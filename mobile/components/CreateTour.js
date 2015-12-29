@@ -89,37 +89,39 @@ class CreateTour extends Component {
 
   componentDidMount () {
     var that = this;
-
     AsyncStorage.multiGet(['token', 'user'])
-      .then(function(data) {
-        that.setState({
-          token: data[0][1],
-          userId: data[1][1]
-        })
-      });
+    .then(function(data) {
+      that.setState({
+        token: data[0][1],
+        userId: data[1][1]
+      })
+    });
   }
 
   viewTour (newTour) {
+    var value = this.refs.form.getValue();
+    console.log('input value...', value)
     var options = {
       reqBody: this.state
     }; 
+    console.log('this.state after form chnage....', options.reqBody)
     var component = this;
     utils.makeRequest('createTour', component, options)
-      .then(response => {
-        console.log('response body in Create Tour: ', response);
-        var tourId = response.id;
-        console.log('tourId in create tour: ', tourId)
-        utils.navigateTo.call(component, "View Tour", ViewCreatedTour, {tourId});
-      })
-      .done();
+    .then(response => {
+      console.log('response body in Create Tour: ', response);
+      var tourId = response.id;
+      console.log('tourId in create tour: ', tourId)
+      utils.navigateTo.call(component, "View Tour", ViewCreatedTour, {tourId});
+    })
+    .done();
   }
 
   onChange(value) {
     // var value = this.refs.form.getValue();
-    this.setState({value});
+    this.setState(value);
   }
 
-  onPress (value) {
+  onPress () {
     var value = this.refs.form.getValue();
     if (value) {
       console.log('value from create tour', value);
@@ -131,7 +133,7 @@ class CreateTour extends Component {
       <View style={ styles.addPlaceContainer }>
 
         <View style={ [styles.photoAudioContainer, {marginTop: 50}] }>   
-          <Text style={ styles.text }>Add a Photo</Text>
+          <Text style={ styles.text }>Tour Details</Text>
         </View>
         
         <View style={{marginTop: 10}}>
@@ -140,7 +142,7 @@ class CreateTour extends Component {
             type={Tour}
             options={ options }
             value={ this.state.value }
-            onChange={this.onChange}/>
+            onChange={this.onChange.bind(this)}/>
         </View>
 
           {/*// <View style={ styles.inputContainer }>

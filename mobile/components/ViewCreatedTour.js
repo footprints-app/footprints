@@ -58,27 +58,18 @@ class ViewCreatedTour extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
   componentDidMount() {
-    AsyncStorage.multiGet(['token', 'user'])
-      .then(function (data) {
-        if (data) {
-          this.setState({
-            token: data[0][1],
-            userId: +data[1][1]
-          });
-        }
-      });
     this.fetchData();
   }
 
-  componentWillReceiveProps(nextProps) {
+  // componentWillReceiveProps(nextProps) {
 
-    var that = this;
-    setTimeout(function () {
-      console.log('refetching')
-      that.fetchData();
-    }, 5000)
+  //   var that = this;
+  //   setTimeout(function () {
+  //     console.log('refetching')
+  //     that.fetchData();
+  //   }, 5000)
 
-  }
+  // }
 
   addPlace() {
     var tourId = this.state.tourId;
@@ -145,7 +136,7 @@ class ViewCreatedTour extends Component {
     .then((response) => {
       console.log('response body from View Created Tour: ', response);
       var places = response.places;
-      this.setState({
+      component.setState({
         tour: response,
         userId: response.userId,
         tourName: response.tourName,
