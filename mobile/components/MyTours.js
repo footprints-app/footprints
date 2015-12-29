@@ -128,8 +128,8 @@ class MyTours extends Component {
     return (
       <View>
         <View style={ [styles.tourContainer, {flexDirection: 'row'}] }>
-          <View style={ [styles.deleteContainer, {width: 25}] }>
-            <TouchableHighlight onPress={ this.deleteTour.bind(this, tour) }>
+          <View style={ styles.deleteContainer }>
+            <TouchableHighlight style={{marginTop: 30}} onPress={ this.deleteTour.bind(this, tour) }>
               <Image source={ require('../assets/deleteicon.png') } style={ styles.addPlaceIcon }/>
             </TouchableHighlight>
           </View>
