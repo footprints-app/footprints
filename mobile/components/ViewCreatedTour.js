@@ -262,44 +262,45 @@ class ViewCreatedTour extends Component {
     return (
 
       <View style={ styles.addPlaceContainer }>
-
-        <View style={{marginTop: 60}}>
-          <Form
-            ref="form"
-            type={ EditTour }
-            options={ options }
-            value={ this.state.value }
-            onChange={this.onChange.bind(this)}/>
-        </View>
-
-        <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
-          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
-            <View style={{marginTop: 17}}>
-              <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
-            </View>
-            <View>
-              <Image source={require('../assets/photoicon.png')}
-                     style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
-            </View>
+        <ScrollView>
+          <View style={{marginTop: 60}}>
+            <Form
+              ref="form"
+              type={ EditTour }
+              options={ options }
+              value={ this.state.value }
+              onChange={this.onChange.bind(this)}/>
           </View>
-        </TouchableHighlight>
 
-        <View style={ [styles.panel, {marginTop: 15}] }>
-          <View style={ styles.tourSeparator }/>
-          <ListView
-            dataSource={ this.state.dataSource }
-            renderRow={ this.renderEditablePlace.bind(this) }
-            style={ styles.listView }/>
-        </View>
-
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableHighlight
-            style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
-            onPress={ this.editDone.bind(this) }
-            underlayColor='#FFC107'>
-            <Text style={ styles.buttonText }>Done</Text>
+          <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
+            <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+              <View style={{marginTop: 17}}>
+                <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/photoicon.png')}
+                       style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
+              </View>
+            </View>
           </TouchableHighlight>
-        </View>
+
+          <View style={ [styles.panel, {marginTop: 15}] }>
+            <View style={ styles.tourSeparator }/>
+            <ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderEditablePlace.bind(this) }
+              style={ styles.listView }/>
+          </View>
+
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableHighlight
+              style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
+              onPress={ this.editDone.bind(this) }
+              underlayColor='#FFC107'>
+              <Text style={ styles.buttonText }>Done</Text>
+            </TouchableHighlight>
+          </View>
+        </ScrollView>
       </View>
 
     )
