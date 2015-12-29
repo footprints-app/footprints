@@ -17,7 +17,7 @@ module.exports = {
     var s3_params = {
         Bucket: S3_BUCKET,
         Key: req.query.file_name || 'testFileName',//Change to the name of the file
-        Expires: 60,
+        Expires: 1000,
         ContentType: req.query.file_type || 'audio/m4a',//Change to file type
         ACL: 'public-read'
     };
@@ -33,7 +33,7 @@ module.exports = {
             // res.write(JSON.stringify(return_data));
             res.status(200).json({
               signed_request: data,
-              url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+req.query.file_name
+              url: 'https://'+S3_BUCKET+'.s3.amazonaws.com/'+s3_params.Key
             })
             res.end();
         }
