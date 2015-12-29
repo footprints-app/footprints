@@ -54,39 +54,49 @@ class EditPlace extends Component {
     };
    }
 
+   onChange(value) {
+    this.setState(value);
+  }
+
+  //  onPressDone() {
+  //   var MyTours = require('./MyTours');
+  //   var userId = this.state.tour.userId;
+  //   utils.navigateTo.call(this, "My Tours", MyTours, {userId});
+  // }
+
    editDone() {
     console.log('reqBody from editDone button: ', this.state);
+    var value = this.refs.form.getValue();
     var options = {
       reqBody: this.state,
       reqParam: this.state.id
     };
     var that = this;
     utils.makeRequest('editPlace', that, options)
-      .then(response => {
-        console.log('Response body from server after editing place: ', response.body);
-        console.log('tourid: ', that.state.tourId);
-        var tourOptions = {
-          reqBody: {},
-          reqParam: that.state.tourId
-        };
-        utils.makeRequest('tour', that, tourOptions)
-          .then((response) => {
-            console.log('Tour recieved from request: ', response);
-            var ViewCreatedTour = require('./ViewCreatedTour');
-            var tourId = that.state.tourId;
-            // that.props.navigator.popToRoute({
-            //   title: response.tourName,
-            //   component: ViewCreatedTour,
-            //   passProps: {
-            //               tourId: response.id,
-            //               editMode: true
-            //              }
-            // });
-            utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
-          })
-        // that.props.navigator.pop();
-      })
-
+    .then(response => {
+      console.log('Response body from server after editing place: ', response.body);
+      console.log('tourid: ', that.state.tourId);
+      var tourOptions = {
+        reqBody: {},
+        reqParam: that.state.tourId
+      };
+      utils.makeRequest('tour', that, tourOptions)
+        .then((response) => {
+          console.log('Tour recieved from request: ', response);
+          var ViewCreatedTour = require('./ViewCreatedTour');
+          var tourId = that.state.tourId;
+          // that.props.navigator.popToRoute({
+          //   title: response.tourName,
+          //   component: ViewCreatedTour,
+          //   passProps: {
+          //               tourId: response.id,
+          //               editMode: true
+          //              }
+          // });
+          utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
+        })
+      // that.props.navigator.pop();
+    })
    }
 
     editPhoto() {
@@ -99,43 +109,71 @@ class EditPlace extends Component {
     }
 
    render() {
+    var options = {
+        auto: 'placeholders',
+        fields: {
+          placeName: {
+            placeholder: this.state.placeName,
+            placeholderTextColor: '#FFF',
+            label: 'Place'
+          },
+          address: {
+            placeholder: this.state.address,
+            placeholderTextColor: '#FFF',
+            label: 'Address'
+          },
+          description: {
+            placeholder: this.state.description,
+            placeholderTextColor: '#FFF',
+            label: 'Description'
+          },
+        },
+      };
  
     return (
+      <View style={ styles.addPlaceContainer }>
 
-      <View style={styles.container}>
+        <Image style={ styles.image } source={{ uri: this.state.image }} />
 
-        <Image style={styles.image} source={{uri: this.state.image}} />
-        
-        <View style={ styles.inputs }>
-        
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input] }
-              placeholder={ this.state.placeName }
-              placeholderTextColor="black"
-              value={ this.state.placeName }
-              onChange={ utils.setStateFromInput.bind(this, 'placeName') }/>              
-          </View>
-
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input] }
-              placeholder={ this.state.address }
-              placeholderTextColor="black"
-              value={ this.state.address }
-              onChange={ utils.setStateFromInput.bind(this, 'address') }/>              
-          </View>
-          
-          <View style={ styles.inputContainer }>
-            <TextInput
-              style={ [styles.input] }
-              placeholder={ this.state.description }
-              placeholderTextColor="black"
-              value={ this.state.description }
-              onChange={ utils.setStateFromInput.bind(this, 'description') }/>              
-          </View>
-
+        <View style={{ marginTop: 60 }}>
+          <Form
+            ref="form"
+            type={ EditPlaceDetail }
+            options={ options }
+            value={ this.state.value }
+            onChange={this.onChange.bind(this)}/>
         </View>
+        
+        {/*<View style={ styles.inputs }>
+                
+                  <View style={ styles.inputContainer }>
+                    <TextInput
+                      style={ [styles.input] }
+                      placeholder={ this.state.placeName }
+                      placeholderTextColor="black"
+                      value={ this.state.placeName }
+                      onChange={ utils.setStateFromInput.bind(this, 'placeName') }/>              
+                  </View>
+        
+                  <View style={ styles.inputContainer }>
+                    <TextInput
+                      style={ [styles.input] }
+                      placeholder={ this.state.address }
+                      placeholderTextColor="black"
+                      value={ this.state.address }
+                      onChange={ utils.setStateFromInput.bind(this, 'address') }/>              
+                  </View>
+                  
+                  <View style={ styles.inputContainer }>
+                    <TextInput
+                      style={ [styles.input] }
+                      placeholder={ this.state.description }
+                      placeholderTextColor="black"
+                      value={ this.state.description }
+                      onChange={ utils.setStateFromInput.bind(this, 'description') }/>              
+                  </View>
+        
+                </View>*/}
 
         <TouchableHighlight onPress={this.editPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
