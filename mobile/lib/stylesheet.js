@@ -149,7 +149,7 @@ var styles = StyleSheet.create({
     marginBottom: 50,
   },
   deleteContainer: {
-    flex: 1
+    flex: .2
   },
   deleteText: {
     fontSize: 12,
@@ -198,7 +198,8 @@ var styles = StyleSheet.create({
     height: 81
   },
   rightContainer: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   },
   placeName: {
     fontSize: 14,

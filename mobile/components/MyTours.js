@@ -127,16 +127,19 @@ class MyTours extends Component {
     console.log('Rendering Deletable Tour');
     return (
       <View>
-        <View style={ styles.tourContainer }>
-          <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deleteTour.bind(this, tour) }>
-            <Text style={ styles.deleteText }>Delete</Text>
-          </TouchableHighlight>
+        <View style={ [styles.tourContainer, {flexDirection: 'row'}] }>
+          <View style={ [styles.deleteContainer, {width: 25}] }>
+            <TouchableHighlight onPress={ this.deleteTour.bind(this, tour) }>
+              <Image source={ require('../assets/deleteicon.png') } style={ styles.addPlaceIcon }/>
+            </TouchableHighlight>
+          </View>
           <View style={ styles.rightContainer }>
-            <Image source={{ uri: tour.image }} style={ styles.thumbnail } />
-            <View style={ styles.rightContainer }>
-              <Text style={ styles.title }>{ tour.tourName }</Text>
-              <Text style={ styles.city }>{ tour.cityName }</Text>
-            </View>
+            <Image source={{ uri: tour.image }} style={ styles.tourPhoto }>
+              <View style={{marginBottom: 20}}>
+                <Text style={ styles.title }>{ tour.tourName }</Text>
+                <Text style={ styles.city }>{ tour.cityName }</Text>
+              </View>
+            </Image>
           </View>
         </View>
         <View style={ styles.separator } />
