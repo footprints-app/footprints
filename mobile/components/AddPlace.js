@@ -56,7 +56,8 @@ class AddPlace extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tourId: this.props.tourId || this.props.route.passProps.tourId
+      tourId: this.props.tourId || this.props.route.passProps.tourId,
+      placeId: null
     };
   }
 
@@ -74,7 +75,7 @@ class AddPlace extends Component {
                 placeName: newPlace.placeName,
                 address: newPlace.address,
                 description: newPlace.description,
-                placeOrder: newPlace.placeOrder,
+                //placeOrder: newPlace.placeOrder,
                 tourId: tourId
               }
     };
@@ -82,9 +83,16 @@ class AddPlace extends Component {
     var component = this;
     utils.makeRequest('addPlace', component, options)
       .then(response => {
+        console.log('HELLOOOO THERE')
         console.log('response body in Add Place: ', response);
-        var placeId = response.id
-        utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
+        component.setState({
+          placeId: response.id.placeId
+        })
+        var props = {
+          placeId: this.state.placeId,
+          tourId: this.state.tourId
+        }
+        utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
       });
   }
 

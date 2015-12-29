@@ -85,7 +85,6 @@ class SelectImage extends Component {
     UIImagePickerManager.showImagePicker(options, (didCancel, response)  => {
       if(!didCancel) {
         console.log('image picker res:', response)
-        var tourId = this.state.tourId;
         this.submitSelection(response.data.toString())
 
         if (response.takePhotoButtonTitle) {
@@ -104,6 +103,7 @@ class SelectImage extends Component {
       editMode: true
     };
 
+    console.log('submit selection', props)
     var options = {
       reqParam: this.state.tourId,
       reqBody: {
@@ -111,12 +111,15 @@ class SelectImage extends Component {
       }
     };
 
+    var reqType = 'addTourPhoto';
     var component = this;
-    //if(this.state.placeId !== null) {
-    //TODO: make request params contingent upon this condition
-    //}
+    if(this.state.placeId !== null) {
+      console.log('PLACE PHOTO');
+      reqType = 'addPlacePhoto'
+      options.reqParam = this.state.placeId
+    }
     console.log('submit selection');
-      utils.makeRequest('addTourPhoto', component, options)
+      utils.makeRequest(reqType, component, options)
       .then(response => {
         console.log('tour added to db: ', response);
       })
