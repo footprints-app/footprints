@@ -23,7 +23,7 @@ var Place = t.struct({
   placeName: t.maybe(t.String),
   address: t.maybe(t.String),
   description: t.maybe(t.String),
-  // placeOrder: t.maybe(t.Number)
+  placeOrder: t.maybe(t.Number)
 });
 
 var options = {
@@ -39,6 +39,10 @@ var options = {
     },
     description: {
       placeholder: 'Description',
+      placeholderTextColor: '#FFF'
+    },
+    placeOrder: {
+      placeholder: 'Order',
       placeholderTextColor: '#FFF'
     }
   },
