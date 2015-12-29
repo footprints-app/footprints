@@ -201,11 +201,17 @@ module.exports = {
 			if (err) {
 				callback(err);
 			} else {
+				var data = {
+					placeId: results.insertId,
+					tourId: null
+				}
 				db.query(selectQuery, results.insertId, function (err, results) {
 					if (err) {
 						callback(err);
 					} else {
-						callback(err, results[0].tourId);
+						data.tourId = results[0].tourId
+						console.log('sending this back', data)
+						callback(err, data);
 					}
         });
       }

@@ -242,7 +242,7 @@ module.exports = {
 	addPlacePhoto: function(req, res) {
 		var placeId = JSON.parse(req.params.id);
 		var base64Image = req.body.encodedData;
-
+		console.log('INSIDE ADD PLACE PHOTO!')
 		images.upload(base64Image, function(imageUrl) {
 			if(!imageUrl) {
 				console.log('error uploading image');
