@@ -4,6 +4,12 @@ var React = require('react-native');
 var utils = require('../lib/utility');
 var ViewCreatedTour = require('./ViewCreatedTour');
 var SelectImage = require('./SelectImage');
+<<<<<<< 12418c528dbf3fb742788e883f4d098fd3537a7b
+=======
+var styles = require('../lib/stylesheet');
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
+>>>>>>> styling editPlaceView
 
 
 var {
@@ -17,6 +23,12 @@ var {
   TouchableHighlight,
   ActivityIndicatorIOS
 } = React;
+
+var EditPlaceDetail = t.struct({
+  placeName: t.maybe(t.String),
+  address: t.maybe(t.String),
+  description: t.maybe(t.String),
+});
 
 class EditPlace extends Component {
    /**
@@ -151,93 +163,92 @@ class EditPlace extends Component {
 };
 
 
-var styles = StyleSheet.create({
+// var styles = StyleSheet.create({
 
-  city: {
-    color: '#656565',
-    marginLeft: 20
-  },
-  container: {
-    marginTop: 70,
-    flexDirection: 'column',
-    flex: 1
-  },
-  description: {
-    padding: 10,
-    fontSize: 15,
-    color: '#656565',
-  },
-  doneBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center'
-  },  
-  image: {
-    width: 350,
-    height: 165,
-    padding: 10
-  },
-  input: {
-    position: 'absolute',
-    left: 10,
-    top: 4,
-    right: 0,
-    height: 20,
-    fontSize: 14
-  },
-  inputContainer: {
-    padding: 10,
-    borderWidth: 1,
-    borderBottomColor: 'black',
-    borderColor: 'transparent'
-  },
-  inputs: {
-    marginTop: 25,
-    marginBottom: 10,
-    flex: .25
-  },
-  listView: {
-    backgroundColor: '#F5FCFF'
-   },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  placeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  placeName: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  rightContainer: {
-    flex: 1
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
-  touchable: {
-    borderRadius: 100
-  }
-});
+//   city: {
+//     color: '#656565',
+//     marginLeft: 20
+//   },
+//   container: {
+//     marginTop: 70,
+//     flexDirection: 'column',
+//     flex: 1
+//   },
+//   description: {
+//     padding: 10,
+//     fontSize: 15,
+//     color: '#656565',
+//   },
+//   doneBtn: {
+//     backgroundColor: '#FF3366',
+//     padding: 20,
+//     alignItems: 'center'
+//   },  
+//   image: {
+//     width: 350,
+//     height: 165,
+//     padding: 10
+//   },
+//   input: {
+//     position: 'absolute',
+//     left: 10,
+//     top: 4,
+//     right: 0,
+//     height: 20,
+//     fontSize: 14
+//   },
+//   inputContainer: {
+//     padding: 10,
+//     borderWidth: 1,
+//     borderBottomColor: 'black',
+//     borderColor: 'transparent'
+//   },
+//   inputs: {
+//     marginTop: 25,
+//     marginBottom: 10,
+//     flex: .25
+//   },
+//   listView: {
+//     backgroundColor: '#F5FCFF'
+//    },
+//   loading: {
+//     flex: 1,
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   },
+//   placeContainer: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#fff2f2',
+//     padding: 10
+//   },
+//   placeName: {
+//     fontSize: 14,
+//     marginBottom: 8,
+//   },
+//   rightContainer: {
+//     flex: 1
+//   },
+//   separator: {
+//     height: 1,
+//     backgroundColor: '#dddddd'
+//   },
+//   thumbnail: {
+//     width: 85,
+//     height: 81,
+//     marginRight: 10,
+//     marginTop: 10
+//   },
+//   title: {
+//     fontSize: 20,
+//     marginBottom: 8,
+//     marginLeft: 20
+//   },
+//   touchable: {
+//     borderRadius: 100
+//   }
+// });
 
 module.exports = EditPlace;
-
