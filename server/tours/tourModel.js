@@ -140,7 +140,17 @@ module.exports = {
 
   },
 
-	//TODO: addImageToPlace
+	addImageToPlace: function(params, callback) {
+		var query = "UPDATE places SET image = ? WHERE id = ?";
+		db.query(query, params, function(err, results) {
+			if(err) {
+				callback(err);
+				console.log('error: ', err);
+			} else {
+				callback(err, results);
+			}
+		})
+	},
 	 /**
    * Deletes tour with given id from the table.
    * If successful, gives a callback with the query result.
