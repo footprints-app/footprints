@@ -23,7 +23,7 @@ var {
 // Place defines domain model for form.
 var Place = t.struct({
   placeName: t.maybe(t.String),
-  address: t.maybe(t.String),
+  // address: t.maybe(t.String),
   description: t.maybe(t.String),
   placeOrder: t.maybe(t.Number)
 });
@@ -35,10 +35,10 @@ var options = {
       placeholder: 'Place',
       placeholderTextColor: '#FFF',
     },
-    address: {
-      placeholder: 'Address',
-      placeholderTextColor: '#FFF'
-    },
+    // address: {
+    //   placeholder: 'Address',
+    //   placeholderTextColor: '#FFF'
+    // },
     description: {
       placeholder: 'Description',
       placeholderTextColor: '#FFF'
@@ -60,6 +60,7 @@ class AddPlace extends Component {
     this.state = {
       tourId: this.props.tourId || this.props.route.passProps.tourId,
       placeId: null
+      address: null,
     };
   }
 
@@ -75,7 +76,7 @@ class AddPlace extends Component {
     var options = {
       reqBody: {
                 placeName: newPlace.placeName,
-                address: newPlace.address,
+                address: this.state.address,
                 description: newPlace.description,
                 placeOrder: newPlace.placeOrder,
                 tourId: tourId
@@ -119,13 +120,14 @@ class AddPlace extends Component {
         </View>
 
       <GooglePlacesAutocomplete
-        placeholder='Search'
-        minLength={2} // minimum length of text to search 
+        placeholder='Search for address'
+        minLength={3} // minimum length of text to search 
         autoFocus={false}
         fetchDetails={true}
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-          console.log(data);
-          console.log(details);
+          console.log('data: ', data);
+          console.log('address: ', details.formatted_address)
+          this.setState({address: details.formatted_address});
         }}
         getDefaultValue={() => {
           return ''; // text input default value 
@@ -134,15 +136,11 @@ class AddPlace extends Component {
           // available options: https://developers.google.com/places/web-service/autocomplete 
           key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
           language: 'en', // language of the results 
-          // types: '(cities)', // default: 'geocode' 
         }}
         
-        currentLocation={true} // Will add a 'Current location' button at the top of the predefined places list 
+        currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list 
         currentLocationLabel="Current location"
         currentLocationAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch 
-        GoogleReverseGeocodingQuery={{
-          // available options for GoogleReverseGeocoding API : https://developers.google.com/maps/documentation/geocoding/intro 
-        }}
         GooglePlacesSearchQuery={{
           // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search 
           rankby: 'distance',
