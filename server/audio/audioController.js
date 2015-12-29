@@ -6,8 +6,8 @@
 
 var aws = require('aws-sdk');
 
-var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID2 || 'AKIAJHNJSA3HCJDPQATQ';
-var AWS_SECRET_KEY = process.env.AWS_SECRET_ACCESS_KEY || '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';
+var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID_AUDIO || 'AKIAJZBWCDR2624XAFLA';
+var AWS_SECRET_KEY = process.env.AWS_SECRET_ACCESS_KEY_AUDIO || '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';
 var S3_BUCKET = process.env.S3_BUCKET || 'walking-tour-media';
 
 module.exports = {
@@ -18,7 +18,8 @@ module.exports = {
         Bucket: S3_BUCKET,
         Key: req.query.file_name || 'testFileName',//Change to the name of the file
         Expires: 1000,
-        ContentType: req.query.file_type || 'audio/m4a',//Change to file type
+        //TODO: Error from S3 when ContentType is set.  What is the content-type for base64 encoded files?
+        //ContentType: req.query.file_type || 'application/octet-stream',//Change to file type
         ACL: 'public-read'
     };
     s3.getSignedUrl('putObject', s3_params, function(err, data){

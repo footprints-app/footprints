@@ -169,8 +169,7 @@ class RecordAudio extends Component {
     //     })
     RNFS.readFile(storyPath, 'base64')
       .then((file) => {
-        console.log('File successfully read: ', file);
-        console.log('Line after file read');
+        console.log('File successfully read');
         fetch(request_url + '/tours/sign_s3', {
           method: "GET",
           headers: {},
