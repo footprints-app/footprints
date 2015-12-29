@@ -176,8 +176,19 @@ class RecordAudio extends Component {
           headers: {},
         })
         .then((response) => {
-          console.log('Signed URL from Response: ', JSON.parse(response._bodyText).signed_request);
-          console.log('URL from Response: ', JSON.parse(response._bodyText).url);
+          var resp = JSON.parse(response._bodyText);
+          console.log('Signed URL from Response: ', resp.signed_request);
+          console.log('URL from Response: ', resp.url);
+          fetch(resp.signed_request, {
+            method: "PUT",
+            headers: {
+              "x-amz-acl": 'public-read'
+            },
+            body: JSON.stringify(file)
+          })
+          .then((response) => {
+            console.log('Response after PUT request: ', response);
+          })
         })
       })
   }
