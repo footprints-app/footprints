@@ -34,7 +34,6 @@ class SelectImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: [],
       tourId: this.props.tourId || null,
       placeId: this.props.placeId || null,
       selected: '',
@@ -65,8 +64,6 @@ class SelectImage extends Component {
       var fetchParams = {
           first: 25,
       };
-    //CameraRoll.getPhotos(fetchParams, this.storeImages.bind(this), this.logImageError);
-
   }
 
   launchCamera () {
@@ -100,21 +97,26 @@ class SelectImage extends Component {
     });
   }
 
-  storeImages(data) {
-    var assets = data.edges;
-    var images = assets.map( asset => asset.node.image );
-    this.setState({
-        images: images,
-    });
-  }
 
   submitSelection(encodedData) {
-    var tourId = this.state.tourId;
+    var props = {
+      tourId: this.state.tourId,
+      editMode: true
+    };
+
+    var options = {
+      reqParam: this.state.tourId,
+      reqBody: {
+        encodedData: encodedData
+      }
+    };
+
+    var component = this;
     //if(this.state.placeId !== null) {
     //TODO: make request params contingent upon this condition
     //}
     console.log('submit selection');
-      utils.makeRequest('addTourPhoto', {encodedData}, tourId)
+      utils.makeRequest('addTourPhoto', component, options)
       .then(response => {
         console.log('tour added to db: ', response);
       })
@@ -123,7 +125,7 @@ class SelectImage extends Component {
     this.props.navigator.replace({
       title: "Your Tour",
       component: ViewCreatedTour,
-      passProps: {tourId}
+      passProps: props
     });
   }
 
