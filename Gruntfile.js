@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 				files: [
 					{	expand: true,
 						cwd: 'server/',
-						src: ['**/*', '!tests', '!schema.sql', '!node_modules']},
+						src: ['**/*', '!tests', '!schema.sql', '!node_modules', '!test_images', '!seeds']},
 				]
 			}
 		},
