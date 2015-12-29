@@ -141,6 +141,7 @@ module.exports = {
   },
 
 	addImageToPlace: function(params, callback) {
+		console.log('IMAGE TO PLACE called');
 		var query = "UPDATE places SET image = ? WHERE id = ?";
 		db.query(query, params, function(err, results) {
 			if(err) {

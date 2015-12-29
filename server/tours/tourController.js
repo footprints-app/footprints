@@ -237,5 +237,25 @@ module.exports = {
 				});
 			}
 		});
+	},
+
+	addPlacePhoto: function(req, res) {
+		var placeId = JSON.parse(req.params.id);
+		var base64Image = req.body.encodedData;
+
+		images.upload(base64Image, function(imageUrl) {
+			if(!imageUrl) {
+				console.log('error uploading image');
+			} else {
+				var params = [imageUrl, placeId];
+				tours.addImageToPlace(params, function (err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json(imageUrl);
+					}
+				});
+			}
+		});
 	}
 }
