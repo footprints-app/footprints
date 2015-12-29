@@ -139,20 +139,24 @@ class RecordAudio extends Component {
 
   }
 
-  // done() {
-  //   var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
-  //   var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
+  done() {
+    var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
+    // var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
 
-  //   fetch(awsUrl, {
-  //     method: "POST",
-  //     headers: {},
-  //     body: JSON.stringify({
-  //       AWSAccessKeyId: "",
-  //       file: storyPath,
-  //       key: 
-  //     })
-  //   })
-  // }
+    // fetch(awsUrl, {
+    //   method: "POST",
+    //   headers: {},
+    //   body: JSON.stringify({
+    //     AWSAccessKeyId: "",
+    //     file: storyPath,
+    //     key: 
+    //   })
+    // })
+    RNFS.readFile(storyPath, 'base64')
+      .then((file) => {
+        console.log('File successfully read: ', file);
+      })
+  }
 
   render() {
     return (
@@ -201,6 +205,14 @@ class RecordAudio extends Component {
               <Text style={ styles.whiteFont }>Stop</Text>
             </View>
           </TouchableHighlight>
+
+          <TouchableHighlight 
+            onPress={ this.done.bind(this) } 
+            style={ styles.touchable } underlayColor="white">  
+            <View style={ styles.doneBtn }>
+              <Text style={ styles.whiteFont }>Done</Text>
+            </View>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -215,35 +227,41 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20
   },
+  doneBtn: {
+    backgroundColor: '#FF3366',
+    padding: 20,
+    alignItems: 'center',
+    marginTop: 5,
+  },
   recordBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   stopRecBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   playBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   pauseBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   stopBtn: {
     backgroundColor: '#FF3366',
     padding: 20,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 5,
   },
   touchable: {
     borderRadius: 5
