@@ -75,7 +75,7 @@ class AddPlace extends Component {
                 placeName: newPlace.placeName,
                 address: newPlace.address,
                 description: newPlace.description,
-                //placeOrder: newPlace.placeOrder,
+                placeOrder: newPlace.placeOrder,
                 tourId: tourId
               }
     };
@@ -83,7 +83,6 @@ class AddPlace extends Component {
     var component = this;
     utils.makeRequest('addPlace', component, options)
       .then(response => {
-        console.log('HELLOOOO THERE')
         console.log('response body in Add Place: ', response);
         component.setState({
           placeId: response.id.placeId
@@ -116,8 +115,7 @@ class AddPlace extends Component {
             type={ Place }
             options={ options }/>
         </View>
-       
-        
+
           <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
             <View style={ styles.photoAudioContainer }>   
               <View style={{marginTop: 25}}>
