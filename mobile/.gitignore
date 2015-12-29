@@ -31,6 +31,6 @@ local.properties
 # node.js
 #
 node_modules/*
-!node_modules/tcomb-form-native
-!node_modules/react-native-google-places-autocomplete
+!node_modules/tcomb-form-native/*
+!node_modules/react-native-google-places-autocomplete/*
 npm-debug.log
