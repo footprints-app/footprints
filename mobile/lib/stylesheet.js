@@ -149,7 +149,7 @@ var styles = StyleSheet.create({
     marginBottom: 50,
   },
   deleteContainer: {
-    flex: .15
+    flex: .3
   },
   deleteText: {
     fontSize: 12,
