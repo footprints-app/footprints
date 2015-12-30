@@ -141,32 +141,9 @@ class RecordAudio extends Component {
 
   done() {
     var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
-    // var awsUrl = "walking-tour-media.s3-website-us-west-1.amazonaws.com";
     var request_url = 'http://10.6.32.174:8000';
     // var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
-    // fetch(awsUrl, {
-    //   method: "POST",
-    //   headers: {},
-    //   body: JSON.stringify({
-    //     AWSAccessKeyId: "",
-    //     file: storyPath,
-    //     key: 
-    //   })
-    // })
-    // fetch(request_url + '/tours/sign_s3', {
-    //       method: "GET",
-    //       headers: {},
-    //     })
-    //     .then((response) => {
-    //       var resp = JSON.parse(response.responseText);
-    //       console.log(resp);
-    //       console.log('Signed URL from Response: ', JSON.parse(response._bodyText).signed_request);
-    //       console.log('URL from Response: ', response._bodyText.url);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     })
     RNFS.readFile(storyPath, 'base64')
       .then((file) => {
         console.log('File successfully read');
