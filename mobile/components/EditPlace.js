@@ -83,15 +83,15 @@ class EditPlace extends Component {
           console.log('Tour recieved from request: ', response);
           var ViewCreatedTour = require('./ViewCreatedTour');
           var tourId = that.state.tourId;
-          // that.props.navigator.popToRoute({
-          //   title: response.tourName,
-          //   component: ViewCreatedTour,
-          //   passProps: {
-          //               tourId: response.id,
-          //               editMode: true
-          //              }
-          // });
-          utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
+          that.props.navigator.replace({
+            title: response.tourName,
+            component: ViewCreatedTour,
+            passProps: {
+                        tourId: response.id,
+                        editMode: true
+                       }
+          });
+          // utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
         })
       // that.props.navigator.pop();
     })
