@@ -120,7 +120,6 @@ class AddPlace extends Component {
   render () {
     return (
       <View style={ styles.addPlaceContainer }>
-        {/* display */}
         <View style={{marginTop: 70}}>
           <Form
             ref="form"
@@ -138,84 +137,44 @@ class AddPlace extends Component {
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
           console.log('data: ', data);
           console.log('address: ', details.formatted_address)
-          this.setState({address: details.formatted_address});
+          this.setState({ address: details.formatted_address });
         }}
-        getDefaultValue={() => {
-          return ''; // text input default value 
-        }}
-        query={{
-          // available options: https://developers.google.com/places/web-service/autocomplete 
-          key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
-          language: 'en', // language of the results 
-        }}
+        getDefaultValue={() => { return ''; }} // text input default value
+        query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }}  // language of the results
+        GooglePlacesSearchQuery={{ rankby: 'distance' }}/>// types: 'food',
+         
+        {/*<TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
+          <View style={ styles.photoAudioContainer }>   
+            <View style={{marginTop: 25}}>
+              <Text style={ styles.text }>Add a Photo</Text>
+            </View>
+            <View>
+              <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
+            </View>
+          </View>   
+        </TouchableHighlight>
         
-        // currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list 
-        // currentLocationLabel="Current location"
-        // currentLocationAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch 
-        GooglePlacesSearchQuery={{
-          // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search 
-          rankby: 'distance',
-          // types: 'food',
-        }}/>
- 
-       
-        
-          <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
-            <View style={ styles.photoAudioContainer }>   
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add a Photo</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
-              </View>
-            </View>   
-          </TouchableHighlight>
           
-            
-          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
-            <View style={ styles.photoAudioContainer }>
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add Audio</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
-              </View>
-            </View>  
-          </TouchableHighlight>
+        <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
+          <View style={ styles.photoAudioContainer }>
+            <View style={{marginTop: 25}}>
+              <Text style={ styles.text }>Add Audio</Text>
+            </View>
+            <View>
+              <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
+            </View>
+          </View>  
+        </TouchableHighlight>*/}
 
         <TouchableHighlight 
-          style={ styles.button } 
+          style={ [styles.button, {padding: 12}] } 
           onPress={ this.onPressSave.bind(this) } 
           underlayColor='#FFC107'>
-          <Text style={ styles.buttonText }>Add Place</Text>
+          <Text style={ styles.buttonText }>Next</Text>
         </TouchableHighlight>
       </View>
     );
   }
 };
-
-
-//node-modules/tcomb-form-native/lib/stylesheet/bootstrap
-// var LABEL_COLOR = '#000000';
-// var INPUT_COLOR = '#FFF';
-// var ERROR_COLOR = '#a94442';
-// var HELP_COLOR = '#999999';
-// var BORDER_COLOR = '#cccccc';
-// var DISABLED_COLOR = '#777777';
-// var DISABLED_BACKGROUND_COLOR = '#D8D8D8';
-// var FONT_SIZE = 17;
-// var FONT_WEIGHT = '500';
-// textbox: {
-//     normal: {
-//       color: INPUT_COLOR,
-//       fontSize: FONT_SIZE,
-//       height: 45,
-//       padding: 7,
-//       borderRadius: 5,
-//       borderColor: BORDER_COLOR,
-//       borderWidth: 1,
-//       marginBottom: 10,
-//       backgroundColor: DISABLED_BACKGROUND_COLOR
-//     },
 
 module.exports = AddPlace;
