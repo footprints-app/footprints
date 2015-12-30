@@ -137,40 +137,40 @@ class AddPlace extends Component {
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
           console.log('data: ', data);
           console.log('address: ', details.formatted_address)
-          this.setState({ address: details.formatted_address });
+          this.setState({address: details.formatted_address});
         }}
-        getDefaultValue={() => { return ''; }} // text input default value
-        query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }}  // language of the results
-        GooglePlacesSearchQuery={{ rankby: 'distance' }}/>// types: 'food',
-         
-        {/*<TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
-          <View style={ styles.photoAudioContainer }>   
-            <View style={{marginTop: 25}}>
-              <Text style={ styles.text }>Add a Photo</Text>
-            </View>
-            <View>
-              <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
-            </View>
-          </View>   
-        </TouchableHighlight>
-        
+        getDefaultValue={() => { return ''; }}
+        query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en', }}       
+        GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
+ 
+          {/*<TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
+            <View style={ styles.photoAudioContainer }>   
+              <View style={{marginTop: 25}}>
+                <Text style={ styles.text }>Add a Photo</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
+              </View>
+            </View>   
+          </TouchableHighlight>
           
-        <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
-          <View style={ styles.photoAudioContainer }>
-            <View style={{marginTop: 25}}>
-              <Text style={ styles.text }>Add Audio</Text>
-            </View>
-            <View>
-              <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
-            </View>
-          </View>  
-        </TouchableHighlight>*/}
+            
+          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
+            <View style={ styles.photoAudioContainer }>
+              <View style={{marginTop: 25}}>
+                <Text style={ styles.text }>Add Audio</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
+              </View>
+            </View>  
+          </TouchableHighlight>*/}
 
         <TouchableHighlight 
           style={ [styles.button, {padding: 12}] } 
           onPress={ this.onPressSave.bind(this) } 
           underlayColor='#FFC107'>
-          <Text style={ styles.buttonText }>Next</Text>
+          <Text style={ styles.buttonText }>Add Place</Text>
         </TouchableHighlight>
       </View>
     );
