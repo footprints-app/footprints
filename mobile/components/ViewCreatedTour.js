@@ -189,7 +189,6 @@ class ViewCreatedTour extends Component {
   }
 
   renderEditablePlace(place) {
-    console.log('renderEditablePlace reached, place: ', place);
     return (
       <View>
         <View style={ styles.placeContainer }>

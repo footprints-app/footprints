@@ -65,6 +65,11 @@ class AddPlace extends Component {
     };
   }
 
+  componentWillMount () {
+    console.log('componentWillMount in AddPlace called');
+    //get number of places in tour
+  }
+
   /**
    * Gets place details using tcomb-form-native getValue method and posts it in the database.
    */
@@ -129,7 +134,7 @@ class AddPlace extends Component {
         </View>
 
       <GooglePlacesAutocomplete
-        placeholder='Search for address'
+        placeholder='Address or place'
         minLength={3} // minimum length of text to search 
         autoFocus={false}
         fetchDetails={true}
@@ -177,8 +182,4 @@ class AddPlace extends Component {
   }
 };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> (refactor) cleaned up comments in AddPlace
 module.exports = AddPlace;
