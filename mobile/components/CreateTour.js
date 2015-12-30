@@ -150,7 +150,7 @@ class CreateTour extends Component {
         </TouchableHighlight>*/}
 
         <TouchableHighlight 
-          style={ styles.button } 
+          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
           onPress={ this.viewTour.bind(this) } 
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Next</Text>
