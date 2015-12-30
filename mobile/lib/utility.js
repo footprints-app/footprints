@@ -37,7 +37,7 @@ var Utility = {
               },
               textInputContainer: {
                 backgroundColor: '#D8D8D8',
-                height: 40,
+                height: 30,
                 borderRadius: 5,
                 borderColor: '#cccccc',
                 marginBottom: 10,
@@ -45,7 +45,7 @@ var Utility = {
               textInput: {
                 color: '#FFF',
                 backgroundColor: '#D8D8D8',
-                height: 40,
+                height: 30,
                 borderRadius: 5,
                 padding: 7,
                 borderColor: '#cccccc',

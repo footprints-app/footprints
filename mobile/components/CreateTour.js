@@ -83,7 +83,7 @@ class CreateTour extends Component {
 
     var options = {
       reqBody: this.state
-    }; 
+    };
     console.log('this.state after form chnage....', options.reqBody)
     var component = this;
     utils.makeRequest('createTour', component, options)
