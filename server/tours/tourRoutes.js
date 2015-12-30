@@ -19,6 +19,7 @@ module.exports = function (app) {
 
   app.put('/edit/:id', userController.checkAuth, tourController.updateTour);
   app.put('/editplace/:id', userController.checkAuth, tourController.updatePlace);
+  app.put('/updateTourPlaces/:id', userController.checkAuth, tourController.updatePlaceOrders);
 
   app.delete('/delete/:id', userController.checkAuth, tourController.deleteTour);
   app.delete('/deleteplace/:id', userController.checkAuth, tourController.deletePlace);

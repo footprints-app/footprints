@@ -169,6 +169,25 @@ module.exports = {
 			}
 		});
 	},
+  /**
+   * Updates a the placeOrders all places in a tour that have the inputed placeOrder or greater.
+   * If successful, gives a callback the placeId.
+   *
+   * @param {array} params - tourId, placeOrder
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+  updatePlaceOrders: function(params, callback) {
+    var updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ?";
+    db.query(updateTourQuery, params, function(err, result) {
+      if(err) {
+        callback(err);
+        console.log('error updating place order: ', err);
+      } else {
+        callback(err, results);
+      }
+    });
+  },
+
 	/** Queries the places table for all places with the matching tourId
 	 * @method queryPlaces
 	 * @param {number} tourId - a number that represents the tour id
