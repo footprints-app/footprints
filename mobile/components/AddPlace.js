@@ -108,15 +108,19 @@ class AddPlace extends Component {
             reqBody: { placeOrder: component.state.placeOrder, placeId: component.state.placeId},
             reqParam: component.state.tourId
         };
-        utils.makeRequest('placeOrders', component, options)
-        .then(response => {
-          var props = {
-            placeId: component.state.placeId,
-            tourId: component.state.tourId,
-            addPlaceView: true
-          };
-          utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
-        });
+        var props = {
+          placeId: component.state.placeId,
+          tourId: component.state.tourId,
+          addPlaceView: true
+        };
+        if(component.state.placeOrder <= component.state.numPlacesInTour) {
+          utils.makeRequest('placeOrders', component, options)
+          .then(response => {
+            utils.navigateTo.call(component, "Add a Photo", SelectImage, props);
+          });
+        } else {
+          utils.navigateTo.call(component, "Add a Photo", SelectImage, props);
+        }
       });
   }
 
