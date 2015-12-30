@@ -5,7 +5,7 @@
  */
 
 var aws = require('aws-sdk');
-var config = require('../../config/config.js');
+var config = require('../config/config.js');
 
 var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY_ID_AUDIO || config.AWS_ACCESS_KEY_ID_AUDIO;
 var AWS_SECRET_KEY = process.env.AWS_SECRET_ACCESS_KEY_AUDIO || config.AWS_SECRET_ACCESS_KEY_AUDIO;
