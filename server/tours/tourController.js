@@ -184,10 +184,10 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	updatePlaceOrders: function(req, res) {
-		var params = [req.params.id, req.body.placeOrder];
-		console.log('params in updatePlaceOrders: ', params);
+		var params = [req.params.id, req.body.placeOrder, req.body.placeId];
 		tours.updatePlaceOrders(params, function(err, results) {
 			if(err) {
+				console.log('error in updatePlaceOrders: ', err);
 				res.status(404).json({error: err});
 			} else {
 				res.status(201).json(results);

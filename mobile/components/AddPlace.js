@@ -67,7 +67,6 @@ class AddPlace extends Component {
   }
 
   componentWillMount () {
-    console.log('componentWillMount in AddPlace called');
     var component = this;
     var options = {
       reqBody: {},
@@ -75,7 +74,6 @@ class AddPlace extends Component {
     }; 
     utils.makeRequest('tour', component, options)
     .then((response) => {
-      console.log('response body from AddPlace: ', response);
       this.setState({numPlacesInTour: response.places.length})
     })
     .done();
@@ -103,19 +101,22 @@ class AddPlace extends Component {
     var component = this;
     utils.makeRequest('addPlace', component, options)
       .then(response => {
-        console.log('response body in Add Place: ', response);
         component.setState({
           placeId: response.id.placeId
-        })
-        var props = {
-          placeId: this.state.placeId,
-          tourId: this.state.tourId,
-          addPlaceView: true
-        }
-        utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
-        // var placeId = response.id
-        // utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
-        // utils.navigateTo.call(this, 'View Tour', ViewCreatedTour, {tourId});
+        });
+        var options = {
+            reqBody: { placeOrder: component.state.placeOrder, placeId: component.state.placeId},
+            reqParam: component.state.tourId
+        };
+        utils.makeRequest('placeOrders', component, options)
+        .then(response => {
+          var props = {
+            placeId: component.state.placeId,
+            tourId: component.state.tourId,
+            addPlaceView: true
+          };
+          utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
+        });
       });
   }
 

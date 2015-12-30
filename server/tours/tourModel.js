@@ -126,8 +126,6 @@ module.exports = {
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
   addImageToTour: function(params, callback) {
-    console.log('addImageToTour called');
-    console.log('params: ', params);
     var updateTourQuery = "UPDATE tours SET image = ? WHERE id = ?";
     db.query(updateTourQuery, params, function (err, results) {
       if(err) {
@@ -177,13 +175,13 @@ module.exports = {
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
   updatePlaceOrders: function(params, callback) {
-    var updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ?";
+    var updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ? AND id <> ?";
     db.query(updateTourQuery, params, function(err, result) {
       if(err) {
-        callback(err);
         console.log('error updating place order: ', err);
+        callback(err);
       } else {
-        callback(err, results);
+        callback(err, result);
       }
     });
   },

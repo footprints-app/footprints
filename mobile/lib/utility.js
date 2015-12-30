@@ -22,7 +22,8 @@ var requests = {
     editPlace: {reqMethod: 'PUT', endPoint: '/tours/editplace/'},
     deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
     addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'},
-    addPlacePhoto: {reqMethod: 'POST', endPoint: '/tours/placephoto/'}
+    addPlacePhoto: {reqMethod: 'POST', endPoint: '/tours/placephoto/'},
+    placeOrders: {reqMethod: 'PUT', endPoint: '/tours/updateTourPlaces/'}
   }; 
 
 var token = '';
@@ -171,7 +172,6 @@ var Utility = {
    */
   navigateTo: function(titleName, toComponent, props) {
     console.log('navigate: ', titleName);
-    console.log('this: ', this);
     var navigator = this.props.navigator || this.navigator;
     navigator.push({
       title: titleName,
@@ -188,7 +188,7 @@ var Utility = {
   getToken: function() {
     return AsyncStorage.getItem('token')
     .then((token) => {
-      console.log('token in getToken: ', token);
+      // console.log('token in getToken: ', token);
       return token;
     })
     .catch((error) => {
@@ -238,9 +238,8 @@ var Utility = {
     };
 
     if(requestType !== 'signup' && requestType !== 'login') {
-      console.log('requestType in signup condition: ', requestType);
       return this.getToken().then((token) => {
-        console.log('token in makeRequest: ', token);
+        // console.log('token in makeRequest: ', token);
         headerBody['x-access-token'] = token;
         return this.requestHelper(reqUrl, requestMethod, headerBody, reqBody)
           .then((response) => {
