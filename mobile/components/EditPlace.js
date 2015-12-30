@@ -4,13 +4,9 @@ var React = require('react-native');
 var utils = require('../lib/utility');
 var ViewCreatedTour = require('./ViewCreatedTour');
 var SelectImage = require('./SelectImage');
-<<<<<<< 12418c528dbf3fb742788e883f4d098fd3537a7b
-=======
 var styles = require('../lib/stylesheet');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
->>>>>>> styling editPlaceView
-
 
 var {
   StyleSheet,
