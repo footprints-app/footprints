@@ -236,7 +236,6 @@ class ViewCreatedTour extends Component {
     return (
 
       <View style={ styles.addPlaceContainer }>
-        <ScrollView>
           <View style={{marginTop: 60}}>
             <Form
               ref="form"
@@ -245,7 +244,7 @@ class ViewCreatedTour extends Component {
               value={ this.state.value }
               onChange={this.onChange.bind(this)}/>
           </View>
-          <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 4}}>
+          <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2}}>
             Search for Address
           </Text>
           <GooglePlacesAutocomplete
@@ -260,8 +259,7 @@ class ViewCreatedTour extends Component {
             }}
             styles={utils.googlePlacesStyles}
             getDefaultValue={() => { return ''; }}// text input default value 
-            query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results
-            
+            query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
             GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
 
           <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
@@ -276,13 +274,15 @@ class ViewCreatedTour extends Component {
             </View>
           </TouchableHighlight>
 
-          <View style={ [styles.panel, {marginTop: 15}] }>
-            <View style={ styles.tourSeparator }/>
-            <ListView
-              dataSource={ this.state.dataSource }
-              renderRow={ this.renderEditablePlace.bind(this) }
-              style={ styles.listView }/>
-          </View>
+          <ScrollView>
+            <View style={ [styles.panel, {marginTop: 15}] }>
+              <View style={ styles.tourSeparator }/>
+              <ListView
+                dataSource={ this.state.dataSource }
+                renderRow={ this.renderEditablePlace.bind(this) }
+                style={ styles.listView }/>
+            </View>
+          </ScrollView>
 
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableHighlight
@@ -292,7 +292,6 @@ class ViewCreatedTour extends Component {
               <Text style={ styles.buttonText }>Done</Text>
             </TouchableHighlight>
           </View>
-        </ScrollView>
       </View>
 
     )
@@ -323,7 +322,7 @@ class ViewCreatedTour extends Component {
                 <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
                 <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
-                <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }
+                {/*<Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }*/}
               </Text>
             </View>
           </View>
