@@ -177,4 +177,8 @@ class AddPlace extends Component {
   }
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> (refactor) cleaned up comments in AddPlace
 module.exports = AddPlace;
