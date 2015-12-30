@@ -165,7 +165,7 @@ class ViewCreatedTour extends Component {
   }
 
   renderPlace(place) {
-    var imageURI = (typeof place.image !== 'undefined') ? place.image : '';
+    var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
     return (
       <TouchableHighlight
         onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }>
@@ -176,7 +176,7 @@ class ViewCreatedTour extends Component {
             </View>
             <View style={ styles.rightContainer }>
               <Text style={ styles.placeName }>{ place.placeName}</Text>
-              <Text style={ styles.address }>{ place.address}</Text>
+              <Text style={ styles.address }>{ place.address.split(',')[0]}</Text>
             </View>
             <Image source={require('../assets/arrow.png')} style={styles.arrow}></Image>
           </View>
@@ -201,7 +201,8 @@ class ViewCreatedTour extends Component {
 
           <TouchableHighlight
             style={ styles.rightContainer }
-            onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
+            onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }
+            underlayColor='#727272'>
             <Text style={ styles.placeName }>{ place.placeName }</Text>
           </TouchableHighlight>
         </View>
@@ -236,7 +237,6 @@ class ViewCreatedTour extends Component {
     return (
 
       <View style={ styles.addPlaceContainer }>
-        <ScrollView>
           <View style={{marginTop: 60}}>
             <Form
               ref="form"
@@ -245,7 +245,7 @@ class ViewCreatedTour extends Component {
               value={ this.state.value }
               onChange={this.onChange.bind(this)}/>
           </View>
-          <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 4}}>
+          <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2}}>
             Search for Address
           </Text>
           <GooglePlacesAutocomplete
@@ -260,8 +260,7 @@ class ViewCreatedTour extends Component {
             }}
             styles={utils.googlePlacesStyles}
             getDefaultValue={() => { return ''; }}// text input default value 
-            query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results
-            
+            query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
             GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
 
           <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
@@ -276,13 +275,15 @@ class ViewCreatedTour extends Component {
             </View>
           </TouchableHighlight>
 
-          <View style={ [styles.panel, {marginTop: 15}] }>
-            <View style={ styles.tourSeparator }/>
-            <ListView
-              dataSource={ this.state.dataSource }
-              renderRow={ this.renderEditablePlace.bind(this) }
-              style={ styles.listView }/>
-          </View>
+          <ScrollView>
+            <View style={ [styles.panel, {marginTop: 15}] }>
+              <View style={ styles.tourSeparator }/>
+              <ListView
+                dataSource={ this.state.dataSource }
+                renderRow={ this.renderEditablePlace.bind(this) }
+                style={ styles.listView }/>
+            </View>
+          </ScrollView>
 
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableHighlight
@@ -292,14 +293,13 @@ class ViewCreatedTour extends Component {
               <Text style={ styles.buttonText }>Done</Text>
             </TouchableHighlight>
           </View>
-        </ScrollView>
       </View>
 
     )
   }
 
   renderViewMode() {
-    var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : '';
+    var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : null;
     return (
       <View style={ styles.tourContainer }>
         <ScrollView automaticallyAdjustContentInsets={false}>
@@ -323,18 +323,18 @@ class ViewCreatedTour extends Component {
                 <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
                 <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
-                <Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }
+                {/*<Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }*/}
               </Text>
             </View>
           </View>
 
-          <View style={ [styles.photoAudioContainer, {marginTop: 10}, {marginBottom: 3} ] }>
-            <View>
-              <Text style={ [styles.text, {marginTop: 12}] }>Places</Text>
+          <View style={ [styles.photoAudioContainer, {marginTop: 5}, {marginBottom: 3} ] }>
+            <View style={{marginTop: 5}}>
+              <Text style={ styles.text }>Places</Text>
             </View>
             <TouchableHighlight
               onPress={ this.addPlace.bind(this) }
-              style={ [styles.touchable, {marginTop: 8}] }
+              style={ [styles.touchable, {marginTop: 1}] }
               underlayColor='#727272'>
               <Image source={require('../assets/addplaceicon.png')}
                      style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />

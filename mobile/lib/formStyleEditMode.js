@@ -26,7 +26,7 @@ var stylesheet = Object.freeze({
     normal: {
       color: LABEL_COLOR,
       fontSize: FONT_SIZE,
-      marginBottom: 5,
+      marginBottom: 2,
       fontWeight: FONT_WEIGHT
     },
     // the style applied when a validation error occours
@@ -59,12 +59,12 @@ var stylesheet = Object.freeze({
     normal: {
       color: INPUT_COLOR,
       fontSize: FONT_SIZE,
-      height: 35,
+      height: 30,
       padding: 7,
       borderRadius: 5,
       borderColor: BORDER_COLOR,
       borderWidth: 1,
-      marginBottom: 3,
+      marginBottom: 2,
       backgroundColor: DISABLED_BACKGROUND_COLOR
     },
     // the style applied when a validation error occours
@@ -81,12 +81,12 @@ var stylesheet = Object.freeze({
     // the style applied when the textbox is not editable
     notEditable: {
       fontSize: FONT_SIZE,
-      height: 36,
+      height: 30,
       padding: 7,
       borderRadius: 4,
       borderColor: BORDER_COLOR,
       borderWidth: 1,
-      marginBottom: 5,
+      marginBottom: 2,
       color: DISABLED_COLOR,
       backgroundColor: DISABLED_BACKGROUND_COLOR
     }
@@ -104,7 +104,7 @@ var stylesheet = Object.freeze({
   },
   select: {
     normal: {
-      marginBottom: 4
+      marginBottom: 2
     },
     // the style applied when a validation error occours
     error: {
