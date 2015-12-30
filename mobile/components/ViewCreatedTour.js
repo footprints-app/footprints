@@ -28,10 +28,10 @@ var {
   } = React;
 
 var EditTour = t.struct({
-  tourName: t.String,
-  // category: t.String,
-  description: t.String,
-  duration: t.String,
+  tourName: t.maybe(t.String),
+  // category: t.maybe(t.String),
+  description: t.maybe(t.String),
+  duration: t.maybe(t.String),
   // cityName: t.maybe(t.String),
   // state: t.maybe(t.String),
   // country: t.maybe(t.String),
