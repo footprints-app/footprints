@@ -26,7 +26,7 @@ var {
 
 var Tour = t.struct({
   tourName: t.maybe(t.String),
-  category: t.maybe(t.String),
+  // category: t.maybe(t.String),
   description: t.maybe(t.String),
   duration: t.maybe(t.String),
 });
@@ -38,10 +38,10 @@ var options = {
         placeholder: 'Tour Name',
         placeholderTextColor: '#FFF',
       },
-      category: {
-        placeholder: 'Category',
-        placeholderTextColor: '#FFF'
-      },
+      // category: {
+      //   placeholder: 'Category',
+      //   placeholderTextColor: '#FFF'
+      // },
       description: {
         placeholder: 'Description',
         placeholderTextColor: '#FFF'
@@ -138,7 +138,7 @@ class CreateTour extends Component {
               rankby: 'distance',
             }}/>
 
-        <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 5}}>
+        {/*<TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 5}}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
             <View style={{marginTop: 15}}>
               <Text style={ styles.text }>Add a Photo</Text>
@@ -147,13 +147,13 @@ class CreateTour extends Component {
               <Image source={require('../assets/photoicon.png')} style={[styles.photoIcon, {marginTop: 5}, {marginLeft: 15}]}/> 
             </View>
           </View>   
-        </TouchableHighlight>
+        </TouchableHighlight>*/}
 
         <TouchableHighlight 
-          style={ [styles.button, {marginTop: 15}] } 
+          style={ styles.button } 
           onPress={ this.viewTour.bind(this) } 
           underlayColor='#FFC107'>
-          <Text style={ styles.buttonText }>Create Tour</Text>
+          <Text style={ styles.buttonText }>Next</Text>
         </TouchableHighlight>
       </View>
 
