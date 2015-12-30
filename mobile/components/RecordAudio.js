@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var RNFS = require('react-native-fs');
+var FileUpload = require('NativeModules').FileUpload;
 
 var {
   NativeModules,
@@ -141,32 +142,37 @@ class RecordAudio extends Component {
 
   done() {
     var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
-    var request_url = 'http://10.6.32.174:8000';
-    // var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+    //var request_url = 'http://10.6.32.174:8000';
+    var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
-    RNFS.readFile(storyPath, 'base64')
-      .then((file) => {
-        console.log('File successfully read');
-        fetch(request_url + '/tours/sign_s3', {
-          method: "GET",
-          headers: {},
-        })
-        .then((response) => {
-          var resp = JSON.parse(response._bodyText);
-          console.log('Signed URL from Response: ', resp.signed_request);
-          console.log('URL from Response: ', resp.url);
-          fetch(resp.signed_request, {
-            method: "PUT",
-            headers: {
-              "x-amz-acl": 'public-read'
-            },
-            body: JSON.stringify(file)
-          })
-          .then((response) => {
-            console.log('Response after PUT request: ', response);
-          })
-        })
-      })
+    fetch(request_url + '/tours/sign_s3', {
+      method: "GET",
+      headers: {},
+    })
+    .then((response) => {
+      var resp = JSON.parse(response._bodyText);
+      console.log('Signed URL from Response: ', resp.signed_request);
+      console.log('URL from Response: ', resp.url);
+      var request = {
+        uploadUrl: resp.signed_request,
+        method: 'PUT',
+        headers: {
+          "x-amz-acl": 'public-read',
+          "content-type": 'audio/m4a'
+        },
+        files: [
+          {
+            filename: 'story.m4a',
+            filepath: storyPath,
+            filetype: 'audio/m4a'
+          }
+        ]
+      };
+      FileUpload.upload(request, function(err, results) {
+        console.log('upload: ', err, results);
+      });
+    })
+
   }
 
   render() {
