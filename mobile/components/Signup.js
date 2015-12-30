@@ -2,6 +2,8 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
+var DeviceWidth = Dimensions.get('window').width;
+var DeviceHeight = Dimensions.get('window').height;
 var Login = require('./Login');
 var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
@@ -87,11 +89,15 @@ class Signup extends Component {
     return (
       <View style={ styles.signupContainer }>
         <ScrollView ref="scrollView">
-        <View style  = {{flex: 1}}>
-          <Image style = {{height: 270, width: 375}} source={require('../assets/logogold.png')}/>
+        
+        <View style  = {{ justifyContent: 'center', flex: 1 }}>
+          <Image 
+            style = {{ height: DeviceHeight/2.15, width: DeviceWidth }} 
+            source={require('../assets/logogold.png')}/>
         </View>
-      <View>
-        <View style={ {marginTop: 20} }>
+
+      {/*<View>*/}
+        <View style={ [styles.inputs, {marginTop: 15}] }>
           <View style={ styles.inputContainer }>
             <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             <TextInput 
@@ -145,19 +151,21 @@ class Signup extends Component {
             {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'}
             </Text>
 
-        </View>
+        {/*</View>*/}
         </View>
         </ScrollView>
 
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'center' }}>
+          
           <TouchableHighlight
             onPress={ this.submitSignup.bind(this) }
             style={[styles.loginSignup, {backgroundColor: '#00BCD4'}]}>
             <Text style={ styles.whiteFont }>Sign Up</Text>
           </TouchableHighlight>
+
           <TouchableHighlight
             onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }
-            style={styles.loginSignup}>
+            style={ [styles.loginSignup, {marginLeft: 25}] }>
             <Text style={ styles.whiteFont }>Login</Text>
           </TouchableHighlight>
         </View>
