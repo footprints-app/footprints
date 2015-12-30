@@ -115,7 +115,7 @@ class EditPlace extends Component {
           placeName: {
             placeholder: this.state.placeName,
             placeholderTextColor: '#FFF',
-            label: 'Place'
+            label: 'Place Name'
           },
           address: {
             placeholder: this.state.address,
@@ -175,7 +175,7 @@ class EditPlace extends Component {
         
                 </View>*/}
 
-        <TouchableHighlight onPress={this.editPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
+        <TouchableHighlight onPress={this.editPhoto.bind(this)} underlayColor='#727272' style={{marginTop: 25}}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
             <View style={{marginTop: 17}}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
@@ -188,12 +188,19 @@ class EditPlace extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
+          style={ [styles.button, {marginTop: 50}] } 
           onPress={ this.editDone.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          <View style={ styles.doneBtn }>
-            <Text style={ styles.whiteFont }>Done</Text>
-          </View>
+          underlayColor='#FFC107'>
+          <Text style={ styles.buttonText }>Done</Text>
         </TouchableHighlight>
+
+        {/*<TouchableHighlight 
+                  onPress={ this.editDone.bind(this) } 
+                  style={ styles.touchable } underlayColor="white">
+                  <View style={ styles.doneBtn }>
+                    <Text style={ styles.whiteFont }>Done</Text>
+                  </View>
+                </TouchableHighlight>*/}
       
       </View>
     );
