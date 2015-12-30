@@ -25,6 +25,7 @@ var {
 var EditPlaceDetail = t.struct({
   placeName: t.maybe(t.String),
   description: t.maybe(t.String),
+  placeOrder: t.maybe(t.Number)
   // address: t.maybe(t.String),
 });
 
@@ -46,25 +47,31 @@ class EditPlace extends Component {
       description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',
       address: (typeof this.props.place.address !== 'undefined') ? this.props.place.address : '',
       tourId: this.props.place.tourId,
-      editPlaceName: '',
-      editDescription: '',
-      editAddress: ''
+      placeOrder: this.props.place.placeOrder,
+      origPlaceOrder: this.props.place.placeOrder,
+      numPlacesInTour: 0
     };
    }
+
+  componentWillMount () {
+    var component = this;
+    var options = {
+      reqBody: {},
+      reqParam: this.state.tourId
+    }; 
+    utils.makeRequest('tour', component, options)
+    .then((response) => {
+      this.setState({numPlacesInTour: response.places.length})
+    })
+    .done();
+  }
 
    onChange(value) {
     this.setState(value);
   }
 
-  //  onPressDone() {
-  //   var MyTours = require('./MyTours');
-  //   var userId = this.state.tour.userId;
-  //   utils.navigateTo.call(this, "My Tours", MyTours, {userId});
-  // }
-
    editDone() {
     console.log('reqBody from editDone button: ', this.state);
-    var value = this.refs.form.getValue();
     var options = {
       reqBody: this.state,
       reqParam: this.state.id
@@ -73,7 +80,6 @@ class EditPlace extends Component {
     utils.makeRequest('editPlace', that, options)
     .then(response => {
       console.log('Response body from server after editing place: ', response.body);
-      console.log('tourid: ', that.state.tourId);
       var tourOptions = {
         reqBody: {},
         reqParam: that.state.tourId
@@ -120,6 +126,11 @@ class EditPlace extends Component {
             placeholderTextColor: '#FFF',
             label: 'Description'
           },
+          placeOrder: {
+            placeHolder: this.state.placeOrder
+            placeholderTextColor: '#FFF',
+            label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
+          }
         },
         stylesheet: formStyles
       };
@@ -154,7 +165,7 @@ class EditPlace extends Component {
           styles={utils.googlePlacesStyles}
           getDefaultValue={() => { return ''; }}// text input default value 
           query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
-          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
+          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>e
         
         {/*<View style={ styles.inputs }>
                 
