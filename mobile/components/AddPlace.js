@@ -75,12 +75,13 @@ class AddPlace extends Component {
      */
     var tourId = this.state.tourId;
     var newPlace = this.refs.form.getValue();
+    console.log('from AddPlace', newPlace)
     var options = {
       reqBody: {
-                placeName: newPlace.placeName,
+                placeName: this.state.placeName,
                 address: this.state.address,
-                description: newPlace.description,
-                placeOrder: newPlace.placeOrder,
+                description: this.state.description,
+                placeOrder: this.state.placeOrder,
                 tourId: tourId
               }
     };
@@ -137,7 +138,7 @@ class AddPlace extends Component {
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
           console.log('data: ', data);
           console.log('address: ', details.formatted_address)
-          this.setState({address: details.formatted_address});
+          this.setState({ address: details.formatted_address });
         }}
         getDefaultValue={() => { return ''; }}
         query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en', }}       

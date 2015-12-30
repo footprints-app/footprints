@@ -28,10 +28,10 @@ var {
   } = React;
 
 var EditTour = t.struct({
-  tourName: t.String,
-  // category: t.String,
-  description: t.String,
-  duration: t.String,
+  tourName: t.maybe(t.String),
+  // category: t.maybe(t.String),
+  description: t.maybe(t.String),
+  duration: t.maybe(t.String),
   // cityName: t.maybe(t.String),
   // state: t.maybe(t.String),
   // country: t.maybe(t.String),
@@ -168,17 +168,18 @@ class ViewCreatedTour extends Component {
     var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
     return (
       <TouchableHighlight
-        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }>
+        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }
+        underlayColor='#727272'>
         <View>
           <View style={ styles.placeContainer }>
             <View>
-              <Image source={{uri: imageURI }} style={styles.thumbnail}/>
+              <Image source={{uri: imageURI }} style={ styles.thumbnail }/>
             </View>
             <View style={ styles.rightContainer }>
-              <Text style={ styles.placeName }>{ place.placeName}</Text>
-              <Text style={ styles.address }>{ place.address.split(',')[0]}</Text>
+              <Text style={ styles.placeName }>{ place.placeName }</Text>
+              <Text style={ styles.address }>{ place.address.split(',')[0] }</Text>
             </View>
-            <Image source={require('../assets/arrow.png')} style={styles.arrow}></Image>
+            <Image source={ require('../assets/arrow.png') } style={ styles.arrow }></Image>
           </View>
 
           <View style={ styles.tourSeparator }/>
@@ -256,7 +257,7 @@ class ViewCreatedTour extends Component {
             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
               console.log('data: ', data);
               console.log('address: ', details.formatted_address)
-              this.setState({ address: details.formatted_address });
+              this.setState({ cityName: details.formatted_address });
             }}
             styles={utils.googlePlacesStyles}
             getDefaultValue={() => { return ''; }}// text input default value 
@@ -305,22 +306,27 @@ class ViewCreatedTour extends Component {
         <ScrollView automaticallyAdjustContentInsets={false}>
           <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
           <View>
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <Text style={ [styles.tourTitle, {alignSelf: 'center'} ] }>{ this.state.tour.tourName }</Text>
-
-              <TouchableHighlight
-                onPress={ this.toggleEdit.bind(this) }
-                style={ [styles.touchable, {marginBottom: 10}] }
-                underlayColor='#727272'>
-                <Image source={require('../assets/editiconteal.png')}
-                       style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 40}, {marginTop: 10}]} />
-
-              </TouchableHighlight>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignSelf: 'center'}}>
+              <View>
+                <Text style={ [styles.tourTitle, {alignSelf: 'center'}, {fontSize: 21} ] }>
+                  { this.state.tour.tourName }
+                </Text>
+              </View>
+              <View style={{ marginLeft: 10 }}>
+                <TouchableHighlight
+                  onPress={ this.toggleEdit.bind(this) }
+                  style={ [styles.touchable, {marginBottom: 10}] }
+                  underlayColor='#727272'>
+                  <Image source={require('../assets/editiconteal.png')}
+                         style={[styles.editIcon, {width: 35}, {height: 35}, {marginTop: 10}]} />
+                </TouchableHighlight>
+              </View>
 
             </View>
+
             <View style={{justifyContent: 'center'}}>
-              <Text style={styles.description}>
-                <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
+              <Text style={[styles.description, {marginRight: 10}]}>
+                <Text style={ styles.bold }>Description: </Text>{this.state.tour.description + '\n'}
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
                 <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
                 {/*<Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }*/}
