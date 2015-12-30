@@ -61,13 +61,24 @@ class AddPlace extends Component {
       placeName: '',
       description: '',
       placeOrder: '',
-      address: ''
+      address: '',
+      numPlacesInTour: 0
     };
   }
 
   componentWillMount () {
     console.log('componentWillMount in AddPlace called');
-    //get number of places in tour
+    var component = this;
+    var options = {
+      reqBody: {},
+      reqParam: this.state.tourId
+    }; 
+    utils.makeRequest('tour', component, options)
+    .then((response) => {
+      console.log('response body from AddPlace: ', response);
+      this.setState({numPlacesInTour: response.places.length})
+    })
+    .done();
   }
 
   /**
