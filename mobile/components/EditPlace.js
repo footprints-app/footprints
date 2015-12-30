@@ -7,6 +7,8 @@ var SelectImage = require('./SelectImage');
 var styles = require('../lib/stylesheet');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+var formStyles = require('../lib/formStyleEditMode');
 
 var {
   StyleSheet,
@@ -22,8 +24,8 @@ var {
 
 var EditPlaceDetail = t.struct({
   placeName: t.maybe(t.String),
-  address: t.maybe(t.String),
   description: t.maybe(t.String),
+  // address: t.maybe(t.String),
 });
 
 class EditPlace extends Component {
@@ -113,17 +115,13 @@ class EditPlace extends Component {
             placeholderTextColor: '#FFF',
             label: 'Place Name'
           },
-          address: {
-            placeholder: this.state.address,
-            placeholderTextColor: '#FFF',
-            label: 'Address'
-          },
           description: {
             placeholder: this.state.description,
             placeholderTextColor: '#FFF',
             label: 'Description'
           },
         },
+        stylesheet: formStyles
       };
  
     return (
@@ -139,6 +137,24 @@ class EditPlace extends Component {
             value={ this.state.value }
             onChange={this.onChange.bind(this)}/>
         </View>
+
+        <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2}}>
+            Search for Address
+          </Text>
+          <GooglePlacesAutocomplete
+            placeholder={this.state.address}
+            minLength={3} // minimum length of text to search 
+            autoFocus={false}
+            fetchDetails={true}
+            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+              console.log('data: ', data);
+              console.log('address: ', details.formatted_address)
+              this.setState({ address: details.formatted_address });
+            }}
+            styles={utils.googlePlacesStyles}
+            getDefaultValue={() => { return ''; }}// text input default value 
+            query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
+            GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
         
         {/*<View style={ styles.inputs }>
                 
@@ -184,7 +200,7 @@ class EditPlace extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          style={ [styles.button, {marginTop: 50}] } 
+          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
           onPress={ this.editDone.bind(this) } 
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Done</Text>

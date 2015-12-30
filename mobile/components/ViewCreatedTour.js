@@ -165,7 +165,7 @@ class ViewCreatedTour extends Component {
   }
 
   renderPlace(place) {
-    var imageURI = (typeof place.image !== 'undefined') ? place.image : '';
+    var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
     return (
       <TouchableHighlight
         onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }>
@@ -176,7 +176,7 @@ class ViewCreatedTour extends Component {
             </View>
             <View style={ styles.rightContainer }>
               <Text style={ styles.placeName }>{ place.placeName}</Text>
-              <Text style={ styles.address }>{ place.address}</Text>
+              <Text style={ styles.address }>{ place.address.split(',')[0]}</Text>
             </View>
             <Image source={require('../assets/arrow.png')} style={styles.arrow}></Image>
           </View>
@@ -201,7 +201,8 @@ class ViewCreatedTour extends Component {
 
           <TouchableHighlight
             style={ styles.rightContainer }
-            onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
+            onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }
+            underlayColor='#727272'>
             <Text style={ styles.placeName }>{ place.placeName }</Text>
           </TouchableHighlight>
         </View>
@@ -298,7 +299,7 @@ class ViewCreatedTour extends Component {
   }
 
   renderViewMode() {
-    var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : '';
+    var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : null;
     return (
       <View style={ styles.tourContainer }>
         <ScrollView automaticallyAdjustContentInsets={false}>
@@ -327,13 +328,13 @@ class ViewCreatedTour extends Component {
             </View>
           </View>
 
-          <View style={ [styles.photoAudioContainer, {marginTop: 10}, {marginBottom: 3} ] }>
-            <View>
-              <Text style={ [styles.text, {marginTop: 12}] }>Places</Text>
+          <View style={ [styles.photoAudioContainer, {marginTop: 5}, {marginBottom: 3} ] }>
+            <View style={{marginTop: 5}}>
+              <Text style={ styles.text }>Places</Text>
             </View>
             <TouchableHighlight
               onPress={ this.addPlace.bind(this) }
-              style={ [styles.touchable, {marginTop: 8}] }
+              style={ [styles.touchable, {marginTop: 1}] }
               underlayColor='#727272'>
               <Image source={require('../assets/addplaceicon.png')}
                      style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
