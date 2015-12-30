@@ -167,10 +167,10 @@ class AddPlace extends Component {
           </TouchableHighlight>*/}
 
         <TouchableHighlight 
-          style={ [styles.button, {padding: 12}] } 
+          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
           onPress={ this.onPressSave.bind(this) } 
           underlayColor='#FFC107'>
-          <Text style={ styles.buttonText }>Add Place</Text>
+          <Text style={ styles.buttonText }>Next</Text>
         </TouchableHighlight>
       </View>
     );
