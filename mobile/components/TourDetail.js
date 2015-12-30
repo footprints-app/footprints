@@ -12,7 +12,8 @@ var {
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  ScrollView
 } = React;
 
 class TourDetail extends Component {
@@ -68,7 +69,7 @@ class TourDetail extends Component {
 
   renderLoadingView() {
     return (
-      <View style={styles.loading}>
+      <View style={ styles.loading }>
         <ActivityIndicatorIOS
           size='large'/>
         <Text>
@@ -84,14 +85,14 @@ class TourDetail extends Component {
       <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
         <View>
           {/*<View style={styles.tourSeparator} />*/}
-          <View style={styles.placeContainer}>
-            <Image source={{uri: imageURI }} style={styles.thumbnail}  />
-            <View style={styles.rightContainer}>
-              <Text style={styles.placeName}>{place.placeName}</Text>
+          <View style={ styles.placeContainer }>
+            <Image source={{ uri: imageURI }} style={ styles.thumbnail }  />
+            <View style={ styles.rightContainer }>
+              <Text style={ styles.placeName }>{ place.placeName }</Text>
             </View>
-            <Image source={require('../assets/arrow.png')} style={styles.arrow}></Image>
+            <Image source={ require('../assets/arrow.png') } style={ styles.arrow }></Image>
           </View>
-          <View style={styles.tourSeparator} />
+          <View style={ styles.tourSeparator } />
         </View>
       </TouchableHighlight>
     );
@@ -111,26 +112,29 @@ class TourDetail extends Component {
     //}
 
     return (
-      <View style={styles.tourContainer}>
-        
-        <Image style={styles.headerPhoto} source={{uri: imageURI}} />
-        <Text style={styles.tourTitle}>{tourName}</Text>
-        <Text style={styles.description}>
-          <Text style={styles.bold}>Description:</Text> {description + '\n'}
-          <Text style={styles.bold}>City:</Text> {cityName + '\n'}
-          <Text style={styles.bold}>Category:</Text> {category + '\n'}
-          <Text style={styles.bold}>Duration:</Text> {duration}
-        </Text>
-        <Text style={styles.tourTitle}>Places</Text>
-        <View style={styles.tourSeparator} />
-        
-        <View style={styles.panel}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderPlace.bind(this)}
-            style={styles.listView}
-            automaticallyAdjustContentInsets={false} />
-        </View>
+      <View style={ styles.tourContainer }>
+        <ScrollView automaticallyAdjustContentInsets={false}>
+
+          <Image style={ styles.headerPhoto } source={{ uri: imageURI }} />
+          <Text style={ styles.tourTitle }>{ tourName }</Text>
+          <Text style={ [styles.description, {marginRight: 10}] }>
+            <Text style={ styles.bold }>Description:</Text> { description + '\n' }
+            <Text style={ styles.bold }>City:</Text> { cityName + '\n' }
+            {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
+            <Text style={ styles.bold }>Duration:</Text> { duration }
+          </Text>
+          <Text style={ styles.tourTitle }>Places</Text>
+          <View style={ styles.tourSeparator } />
+          
+          <View style={ styles.panel }>
+            <ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderPlace.bind(this) }
+              style={ styles.listView }
+              automaticallyAdjustContentInsets={false} />
+          </View>
+
+        </ScrollView>
       </View>
       
     );

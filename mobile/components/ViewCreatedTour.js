@@ -256,7 +256,7 @@ class ViewCreatedTour extends Component {
             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
               console.log('data: ', data);
               console.log('address: ', details.formatted_address)
-              this.setState({ address: details.formatted_address });
+              this.setState({ cityName: details.formatted_address });
             }}
             styles={utils.googlePlacesStyles}
             getDefaultValue={() => { return ''; }}// text input default value 
@@ -319,8 +319,8 @@ class ViewCreatedTour extends Component {
 
             </View>
             <View style={{justifyContent: 'center'}}>
-              <Text style={styles.description}>
-                <Text style={styles.bold}>Description: </Text>{this.state.tour.description + '\n'}
+              <Text style={[styles.description, {marginRight: 10}]}>
+                <Text style={ styles.bold }>Description: </Text>{this.state.tour.description + '\n'}
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
                 <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
                 {/*<Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }*/}
