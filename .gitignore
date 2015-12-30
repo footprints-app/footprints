@@ -3,4 +3,7 @@ node_modules/
 .idea/
 coverage/
 sourcebundle/
-config/
+config/*
+mobile/node_modules/*
+!mobile/node_modules/tcomb-form-native/*
+!mobile/node_modules/react-native-google-places-autocomplete/*

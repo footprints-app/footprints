@@ -70,27 +70,8 @@ class ViewCreatedTour extends Component {
    * It fetches data from the database and sets the state with the fetched data.
    */
   componentDidMount() {
-    AsyncStorage.multiGet(['token', 'user'])
-      .then(function (data) {
-        if (data) {
-          this.setState({
-            token: data[0][1],
-            userId: +data[1][1]
-          });
-        }
-      });
     this.fetchData();
   }
-
-  // componentWillReceiveProps(nextProps) {
-
-  //   var that = this;
-  //   setTimeout(function () {
-  //     console.log('refetching')
-  //     that.fetchData();
-  //   }, 5000)
-
-  // }
 
   addPlace() {
     var tourId = this.state.tourId;
@@ -158,28 +139,27 @@ class ViewCreatedTour extends Component {
       reqBody: {}
     };
 
-    console.log('tourId: ', this.state.tourId);
     console.log('this.props: ', this.props);
     utils.makeRequest('tour', component, options)
-      .then((response) => {
-        console.log('response body from View Created Tour: ', response);
-        var places = response.places;
-        this.setState({
-          tour: response,
-          userId: response.userId,
-          tourName: response.tourName,
-          description: response.description,
-          category: response.category,
-          duration: response.duration,
-          userName: response.userName,
-          cityName: response.cityName,
-          state: response.state,
-          country: response.country,
-          dataSource: this.state.dataSource.cloneWithRows(places),
-          isLoading: false
-        });
-      })
-      .done();
+    .then((response) => {
+      console.log('response body from View Created Tour: ', response);
+      var places = response.places;
+      component.setState({
+        tour: response,
+        userId: response.userId,
+        tourName: response.tourName,
+        description: response.description,
+        category: response.category,
+        duration: response.duration,
+        userName: response.userName,
+        cityName: response.cityName,
+        state: response.state,
+        country: response.country,
+        dataSource: this.state.dataSource.cloneWithRows(places),
+        isLoading: false
+      });
+    })
+    .done();
   }
 
   renderPlace(place) {

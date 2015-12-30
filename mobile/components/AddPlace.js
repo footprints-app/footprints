@@ -6,7 +6,10 @@ var SelectImage = require('./SelectImage');
 var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+var formStyles = require('../lib/form_stylesheet');
 var styles = require('../lib/stylesheet');
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+
 
 var {
   Component,
@@ -21,7 +24,7 @@ var {
 // Place defines domain model for form.
 var Place = t.struct({
   placeName: t.maybe(t.String),
-  address: t.maybe(t.String),
+  // address: t.maybe(t.String),
   description: t.maybe(t.String),
   placeOrder: t.maybe(t.Number)
 });
@@ -33,10 +36,6 @@ var options = {
       placeholder: 'Place',
       placeholderTextColor: '#FFF',
     },
-    address: {
-      placeholder: 'Address',
-      placeholderTextColor: '#FFF'
-    },
     description: {
       placeholder: 'Description',
       placeholderTextColor: '#FFF'
@@ -46,6 +45,7 @@ var options = {
       placeholderTextColor: '#FFF'
     }
   },
+  stylesheet: formStyles
 };
 
 class AddPlace extends Component {
@@ -57,7 +57,12 @@ class AddPlace extends Component {
     super(props);
     this.state = {
       tourId: this.props.tourId || this.props.route.passProps.tourId,
-      placeId: null
+      placeId: null,
+      address: null,
+      placeName: '',
+      description: '',
+      placeOrder: '',
+      address: ''
     };
   }
 
@@ -73,7 +78,7 @@ class AddPlace extends Component {
     var options = {
       reqBody: {
                 placeName: newPlace.placeName,
-                address: newPlace.address,
+                address: this.state.address,
                 description: newPlace.description,
                 placeOrder: newPlace.placeOrder,
                 tourId: tourId
@@ -93,6 +98,9 @@ class AddPlace extends Component {
           addPlaceView: true
         }
         utils.navigateTo.call(this, "Add a Photo", SelectImage, props);
+        // var placeId = response.id
+        // utils.navigateTo.call(this, "Add a Photo", SelectImage, {placeId});
+        // utils.navigateTo.call(this, 'View Tour', ViewCreatedTour, {tourId});
       });
   }
 
@@ -100,6 +108,10 @@ class AddPlace extends Component {
     /*TODO: this should send a put request to update place photo, needs placeId*/
     var tourId = this.state.tourId;
     utils.navigateTo.call(this, "Select a Tour Photo", SelectImage, {tourId});
+  }
+
+  onChange(value) {
+    this.setState(value);
   }
 
   /**
@@ -113,8 +125,63 @@ class AddPlace extends Component {
           <Form
             ref="form"
             type={ Place }
-            options={ options }/>
+            options={ options }
+            value={this.state.value}
+            onChange={this.onChange.bind(this)}/>
         </View>
+
+      <GooglePlacesAutocomplete
+        placeholder='Search for address'
+        minLength={3} // minimum length of text to search 
+        autoFocus={false}
+        fetchDetails={true}
+        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+          console.log('data: ', data);
+          console.log('address: ', details.formatted_address)
+          this.setState({address: details.formatted_address});
+        }}
+        getDefaultValue={() => {
+          return ''; // text input default value 
+        }}
+        query={{
+          // available options: https://developers.google.com/places/web-service/autocomplete 
+          key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
+          language: 'en', // language of the results 
+        }}
+        
+        // currentLocation={false} // Will add a 'Current location' button at the top of the predefined places list 
+        // currentLocationLabel="Current location"
+        // currentLocationAPI='GooglePlacesSearch' // Which API to use: GoogleReverseGeocoding or GooglePlacesSearch 
+        GooglePlacesSearchQuery={{
+          // available options for GooglePlacesSearch API : https://developers.google.com/places/web-service/search 
+          rankby: 'distance',
+          // types: 'food',
+        }}/>
+ 
+       
+        
+          <TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
+            <View style={ styles.photoAudioContainer }>   
+              <View style={{marginTop: 25}}>
+                <Text style={ styles.text }>Add a Photo</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
+              </View>
+            </View>   
+          </TouchableHighlight>
+          
+            
+          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
+            <View style={ styles.photoAudioContainer }>
+              <View style={{marginTop: 25}}>
+                <Text style={ styles.text }>Add Audio</Text>
+              </View>
+              <View>
+                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
+              </View>
+            </View>  
+          </TouchableHighlight>
 
         <TouchableHighlight 
           style={ styles.button } 

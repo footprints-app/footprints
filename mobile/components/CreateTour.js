@@ -6,7 +6,9 @@ var ViewCreatedTour = require('./ViewCreatedTour');
 var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+var formStyles = require('../lib/form_stylesheet');
 var styles = require('../lib/stylesheet');
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 
 var {
   StyleSheet,
@@ -25,43 +27,29 @@ var Tour = t.struct({
   category: t.maybe(t.String),
   description: t.maybe(t.String),
   duration: t.maybe(t.String),
-  cityName: t.maybe(t.String),
-  state: t.maybe(t.String),
-  country: t.maybe(t.String),
 });
 
 var options = {
   auto: 'placeholders',
   fields: {
-    tourName: {
-      placeholder: 'Tour Name',
-      placeholderTextColor: '#FFF',
+      tourName: {
+        placeholder: 'Tour Name',
+        placeholderTextColor: '#FFF',
+      },
+      category: {
+        placeholder: 'Category',
+        placeholderTextColor: '#FFF'
+      },
+      description: {
+        placeholder: 'Description',
+        placeholderTextColor: '#FFF'
+      },
+      duration: {
+        placeholder: 'Duration',
+        placeholderTextColor: '#FFF',
+      },
     },
-    category: {
-      placeholder: 'Category',
-      placeholderTextColor: '#FFF'
-    },
-    description: {
-      placeholder: 'Description',
-      placeholderTextColor: '#FFF'
-    },
-    duration: {
-      placeholder: 'Duration',
-      placeholderTextColor: '#FFF',
-    },
-    cityName: {
-      placeholder: 'City',
-      placeholderTextColor: '#FFF',
-    },
-    state: {
-      placeholder: 'State',
-      placeholderTextColor: '#FFF',
-    },
-    country: {
-      placeholder: 'Country',
-      placeholderTextColor: '#FFF',
-    },
-  },
+  stylesheet: formStyles
 };
 
 
@@ -76,7 +64,7 @@ class CreateTour extends Component {
     super(props);
     this.state = {
       tourName: '',
-      userId: null/*this.props.userId*/,
+      // userId: null/*this.props.userId*/,
       description: '',
       category: '',
       duration: '',
@@ -87,20 +75,10 @@ class CreateTour extends Component {
     };
   }
 
-  componentDidMount () {
-    var that = this;
-    AsyncStorage.multiGet(['token', 'user'])
-    .then(function(data) {
-      that.setState({
-        token: data[0][1],
-        userId: data[1][1]
-      })
-    });
-  }
-
   viewTour () {
     var value = this.refs.form.getValue();
     console.log('input value...', value)
+
     var options = {
       reqBody: this.state
     }; 
@@ -136,6 +114,27 @@ class CreateTour extends Component {
             value={ this.state.value }
             onChange={this.onChange.bind(this)}/>
         </View>
+         <GooglePlacesAutocomplete
+            placeholder='City'
+            minLength={3} // minimum length of text to search 
+            autoFocus={false}
+            fetchDetails={false}
+            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+              var cityStateCountry = data.description.split(','); 
+              this.setState({cityName: cityStateCountry[0].trim(), state: cityStateCountry[1].trim() || '', country: cityStateCountry[2].trim() || '' });             
+            }}
+            getDefaultValue={() => {
+              return '';
+            }}
+            query={{
+              key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
+              language: 'en', // language of the results 
+              types: '(cities)'
+            }}
+
+            GooglePlacesSearchQuery={{
+              rankby: 'distance',
+            }}/>
 
         <TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 5}}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
@@ -155,6 +154,7 @@ class CreateTour extends Component {
           <Text style={ styles.buttonText }>Create Tour</Text>
         </TouchableHighlight>
       </View>
+
     );
   }
 };
