@@ -168,7 +168,8 @@ class ViewCreatedTour extends Component {
     var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
     return (
       <TouchableHighlight
-        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }>
+        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }
+        underlayColor='#727272'>
         <View>
           <View style={ styles.placeContainer }>
             <View>
