@@ -57,7 +57,7 @@ class Login extends Component {
         AsyncStorage.setItem('token', response.token)
         .then(() => {
           console.log('from login client.....', response.token);
-          utils.navigateTo.call(component, "Welcom", Main, {});
+          utils.navigateTo.call(component, "Welcome", Main, {});
         });
       }
     })
