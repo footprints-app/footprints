@@ -173,13 +173,13 @@ class ViewCreatedTour extends Component {
         <View>
           <View style={ styles.placeContainer }>
             <View>
-              <Image source={{uri: imageURI }} style={styles.thumbnail}/>
+              <Image source={{uri: imageURI }} style={ styles.thumbnail }/>
             </View>
             <View style={ styles.rightContainer }>
-              <Text style={ styles.placeName }>{ place.placeName}</Text>
-              <Text style={ styles.address }>{ place.address.split(',')[0]}</Text>
+              <Text style={ styles.placeName }>{ place.placeName }</Text>
+              <Text style={ styles.address }>{ place.address.split(',')[0] }</Text>
             </View>
-            <Image source={require('../assets/arrow.png')} style={styles.arrow}></Image>
+            <Image source={ require('../assets/arrow.png') } style={ styles.arrow }></Image>
           </View>
 
           <View style={ styles.tourSeparator }/>
