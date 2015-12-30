@@ -80,7 +80,7 @@ class TourDetail extends Component {
   }
 
   renderPlace(place) {
-    var imageURI = (typeof place.image !== 'undefined') ? place.image : '';
+    var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
     return (
       <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
         <View>
@@ -100,7 +100,7 @@ class TourDetail extends Component {
   
   render() {
     var tour = this.props.tour;
-    var imageURI = (typeof tour.image !== 'undefined') ? tour.image : '';
+    var imageURI = (typeof tour.image !== 'undefined') ? tour.image : null;
     var tourName = (typeof tour.tourName !== 'undefined') ? tour.tourName : '';
     var description = (typeof tour.description !== 'undefined') ? tour.description : '';
     var cityName = (typeof tour.cityName !== 'undefined') ? tour.cityName : '';
@@ -116,7 +116,7 @@ class TourDetail extends Component {
         <ScrollView automaticallyAdjustContentInsets={false}>
 
           <Image style={ styles.headerPhoto } source={{ uri: imageURI }} />
-          <Text style={ styles.tourTitle }>{ tourName }</Text>
+          <Text style={ [styles.tourTitle] }>{ tourName }</Text>
           <Text style={ [styles.description, {marginRight: 10}] }>
             <Text style={ styles.bold }>Description:</Text> { description + '\n' }
             <Text style={ styles.bold }>City:</Text> { cityName + '\n' }

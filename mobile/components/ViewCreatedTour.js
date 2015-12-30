@@ -306,19 +306,24 @@ class ViewCreatedTour extends Component {
         <ScrollView automaticallyAdjustContentInsets={false}>
           <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
           <View>
-            <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-              <Text style={ [styles.tourTitle, {alignSelf: 'center'} ] }>{ this.state.tour.tourName }</Text>
-
-              <TouchableHighlight
-                onPress={ this.toggleEdit.bind(this) }
-                style={ [styles.touchable, {marginBottom: 10}] }
-                underlayColor='#727272'>
-                <Image source={require('../assets/editiconteal.png')}
-                       style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 40}, {marginTop: 10}]} />
-
-              </TouchableHighlight>
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignSelf: 'center'}}>
+              <View>
+                <Text style={ [styles.tourTitle, {alignSelf: 'center'}, {fontSize: 21} ] }>
+                  { this.state.tour.tourName }
+                </Text>
+              </View>
+              <View style={{ marginLeft: 10 }}>
+                <TouchableHighlight
+                  onPress={ this.toggleEdit.bind(this) }
+                  style={ [styles.touchable, {marginBottom: 10}] }
+                  underlayColor='#727272'>
+                  <Image source={require('../assets/editiconteal.png')}
+                         style={[styles.editIcon, {width: 35}, {height: 35}, {marginTop: 10}]} />
+                </TouchableHighlight>
+              </View>
 
             </View>
+
             <View style={{justifyContent: 'center'}}>
               <Text style={[styles.description, {marginRight: 10}]}>
                 <Text style={ styles.bold }>Description: </Text>{this.state.tour.description + '\n'}
