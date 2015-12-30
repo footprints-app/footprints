@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var Login = require('./Login');
+var Main = require('./Main');
 var styles = require('../lib/stylesheet');
 var utils = require('../lib/utility');
 
@@ -20,10 +21,13 @@ class Settings extends Component {
 	}
 
 	logout () {
+		var component = this;
 		AsyncStorage.removeItem('token')
 			.then(() => {
 				console.log('removed token!')
-				utils.navigateTo.call(this, 'Login', Login, {})
+				utils.getToken()
+				//utils.navigateTo.call(component, 'Main', require('./Main'), {})
+				component.refs.nav.resetTo({title: 'Main', component: Main})
 			})
 			.catch((error) => {
 				console.log('Error in removing token: ', error)
@@ -35,7 +39,8 @@ class Settings extends Component {
 			<View style={styles.mainContainer}>
 				<TouchableHighlight
 					style={[styles.button, {width: 150}]}
-					onPress={this.logout.bind(this)}>
+					onPress={this.logout.bind(this)}
+					underlayColor="#FCC107">
 					<Text style={styles.buttonText}>Logout</Text>
 				</TouchableHighlight>
 			</View>
