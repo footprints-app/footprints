@@ -11,10 +11,7 @@
     "react-native": "^0.16.0",
     "react-native-button": "^1.3.1",
     "react-native-fs": "^1.1.0",
-<<<<<<< 12418c528dbf3fb742788e883f4d098fd3537a7b
     "react-native-google-places-autocomplete": "^1.1.6",
-=======
->>>>>>> styling editPlaceView
     "react-native-icons": "^0.7.0",
     "react-native-image-picker": "^0.10.0",
     "react-native-keyboard-aware-scroll-view": "0.0.3",
