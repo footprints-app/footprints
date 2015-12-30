@@ -129,8 +129,12 @@ class MyTours extends Component {
       <View>
         <View style={ [styles.tourContainer, {flexDirection: 'row'}] }>
           <View style={ styles.deleteContainer }>
-            <TouchableHighlight style={{marginTop: 30}} onPress={ this.deleteTour.bind(this, tour) }>
-              <Image source={ require('../assets/deleteicon.png') } style={ styles.addPlaceIcon }/>
+            <TouchableHighlight 
+              style={{marginTop: 30}} 
+              onPress={ this.deleteTour.bind(this, tour) }>
+              <Image 
+                source={ require('../assets/deleteicon.png') } 
+                style={ [styles.addPlaceIcon, {width: 25}, {height: 25}, {marginTop: 30}] }/>
             </TouchableHighlight>
           </View>
           <View style={ styles.rightContainer }>
@@ -173,20 +177,11 @@ class MyTours extends Component {
             renderRow={ this.renderDeletableTour.bind(this) }
             style={ styles.listView }/>
         </View>
-
-        {/*<TouchableHighlight 
-          onPress={ this.toggleEdit.bind(this) } 
-          style={ styles.touchable }>
-          <View style={ styles.doneBtn }>
-            <Text style={ styles.whiteFont }>Done</Text>
-          </View>
-        </TouchableHighlight>*/}
       </View>
     );
   }
 
   renderViewMode() {
-    {/*this.fetchData();*/}
     return (
       <View style={ [styles.container, {marginTop: 64}] }>
 

@@ -10,6 +10,8 @@ var styles = require('../lib/stylesheet');
 var SelectImage = require('./SelectImage');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+var formStyles = require('../lib/formStyleEditMode');
 
 var {
   StyleSheet,
@@ -26,13 +28,13 @@ var {
   } = React;
 
 var EditTour = t.struct({
-  tourName: t.maybe(t.String),
-  category: t.maybe(t.String),
-  description: t.maybe(t.String),
-  duration: t.maybe(t.String),
-  cityName: t.maybe(t.String),
-  state: t.maybe(t.String),
-  country: t.maybe(t.String),
+  tourName: t.String,
+  // category: t.String,
+  description: t.String,
+  duration: t.String,
+  // cityName: t.maybe(t.String),
+  // state: t.maybe(t.String),
+  // country: t.maybe(t.String),
 });
 
 class ViewCreatedTour extends Component {
@@ -190,9 +192,13 @@ class ViewCreatedTour extends Component {
     return (
       <View>
         <View style={ styles.placeContainer }>
-          <TouchableHighlight style={ styles.deleteContainer } onPress={ this.deletePlace.bind(this, place) }>
-            <Text style={ styles.deleteText }>Delete</Text>
+          <TouchableHighlight 
+            style={ styles.deleteContainer } 
+            onPress={ this.deletePlace.bind(this, place) }
+            underlayColor='#727272'>
+            <Image source={ require('../assets/deleteicon.png') } style={ {width: 15, height: 15} }/>
           </TouchableHighlight>
+
           <TouchableHighlight
             style={ styles.rightContainer }
             onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }>
@@ -211,32 +217,20 @@ class ViewCreatedTour extends Component {
         tourName: {
           placeholder: this.state.tour.tourName,
           placeholderTextColor: '#FFF',
-        },
-        category: {
-          placeholder: this.state.tour.category,
-          placeholderTextColor: '#FFF'
+          label: 'Tour Name'
         },
         description: {
           placeholder: this.state.tour.description,
-          placeholderTextColor: '#FFF'
+          placeholderTextColor: '#FFF',
+          label: 'Description'
         },
         duration: {
           placeholder: this.state.tour.duration,
           placeholderTextColor: '#FFF',
-        },
-        cityName: {
-          placeholder: this.state.tour.cityName,
-          placeholderTextColor: '#FFF',
-        },
-        state: {
-          placeholder: this.state.tour.state,
-          placeholderTextColor: '#FFF',
-        },
-        country: {
-          placeholder: this.state.tour.country,
-          placeholderTextColor: '#FFF',
+          label: 'Duration'
         },
       },
+      stylesheet: formStyles
     };
 
     return (
@@ -251,6 +245,24 @@ class ViewCreatedTour extends Component {
               value={ this.state.value }
               onChange={this.onChange.bind(this)}/>
           </View>
+          <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 4}}>
+            Search for Address
+          </Text>
+          <GooglePlacesAutocomplete
+            placeholder={this.state.tour.cityName}
+            minLength={3} // minimum length of text to search 
+            autoFocus={false}
+            fetchDetails={true}
+            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+              console.log('data: ', data);
+              console.log('address: ', details.formatted_address)
+              this.setState({ address: details.formatted_address });
+            }}
+            styles={utils.googlePlacesStyles}
+            getDefaultValue={() => { return ''; }}// text input default value 
+            query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results
+            
+            GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
 
           <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
             <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
@@ -329,17 +341,6 @@ class ViewCreatedTour extends Component {
             </TouchableHighlight>
           </View>
 
-          {/*<TouchableHighlight
-           onPress={ this.toggleEdit.bind(this) }
-           style={ [styles.touchable, {marginBottom: 10}] }>
-           <View style={ [styles.photoAudioContainer, {marginTop: 10}] }>
-           <View>
-           <Text style={ [styles.text, {fontSize: 18}] }>Edit Tour Details</Text>
-           </View>
-           <Image source={require('../assets/editiconteal.png')}
-           style={[styles.editIcon, {width: 40}, {height: 40}, {marginLeft: 10}, {marginTop: -5}]} />
-           </View>
-           </TouchableHighlight>*/}
           <View style={ styles.tourSeparator }/>
 
           <View style={ styles.panel }>
