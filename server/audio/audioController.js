@@ -27,8 +27,7 @@ module.exports = {
         Bucket: S3_BUCKET,
         Key: randomStr,
         Expires: 1000,
-        //TODO: Error from S3 when ContentType is set.  What is the content-type for base64 encoded files?
-        //ContentType: req.query.file_type || 'application/octet-stream',//Change to file type
+        ContentType: 'audio/m4a',
         ACL: 'public-read'
     };
     s3.getSignedUrl('putObject', s3_params, function(err, data){

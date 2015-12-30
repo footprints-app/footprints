@@ -21,12 +21,13 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		7437316E1C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; settings = {ASSET_TAGS = (); }; };
-		7437316F1C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; settings = {ASSET_TAGS = (); }; };
-		743731701C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; settings = {ASSET_TAGS = (); }; };
-		743731721C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; settings = {ASSET_TAGS = (); }; };
-		743731741C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; settings = {ASSET_TAGS = (); }; };
+		7437316E1C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		7437316F1C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		743731701C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		743731721C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		743731741C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		9767531E1C345A96008C42B4 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 9767531D1C345A96008C42B4 /* FileUpload.m */; };
 		97F0574C1C32035200D8B26A /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F0574B1C32033900D8B26A /* libRNFS.a */; };
 		97F057561C3203BB00D8B26A /* libRNPlayAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F057531C3203AA00D8B26A /* libRNPlayAudio.a */; };
 		97F057601C3203E600D8B26A /* libRNRecordAudio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F0575D1C3203DC00D8B26A /* libRNRecordAudio.a */; };
@@ -214,10 +215,10 @@
 		74C480361C23841200EFD1BD /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		9767531D1C345A96008C42B4 /* FileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FileUpload.m; path = "../node_modules/react-native-file-upload/FileUpload.m"; sourceTree = "<group>"; };
 		97F0573A1C32033800D8B26A /* RNFS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		97F0574D1C3203AA00D8B26A /* RNPlayAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPlayAudio.xcodeproj; path = "../node_modules/react-native-play-audio-ios/RNPlayAudio.xcodeproj"; sourceTree = "<group>"; };
 		97F057571C3203DB00D8B26A /* RNRecordAudio.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNRecordAudio.xcodeproj; path = "../node_modules/react-native-record-audio-ios/RNRecordAudio.xcodeproj"; sourceTree = "<group>"; };
-
 		9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
 		9B1093A01C261DC5009059AC /* FAKOcticons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FAKOcticons.h; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKOcticons.h"; sourceTree = "<group>"; };
 		9B1093A11C261DC5009059AC /* FAKOcticons.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FAKOcticons.m; path = "../node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKOcticons.m"; sourceTree = "<group>"; };
@@ -423,6 +424,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				9767531D1C345A96008C42B4 /* FileUpload.m */,
 				97F057571C3203DB00D8B26A /* RNRecordAudio.xcodeproj */,
 				97F0574D1C3203AA00D8B26A /* RNPlayAudio.xcodeproj */,
 				97F0573A1C32033800D8B26A /* RNFS.xcodeproj */,
@@ -559,7 +561,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = G5695ZF6S7;
+						DevelopmentTeam = U5D9C4S85W;
 					};
 				};
 			};
@@ -848,6 +850,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9767531E1C345A96008C42B4 /* FileUpload.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				D08F37041C32317D002D8394 /* UIImagePickerManager.m in Sources */,
@@ -929,7 +932,7 @@
 				INFOPLIST_FILE = mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.walking;
+				PRODUCT_BUNDLE_IDENTIFIER = "siwang22-gmail.com";
 				PRODUCT_NAME = mobile;
 				PROVISIONING_PROFILE = "";
 			};
@@ -949,7 +952,7 @@
 				INFOPLIST_FILE = mobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.walking;
+				PRODUCT_BUNDLE_IDENTIFIER = "siwang22-gmail.com";
 				PRODUCT_NAME = mobile;
 				PROVISIONING_PROFILE = "";
 			};
