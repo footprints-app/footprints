@@ -18,6 +18,9 @@ var {
 class Settings extends Component {
 	constructor (props) {
 		super(props)
+		//this.state = {
+		//	loggedIn: true
+		//}
 	}
 
 	logout () {
@@ -26,8 +29,11 @@ class Settings extends Component {
 			.then(() => {
 				console.log('removed token!')
 				utils.getToken()
-				//utils.navigateTo.call(component, 'Main', require('./Main'), {})
-				component.refs.nav.resetTo({title: 'Main', component: Main})
+				//utils.navigateTo.call(component, 'Login', require('./Main'), {})
+				//this.setState({
+				//	loggedIn: false
+				//})
+				component.props.navigator.replace.call(component, {title: 'Login', component: Login})
 			})
 			.catch((error) => {
 				console.log('Error in removing token: ', error)
@@ -38,14 +44,15 @@ class Settings extends Component {
 		return(
 			<View style={styles.mainContainer}>
 				<TouchableHighlight
-					style={[styles.button, {width: 150}]}
+					style={[styles.mainButton, {width: 150}]}
 					onPress={this.logout.bind(this)}
 					underlayColor="#FCC107">
-					<Text style={styles.buttonText}>Logout</Text>
+					<Text style={styles.mainButtonText}>Logout</Text>
 				</TouchableHighlight>
 			</View>
 		)
 	}
+
 }
 
 module.exports = Settings;
