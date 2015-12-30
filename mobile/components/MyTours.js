@@ -131,7 +131,8 @@ class MyTours extends Component {
           <View style={ styles.deleteContainer }>
             <TouchableHighlight 
               style={{marginTop: 30}} 
-              onPress={ this.deleteTour.bind(this, tour) }>
+              onPress={ this.deleteTour.bind(this, tour) }
+                underlayColor='#727272'>
               <Image 
                 source={ require('../assets/deleteicon.png') } 
                 style={ [styles.addPlaceIcon, {width: 25}, {height: 25}, {marginTop: 30}] }/>
