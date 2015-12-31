@@ -31,7 +31,7 @@ var EditTour = t.struct({
   tourName: t.maybe(t.String),
   // category: t.maybe(t.String),
   description: t.maybe(t.String),
-  duration: t.maybe(t.String),
+  duration: t.maybe(t.Number),
   // cityName: t.maybe(t.String),
   // state: t.maybe(t.String),
   // country: t.maybe(t.String),
@@ -59,7 +59,7 @@ class ViewCreatedTour extends Component {
       description: '',
       image: '',
       category: '',
-      duration: '',
+      duration: 0,
       userName: '',
       cityName: '',
       state: '',
@@ -216,17 +216,17 @@ class ViewCreatedTour extends Component {
       auto: 'placeholders',
       fields: {
         tourName: {
-          placeholder: this.state.tour.tourName,
+          placeholder: this.state.tourName,
           placeholderTextColor: '#FFF',
           label: 'Tour Name'
         },
         description: {
-          placeholder: this.state.tour.description,
+          placeholder: this.state.description,
           placeholderTextColor: '#FFF',
           label: 'Description'
         },
         duration: {
-          placeholder: this.state.tour.duration,
+          placeholder: this.state.duration.toString(),
           placeholderTextColor: '#FFF',
           label: 'Duration'
         },

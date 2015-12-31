@@ -29,7 +29,7 @@ var Tour = t.struct({
   tourName: t.maybe(t.String),
   // category: t.maybe(t.String),
   description: t.maybe(t.String),
-  duration: t.maybe(t.String),
+  duration: t.maybe(t.Number),
 });
 
 var options = {
@@ -70,7 +70,7 @@ class CreateTour extends Component {
       // userId: null/*this.props.userId*/,
       description: '',
       category: '',
-      duration: '',
+      duration: 0,
       userName: '',
       cityName: '',
       state: '',
