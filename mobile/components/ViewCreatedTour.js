@@ -228,7 +228,7 @@ class ViewCreatedTour extends Component {
         duration: {
           placeholder: this.state.duration.toString(),
           placeholderTextColor: '#FFF',
-          label: 'Duration'
+          label: 'Estimated Time (in hours)'
         },
       },
       stylesheet: formStyles
@@ -327,7 +327,7 @@ class ViewCreatedTour extends Component {
               <Text style={[styles.description, {marginRight: 10}]}>
                 <Text style={ styles.bold }>Description: </Text>{this.state.tour.description + '\n'}
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
-                <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
+                <Text style={ styles.bold }>Est Time: </Text>{ this.state.tour.duration + ' hours' + '\n' }
                 {/*<Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }*/}
               </Text>
             </View>

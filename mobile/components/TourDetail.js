@@ -121,7 +121,7 @@ class TourDetail extends Component {
             <Text style={ styles.bold }>Description:</Text> { description + '\n' }
             <Text style={ styles.bold }>City:</Text> { cityName + '\n' }
             {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
-            <Text style={ styles.bold }>Duration:</Text> { duration }
+            <Text style={ styles.bold }>Est Time:</Text> { duration + ' hours'}
           </Text>
           <Text style={ styles.tourTitle }>Places</Text>
           <View style={ styles.tourSeparator } />
