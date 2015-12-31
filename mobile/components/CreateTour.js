@@ -27,9 +27,8 @@ var {
 
 var Tour = t.struct({
   tourName: t.maybe(t.String),
-  // category: t.maybe(t.String),
   description: t.maybe(t.String),
-  duration: t.maybe(t.Number),
+  duration: t.maybe(t.Number)
 });
 
 var options = {
@@ -63,7 +62,6 @@ class CreateTour extends Component {
     super(props);
     this.state = {
       tourName: '',
-      // userId: null/*this.props.userId*/,
       description: '',
       category: '',
       duration: 0,
@@ -112,46 +110,35 @@ class CreateTour extends Component {
           <Text style={ styles.text }>Tour Details</Text>
         </View>
         
-        <View style={{marginTop: 10}}>
+        <View style={{ marginTop: 10 }}>
           <Form
             ref="form"
             type={Tour}
             options={ options }
             controlled={true}
             value={ this.state.value }
-            onChange={this.onChange.bind(this)}/>
+            onChange={ this.onChange.bind(this) }/>
         </View>
-         <GooglePlacesAutocomplete
-            ref='searchField'
-            placeholder='City'
-            minLength={3} // minimum length of text to search 
-            autoFocus={false}
-            fetchDetails={false}
-            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-              var cityStateCountry = data.description.split(','); 
-              this.setState({cityName: cityStateCountry[0].trim(), 
-                state: cityStateCountry[1].trim() || '', 
-                country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' 
-              });             
-            }}
-            getDefaultValue={() => { return ''; }}
-            query={{
-              key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
-              language: 'en', // language of the results 
-              types: '(cities)'
-            }}
-            GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
-
-        {/*<TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 5}}>
-          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
-            <View style={{marginTop: 15}}>
-              <Text style={ styles.text }>Add a Photo</Text>
-            </View>
-            <View>
-              <Image source={require('../assets/photoicon.png')} style={[styles.photoIcon, {marginTop: 5}, {marginLeft: 15}]}/> 
-            </View>
-          </View>   
-        </TouchableHighlight>*/}
+        <GooglePlacesAutocomplete
+          ref='searchField'
+          placeholder='City'
+          minLength={3} // minimum length of text to search 
+          autoFocus={false}
+          fetchDetails={false}
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+            var cityStateCountry = data.description.split(','); 
+            this.setState({cityName: cityStateCountry[0].trim(), 
+              state: cityStateCountry[1].trim() || '', 
+              country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' 
+            });             
+          }}
+          getDefaultValue={() => { return ''; }}
+          query={{
+            key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
+            language: 'en', // language of the results 
+            types: '(cities)'
+          }}
+          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
 
         <TouchableHighlight 
           style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
