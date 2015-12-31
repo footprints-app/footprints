@@ -5,6 +5,7 @@ var windowSize = Dimensions.get('window');
 var DeviceWidth = Dimensions.get('window').width;
 var DeviceHeight = Dimensions.get('window').height;
 var ViewCreatedTour = require('./ViewCreatedTour');
+var SelectImage = require('./SelectImage');
 var utils = require('../lib/utility');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -77,15 +78,24 @@ class CreateTour extends Component {
     };
   }
 
-  viewTour () {
+  createAndAddPhoto () {
+    var value = this.refs.form.getValue();
+    console.log('input value...', value)
     var options = {
       reqBody: this.state
     }; 
     var component = this;
     utils.makeRequest('createTour', component, options)
     .then(response => {
-      var tourId = response.id;
-      utils.navigateTo.call(component, "View Tour", ViewCreatedTour, {tourId});
+      console.log('response body in Create Tour: ', response);
+      var props = {
+        tourId: response.id,
+        createTourView: true
+      }
+      //var tourId = response.id;
+      //console.log('tourId in create tour: ', tourId)
+      utils.navigateTo.call(component, "Add Tour Photo", SelectImage, props);
+
     })
     .done();
   }
@@ -145,7 +155,7 @@ class CreateTour extends Component {
 
         <TouchableHighlight 
           style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
-          onPress={ this.viewTour.bind(this) } 
+          onPress={ this.createAndAddPhoto.bind(this) }
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Next</Text>
         </TouchableHighlight>
