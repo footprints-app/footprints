@@ -127,13 +127,15 @@ class Login extends Component {
         <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 30}}>
           <TouchableHighlight 
             onPress={ this.submitLogin.bind(this) }
-            style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}>
+            style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}
+            underlayColor='#FFC107'>
               <Text style={ styles.whiteFont }>Login</Text>
           </TouchableHighlight>
 
           <TouchableHighlight
             onPress={ utils.navigateTo.bind(this, 'Signup', require('./Signup'), {}) }
-            style={ [styles.loginSignup, {marginLeft: 25}] }>
+            style={ [styles.loginSignup, {marginLeft: 25}] }
+            underlayColor='transparent'>
             <Text style={ styles.whiteFont }>Sign Up</Text>
           </TouchableHighlight>
         </View>

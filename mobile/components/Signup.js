@@ -159,13 +159,15 @@ class Signup extends Component {
           
           <TouchableHighlight
             onPress={ this.submitSignup.bind(this) }
-            style={[styles.loginSignup, {backgroundColor: '#00BCD4'}]}>
+            style={[styles.loginSignup, {backgroundColor: '#00BCD4'}]}
+            underlayColor='#00BCD4'>
             <Text style={ styles.whiteFont }>Sign Up</Text>
           </TouchableHighlight>
 
           <TouchableHighlight
             onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }
-            style={ [styles.loginSignup, {marginLeft: 25}] }>
+            style={ [styles.loginSignup, {marginLeft: 25}] }
+            underlayColor='transparent'>
             <Text style={ styles.whiteFont }>Login</Text>
           </TouchableHighlight>
         </View>

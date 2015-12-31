@@ -85,6 +85,8 @@ class CreateTour extends Component {
       reqBody: this.state
     }; 
     var component = this;
+    component.clearText();
+    component.forceUpdate();
     utils.makeRequest('createTour', component, options)
     .then(response => {
       console.log('response body in Create Tour: ', response);
@@ -102,6 +104,20 @@ class CreateTour extends Component {
 
   onChange(value) {
     this.setState(value);
+  }
+
+  clearText () {
+    this.setState = {
+      tourName: '',
+      // userId: null/*this.props.userId*/,
+      description: '',
+      category: '',
+      duration: '',
+      userName: '',
+      cityName: '',
+      state: '',
+      country: '',
+    };
   }
 
   render () {
