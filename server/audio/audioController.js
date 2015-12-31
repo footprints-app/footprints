@@ -25,9 +25,9 @@ module.exports = {
     var randomStr = this.randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
     var s3_params = {
         Bucket: S3_BUCKET,
-        Key: randomStr + '.m4a',
+        Key: randomStr + '.wav',
         Expires: 1000,
-        ContentType: 'audio/m4a',
+        ContentType: 'audio/x-wav',
         ACL: 'public-read'
     };
     s3.getSignedUrl('putObject', s3_params, function(err, data){

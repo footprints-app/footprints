@@ -42,7 +42,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.gif')});
     RNRecordAudio.startRecord(
 
-      "story.m4a", // filename
+      "story.wav", // filename
 
       function errorCallback(results) {
 
@@ -62,7 +62,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNRecordAudio.stopRecord(
 
-      "story.m4a", // filename
+      "story.wav", // filename
 
       function errorCallback(results) {
 
@@ -83,7 +83,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.gif')});
     RNPlayAudio.startAudio(
 
-      "story.m4a", // filename
+      "story.wav", // filename
 
       function errorCallback(results) {
 
@@ -103,7 +103,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.pauseAudio(
 
-      "story.m4a", // filename
+      "story.wav", // filename
 
       function errorCallback(results) {
 
@@ -123,7 +123,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.stopAudio(
 
-      "story.m4a", // filename
+      "story.wav", // filename
 
       function errorCallback(results) {
 
@@ -141,7 +141,7 @@ class RecordAudio extends Component {
   }
 
   done() {
-    var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
+    var storyPath = RNFS.DocumentDirectoryPath + "/story.wav";
     var request_url = 'http://10.6.32.174:8000';
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
@@ -158,13 +158,13 @@ class RecordAudio extends Component {
         method: 'PUT',
         headers: {
           "x-amz-acl": 'public-read',
-          "content-type": 'audio/m4a'
+          "content-type": 'audio/x-wav'
         },
         files: [
           {
-            filename: 'story.m4a',
+            filename: 'story.wav',
             filepath: storyPath,
-            filetype: 'audio/m4a'
+            filetype: 'audio/x-wav'
           }
         ]
       };
