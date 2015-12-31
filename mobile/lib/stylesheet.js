@@ -102,7 +102,8 @@ var styles = StyleSheet.create({
   mainButtonText: {
     fontSize: 24,
     color: 'white',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    fontWeight: 'bold'
   },
   mainTouchable: {
     borderRadius: 100

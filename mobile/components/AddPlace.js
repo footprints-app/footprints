@@ -58,7 +58,6 @@ class AddPlace extends Component {
     this.state = {
       tourId: this.props.tourId || this.props.route.passProps.tourId,
       placeId: null,
-      address: null,
       placeName: '',
       description: '',
       placeOrder: '',
@@ -74,8 +73,7 @@ class AddPlace extends Component {
      * getValue() gets the values of the form.
      */
     var tourId = this.state.tourId;
-    var newPlace = this.refs.form.getValue();
-    console.log('from AddPlace', newPlace)
+
     var options = {
       reqBody: {
                 placeName: this.state.placeName,
@@ -140,6 +138,7 @@ class AddPlace extends Component {
           console.log('address: ', details.formatted_address)
           this.setState({ address: details.formatted_address });
         }}
+
         getDefaultValue={() => { return ''; }}
         query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en', }}       
         GooglePlacesSearchQuery={{ rankby: 'distance', }}/>

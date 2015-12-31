@@ -5,6 +5,7 @@ var React = require('react-native');
 var AllTours = require('./AllTours');
 var MyTours = require('./MyTours');
 var CreateTour = require('./CreateTour');
+var Settings = require('./Settings');
 var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
 
@@ -51,11 +52,11 @@ class Main extends Component {
   /**
    * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
    */
-  userTours () {
-    var userId = this.state.userId;
-    console.log('user in Main: ', this.state.userId);
-    utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
-  }
+  //userTours () {
+  //  var userId = this.state.userId;
+  //  console.log('user in Main: ', this.state.userId);
+  //  utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
+  //}
 
   selectTab (tab, ref) {
     if(this.state.selectedTab !== tab) {
@@ -126,6 +127,20 @@ class Main extends Component {
             style={styles.container}
             ref="createTourView"
             initialRoute={{ title: 'Create a Tour', component: CreateTour }} />
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          title="Settings"
+          icon={require('../assets/settingsicon.png')}
+          selected={this.state.selectedTab === 'settings'}
+          onPress={this.selectTab.bind(this, 'settings', 'settingsView', Settings)}>
+          <NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            ref="settingsView"
+            initialRoute={{ title: 'Profile', component: Settings }} />
         </TabBarIOS.Item>
       </TabBarIOS>
     );
