@@ -293,10 +293,6 @@ module.exports = {
 		});
 	},
 
-	getSignedS3Url: function(req, res) {
-		audio.signedUrl(req, res);
-	},
-
   addAudio: function(req, res) {
   	audio.putToS3(req, res);
   }
