@@ -142,8 +142,8 @@ class RecordAudio extends Component {
 
   done() {
     var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
-    //var request_url = 'http://10.6.32.174:8000';
-    var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+    var request_url = 'http://10.6.32.174:8000';
+    //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
     fetch(request_url + '/tours/sign_s3', {
       method: "GET",
