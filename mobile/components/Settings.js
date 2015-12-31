@@ -1,7 +1,7 @@
 'use strict'
 
 var React = require('react-native');
-var Login = require('./Login');
+// var Login = require('./Login');
 var Main = require('./Main');
 var styles = require('../lib/stylesheet');
 var utils = require('../lib/utility');
@@ -18,9 +18,6 @@ var {
 class Settings extends Component {
 	constructor (props) {
 		super(props)
-		//this.state = {
-		//	loggedIn: true
-		//}
 	}
 
 	logout () {
@@ -29,11 +26,14 @@ class Settings extends Component {
 			.then(() => {
 				console.log('removed token!')
 				utils.getToken()
-				//utils.navigateTo.call(component, 'Login', require('./Main'), {})
-				//this.setState({
-				//	loggedIn: false
-				//})
-				component.props.navigator.replace.call(component, {title: 'Login', component: Login})
+				// utils.navigateTo.call(component, 'Login', require('./Login'), {})
+				// component.props.navigator.replace.call(component, {title: 'Login', component: Login})
+				var Login = require('./Login');
+				// console.log('nav length', component.props.navigator)
+				component.props.navigator.push({
+					title: 'Login', 
+					component: Login
+				})
 			})
 			.catch((error) => {
 				console.log('Error in removing token: ', error)
@@ -42,12 +42,12 @@ class Settings extends Component {
 
 	render () {
 		return(
-			<View style={styles.mainContainer}>
+			<View style={ styles.mainContainer }>
 				<TouchableHighlight
-					style={[styles.mainButton, {width: 150}]}
-					onPress={this.logout.bind(this)}
+					style={ [styles.mainButton, {width: 150}] }
+					onPress={ this.logout.bind(this) }
 					underlayColor="#FCC107">
-					<Text style={styles.mainButtonText}>Logout</Text>
+					<Text style={ styles.mainButtonText }>Logout</Text>
 				</TouchableHighlight>
 			</View>
 		)
