@@ -37,7 +37,7 @@ class PlaceDetail extends Component {
   }
 
   componentDidMount () {
-    audio.initWithURL('https://s3-us-west-1.amazonaws.com/walking-tour-media/06+A+Hard+Day%27s+Night.m4a');
+    audio.initWithURL('https://s3-us-west-1.amazonaws.com/walking-tour-media/example.caf');
     // audio.initWithURL(this.state.audio);    
 
   }

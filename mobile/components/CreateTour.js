@@ -29,7 +29,7 @@ var Tour = t.struct({
   tourName: t.maybe(t.String),
   // category: t.maybe(t.String),
   description: t.maybe(t.String),
-  duration: t.maybe(t.String),
+  duration: t.maybe(t.Number),
 });
 
 var options = {
@@ -70,7 +70,7 @@ class CreateTour extends Component {
       // userId: null/*this.props.userId*/,
       description: '',
       category: '',
-      duration: '',
+      duration: 0,
       userName: '',
       cityName: '',
       state: '',
@@ -127,7 +127,7 @@ class CreateTour extends Component {
             fetchDetails={false}
             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
               var cityStateCountry = data.description.split(','); 
-              this.setState({cityName: cityStateCountry[0].trim(), state: cityStateCountry[1].trim() || '', country: cityStateCountry[2].trim() || '' });             
+              this.setState({cityName: cityStateCountry[0].trim(), state: cityStateCountry[1].trim() || '', country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' });             
             }}
             getDefaultValue={() => {
               return '';

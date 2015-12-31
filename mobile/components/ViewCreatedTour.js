@@ -31,7 +31,7 @@ var EditTour = t.struct({
   tourName: t.maybe(t.String),
   // category: t.maybe(t.String),
   description: t.maybe(t.String),
-  duration: t.maybe(t.String),
+  duration: t.maybe(t.Number),
   // cityName: t.maybe(t.String),
   // state: t.maybe(t.String),
   // country: t.maybe(t.String),
@@ -59,7 +59,7 @@ class ViewCreatedTour extends Component {
       description: '',
       image: '',
       category: '',
-      duration: '',
+      duration: 0,
       userName: '',
       cityName: '',
       state: '',
@@ -216,19 +216,19 @@ class ViewCreatedTour extends Component {
       auto: 'placeholders',
       fields: {
         tourName: {
-          placeholder: this.state.tour.tourName,
+          placeholder: this.state.tourName,
           placeholderTextColor: '#FFF',
           label: 'Tour Name'
         },
         description: {
-          placeholder: this.state.tour.description,
+          placeholder: this.state.description,
           placeholderTextColor: '#FFF',
           label: 'Description'
         },
         duration: {
-          placeholder: this.state.tour.duration,
+          placeholder: this.state.duration.toString(),
           placeholderTextColor: '#FFF',
-          label: 'Duration'
+          label: 'Estimated Time (in hours)'
         },
       },
       stylesheet: formStyles
@@ -327,7 +327,7 @@ class ViewCreatedTour extends Component {
               <Text style={[styles.description, {marginRight: 10}]}>
                 <Text style={ styles.bold }>Description: </Text>{this.state.tour.description + '\n'}
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
-                <Text style={ styles.bold }>Duration: </Text>{ this.state.tour.duration + '\n' }
+                <Text style={ styles.bold }>Est Time: </Text>{ this.state.tour.duration + ' hours' + '\n' }
                 {/*<Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }*/}
               </Text>
             </View>
