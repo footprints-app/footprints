@@ -85,8 +85,6 @@ class CreateTour extends Component {
       reqBody: this.state
     }; 
     var component = this;
-    component.clearText();
-    component.forceUpdate();
     utils.makeRequest('createTour', component, options)
     .then(response => {
       console.log('response body in Create Tour: ', response);
@@ -98,26 +96,29 @@ class CreateTour extends Component {
       //console.log('tourId in create tour: ', tourId)
       utils.navigateTo.call(component, "Add Tour Photo", SelectImage, props);
 
+      var tourId = response.id;
+      console.log('tourId in create tour: ', tourId)
+      // utils.navigateTo.call(component, "View Tour", ViewCreatedTour, {tourId});
+      // component.props.navigator.push({
+      //   title:'View Tour',
+      //   component: ViewCreatedTour,
+      //   passProps: {tourId},
+      //   leftButtonTitle: 'back',
+      //   onLeftButtonPress: () => {
+      //     this.props.navigator.push({
+      //       title:'Create Tour',
+      //       component: CreateTour,
+      //       passProps: {}
+      //     });
+      //   }
+      //  });
+
     })
     .done();
   }
 
   onChange(value) {
     this.setState(value);
-  }
-
-  clearText () {
-    this.setState = {
-      tourName: '',
-      // userId: null/*this.props.userId*/,
-      description: '',
-      category: '',
-      duration: '',
-      userName: '',
-      cityName: '',
-      state: '',
-      country: '',
-    };
   }
 
   render () {
