@@ -100,7 +100,7 @@ class ViewCreatedTour extends Component {
     console.log("Edit Mode: ", this.state.editMode);
   }
 
-  editDone() {
+  editDone(callback) {
     console.log('state in view ViewCreatedTours', this.state)
     var value = this.refs.form.getValue();
     var options = {
@@ -112,8 +112,19 @@ class ViewCreatedTour extends Component {
     .then(response => {
       this.setState({editMode: false});
       this.fetchData();
-      this.onPressDone();
+      if(callback) {
+        callback()
+      } else {
+        this.onPressDone();
+      }
     });
+  }
+
+  putThenEditPlace (title, toComponent, props) {
+    var component = this;
+    this.editDone(function() {
+      utils.navigateTo.call(component, title, toComponent, props);
+    })
   }
 
   deletePlace(place) {
@@ -195,7 +206,7 @@ class ViewCreatedTour extends Component {
 
           <TouchableHighlight
             style={ styles.rightContainer }
-            onPress={ utils.navigateTo.bind(this,place.placeName, EditPlace, {place}) }
+            onPress={ this.putThenEditPlace.bind(this, place.placeName, EditPlace, {place}) }
             underlayColor='#727272'>
             <Text style={ styles.placeName }>{ place.placeName }</Text>
           </TouchableHighlight>
@@ -298,22 +309,23 @@ class ViewCreatedTour extends Component {
     return (
       <View style={ styles.tourContainer }>
         <ScrollView automaticallyAdjustContentInsets={false}>
-          <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
+          <Image style={ styles.headerPhoto } source={{ uri: imageURI }}>
+            <View style={{ marginRight: 10, alignItems: 'flex-end' }}>
+              <TouchableHighlight
+                onPress={ this.toggleEdit.bind(this) }
+                style={ [styles.touchable, {marginBottom: 10}] }
+                underlayColor='#727272'>
+                <Image source={ require('../assets/editiconteal.png') }
+                       style={ [styles.editIcon, {width: 45}, {height: 45}, {marginTop: 10}] } />
+              </TouchableHighlight>
+            </View>
+          </Image>
           <View>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', alignSelf: 'center' }}>
+            <View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
               <View>
                 <Text style={ [styles.tourTitle, {alignSelf: 'center'}, {fontSize: 21}] }>
                   { this.state.tour.tourName }
                 </Text>
-              </View>
-              <View style={{ marginLeft: 10 }}>
-                <TouchableHighlight
-                  onPress={ this.toggleEdit.bind(this) }
-                  style={ [styles.touchable, {marginBottom: 10}] }
-                  underlayColor='#727272'>
-                  <Image source={ require('../assets/editiconteal.png') }
-                         style={ [styles.editIcon, {width: 35}, {height: 35}, {marginTop: 10}] } />
-                </TouchableHighlight>
               </View>
             </View>
 
