@@ -42,7 +42,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.gif')});
     RNRecordAudio.startRecord(
 
-      "story.wav", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -62,7 +62,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNRecordAudio.stopRecord(
 
-      "story.wav", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -81,29 +81,36 @@ class RecordAudio extends Component {
   play() {
     this.readDirectory();
     this.setState({cassette: require('../assets/cassette.gif')});
-    RNPlayAudio.startAudio(
+    var path = RNFS.DocumentDirectoryPath
+    RNFS.readFile(path + '/story.m4a', 'base64')
+      .then((file) => {
+        RNFS.writeFile(path + '/story2.m4a', file, 'base64')
+          .then(() => {
+            RNPlayAudio.startAudio(
 
-      "story.wav", // filename
+              "story2.m4a", // filename
 
-      function errorCallback(results) {
+              function errorCallback(results) {
 
-          console.log('JS Error: ' + results['errMsg']);
+                  console.log('JS Error: ' + results['errMsg']);
 
-      },
+              },
 
-      function successCallback(results) {
+              function successCallback(results) {
 
-          console.log('JS Success: ' + results['successMsg']);
+                  console.log('JS Success: ' + results['successMsg']);
 
-      }
-    );
+              }
+            );
+          })
+      })
   }
 
   pause() {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.pauseAudio(
 
-      "story.wav", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -123,7 +130,7 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.stopAudio(
 
-      "story.wav", // filename
+      "story.m4a", // filename
 
       function errorCallback(results) {
 
@@ -141,37 +148,81 @@ class RecordAudio extends Component {
   }
 
   done() {
-    var storyPath = RNFS.DocumentDirectoryPath + "/story.wav";
+    var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
     var request_url = 'http://10.6.32.174:8000';
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
-    fetch(request_url + '/tours/sign_s3', {
-      method: "GET",
-      headers: {},
-    })
-    .then((response) => {
-      var resp = JSON.parse(response._bodyText);
-      console.log('Signed URL from Response: ', resp.signed_request);
-      console.log('URL from Response: ', resp.url);
-      var request = {
-        uploadUrl: resp.signed_request,
-        method: 'PUT',
-        headers: {
-          "x-amz-acl": 'public-read',
-          "content-type": 'audio/x-wav'
-        },
-        files: [
-          {
-            filename: 'story.wav',
-            filepath: storyPath,
-            filetype: 'audio/x-wav'
-          }
-        ]
-      };
-      FileUpload.upload(request, function(err, results) {
-        console.log('upload: ', err, results);
-      });
-    })
+    // fetch(request_url + '/tours/sign_s3', {
+    //   method: "GET",
+    //   headers: {},
+    // })
+    // .then((response) => {
+    //   var resp = JSON.parse(response._bodyText);
+    //   console.log('Signed URL from Response: ', resp.signed_request);
+    //   console.log('URL from Response: ', resp.url);
+    //   var request = {
+    //     uploadUrl: resp.signed_request,
+    //     method: 'PUT',
+    //     headers: {
+    //       "x-amz-acl": 'public-read',
+    //       "content-type": 'application/octet-stream'
+    //     },
+    //     files: [
+    //       {
+    //         filename: 'story.m4a',
+    //         filepath: storyPath,
+    //         filetype: 'application/octet-stream'
+    //       }
+    //     ]
+    //   };
+    //   FileUpload.upload(request, function(err, results) {
+    //     console.log('upload: ', err, results);
+    //   });
+    // })
+    
+    // RNFS.readFile(storyPath, 'ascii')
+    //  .then((file) => {
+    //    console.log('File successfully read');
+    //    fetch(request_url + '/tours/sign_s3', {
+    //      method: "GET",
+    //      headers: {},
+    //    })
+    //    .then((response) => {
+    //      var resp = JSON.parse(response._bodyText);
+    //      console.log('Signed URL from Response: ', resp.signed_request);
+    //      console.log('URL from Response: ', resp.url);
+    //      fetch(resp.signed_request, {
+    //        method: "PUT",
+    //        headers: {
+    //          "x-amz-acl": 'public-read',
+    //          "content-encoding": 'ascii',
+    //          "content-type": 'audio/x-m4a'
+    //        },
+    //        body: file.toString()
+    //      })
+    //      .then((response) => {
+    //        console.log('Response after PUT request: ', response);
+    //      })
+    //    })
+    //  })
+
+    RNFS.readFile(storyPath, 'base64')
+      .then((file) => {
+        console.log('File successfully read: ', file);
+        var encodedFile = file.toString();
+        fetch(request_url + '/tours/addaudio', {
+          method: "POST",
+          headers: {
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify({
+            file: encodedFile
+          })
+        })
+        .then((response) => {
+          console.log("Response received from audio post: ", response);
+        })
+      })
 
   }
 
