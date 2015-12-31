@@ -26,6 +26,7 @@
 		743731701C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		743731721C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		743731741C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		7498A2A01C34C320000829B1 /* RNAudioPlayerURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 7498A29F1C34C320000829B1 /* RNAudioPlayerURL.m */; settings = {ASSET_TAGS = (); }; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9767531E1C345A96008C42B4 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 9767531D1C345A96008C42B4 /* FileUpload.m */; };
 		97F0574C1C32035200D8B26A /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F0574B1C32033900D8B26A /* libRNFS.a */; };
@@ -212,6 +213,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mobile/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		7498A29E1C34C320000829B1 /* RNAudioPlayerURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNAudioPlayerURL.h; path = ../../../../../../Desktop/RNAudioPlayerURL.h; sourceTree = "<group>"; };
+		7498A29F1C34C320000829B1 /* RNAudioPlayerURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNAudioPlayerURL.m; path = ../../../../../../Desktop/RNAudioPlayerURL.m; sourceTree = "<group>"; };
 		74C480361C23841200EFD1BD /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -424,6 +427,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				7498A29E1C34C320000829B1 /* RNAudioPlayerURL.h */,
+				7498A29F1C34C320000829B1 /* RNAudioPlayerURL.m */,
 				9767531D1C345A96008C42B4 /* FileUpload.m */,
 				97F057571C3203DB00D8B26A /* RNRecordAudio.xcodeproj */,
 				97F0574D1C3203AA00D8B26A /* RNPlayAudio.xcodeproj */,
@@ -854,6 +859,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				D08F37041C32317D002D8394 /* UIImagePickerManager.m in Sources */,
+				7498A2A01C34C320000829B1 /* RNAudioPlayerURL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
