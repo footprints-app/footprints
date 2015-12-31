@@ -81,9 +81,10 @@ class RecordAudio extends Component {
   play() {
     this.readDirectory();
     this.setState({cassette: require('../assets/cassette.gif')});
+
     RNPlayAudio.startAudio(
 
-      "story.m4a", // filename
+      "story2.m4a", // filename
 
       function errorCallback(results) {
 
@@ -96,7 +97,7 @@ class RecordAudio extends Component {
           console.log('JS Success: ' + results['successMsg']);
 
       }
-    );
+    );    
   }
 
   pause() {
@@ -145,33 +146,23 @@ class RecordAudio extends Component {
     var request_url = 'http://10.6.32.174:8000';
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
-    fetch(request_url + '/tours/sign_s3', {
-      method: "GET",
-      headers: {},
-    })
-    .then((response) => {
-      var resp = JSON.parse(response._bodyText);
-      console.log('Signed URL from Response: ', resp.signed_request);
-      console.log('URL from Response: ', resp.url);
-      var request = {
-        uploadUrl: resp.signed_request,
-        method: 'PUT',
-        headers: {
-          "x-amz-acl": 'public-read',
-          "content-type": 'audio/m4a'
-        },
-        files: [
-          {
-            filename: 'story.m4a',
-            filepath: storyPath,
-            filetype: 'audio/m4a'
-          }
-        ]
-      };
-      FileUpload.upload(request, function(err, results) {
-        console.log('upload: ', err, results);
-      });
-    })
+    RNFS.readFile(storyPath, 'base64')
+      .then((file) => {
+        console.log('File successfully converted to base64');
+        var encodedFile = file.toString();
+        fetch(request_url + '/tours/addaudio', {
+          method: "POST",
+          headers: {
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify({
+            file: encodedFile
+          })
+        })
+        .then((response) => {
+          console.log("Response received from audio post: ", response);
+        })
+      })
 
   }
 

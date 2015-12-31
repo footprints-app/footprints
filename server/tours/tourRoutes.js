@@ -10,12 +10,12 @@ module.exports = function (app) {
   app.get('/alltours', userController.checkAuth, tourController.getAllTours);
   app.get('/mytours', userController.checkAuth, tourController.getUserTours);
   app.get('/tour/:id', userController.checkAuth, tourController.getOneTour);
-  app.get('/sign_s3', tourController.getSignedS3Url);
 
   app.post('/createtour', userController.checkAuth, tourController.createTour);
   app.post('/addplace', userController.checkAuth, tourController.addPlace);
   app.post('/tourphoto/:id', tourController.addTourPhoto);
   app.post('/placephoto/:id', tourController.addPlacePhoto);
+  app.post('/addaudio', tourController.addAudio);
 
   app.put('/edit/:id', userController.checkAuth, tourController.updateTour);
   app.put('/editplace/:id', userController.checkAuth, tourController.updatePlace);

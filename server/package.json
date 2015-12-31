@@ -4,6 +4,7 @@
   "main": "server.js",
   "dependencies": {
     "aws-sdk": "^2.2.26",
+    "base64-string-s3": "0.0.1",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.0.6",
     "body-parser": "^1.14.1",
