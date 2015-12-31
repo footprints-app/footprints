@@ -26,7 +26,6 @@ var EditPlaceDetail = t.struct({
   placeName: t.maybe(t.String),
   description: t.maybe(t.String),
   placeOrder: t.maybe(t.Number)
-  // address: t.maybe(t.String),
 });
 
 class EditPlace extends Component {
@@ -73,7 +72,6 @@ class EditPlace extends Component {
   }
 
    editDone() {
-    console.log('reqBody from editDone button: ', this.state);
     var options = {
       reqBody: this.state,
       reqParam: this.state.id
@@ -81,12 +79,14 @@ class EditPlace extends Component {
     var that = this;
     utils.makeRequest('editPlace', that, options)
     .then(response => {
-      console.log('in editPlace, tourName: ', that.state.tourName);
-
       if(that.state.placeOrder !== that.state.origPlaceOrder) {
         var orderOptions = {
-            reqBody: { placeOrder: that.state.placeOrder, placeId: that.state.id, origPlaceOrder: that.state.origPlaceOrder},
-            reqParam: that.state.tourId
+          reqBody: { 
+            placeOrder: that.state.placeOrder, 
+            placeId: that.state.id, 
+            origPlaceOrder: that.state.origPlaceOrder
+          },
+          reqParam: that.state.tourId
         };
         utils.makeRequest('placeOrders', that, orderOptions)
         .then(response => {
@@ -101,7 +101,7 @@ class EditPlace extends Component {
           });
         });
 
-      } else{
+      } else {
         var ViewCreatedTour = require('./ViewCreatedTour');
         that.props.navigator.replace({
             title: that.state.tourName,
@@ -110,44 +110,42 @@ class EditPlace extends Component {
                         tourId: that.state.tourId,
                         editMode: true
                        }
-          });
+        });
       }          
-        // utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
-        // that.props.navigator.pop();
     });
    }
 
-    editPhoto() {
-      /*TODO: this should send a put request to update tour photo*/
-      var props = {
-        tourId: this.state.tourId,
-        placeId: this.state.id
-      }
-      utils.navigateTo.call(this, "Select a Photo", SelectImage, props);
+  editPhoto() {
+    /*TODO: this should send a put request to update tour photo*/
+    var props = {
+      tourId: this.state.tourId,
+      placeId: this.state.id
     }
+    utils.navigateTo.call(this, "Select a Photo", SelectImage, props);
+  }
 
-   render() {
+  render() {
     var options = {
-        auto: 'placeholders',
-        fields: {
-          placeName: {
-            placeholder: this.state.placeName,
-            placeholderTextColor: '#FFF',
-            label: 'Place Name'
-          },
-          description: {
-            placeholder: this.state.description,
-            placeholderTextColor: '#FFF',
-            label: 'Description'
-          },
-          placeOrder: {
-            placeholder: this.state.placeOrder.toString(),
-            placeholderTextColor: '#FFF',
-            label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
-          }
+      auto: 'placeholders',
+      fields: {
+        placeName: {
+          placeholder: this.state.placeName,
+          placeholderTextColor: '#FFF',
+          label: 'Place Name'
         },
-        stylesheet: formStyles
-      };
+        description: {
+          placeholder: this.state.description,
+          placeholderTextColor: '#FFF',
+          label: 'Description'
+        },
+        placeOrder: {
+          placeholder: this.state.placeOrder.toString(),
+          placeholderTextColor: '#FFF',
+          label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
+        }
+      },
+      stylesheet: formStyles
+    };
  
     return (
       <View style={ styles.addPlaceContainer }>
@@ -160,10 +158,10 @@ class EditPlace extends Component {
             type={ EditPlaceDetail }
             options={ options }
             value={ this.state.value }
-            onChange={this.onChange.bind(this)}/>
+            onChange={ this.onChange.bind(this) }/>
         </View>
 
-        <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2}}>
+        <Text style={{ fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2 }}>
           Search for Address
         </Text>
         <GooglePlacesAutocomplete
@@ -171,27 +169,25 @@ class EditPlace extends Component {
           minLength={3} // minimum length of text to search 
           autoFocus={false}
           fetchDetails={true}
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-            console.log('data: ', data);
-            console.log('address: ', details.formatted_address)
+          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true 
             this.setState({ address: details.formatted_address });
           }}
-          styles={utils.googlePlacesStyles}
-          getDefaultValue={() => { return ''; }}// text input default value 
+          styles={ utils.googlePlacesStyles }
+          getDefaultValue={ () => { return ''; }}// text input default value 
           query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
           GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
         
         <TouchableHighlight 
-          onPress={this.editPhoto.bind(this)} 
+          onPress={ this.editPhoto.bind(this) } 
           underlayColor='#727272' 
-          style={{marginTop: 10}}>
+          style={{ marginTop: 10 }}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
-            <View style={{marginTop: 17}}>
+            <View style={{ marginTop: 17 }}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
             </View>
             <View>
-              <Image source={require('../assets/photoicon.png')}
-                     style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
+              <Image source={ require('../assets/photoicon.png') } 
+                style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
             </View>
           </View>
         </TouchableHighlight>
