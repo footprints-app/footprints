@@ -29,7 +29,6 @@ var {
 
 var EditTour = t.struct({
   tourName: t.maybe(t.String),
-  // category: t.maybe(t.String),
   description: t.maybe(t.String),
   duration: t.maybe(t.Number),
   // cityName: t.maybe(t.String),
@@ -112,12 +111,12 @@ class ViewCreatedTour extends Component {
     };
     var component = this;
     utils.makeRequest('editTour', component, options)
-      .then(response => {
-        console.log('Response body from server after Editing a Tour: ', response);
-        this.setState({editMode: false});
-        this.fetchData();
-        this.onPressDone();
-      });
+    .then(response => {
+      console.log('Response body from server after Editing a Tour: ', response);
+      this.setState({editMode: false});
+      this.fetchData();
+      this.onPressDone();
+    });
   }
 
   deletePlace(place) {
@@ -128,10 +127,10 @@ class ViewCreatedTour extends Component {
     };
 
     utils.makeRequest('deletePlace', component, options)
-      .then(response => {
-        console.log('Response body from server after deleting a place: ', response);
-        this.fetchData();
-      });
+    .then(response => {
+      console.log('Response body from server after deleting a place: ', response);
+      this.fetchData();
+    });
   }
 
   fetchData() {
@@ -189,6 +188,7 @@ class ViewCreatedTour extends Component {
   }
 
   renderEditablePlace(place) {
+    console.log('renderEditablePlace reached, place: ', place);
     return (
       <View>
         <View style={ styles.placeContainer }>
@@ -237,62 +237,62 @@ class ViewCreatedTour extends Component {
     return (
 
       <View style={ styles.addPlaceContainer }>
-          <View style={{marginTop: 60}}>
-            <Form
-              ref="form"
-              type={ EditTour }
-              options={ options }
-              value={ this.state.value }
-              onChange={this.onChange.bind(this)}/>
-          </View>
-          <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2}}>
-            Search for Address
-          </Text>
-          <GooglePlacesAutocomplete
-            placeholder={this.state.tour.cityName}
-            minLength={3} // minimum length of text to search 
-            autoFocus={false}
-            fetchDetails={true}
-            onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-              console.log('data: ', data);
-              console.log('address: ', details.formatted_address)
-              this.setState({ cityName: details.formatted_address });
-            }}
-            styles={utils.googlePlacesStyles}
-            getDefaultValue={() => { return ''; }}// text input default value 
-            query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
-            GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
+        <View style={{marginTop: 60}}>
+          <Form
+            ref="form"
+            type={ EditTour }
+            options={ options }
+            value={ this.state.value }
+            onChange={this.onChange.bind(this)}/>
+        </View>
+        <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2}}>
+          Search for Address
+        </Text>
+        <GooglePlacesAutocomplete
+          placeholder={this.state.tour.cityName}
+          minLength={3} // minimum length of text to search 
+          autoFocus={false}
+          fetchDetails={true}
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+            console.log('data: ', data);
+            console.log('address: ', details.formatted_address)
+            this.setState({ cityName: details.formatted_address });
+          }}
+          styles={utils.googlePlacesStyles}
+          getDefaultValue={() => { return ''; }}// text input default value 
+          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
+          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
 
-          <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
-            <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
-              <View style={{marginTop: 17}}>
-                <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/photoicon.png')}
-                       style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
-              </View>
+        <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
+          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+            <View style={{marginTop: 17}}>
+              <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
             </View>
+            <View>
+              <Image source={require('../assets/photoicon.png')}
+                     style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
+            </View>
+          </View>
+        </TouchableHighlight>
+
+        <ScrollView>
+          <View style={ [styles.panel, {marginTop: 15}] }>
+            <View style={ styles.tourSeparator }/>
+            <ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderEditablePlace.bind(this) }
+              style={ styles.listView }/>
+          </View>
+        </ScrollView>
+
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableHighlight
+            style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
+            onPress={ this.editDone.bind(this) }
+            underlayColor='#FFC107'>
+            <Text style={ styles.buttonText }>Done</Text>
           </TouchableHighlight>
-
-          <ScrollView>
-            <View style={ [styles.panel, {marginTop: 15}] }>
-              <View style={ styles.tourSeparator }/>
-              <ListView
-                dataSource={ this.state.dataSource }
-                renderRow={ this.renderEditablePlace.bind(this) }
-                style={ styles.listView }/>
-            </View>
-          </ScrollView>
-
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <TouchableHighlight
-              style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
-              onPress={ this.editDone.bind(this) }
-              underlayColor='#FFC107'>
-              <Text style={ styles.buttonText }>Done</Text>
-            </TouchableHighlight>
-          </View>
+        </View>
       </View>
 
     )

@@ -35,23 +35,19 @@ var Tour = t.struct({
 var options = {
   auto: 'placeholders',
   fields: {
-      tourName: {
-        placeholder: 'Tour Name',
-        placeholderTextColor: '#FFF',
-      },
-      // category: {
-      //   placeholder: 'Category',
-      //   placeholderTextColor: '#FFF'
-      // },
-      description: {
-        placeholder: 'Description',
-        placeholderTextColor: '#FFF'
-      },
-      duration: {
-        placeholder: 'Duration',
-        placeholderTextColor: '#FFF',
-      },
+    tourName: {
+      placeholder: 'Tour Name',
+      placeholderTextColor: '#FFF',
     },
+    description: {
+      placeholder: 'Description',
+      placeholderTextColor: '#FFF'
+    },
+    duration: {
+      placeholder: 'Duration',
+      placeholderTextColor: '#FFF',
+    },
+  },
   stylesheet: formStyles
 };
 
@@ -92,33 +88,20 @@ class CreateTour extends Component {
         tourId: response.id,
         createTourView: true
       }
-      //var tourId = response.id;
-      //console.log('tourId in create tour: ', tourId)
       utils.navigateTo.call(component, "Add Tour Photo", SelectImage, props);
-
-      var tourId = response.id;
-      console.log('tourId in create tour: ', tourId)
-      // utils.navigateTo.call(component, "View Tour", ViewCreatedTour, {tourId});
-      // component.props.navigator.push({
-      //   title:'View Tour',
-      //   component: ViewCreatedTour,
-      //   passProps: {tourId},
-      //   leftButtonTitle: 'back',
-      //   onLeftButtonPress: () => {
-      //     this.props.navigator.push({
-      //       title:'Create Tour',
-      //       component: CreateTour,
-      //       passProps: {}
-      //     });
-      //   }
-      //  });
-
     })
     .done();
   }
 
-  onChange(value) {
+  onChange(value, path) {
     this.setState(value);
+  }
+
+  clearText () {
+    this.refs.form.getComponent('tourName').refs.input.clear();
+    this.refs.form.getComponent('description').refs.input.clear();
+    this.refs.form.getComponent('duration').refs.input.clear();
+    this.refs.searchField.refs.textInput.clear();
   }
 
   render () {
@@ -134,30 +117,30 @@ class CreateTour extends Component {
             ref="form"
             type={Tour}
             options={ options }
+            controlled={true}
             value={ this.state.value }
             onChange={this.onChange.bind(this)}/>
         </View>
          <GooglePlacesAutocomplete
+            ref='searchField'
             placeholder='City'
             minLength={3} // minimum length of text to search 
             autoFocus={false}
             fetchDetails={false}
             onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
               var cityStateCountry = data.description.split(','); 
-              this.setState({cityName: cityStateCountry[0].trim(), state: cityStateCountry[1].trim() || '', country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' });             
+              this.setState({cityName: cityStateCountry[0].trim(), 
+                state: cityStateCountry[1].trim() || '', 
+                country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' 
+              });             
             }}
-            getDefaultValue={() => {
-              return '';
-            }}
+            getDefaultValue={() => { return ''; }}
             query={{
               key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
               language: 'en', // language of the results 
               types: '(cities)'
             }}
-
-            GooglePlacesSearchQuery={{
-              rankby: 'distance',
-            }}/>
+            GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
 
         {/*<TouchableHighlight onPress={() => alert('add photo')} underlayColor='#727272' style={{marginTop: 5}}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>   
@@ -172,12 +155,14 @@ class CreateTour extends Component {
 
         <TouchableHighlight 
           style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
-          onPress={ this.createAndAddPhoto.bind(this) }
+          onPress={ () => { 
+            this.createAndAddPhoto();
+            this.clearText();
+          }}
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Next</Text>
         </TouchableHighlight>
       </View>
-
     );
   }
 };

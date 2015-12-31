@@ -141,7 +141,7 @@ class EditPlace extends Component {
             label: 'Description'
           },
           placeOrder: {
-            placeholder: this.state.placeOrder.toString(),
+            placeholder: this.state.placeOrder,//.toString(),
             placeholderTextColor: '#FFF',
             label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
           }
