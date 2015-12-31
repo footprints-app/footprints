@@ -62,6 +62,7 @@ class EditPlace extends Component {
     }; 
     utils.makeRequest('tour', component, options)
     .then((response) => {
+      console.log('componentWillMount in EditPlace, response: ', response)
       this.setState({numPlacesInTour: response.places.length, tourName: response.tourName})
     })
     .done();
@@ -80,7 +81,8 @@ class EditPlace extends Component {
     var that = this;
     utils.makeRequest('editPlace', that, options)
     .then(response => {
-      console.log('Response body from server after editing place: ', response.body);
+      console.log('in editPlace, tourName: ', that.state.tourName);
+
       if(that.state.placeOrder !== that.state.origPlaceOrder) {
         var orderOptions = {
             reqBody: { placeOrder: that.state.placeOrder, placeId: that.state.id, origPlaceOrder: that.state.origPlaceOrder},
@@ -88,6 +90,7 @@ class EditPlace extends Component {
         };
         utils.makeRequest('placeOrders', that, orderOptions)
         .then(response => {
+          var ViewCreatedTour = require('./ViewCreatedTour');
           that.props.navigator.replace({
             title: that.state.tourName,
             component: ViewCreatedTour,
@@ -99,6 +102,7 @@ class EditPlace extends Component {
         });
 
       } else{
+        var ViewCreatedTour = require('./ViewCreatedTour');
         that.props.navigator.replace({
             title: that.state.tourName,
             component: ViewCreatedTour,
