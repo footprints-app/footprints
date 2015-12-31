@@ -49,7 +49,8 @@ class EditPlace extends Component {
       tourId: this.props.place.tourId,
       placeOrder: this.props.place.placeOrder,
       origPlaceOrder: this.props.place.placeOrder,
-      numPlacesInTour: 0
+      numPlacesInTour: 0,
+      tourName: ''
     };
    }
 
@@ -61,7 +62,7 @@ class EditPlace extends Component {
     }; 
     utils.makeRequest('tour', component, options)
     .then((response) => {
-      this.setState({numPlacesInTour: response.places.length})
+      this.setState({numPlacesInTour: response.places.length, tourName: response.tourName})
     })
     .done();
   }
@@ -80,27 +81,36 @@ class EditPlace extends Component {
     utils.makeRequest('editPlace', that, options)
     .then(response => {
       console.log('Response body from server after editing place: ', response.body);
-      var tourOptions = {
-        reqBody: {},
-        reqParam: that.state.tourId
-      };
-      utils.makeRequest('tour', that, tourOptions)
-        .then((response) => {
-          console.log('Tour recieved from request: ', response);
-          var ViewCreatedTour = require('./ViewCreatedTour');
-          var tourId = that.state.tourId;
+      if(that.state.placeOrder !== that.state.origPlaceOrder) {
+        var orderOptions = {
+            reqBody: { placeOrder: that.state.placeOrder, placeId: that.state.id, origPlaceOrder: that.state.origPlaceOrder},
+            reqParam: that.state.tourId
+        };
+        utils.makeRequest('placeOrders', that, orderOptions)
+        .then(response => {
           that.props.navigator.replace({
-            title: response.tourName,
+            title: that.state.tourName,
             component: ViewCreatedTour,
             passProps: {
-                        tourId: response.id,
+                        tourId: that.state.tourId,
                         editMode: true
                        }
           });
-          // utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
-        })
-      // that.props.navigator.pop();
-    })
+        });
+
+      } else{
+        that.props.navigator.replace({
+            title: that.state.tourName,
+            component: ViewCreatedTour,
+            passProps: {
+                        tourId: that.state.tourId,
+                        editMode: true
+                       }
+          });
+      }          
+        // utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
+        // that.props.navigator.pop();
+    });
    }
 
     editPhoto() {
@@ -109,7 +119,7 @@ class EditPlace extends Component {
         tourId: this.state.tourId,
         placeId: this.state.id
       }
-      utils.navigateTo.call(this, "Select a Place Photo", SelectImage, props);
+      utils.navigateTo.call(this, "Select a Photo", SelectImage, props);
     }
 
    render() {
@@ -127,7 +137,7 @@ class EditPlace extends Component {
             label: 'Description'
           },
           placeOrder: {
-            placeHolder: this.state.placeOrder
+            placeholder: this.state.placeOrder.toString(),
             placeholderTextColor: '#FFF',
             label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
           }
@@ -165,39 +175,8 @@ class EditPlace extends Component {
           styles={utils.googlePlacesStyles}
           getDefaultValue={() => { return ''; }}// text input default value 
           query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
-          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>e
+          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
         
-        {/*<View style={ styles.inputs }>
-                
-                  <View style={ styles.inputContainer }>
-                    <TextInput
-                      style={ [styles.input] }
-                      placeholder={ this.state.placeName }
-                      placeholderTextColor="black"
-                      value={ this.state.placeName }
-                      onChange={ utils.setStateFromInput.bind(this, 'placeName') }/>              
-                  </View>
-        
-                  <View style={ styles.inputContainer }>
-                    <TextInput
-                      style={ [styles.input] }
-                      placeholder={ this.state.address }
-                      placeholderTextColor="black"
-                      value={ this.state.address }
-                      onChange={ utils.setStateFromInput.bind(this, 'address') }/>              
-                  </View>
-                  
-                  <View style={ styles.inputContainer }>
-                    <TextInput
-                      style={ [styles.input] }
-                      placeholder={ this.state.description }
-                      placeholderTextColor="black"
-                      value={ this.state.description }
-                      onChange={ utils.setStateFromInput.bind(this, 'description') }/>              
-                  </View>
-        
-                </View>*/}
-
         <TouchableHighlight 
           onPress={this.editPhoto.bind(this)} 
           underlayColor='#727272' 
@@ -219,14 +198,6 @@ class EditPlace extends Component {
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Done</Text>
         </TouchableHighlight>
-
-        {/*<TouchableHighlight 
-                  onPress={ this.editDone.bind(this) } 
-                  style={ styles.touchable } underlayColor="white">
-                  <View style={ styles.doneBtn }>
-                    <Text style={ styles.whiteFont }>Done</Text>
-                  </View>
-                </TouchableHighlight>*/}
       
       </View>
     );

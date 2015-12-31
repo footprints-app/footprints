@@ -185,14 +185,28 @@ module.exports = {
 	 */
 	updatePlaceOrders: function(req, res) {
 		var params = [req.params.id, req.body.placeOrder, req.body.placeId];
-		tours.updatePlaceOrders(params, function(err, results) {
-			if(err) {
-				console.log('error in updatePlaceOrders: ', err);
-				res.status(404).json({error: err});
-			} else {
-				res.status(201).json(results);
-			}
-		});
+		if(req.body.origPlaceOrder) {
+			console.log('origPlaceOrder: ', req.body.origPlaceOrder);
+			params.push(req.body.origPlaceOrder);
+
+			tours.updatePlaceOrdersAfterEdit(params, function(err, results) {
+				if(err) {
+					console.log('error in updatePlaceOrders: ', err);
+					res.status(404).json({error: err});
+				} else {
+					res.status(201).json(results);
+				}
+			});
+		} else {
+			tours.updatePlaceOrders(params, function(err, results) {
+				if(err) {
+					console.log('error in updatePlaceOrders: ', err);
+					res.status(404).json({error: err});
+				} else {
+					res.status(201).json(results);
+				}
+			});
+		}
 	},
 
 	/** Receives updated place information from client and updates the place in the database
