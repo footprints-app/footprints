@@ -10,7 +10,7 @@ CREATE TABLE tours (
   description varchar(1000),
   image varchar(200),
   category varchar(200),
-  duration time,
+  duration decimal(5,2),
   PRIMARY KEY (ID)
 );
 
