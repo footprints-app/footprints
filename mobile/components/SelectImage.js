@@ -34,6 +34,7 @@ class SelectImage extends Component {
       tourId: this.props.tourId || null,
       placeId: this.props.placeId || null,
       addPlaceView: this.props.addPlaceView || false,
+      createTourView: this.props.createTourView || false,
       isLoading: true
     };
   }
@@ -64,6 +65,7 @@ class SelectImage extends Component {
   }
 
   /**
+   * @method launchCamera
    * This method is triggered when "Select Image" is pressed. It will launch an option to choose from
    * library or take a new photo utilizing a react-native module called UIImagePicker
    */
@@ -96,6 +98,7 @@ class SelectImage extends Component {
   }
 
   /**
+   * @method submitSelection
    * This method is triggered when a photo is selected or taken. It makes a post request to either tours/tourphoto
    * or tours/placephoto depending on the state. After post request has been made, navigator will route back to
    * ViewCreatedTour view.
@@ -134,10 +137,47 @@ class SelectImage extends Component {
   }
 
   /**
-   * This renders if the previous component is from AddPlace to give the user an option to skip
+   * @method viewTour
+   * This method is triggered from pressing the skip option from the CreateTour route. It will replace this component
+   * with the ViewCreatedTour component.
+   */
+  viewTour() {
+    var ViewCreatedTour = require('./ViewCreatedTour');
+    var tourId = this.state.tourId;
+
+    this.props.navigator.replace({
+      title: "Your Tour",
+      component: ViewCreatedTour,
+      passProps: {tourId}
+    });
+  }
+
+  /**TODO: Still need to hook up audio component
+   * This renders if the previous component is from AddPlace or CreateTour to give the user an option to skip.
+   * The AddPlace view will skip to the audio component while the CreateTour view will route to the ViewCreatedTour view.
    * @returns {XML}
 	 */
-  renderAddPlacePhoto () {
+  renderSkipOption () {
+    if(this.state.createTourView) {
+      return (
+        <View style={ [styles.mainContainer, {marginTop: 0}]}>
+          <TouchableHighlight
+            onPress={ this.launchCamera.bind(this) }
+            underlayColor="#727272">
+            <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
+              <Text style={ styles.whiteFont }>Select Image</Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={ this.viewTour.bind(this) }
+            underlayColor="#727272">
+            <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
+              <Text style={ styles.whiteFont }>Skip</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      )
+    } else {
     return (
       <View style={ [styles.mainContainer, {marginTop: 0}]}>
         <TouchableHighlight
@@ -156,11 +196,12 @@ class SelectImage extends Component {
         </TouchableHighlight>
       </View>
     );
+    }
   }
 
   render() {
-    if(this.state.addPlaceView) {
-      return this.renderAddPlacePhoto();
+    if(this.state.addPlaceView || this.state.createTourView) {
+      return this.renderSkipOption();
     } else {
       return (
         <View style={ [styles.mainContainer, {marginTop: 0}] }>
