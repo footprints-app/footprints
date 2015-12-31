@@ -30,10 +30,7 @@ var {
 var EditTour = t.struct({
   tourName: t.maybe(t.String),
   description: t.maybe(t.String),
-  duration: t.maybe(t.Number),
-  // cityName: t.maybe(t.String),
-  // state: t.maybe(t.String),
-  // country: t.maybe(t.String),
+  duration: t.maybe(t.Number)
 });
 
 class ViewCreatedTour extends Component {
@@ -112,7 +109,6 @@ class ViewCreatedTour extends Component {
     var component = this;
     utils.makeRequest('editTour', component, options)
     .then(response => {
-      console.log('Response body from server after Editing a Tour: ', response);
       this.setState({editMode: false});
       this.fetchData();
       this.onPressDone();
@@ -128,7 +124,6 @@ class ViewCreatedTour extends Component {
 
     utils.makeRequest('deletePlace', component, options)
     .then(response => {
-      console.log('Response body from server after deleting a place: ', response);
       this.fetchData();
     });
   }
@@ -143,7 +138,6 @@ class ViewCreatedTour extends Component {
     console.log('this.props: ', this.props);
     utils.makeRequest('tour', component, options)
     .then((response) => {
-      console.log('response body from View Created Tour: ', response);
       var places = response.places;
       component.setState({
         tour: response,
@@ -188,7 +182,6 @@ class ViewCreatedTour extends Component {
   }
 
   renderEditablePlace(place) {
-    console.log('renderEditablePlace reached, place: ', place);
     return (
       <View>
         <View style={ styles.placeContainer }>
@@ -237,15 +230,15 @@ class ViewCreatedTour extends Component {
     return (
 
       <View style={ styles.addPlaceContainer }>
-        <View style={{marginTop: 60}}>
+        <View style={{ marginTop: 60 }}>
           <Form
             ref="form"
             type={ EditTour }
             options={ options }
             value={ this.state.value }
-            onChange={this.onChange.bind(this)}/>
+            onChange={ this.onChange.bind(this) }/>
         </View>
-        <Text style={{fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2}}>
+        <Text style={{ fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2 }}>
           Search for Address
         </Text>
         <GooglePlacesAutocomplete
@@ -253,24 +246,25 @@ class ViewCreatedTour extends Component {
           minLength={3} // minimum length of text to search 
           autoFocus={false}
           fetchDetails={true}
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-            console.log('data: ', data);
-            console.log('address: ', details.formatted_address)
+          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true 
             this.setState({ cityName: details.formatted_address });
           }}
-          styles={utils.googlePlacesStyles}
+          styles={ utils.googlePlacesStyles }
           getDefaultValue={() => { return ''; }}// text input default value 
-          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
-          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
+          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }} // language of the results  
+          GooglePlacesSearchQuery={{ rankby: 'distance' }}/>
 
-        <TouchableHighlight onPress={this.addPhoto.bind(this)} underlayColor='#727272' style={{marginTop: -2}}>
+        <TouchableHighlight 
+          onPress={ this.addPhoto.bind(this) } 
+          underlayColor='#727272' 
+          style={{ marginTop: -2 }}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
-            <View style={{marginTop: 17}}>
+            <View style={{ marginTop: 17 }}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
             </View>
             <View>
-              <Image source={require('../assets/photoicon.png')}
-                     style={[styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}]}/>
+              <Image source={ require('../assets/photoicon.png') }
+                     style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
             </View>
           </View>
         </TouchableHighlight>
@@ -285,7 +279,7 @@ class ViewCreatedTour extends Component {
           </View>
         </ScrollView>
 
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
           <TouchableHighlight
             style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
             onPress={ this.editDone.bind(this) }
@@ -305,9 +299,9 @@ class ViewCreatedTour extends Component {
         <ScrollView automaticallyAdjustContentInsets={false}>
           <Image style={ styles.headerPhoto } source={{ uri: imageURI }}/>
           <View>
-            <View style={{flexDirection: 'row', justifyContent: 'center', alignSelf: 'center'}}>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', alignSelf: 'center' }}>
               <View>
-                <Text style={ [styles.tourTitle, {alignSelf: 'center'}, {fontSize: 21} ] }>
+                <Text style={ [styles.tourTitle, {alignSelf: 'center'}, {fontSize: 21}] }>
                   { this.state.tour.tourName }
                 </Text>
               </View>
@@ -316,32 +310,30 @@ class ViewCreatedTour extends Component {
                   onPress={ this.toggleEdit.bind(this) }
                   style={ [styles.touchable, {marginBottom: 10}] }
                   underlayColor='#727272'>
-                  <Image source={require('../assets/editiconteal.png')}
-                         style={[styles.editIcon, {width: 35}, {height: 35}, {marginTop: 10}]} />
+                  <Image source={ require('../assets/editiconteal.png') }
+                         style={ [styles.editIcon, {width: 35}, {height: 35}, {marginTop: 10}] } />
                 </TouchableHighlight>
               </View>
-
             </View>
 
-            <View style={{justifyContent: 'center'}}>
-              <Text style={[styles.description, {marginRight: 10}]}>
-                <Text style={ styles.bold }>Description: </Text>{this.state.tour.description + '\n'}
+            <View style={{ justifyContent: 'center' }}>
+              <Text style={ [styles.description, {marginRight: 10}] }>
+                <Text style={ styles.bold }>Description: </Text>{ this.state.tour.description + '\n' }
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
                 <Text style={ styles.bold }>Est Time: </Text>{ this.state.tour.duration + ' hours' + '\n' }
-                {/*<Text style={ styles.bold }>Category: </Text>{ this.state.tour.category }*/}
               </Text>
             </View>
           </View>
 
-          <View style={ [styles.photoAudioContainer, {marginTop: 5}, {marginBottom: 3} ] }>
-            <View style={{marginTop: 5}}>
+          <View style={ [styles.photoAudioContainer, {marginTop: 5}, {marginBottom: 3}] }>
+            <View style={{ marginTop: 5 }}>
               <Text style={ styles.text }>Places</Text>
             </View>
             <TouchableHighlight
               onPress={ this.addPlace.bind(this) }
               style={ [styles.touchable, {marginTop: 1}] }
               underlayColor='#727272'>
-              <Image source={require('../assets/addplaceicon.png')}
+              <Image source={ require('../assets/addplaceicon.png') }
                      style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
             </TouchableHighlight>
           </View>
