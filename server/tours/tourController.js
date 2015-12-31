@@ -176,7 +176,40 @@ module.exports = {
 			}
 		});
 	},
-		/** Receives updated place information from client and updates the place in the database
+	/** Receives updated tourId and placeOrder of new or updated place and increments the place order of all places in the tour that are equal or greater place orders
+	 * Updates place in database through updatePlace method
+	 *
+	 * @method updatePlaceOrders
+	 * @param req {object} Request object that includes tourId of updated/new place its placeOrder
+	 * @param res {object} Response status
+	 */
+	updatePlaceOrders: function(req, res) {
+		var params = [req.params.id, req.body.placeOrder, req.body.placeId];
+		if(req.body.origPlaceOrder) {
+			console.log('origPlaceOrder: ', req.body.origPlaceOrder);
+			params.push(req.body.origPlaceOrder);
+
+			tours.updatePlaceOrdersAfterEdit(params, function(err, results) {
+				if(err) {
+					console.log('error in updatePlaceOrders: ', err);
+					res.status(404).json({error: err});
+				} else {
+					res.status(201).json(results);
+				}
+			});
+		} else {
+			tours.updatePlaceOrders(params, function(err, results) {
+				if(err) {
+					console.log('error in updatePlaceOrders: ', err);
+					res.status(404).json({error: err});
+				} else {
+					res.status(201).json(results);
+				}
+			});
+		}
+	},
+
+	/** Receives updated place information from client and updates the place in the database
 	 * Updates place in database through updatePlace method
 	 *
 	 * @method updatePlace

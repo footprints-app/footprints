@@ -126,8 +126,6 @@ module.exports = {
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
   addImageToTour: function(params, callback) {
-    console.log('addImageToTour called');
-    console.log('params: ', params);
     var updateTourQuery = "UPDATE tours SET image = ? WHERE id = ?";
     db.query(updateTourQuery, params, function (err, results) {
       if(err) {
@@ -169,6 +167,43 @@ module.exports = {
 			}
 		});
 	},
+  /**
+   * Updates the placeOrders of all places in a tour that have the inputed placeOrder or greater after.
+   * If successful, gives a callback the placeId.
+   *
+   * @param {array} params - tourId, placeOrder
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+  updatePlaceOrders: function(params, callback) {
+    var updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ? AND id <> ?";
+    db.query(updateTourQuery, params, function(err, result) {
+      if(err) {
+        console.log('error updating place order: ', err);
+        callback(err);
+      } else {
+        callback(err, result);
+      }
+    });
+  },
+  /**
+   * Updates the placeOrders of all places in a tour that have the inputed placeOrder or greater incrementing all placeOrders.
+   * If successful, gives a callback the placeId.
+   *
+   * @param {array} params - tourId, placeOrder
+   * @param {function} callback - a callback which will take the arguments err and results from the database query
+   */
+  updatePlaceOrdersAfterEdit: function(params, callback) {
+    var updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ? AND id <> ? AND placeOrder < ?";
+    db.query(updateTourQuery, params, function(err, result) {
+      if(err) {
+        console.log('error updating place order: ', err);
+        callback(err);
+      } else {
+        callback(err, result);
+      }
+    });
+  },
+
 	/** Queries the places table for all places with the matching tourId
 	 * @method queryPlaces
 	 * @param {number} tourId - a number that represents the tour id

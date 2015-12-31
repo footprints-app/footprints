@@ -25,6 +25,7 @@ var {
 var EditPlaceDetail = t.struct({
   placeName: t.maybe(t.String),
   description: t.maybe(t.String),
+  placeOrder: t.maybe(t.Number)
   // address: t.maybe(t.String),
 });
 
@@ -46,25 +47,33 @@ class EditPlace extends Component {
       description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',
       address: (typeof this.props.place.address !== 'undefined') ? this.props.place.address : '',
       tourId: this.props.place.tourId,
-      editPlaceName: '',
-      editDescription: '',
-      editAddress: ''
+      placeOrder: this.props.place.placeOrder,
+      origPlaceOrder: this.props.place.placeOrder,
+      numPlacesInTour: 0,
+      tourName: ''
     };
    }
+
+  componentWillMount () {
+    var component = this;
+    var options = {
+      reqBody: {},
+      reqParam: this.state.tourId
+    }; 
+    utils.makeRequest('tour', component, options)
+    .then((response) => {
+      console.log('componentWillMount in EditPlace, response: ', response)
+      this.setState({numPlacesInTour: response.places.length, tourName: response.tourName})
+    })
+    .done();
+  }
 
    onChange(value) {
     this.setState(value);
   }
 
-  //  onPressDone() {
-  //   var MyTours = require('./MyTours');
-  //   var userId = this.state.tour.userId;
-  //   utils.navigateTo.call(this, "My Tours", MyTours, {userId});
-  // }
-
    editDone() {
     console.log('reqBody from editDone button: ', this.state);
-    var value = this.refs.form.getValue();
     var options = {
       reqBody: this.state,
       reqParam: this.state.id
@@ -72,29 +81,40 @@ class EditPlace extends Component {
     var that = this;
     utils.makeRequest('editPlace', that, options)
     .then(response => {
-      console.log('Response body from server after editing place: ', response.body);
-      console.log('tourid: ', that.state.tourId);
-      var tourOptions = {
-        reqBody: {},
-        reqParam: that.state.tourId
-      };
-      utils.makeRequest('tour', that, tourOptions)
-        .then((response) => {
-          console.log('Tour recieved from request: ', response);
+      console.log('in editPlace, tourName: ', that.state.tourName);
+
+      if(that.state.placeOrder !== that.state.origPlaceOrder) {
+        var orderOptions = {
+            reqBody: { placeOrder: that.state.placeOrder, placeId: that.state.id, origPlaceOrder: that.state.origPlaceOrder},
+            reqParam: that.state.tourId
+        };
+        utils.makeRequest('placeOrders', that, orderOptions)
+        .then(response => {
           var ViewCreatedTour = require('./ViewCreatedTour');
-          var tourId = that.state.tourId;
           that.props.navigator.replace({
-            title: response.tourName,
+            title: that.state.tourName,
             component: ViewCreatedTour,
             passProps: {
-                        tourId: response.id,
+                        tourId: that.state.tourId,
                         editMode: true
                        }
           });
-          // utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
-        })
-      // that.props.navigator.pop();
-    })
+        });
+
+      } else{
+        var ViewCreatedTour = require('./ViewCreatedTour');
+        that.props.navigator.replace({
+            title: that.state.tourName,
+            component: ViewCreatedTour,
+            passProps: {
+                        tourId: that.state.tourId,
+                        editMode: true
+                       }
+          });
+      }          
+        // utils.navigateTo.call(that, response.tourName, ViewCreatedTour, {tourId: response.id, editMode: true});
+        // that.props.navigator.pop();
+    });
    }
 
     editPhoto() {
@@ -103,7 +123,7 @@ class EditPlace extends Component {
         tourId: this.state.tourId,
         placeId: this.state.id
       }
-      utils.navigateTo.call(this, "Select a Place Photo", SelectImage, props);
+      utils.navigateTo.call(this, "Select a Photo", SelectImage, props);
     }
 
    render() {
@@ -120,6 +140,11 @@ class EditPlace extends Component {
             placeholderTextColor: '#FFF',
             label: 'Description'
           },
+          placeOrder: {
+            placeholder: this.state.placeOrder.toString(),
+            placeholderTextColor: '#FFF',
+            label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
+          }
         },
         stylesheet: formStyles
       };
@@ -156,37 +181,6 @@ class EditPlace extends Component {
           query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
           GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
         
-        {/*<View style={ styles.inputs }>
-                
-                  <View style={ styles.inputContainer }>
-                    <TextInput
-                      style={ [styles.input] }
-                      placeholder={ this.state.placeName }
-                      placeholderTextColor="black"
-                      value={ this.state.placeName }
-                      onChange={ utils.setStateFromInput.bind(this, 'placeName') }/>              
-                  </View>
-        
-                  <View style={ styles.inputContainer }>
-                    <TextInput
-                      style={ [styles.input] }
-                      placeholder={ this.state.address }
-                      placeholderTextColor="black"
-                      value={ this.state.address }
-                      onChange={ utils.setStateFromInput.bind(this, 'address') }/>              
-                  </View>
-                  
-                  <View style={ styles.inputContainer }>
-                    <TextInput
-                      style={ [styles.input] }
-                      placeholder={ this.state.description }
-                      placeholderTextColor="black"
-                      value={ this.state.description }
-                      onChange={ utils.setStateFromInput.bind(this, 'description') }/>              
-                  </View>
-        
-                </View>*/}
-
         <TouchableHighlight 
           onPress={this.editPhoto.bind(this)} 
           underlayColor='#727272' 
@@ -208,14 +202,6 @@ class EditPlace extends Component {
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Done</Text>
         </TouchableHighlight>
-
-        {/*<TouchableHighlight 
-                  onPress={ this.editDone.bind(this) } 
-                  style={ styles.touchable } underlayColor="white">
-                  <View style={ styles.doneBtn }>
-                    <Text style={ styles.whiteFont }>Done</Text>
-                  </View>
-                </TouchableHighlight>*/}
       
       </View>
     );
