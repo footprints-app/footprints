@@ -222,9 +222,11 @@ var styles = StyleSheet.create({
     fontWeight: '500',
     color: '#00BCD4',
     marginLeft: 10,
+    marginRight: 10,
     marginBottom: 8,
     marginTop: 13,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    textAlign: 'center'
   },
   bold: {
     fontWeight: 'bold'
