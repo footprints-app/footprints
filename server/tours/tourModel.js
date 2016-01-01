@@ -150,6 +150,19 @@ module.exports = {
 			}
 		})
 	},
+
+  addAudioToPlace: function(params, callback) {
+    console.log('Add Audio to Place called');
+    var query = "UPDATE places SET audio = ? WHERE id = ?";
+    db.query(query, params, function(err, results) {
+      if(err) {
+        callback(err);
+        console.log('error: ', err);
+      } else {
+        callback(err, results);
+      }
+    })    
+  },
 	 /**
    * Deletes tour with given id from the table.
    * If successful, gives a callback with the query result.

@@ -294,7 +294,20 @@ module.exports = {
 	},
 
   addAudio: function(req, res) {
-  	audio.putToS3(req, res);
+		var placeId = JSON.parse(req.params.id);
+		audio.putToS3(req, res, function(result) {
+			if(result.error) {
+				res.status(404).json({error: result.error});
+			} else if(result.data) {
+				tours.addAudioToPlace(placeId, function (err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json(results);
+					}
+				});
+			}
+		});
   }
 
 }
