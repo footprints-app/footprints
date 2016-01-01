@@ -3,6 +3,7 @@
 var React = require('react-native');
 var RNFS = require('react-native-fs');
 var FileUpload = require('NativeModules').FileUpload;
+var utils = require('../lib/utility');
 
 var {
   NativeModules,
@@ -26,7 +27,7 @@ class RecordAudio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placeId: this.props.placeId || null,
+      placeId: this.props.placeId || 1,
       cassette: require('../assets/cassette.png')
     }
   }
@@ -119,25 +120,37 @@ class RecordAudio extends Component {
 
   done() {
     var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
-    var request_url = 'http://10.6.32.174:8000';
+    //var request_url = 'http://10.6.32.174:8000';
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+    var reqType = 'addaudio';
+    var component = this;
 
     RNFS.readFile(storyPath, 'base64')
       .then((file) => {
         console.log('File successfully converted to base64');
         var encodedFile = file.toString();
-        fetch(request_url + '/tours/addaudio', {
-          method: "POST",
-          headers: {
-            "Content-Type": 'application/json'
-          },
-          body: JSON.stringify({
+        // fetch(request_url + '/tours/addaudio', {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": 'application/json'
+        //   },
+        //   body: JSON.stringify({
+        //     file: encodedFile
+        //   })
+        // })
+        // .then((response) => {
+        //   console.log("Response received from audio post: ", response);
+        // })
+        var options = {
+          reqParam: component.state.placeId,
+          reqBody: {
             file: encodedFile
+          }
+        }
+        utils.makeRequest(reqType, component, options)
+          .then((response) => {
+            console.log('Audio added to place: ', response);
           })
-        })
-        .then((response) => {
-          console.log("Response received from audio post: ", response);
-        })
       })
 
   }
