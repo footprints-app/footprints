@@ -29,6 +29,7 @@ class RecordAudio extends Component {
     this.state = {
       placeId: this.props.placeId,
       tourId: this.props.tourId,
+      routeBackToEditTour: this.props.routeBackToEditTour || false,
       cassette: require('../assets/cassette.png')
     }
   }
@@ -125,6 +126,14 @@ class RecordAudio extends Component {
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
     var reqType = 'addPlaceAudio';
     var component = this;
+    var ViewCreatedTour = require('./ViewCreatedTour');
+
+
+    //Props to pass down to ViewCreatedTour
+    var props = {
+      tourId: this.state.tourId,
+      editMode: this.state.routeBackToEditTour
+    }
 
     RNFS.readFile(storyPath, 'base64')
       .then((file) => {
@@ -151,6 +160,11 @@ class RecordAudio extends Component {
         utils.makeRequest(reqType, component, options)
           .then((response) => {
             console.log('Audio added to place: ', response);
+            component.props.navigator.replace({
+              title: "Your Tour",
+              component: ViewCreatedTour,
+              passProps: props
+            })
           })
       })
 
