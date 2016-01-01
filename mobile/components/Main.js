@@ -98,7 +98,7 @@ class Main extends Component {
                   passProps: { editMode: true },
                   onRightButtonPress: () => { this.refs.myToursView.navigator.pop();}
                 });}
-            }} />
+              }} />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
