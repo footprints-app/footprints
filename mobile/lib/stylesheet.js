@@ -8,12 +8,13 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  mapBoxcontainer: {
+    flexDirection: 'column',
+    flex: 1
+  },
+
   map: {
-    marginTop: 40,
-    height: 300,
-    margin: 10,
-    borderWidth: 1,
-    borderColor: '#000000',
+    flex: 5
   },
   container: {
     flexDirection: 'column',

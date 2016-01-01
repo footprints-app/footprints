@@ -26,6 +26,20 @@
 		743731701C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		743731721C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		743731741C26229D00EB0C55 /* (null) in Resources */ = {isa = PBXBuildFile; };
+
+		743DD4CF1C363067006C0A97 /* Mapbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 743DD4CE1C363067006C0A97 /* Mapbox.bundle */; };
+		743DD4D11C363089006C0A97 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 743DD4D01C363089006C0A97 /* Settings.bundle */; };
+		743DD4D31C3630C4006C0A97 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4D21C3630C4006C0A97 /* CoreTelephony.framework */; };
+		743DD4D51C3630CE006C0A97 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4D41C3630CE006C0A97 /* GLKit.framework */; };
+		743DD4D71C3630F1006C0A97 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4D61C3630F1006C0A97 /* ImageIO.framework */; };
+		743DD4D91C363108006C0A97 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4D81C363108006C0A97 /* MobileCoreServices.framework */; };
+		743DD4DB1C363115006C0A97 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4DA1C363115006C0A97 /* QuartzCore.framework */; };
+		743DD4DD1C363131006C0A97 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4DC1C363131006C0A97 /* SystemConfiguration.framework */; };
+		743DD4DF1C363148006C0A97 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4DE1C363148006C0A97 /* libc++.tbd */; };
+		743DD4E11C36316A006C0A97 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4E01C36316A006C0A97 /* libsqlite3.tbd */; };
+		743DD4E31C363180006C0A97 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4E21C363180006C0A97 /* libz.tbd */; };
+		745C58FE1C3633D60077D288 /* libRCTMapboxGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 743DD4CB1C363002006C0A97 /* libRCTMapboxGL.a */; };
+		7498A2A01C34C320000829B1 /* RNAudioPlayerURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 7498A29F1C34C320000829B1 /* RNAudioPlayerURL.m */; settings = {ASSET_TAGS = (); }; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		9767531E1C345A96008C42B4 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = 9767531D1C345A96008C42B4 /* FileUpload.m */; };
 		97F0574C1C32035200D8B26A /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F0574B1C32033900D8B26A /* libRNFS.a */; };
@@ -128,6 +142,20 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		743DD4CA1C363002006C0A97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 743DD4C51C363001006C0A97 /* RCTMapboxGL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C5DBB3401AF2EF2B00E611A9;
+			remoteInfo = RCTMapboxGL;
+		};
+		743DD4CC1C363002006C0A97 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 743DD4C51C363001006C0A97 /* RCTMapboxGL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C5DBB34B1AF2EF2B00E611A9;
+			remoteInfo = RCTMapboxGLTests;
+		};
 		74C4803B1C23841300EFD1BD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 74C480361C23841200EFD1BD /* RCTCameraRoll.xcodeproj */;
@@ -213,6 +241,21 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mobile/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+
+		743DD4C51C363001006C0A97 /* RCTMapboxGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMapboxGL.xcodeproj; path = "../node_modules/react-native-mapbox-gl/ios/RCTMapboxGL.xcodeproj"; sourceTree = "<group>"; };
+		743DD4CE1C363067006C0A97 /* Mapbox.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Mapbox.bundle; sourceTree = "<group>"; };
+		743DD4D01C363089006C0A97 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		743DD4D21C3630C4006C0A97 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		743DD4D41C3630CE006C0A97 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		743DD4D61C3630F1006C0A97 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		743DD4D81C363108006C0A97 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		743DD4DA1C363115006C0A97 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		743DD4DC1C363131006C0A97 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		743DD4DE1C363148006C0A97 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		743DD4E01C36316A006C0A97 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		743DD4E21C363180006C0A97 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		7498A29E1C34C320000829B1 /* RNAudioPlayerURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNAudioPlayerURL.h; path = ../../../../../../Desktop/RNAudioPlayerURL.h; sourceTree = "<group>"; };
+		7498A29F1C34C320000829B1 /* RNAudioPlayerURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNAudioPlayerURL.m; path = ../../../../../../Desktop/RNAudioPlayerURL.m; sourceTree = "<group>"; };
 		74C480361C23841200EFD1BD /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -266,6 +309,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				745C58FE1C3633D60077D288 /* libRCTMapboxGL.a in Frameworks */,
+				743DD4E31C363180006C0A97 /* libz.tbd in Frameworks */,
+				743DD4E11C36316A006C0A97 /* libsqlite3.tbd in Frameworks */,
+				743DD4DF1C363148006C0A97 /* libc++.tbd in Frameworks */,
+				743DD4DD1C363131006C0A97 /* SystemConfiguration.framework in Frameworks */,
+				743DD4DB1C363115006C0A97 /* QuartzCore.framework in Frameworks */,
+				743DD4D91C363108006C0A97 /* MobileCoreServices.framework in Frameworks */,
+				743DD4D71C3630F1006C0A97 /* ImageIO.framework in Frameworks */,
+				743DD4D51C3630CE006C0A97 /* GLKit.framework in Frameworks */,
+				743DD4D31C3630C4006C0A97 /* CoreTelephony.framework in Frameworks */,
 				97F057601C3203E600D8B26A /* libRNRecordAudio.a in Frameworks */,
 				97F057561C3203BB00D8B26A /* libRNPlayAudio.a in Frameworks */,
 				97F0574C1C32035200D8B26A /* libRNFS.a in Frameworks */,
@@ -381,6 +434,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		743DD4C61C363001006C0A97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				743DD4CB1C363002006C0A97 /* libRCTMapboxGL.a */,
+				743DD4CD1C363002006C0A97 /* RCTMapboxGLTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		74C480371C23841200EFD1BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +464,7 @@
 			children = (
 				D02093121C3628730062BD9A /* RNAudioPlayerURL.h */,
 				D02092FF1C36285D0062BD9A /* RNAudioPlayerURL.m */,
+				743DD4C51C363001006C0A97 /* RCTMapboxGL.xcodeproj */,
 				D08F37031C32317D002D8394 /* UIImagePickerManager.m */,
 				9B1093991C261D15009059AC /* ReactNativeIcons.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -429,6 +492,19 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				743DD4E21C363180006C0A97 /* libz.tbd */,
+				743DD4E01C36316A006C0A97 /* libsqlite3.tbd */,
+				743DD4DE1C363148006C0A97 /* libc++.tbd */,
+				743DD4DC1C363131006C0A97 /* SystemConfiguration.framework */,
+				743DD4DA1C363115006C0A97 /* QuartzCore.framework */,
+				743DD4D81C363108006C0A97 /* MobileCoreServices.framework */,
+				743DD4D61C3630F1006C0A97 /* ImageIO.framework */,
+				743DD4D41C3630CE006C0A97 /* GLKit.framework */,
+				743DD4D21C3630C4006C0A97 /* CoreTelephony.framework */,
+				743DD4D01C363089006C0A97 /* Settings.bundle */,
+				743DD4CE1C363067006C0A97 /* Mapbox.bundle */,
+				7498A29E1C34C320000829B1 /* RNAudioPlayerURL.h */,
+				7498A29F1C34C320000829B1 /* RNAudioPlayerURL.m */,
 				9767531D1C345A96008C42B4 /* FileUpload.m */,
 				97F057571C3203DB00D8B26A /* RNRecordAudio.xcodeproj */,
 				97F0574D1C3203AA00D8B26A /* RNPlayAudio.xcodeproj */,
@@ -603,6 +679,10 @@
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
 				},
 				{
+					ProductGroup = 743DD4C61C363001006C0A97 /* Products */;
+					ProjectRef = 743DD4C51C363001006C0A97 /* RCTMapboxGL.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
@@ -708,6 +788,20 @@
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		743DD4CB1C363002006C0A97 /* libRCTMapboxGL.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTMapboxGL.a;
+			remoteRef = 743DD4CA1C363002006C0A97 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		743DD4CD1C363002006C0A97 /* RCTMapboxGLTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RCTMapboxGLTests.xctest;
+			remoteRef = 743DD4CC1C363002006C0A97 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		74C4803C1C23841300EFD1BD /* libRCTCameraRoll.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -785,6 +879,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				743DD4D11C363089006C0A97 /* Settings.bundle in Resources */,
+				743DD4CF1C363067006C0A97 /* Mapbox.bundle in Resources */,
 				9B1093B51C261DC5009059AC /* FAKOcticons.h in Resources */,
 				9B1093B61C261DC5009059AC /* FAKOcticons.m in Resources */,
 				D08F36C01C31CBA1002D8394 /* OpenSans-Bold.ttf in Resources */,
