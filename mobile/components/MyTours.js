@@ -187,7 +187,7 @@ class MyTours extends Component {
 
   renderViewMode() {
     return (
-      <View style={ [styles.container, {marginTop: 64}] }>
+      <View style={ styles.container }>
 
         <View style={ styles.panel }>
           <ListView
