@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: users/userRoutes</title>
+    <title>JSDoc: Module: images/imageController</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: users/userRoutes</h1>
+    <h1 class="page-title">Module: images/imageController</h1>
 
     
 
@@ -38,13 +38,122 @@
     <div class="container-overview">
     
         
-            <div class="description">A module that routes to a controller according to the url</div>
+            <div class="description">A module that contains all functions to interact with our image hosting service</div>
         
 
         
             
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_images_imageController.js.html">server/images/imageController.js</a>, <a href="server_images_imageController.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:cloudinary</li>
+        
+            <li>module:config</li>
+        </ul>
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".upload"><span class="type-signature">(static) </span>upload<span class="signature">(base64, callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives an image file and uploads it to our cloundinary account for hosting
+</div>
 
 
 
@@ -79,10 +188,15 @@
 
         <tr>
             
-                <td class="name"><code>app</code></td>
+                <td class="name"><code>base64</code></td>
             
 
             <td class="type">
+            
+                
+<span class="param-type">data</span>
+
+
             
             </td>
 
@@ -90,7 +204,30 @@
 
             
 
-            <td class="description last">the userRouter (express.Router()) invoked by the server</td>
+            <td class="description last">image data to upload</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">that receives the uploaded image url as a parameter</td>
         </tr>
 
     
@@ -131,7 +268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_users_userRoutes.js.html">server/users/userRoutes.js</a>, <a href="server_users_userRoutes.js.html#line1">line 1</a>
+        <a href="server_images_imageController.js.html">server/images/imageController.js</a>, <a href="server_images_imageController.js.html#line42">line 42</a>
     </li></ul></dd>
     
 
@@ -158,21 +295,6 @@
 
 
         
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
     
 
     

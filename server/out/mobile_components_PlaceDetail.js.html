@@ -29,6 +29,8 @@
             <pre class="prettyprint source linenums"><code>'use strict';
 
 var React = require('react-native');
+var styles = require('../lib/stylesheet');
+var audio = require('react-native').NativeModules.RNAudioPlayerURL;
 
 var {
   StyleSheet,
@@ -36,9 +38,7 @@ var {
   View,
   Text,
   Component,
-  ListView,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
 } = React;
 
 class PlaceDetail extends Component {
@@ -52,87 +52,56 @@ class PlaceDetail extends Component {
    */
   constructor(props) {
     super(props);
+    console.log('this.props in PlaceDetail: ', this.props);
     this.state = {
-      placeName: (typeof this.props.place.placeName !== 'undefined') ? this.props.place.placeName : '',
-      image: (typeof this.props.place.image !== 'undefined') ? this.props.place.image : '',
-      description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',
-      address: (typeof this.props.place.address !== 'undefined') ? this.props.place.address : ''
+      id: this.props.route.passProps.place.id || this.props.place.id,
+      placeName: this.props.route.passProps.place.placeName || this.props.place.placeName,
+      image: this.props.route.passProps.place.image || null,
+      description: this.props.route.passProps.place.description || this.props.place.description,
+      address: this.props.route.passProps.place.address || this.props.place.address,
+      audio: this.props.route.passProps.place.audio || this.props.place.audio,
+      playing: false,
     };
+  }
+
+  componentDidMount () {
+    audio.initWithURL('https://s3-us-west-1.amazonaws.com/walking-tour-media/example.caf');
+    // audio.initWithURL(this.state.audio);    
+
+  }
+
+  onPlayAudio () {
+    if(this.state.playing) {
+      audio.pause();
+      this.setState({playing: false});
+    } else {
+      audio.play();
+      this.setState({playing: true});
+    }
   }
 
   render() {
     return (
-      &lt;View style={styles.container}>
-        &lt;Image style={styles.image} source={{uri: this.state.image}} />
-        &lt;Text style={styles.description}>Location: {this.state.placeName}&lt;/Text>
-        &lt;Text style={styles.description}>Address: {this.state.address}&lt;/Text>
-        &lt;Text style={styles.description}>description: {this.state.description}&lt;/Text>
+      &lt;View style={styles.tourContainer}>
+        &lt;Image style={styles.headerPhoto} source={{uri: this.state.image}} />
+          &lt;Text style={[styles.story, {textAlign: 'center', color: '#00BCD4'}]}> {this.state.placeName}&lt;/Text>
+        &lt;Text style={[styles.description, {textAlign: 'center'}]}>
+        &lt;Text style={styles.bold}>Address:&lt;/Text> {this.state.address.split(',')[0] + ', ' + this.state.address.split(',')[1]}
+        &lt;/Text>
+        &lt;View style={ [{flex:1}, {marginRight: 20}, {marginLeft: 20}] }>
+          &lt;TouchableHighlight 
+              style={ [styles.button, {marginBottom: 20}, {padding: 10}] } 
+              onPress={ this.onPlayAudio.bind(this) } 
+              underlayColor='#FFC107'>
+              &lt;Text style={ styles.buttonText }>{this.state.playing === true ? 'Pause' : 'Listen'}&lt;/Text>
+            &lt;/TouchableHighlight>
+            {/*&lt;Text style={[styles.story, {color: '#FFC107', marginLeft: 10}]}>What is the Story?&lt;/Text>*/}
+            &lt;Text style={styles.description}>{this.state.description}&lt;/Text>
+        &lt;/View>
       &lt;/View>
     );
   }
 };
-
-var styles = StyleSheet.create({
-
-  container: {
-    marginTop: 75,
-    alignItems: 'center'
-  },
-  placeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  image: {
-    width: 350,
-    height: 165,
-    padding: 10
-  },
-  description: {
-    padding: 10,
-    fontSize: 15,
-    color: '#656565',
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
-  rightContainer: {
-    flex: 1
-  },
-  placeName: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
-  city: {
-    color: '#656565',
-    marginLeft: 20
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  listView: {
-    backgroundColor: '#F5FCFF'
-   },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-
-
-});
 
 module.exports = PlaceDetail;
 </code></pre>
@@ -145,13 +114,13 @@ module.exports = PlaceDetail;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

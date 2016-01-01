@@ -30,20 +30,23 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
+var DeviceWidth = Dimensions.get('window').width;
+var DeviceHeight = Dimensions.get('window').height;
 var Login = require('./Login');
-var Main = require('./Main');
+var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
+var Main = require('./Main');
 
 var {
-  AppRegistry,
-  StyleSheet,
   View,
   Text,
   TextInput,
   Image,
   Component,
-  TouchableHighlight
+  TouchableHighlight,
+  ScrollView,
+  AsyncStorage
 } = React;
 
 class Signup extends Component {
@@ -69,94 +72,134 @@ class Signup extends Component {
    */
   submitSignup () {
     this.setState({ validUsername: true });
-    var reqBody = {
-      userName: this.state.username,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      password: this.state.password
+
+    var options = {
+      reqBody: {userName: this.state.username,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                password: this.state.password
+                }
     };
 
-    utils.makeRequest('signup', reqBody)
+    var component = this;
+
+    utils.makeRequest('signup', component, options)
       .then((response) => {
         if( response.error ) {
           this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
         } else {
-          var user = response;
-          utils.navigateTo.call(this, "Tours", Main, {user} );
+          // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+          AsyncStorage.setItem('token', response.token)
+          .then(() => {
+            console.log('from signup client.....', response.token);
+            utils.navigateTo.call(component, "Main", Main, {});
+          });
         }
       })
       .catch((error) => {
         console.warn(error);
       });
   }
+   
 
+  inputFocused (refName) {
+    var that = this;
+    setTimeout(function() {
+      var scrollResponder = that.refs.scrollView.getScrollResponder();
+      scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+        React.findNodeHandle(that.refs[refName]),
+        80,
+        true
+      );
+    }, 50);
+  }
 
   render () {
     return (
-
-      &lt;View style={ styles.container }>
-        &lt;Image style={ styles.bg } source={{ uri: 'http://i.imgur.com/xlQ56UK.jpg' }} />
+      &lt;View style={ styles.signupContainer }>
+        &lt;ScrollView ref="scrollView">
         
-        &lt;View style={ styles.signupInputs }>
+        &lt;View style  = {{ justifyContent: 'center', flex: 1 }}>
+          &lt;Image 
+            style = {{ height: DeviceHeight/2.15, width: DeviceWidth }} 
+            source={require('../assets/logogold.png')}/>
+        &lt;/View>
 
-        &lt;View style={ styles.inputContainer }>
-          &lt;Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+      {/*&lt;View>*/}
+        &lt;View style={ [styles.inputs, {marginTop: 15}] }>
+          &lt;View style={ styles.inputContainer }>
+            &lt;Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             &lt;TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="First Name"
               placeholderTextColor="#FFF"
               value={ this.state.firstName }
-              onChange={ utils.firstNameInput.bind(this) }/>
+              onChange={ utils.firstNameInput.bind(this) }
+              ref='firstname'
+              onFocus={this.inputFocused.bind(this, 'firstname')}/>
           &lt;/View>
 
           &lt;View style={ styles.inputContainer }>
-            &lt;Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+            &lt;Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             &lt;TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="Last Name"
               placeholderTextColor="#FFF"
               value={ this.state.lastName }
-              onChange={ utils.lastNameInput.bind(this) }/>
+              onChange={ utils.lastNameInput.bind(this) }
+              ref='lastname'
+              onFocus={this.inputFocused.bind(this, 'lastname')}/>
           &lt;/View>
 
           &lt;View style={ styles.inputContainer }>
-            &lt;Image style={ styles.inputUsername } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+            &lt;Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
             &lt;TextInput 
               style={ [styles.input, styles.whiteFont] }
               placeholder="Username"
               placeholderTextColor="#FFF"
               value={ this.state.username }
-              onChange={ utils.usernameInput.bind(this) }/>
+              onChange={ utils.usernameInput.bind(this) }
+              ref='username'
+              onFocus={this.inputFocused.bind(this, 'username')}/>
           &lt;/View>
 
           &lt;View style={ styles.inputContainer }> 
-            &lt;Image style={ styles.inputPassword } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/> 
+            &lt;Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
             &lt;TextInput
               password={true}
               style={ [styles.input, styles.whiteFont] }
               placeholder="Password"
               placeholderTextColor="#FFF"
               value={ this.state.password }
-              onChange={ utils.passwordInput.bind(this) }/>
+              onChange={ utils.passwordInput.bind(this) }
+              ref='password'
+              onFocus={this.inputFocused.bind(this, 'password')}/>
           &lt;/View>
 
             &lt;Text style={ styles.whiteFont }>
             {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'}
             &lt;/Text>
 
+        {/*&lt;/View>*/}
         &lt;/View>
-        
-        &lt;View style={ styles.signup }>
-          &lt;Text style={ styles.whiteFont } onPress={ this.submitSignup.bind(this) }>Sign Up&lt;/Text>
-        &lt;/View>
+        &lt;/ScrollView>
 
-        &lt;View style={ styles.login }>
-          &lt;Text style={ styles.greyFont }>Already have an account?&lt;/Text>
-          &lt;TouchableHighlight onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }>  
+        &lt;View style={{flexDirection: 'row', justifyContent: 'center' }}>
+          
+          &lt;TouchableHighlight
+            onPress={ this.submitSignup.bind(this) }
+            style={[styles.loginSignup, {backgroundColor: '#00BCD4'}]}
+            underlayColor='#00BCD4'>
+            &lt;Text style={ styles.whiteFont }>Sign Up&lt;/Text>
+          &lt;/TouchableHighlight>
+
+          &lt;TouchableHighlight
+            onPress={ utils.navigateTo.bind(this, 'Login', Login, {}) }
+            style={ [styles.loginSignup, {marginLeft: 25}] }
+            underlayColor='transparent'>
             &lt;Text style={ styles.whiteFont }>Login&lt;/Text>
           &lt;/TouchableHighlight>
         &lt;/View>
-
       &lt;/View>
     );
   }
@@ -178,13 +221,13 @@ module.exports = Signup;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

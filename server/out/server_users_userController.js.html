@@ -32,6 +32,9 @@
  * @module users/userController
  */
 var users = require('./userModel.js');
+var Q = require('q');
+var jwt = require('jwt-simple');
+var db = require('../db');
 
 module.exports = {
   /**
@@ -54,11 +57,15 @@ module.exports = {
           if(err) {
             res.status(404).json({error: err});
           } else {
-            users.getUserInfo(params[0], function(err, results) {
+            users.getUserInfo(params[0], function(err, user) {
               if(err) {
                 res.status(404).json({error: err});
               } else {
-                res.status(201).json(results);
+                  if (user) {
+                    var token = jwt.encode(user.id, 'secret');
+                    console.log('token......', token);
+                    res.status(200).json({token: token, userId: user.id});
+                  } 
               }
             });
           }
@@ -67,7 +74,7 @@ module.exports = {
     });
   },
   /**
-   * Calls checkUserPassword function from userModel.
+   * Calls comparePassword function from userModel.
    * Checks if user name exists.  If not, then will send error message.
    * Checks if password is correct.
    * If there is a match, will retrieve user info.
@@ -77,18 +84,52 @@ module.exports = {
    */
   login: function (req, res, next) {
     var params = [req.body.userName, req.body.password];
-    users.checkUserPassword(params, function(err, results) {
+    
+    users.comparePassword(params, function(err, user) {
+      console.log('result after login......', user)
       if(err) {
         console.error(err);
         res.status(400).json({error: err});
         next(err);
       } else {
-        res.status(200).json(results);
+        var token = jwt.encode(user.id, 'secret');
+        console.log('token from login', token);
+        res.status(200).json({token: token, userId: user.id});
       }
     });
+  },
+  /**
+   * Checks from token in request header and uses jwt to decode the token to get the userId
+   * Uses userId decoded from toekn to check that user exists in the database. If the user exists, invoke next function. 
+   * If there is no match, send a 401 status
+   *
+   * @param {object} req - Request from the client
+   * @param {object} res - Response to be sent to the client
+   * @param {object} next - Function to be invoked next with the same request and response parameters
+   */
+  checkAuth: function (req, res, next) {
+    var token = req.headers['x-access-token'];
+    console.log('token in checkAuth: ', token);
+    if (!token) {
+      res.sendStatus(401);
+    } else {
+        var user = jwt.decode(token, 'secret');
+        var queryStr = "select * from users where id = ?";
+        console.log('found token in checkAuth, userId = ', user);
+        db.query(queryStr, user, function(err, userInfo) {
+          if(userInfo.length !== 0) {
+            console.log('found user in DB');
+            next();
+          } else {
+            console.log('user is not in DB');
+            res.sendStatus(401);
+          }
+        });
+      }
   }
 
 };
+
 </code></pre>
         </article>
     </section>
@@ -99,13 +140,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

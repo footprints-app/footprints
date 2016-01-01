@@ -30,11 +30,18 @@
 var React = require('react-native');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
+var DeviceWidth = Dimensions.get('window').width;
+var DeviceHeight = Dimensions.get('window').height;
 var ViewCreatedTour = require('./ViewCreatedTour');
+var SelectImage = require('./SelectImage');
 var utils = require('../lib/utility');
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
+var formStyles = require('../lib/form_stylesheet');
+var styles = require('../lib/stylesheet');
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 
 var {
-  AppRegistry,
   StyleSheet,
   View,
   Text,
@@ -42,9 +49,35 @@ var {
   Image,
   TouchableHighlight,
   Component,
-  ActivityIndicatorIOS,
+  AsyncStorage,
   NavigatorIOS
 } = React;
+
+var Tour = t.struct({
+  tourName: t.maybe(t.String),
+  description: t.maybe(t.String),
+  duration: t.maybe(t.Number)
+});
+
+var options = {
+  auto: 'placeholders',
+  fields: {
+    tourName: {
+      placeholder: 'Tour Name',
+      placeholderTextColor: '#FFF',
+    },
+    description: {
+      placeholder: 'Description',
+      placeholderTextColor: '#FFF'
+    },
+    duration: {
+      placeholder: 'Duration',
+      placeholderTextColor: '#FFF',
+    },
+  },
+  stylesheet: formStyles
+};
+
 
 class CreateTour extends Component {
 
@@ -59,154 +92,95 @@ class CreateTour extends Component {
       tourName: '',
       description: '',
       category: '',
-      duration: '',
+      duration: 0,
       userName: '',
       cityName: '',
       state: '',
       country: '',
-      places: []
     };
   }
 
-  viewTour (newTour) {
-    // console.log('new tour....', newTour.state)
-    var createdTour = this.state;
-    utils.navigateTo.call(this, "View Tour", ViewCreatedTour, {createdTour});
+  createAndAddPhoto () {
+    var value = this.refs.form.getValue();
+    console.log('input value...', value)
+    var options = {
+      reqBody: this.state
+    }; 
+    var component = this;
+    utils.makeRequest('createTour', component, options)
+    .then(response => {
+      console.log('response body in Create Tour: ', response);
+      var props = {
+        tourId: response.id,
+        createTourView: true
+      }
+      utils.navigateTo.call(component, "Add Tour Photo", SelectImage, props);
+    })
+    .done();
+  }
+
+  onChange(value, path) {
+    this.setState(value);
+  }
+
+  clearText () {
+    this.refs.form.getComponent('tourName').refs.input.clear();
+    this.refs.form.getComponent('description').refs.input.clear();
+    this.refs.form.getComponent('duration').refs.input.clear();
+    this.refs.searchField.refs.textInput.clear();
   }
 
   render () {
     return (
-      &lt;View style={ styles.container }>
-        &lt;Image style={ styles.bg } source={{ uri: 'http://i.imgur.com/xlQ56UK.jpg' }} />
-        
-        &lt;View style={ styles.inputs }>
-          
-          &lt;View style={ styles.inputContainer }>
-            &lt;TextInput 
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Tour Name"
-              placeholderTextColor="#FFF"
-              value={ this.state.tourName }
-              onChange={ utils.tourNameInput.bind(this) }/>
-          &lt;/View>
-         
-          &lt;View style={ styles.inputContainer }>
-            &lt;TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Category"
-              placeholderTextColor="#FFF"
-              value={ this.state.category }
-              onChange={ utils.categoryInput.bind(this) }/>
-          &lt;/View>
-          
-          &lt;View style={ styles.inputContainer }>
-            &lt;TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Description"
-              placeholderTextColor="#FFF"
-              value={this.state.description}
-              onChange={ utils.descriptionInput.bind(this) }/>
-          &lt;/View>
-          
-          &lt;View style={ styles.inputContainer }>
-            &lt;TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Duration"
-              placeholderTextColor="#FFF"
-              value={ this.state.duration }
-              onChange={ utils.durationInput.bind(this) }/>
-          &lt;/View>
+      &lt;View style={ styles.addPlaceContainer }>
 
-          &lt;View style={ styles.inputContainer }>
-            &lt;TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="City"
-              placeholderTextColor="#FFF"
-              value={ this.state.cityName }
-              onChange={ utils.cityNameInput.bind(this) }/>
-          &lt;/View>
-
-          &lt;View style={ styles.inputContainer }>
-            &lt;TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="State"
-              placeholderTextColor="#FFF"
-              value={ this.state.state }
-              onChange={ utils.stateInput.bind(this) }/>
-          &lt;/View>
-
-          &lt;View style={ styles.inputContainer }>
-            &lt;TextInput
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Country"
-              placeholderTextColor="#FFF"
-              value={ this.state.country }
-              onChange={ utils.countryInput.bind(this) }/>
-          &lt;/View>
-
+        &lt;View style={ [styles.photoAudioContainer, {marginTop: 50}] }>   
+          &lt;Text style={ styles.text }>Tour Details&lt;/Text>
         &lt;/View>
+        
+        &lt;View style={{ marginTop: 10 }}>
+          &lt;Form
+            ref="form"
+            type={Tour}
+            options={ options }
+            controlled={true}
+            value={ this.state.value }
+            onChange={ this.onChange.bind(this) }/>
+        &lt;/View>
+        &lt;GooglePlacesAutocomplete
+          ref='searchField'
+          placeholder='City'
+          minLength={3} // minimum length of text to search 
+          autoFocus={false}
+          fetchDetails={false}
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+            var cityStateCountry = data.description.split(','); 
+            this.setState({cityName: cityStateCountry[0].trim(), 
+              state: cityStateCountry[1].trim() || '', 
+              country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' 
+            });             
+          }}
+          getDefaultValue={() => { return ''; }}
+          query={{
+            key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
+            language: 'en', // language of the results 
+            types: '(cities)'
+          }}
+          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
 
         &lt;TouchableHighlight 
-          onPress={ this.viewTour.bind(this) } 
-          style={ styles.touchable } underlayColor="#FF3366">  
-          &lt;View style={ styles.createTour }>
-            &lt;Text style={ styles.whiteFont }>View Tour&lt;/Text>
-          &lt;/View>
+          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
+          onPress={ () => { 
+            this.createAndAddPhoto();
+            this.clearText();
+          }}
+          underlayColor='#FFC107'>
+          &lt;Text style={ styles.buttonText }>Next&lt;/Text>
         &lt;/TouchableHighlight>
-
       &lt;/View>
     );
   }
 };
-
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: 'transparent'
-  },
-  bg: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: windowSize.width,
-    height: windowSize.height
-  },
-  createTour: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: -200,
-  },
-  inputs: {
-    marginTop: 100,
-    marginBottom: 10,
-    flex: .25
-  },
-  inputContainer: {
-    padding: 10,
-    borderWidth: 1,
-    borderBottomColor: '#CCC',
-    borderColor: 'transparent'
-  },
-  input: {
-    position: 'absolute',
-    left: 10,
-    top: 4,
-    right: 0,
-    height: 20,
-    fontSize: 14
-  },
-  greyFont: {
-    color: '#D8D8D8'
-  },
-  whiteFont: {
-    color: '#FFF'
-  },
-  touchable: {
-    borderRadius: 5
-  }
-});
 
 module.exports = CreateTour;
 
@@ -224,13 +198,13 @@ module.exports = CreateTour;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -267,7 +267,162 @@ Inserts new place to database through insertPlace method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line109">line 109</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line162">line 162</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~addTourPhoto"><span class="type-signature">(inner) </span>addTourPhoto<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives tourId and utf-8 encoded image data to be added to the database
+Convers image to base64 and sends to cloudinary to host image, receives image url as response and stores in DB
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">includes params property which is the tourId, body is utf-8 encoded image data</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response status</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line247">line 247</a>
     </li></ul></dd>
     
 
@@ -423,7 +578,317 @@ Inserts new tour to database through insertTour method
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line82">line 82</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line85">line 85</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~deletePlace"><span class="type-signature">(inner) </span>deletePlace<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives placeId of place to be deleted from client and deletes the place in the database
+Deletes place in database through deletePlace method
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">includes params property which is the placeId</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response status</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line229">line 229</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~deleteTour"><span class="type-signature">(inner) </span>deleteTour<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives tourId of tour to be deleted from client and deletes the tour in the database
+Deletes tour in database through deleteTour method
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">includes params property which is the tourId</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response status</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line145">line 145</a>
     </li></ul></dd>
     
 
@@ -578,7 +1043,7 @@ then calls queryPlaces to find all places that belong to each tour.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line35">line 35</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line38">line 38</a>
     </li></ul></dd>
     
 
@@ -733,7 +1198,7 @@ Retrieves a single tour from the database.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line11">line 11</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line14">line 14</a>
     </li></ul></dd>
     
 
@@ -889,7 +1354,473 @@ Retrieves user specific tours from the database
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line57">line 57</a>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~updatePlace"><span class="type-signature">(inner) </span>updatePlace<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives updated place information from client and updates the place in the database
+Updates place in database through updatePlace method
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Request object that includes updated place data</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response status</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line212">line 212</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~updatePlaceOrders"><span class="type-signature">(inner) </span>updatePlaceOrders<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives updated tourId and placeOrder of new or updated place and increments the place order of all places in the tour that are equal or greater place orders
+Updates place in database through updatePlace method
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Request object that includes tourId of updated/new place its placeOrder</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response status</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line179">line 179</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="~updateTour"><span class="type-signature">(inner) </span>updateTour<span class="signature">(req, res)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Receives updated tour information from client and updates the tour in the database
+Gets cityId from addOrGetCity method
+Updates tour in database through updateTour method
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>req</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Request object that includes updated tour data</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>res</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Response status</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_tours_tourController.js.html">server/tours/tourController.js</a>, <a href="server_tours_tourController.js.html#line115">line 115</a>
     </li></ul></dd>
     
 
@@ -931,13 +1862,13 @@ Retrieves user specific tours from the database
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:07 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

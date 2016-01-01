@@ -34,6 +34,9 @@
 var tours = require('./tourModel');
 var Promise = require('bluebird');
 var Query = Promise.promisifyAll(tours);
+var images = require('../images/imageController');
+var audio = require('../audio/audioController');
+var jwt = require('jwt-simple');
 
 module.exports = {
 	/** Receives a tourId from request and calls promisified querySpecificTour from the tourModel.
@@ -43,7 +46,7 @@ module.exports = {
 	 * @param {object} res - Response object with a single tour
 	 */
 	getOneTour: function(req, res) {
-		var tourId = JSON.parse(req.params.id);
+		var tourId = req.params.id;
 
 		Query.querySpecificTourAsync({tourId: tourId})
 				.then(function(tour) {
@@ -90,8 +93,7 @@ module.exports = {
 	 * @param res {object} Response object with tours that match user
 	 */
 	getUserTours: function(req, res) {
-		var userId = JSON.parse(req.params.id);
-
+    var userId = jwt.decode(req.headers['x-access-token'], 'secret');
 		Query.querySpecificTourAsync({userId: userId})
 			.then(function(tours) {
 				return Promise.each(tours, function(tour) {
@@ -104,6 +106,7 @@ module.exports = {
 				res.status(200).json(data)
 			})
 			.catch(function(err) {
+				console.log('error: ', err);
 				res.status(404).json({error: err})
 			});
 	},
@@ -116,7 +119,38 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	createTour: function(req, res) {
-		var tourParams = [req.body.tourName, req.body.userId, req.body.description, req.body.category, req.body.duration];
+    var userId = jwt.decode(req.headers['x-access-token'], 'secret');
+		var tourParams = [req.body.tourName, userId, req.body.description, req.body.category, req.body.duration];
+		var cityParams = [req.body.cityName, req.body.state, req.body.country];
+
+		tours.addOrGetCity(cityParams, function(err, results) {
+			if(err) {
+				console.log('city db error');
+				res.status(404).json({error: err});
+			} else {
+				tourParams.push(results);//Get city id from results
+				tours.insertTour(tourParams, function(err, results) {
+					if(err) {
+						console.log('error adding tour to db');
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json({id: results});//id refers to the tourId
+					}
+				});
+			}
+		});
+	},
+	/** Receives updated tour information from client and updates the tour in the database
+	 * Gets cityId from addOrGetCity method
+	 * Updates tour in database through updateTour method
+	 *
+	 * @method updateTour
+	 * @param req {object} Request object that includes updated tour data
+	 * @param res {object} Response status
+	 */
+	updateTour: function(req, res) {
+    var userId = jwt.decode(req.headers['x-access-token'], 'secret');
+		var tourParams = [req.body.tourName, userId, req.body.description, req.body.category, req.body.duration];
 		var cityParams = [req.body.cityName, req.body.state, req.body.country];
 
 		tours.addOrGetCity(cityParams, function(err, results) {
@@ -124,13 +158,32 @@ module.exports = {
 				res.status(404).json({error: err});
 			} else {
 				tourParams.push(results);//Get city id from results
-				tours.insertTour(tourParams, function(err, results) {
+				tourParams.push(Number(req.params.id)); //add tourId as last parameter
+				tours.updateTour(tourParams, function(err, results) {
 					if(err) {
 						res.status(404).json({error: err});
 					} else {
-						res.status(201).json({id: results});//id refers to the tourId
+						res.status(201).json(results);
 					}
 				});
+			}
+		});
+	},
+
+	/** Receives tourId of tour to be deleted from client and deletes the tour in the database
+	 * Deletes tour in database through deleteTour method
+	 *
+	 * @method deleteTour
+	 * @param req {object} includes params property which is the tourId
+	 * @param res {object} Response status
+	 */
+	deleteTour: function(req, res) {
+		var tourId = req.params.id;
+		tours.deleteTour(tourId, function (err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				res.status(201).json(results);
 			}
 		});
 	},
@@ -143,7 +196,6 @@ module.exports = {
 	 */
 	addPlace: function(req, res) {
 		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId];
-
 		tours.insertPlace(params, function(err, results) {
 			if(err) {
 				res.status(404).json({error: err});
@@ -151,7 +203,143 @@ module.exports = {
          res.status(201).json({id: results})
 			}
 		});
-	}
+	},
+	/** Receives updated tourId and placeOrder of new or updated place and increments the place order of all places in the tour that are equal or greater place orders
+	 * Updates place in database through updatePlace method
+	 *
+	 * @method updatePlaceOrders
+	 * @param req {object} Request object that includes tourId of updated/new place its placeOrder
+	 * @param res {object} Response status
+	 */
+	updatePlaceOrders: function(req, res) {
+		var params = [req.params.id, req.body.placeOrder, req.body.placeId];
+		if(req.body.origPlaceOrder) {
+			console.log('origPlaceOrder: ', req.body.origPlaceOrder);
+			params.push(req.body.origPlaceOrder);
+
+			tours.updatePlaceOrdersAfterEdit(params, function(err, results) {
+				if(err) {
+					console.log('error in updatePlaceOrders: ', err);
+					res.status(404).json({error: err});
+				} else {
+					res.status(201).json(results);
+				}
+			});
+		} else {
+			tours.updatePlaceOrders(params, function(err, results) {
+				if(err) {
+					console.log('error in updatePlaceOrders: ', err);
+					res.status(404).json({error: err});
+				} else {
+					res.status(201).json(results);
+				}
+			});
+		}
+	},
+
+	/** Receives updated place information from client and updates the place in the database
+	 * Updates place in database through updatePlace method
+	 *
+	 * @method updatePlace
+	 * @param req {object} Request object that includes updated place data
+	 * @param res {object} Response status
+	 */
+	updatePlace: function(req, res) {
+		var params = [req.body.placeName, req.body.address, req.body.description, req.body.placeOrder, req.body.tourId, req.params.id];
+		tours.updatePlace(params, function(err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				res.status(201).json(results);
+			}
+		});
+	},
+	/** Receives placeId of place to be deleted from client and deletes the place in the database
+	 * Deletes place in database through deletePlace method
+	 *
+	 * @method deletePlace
+	 * @param req {object} includes params property which is the placeId
+	 * @param res {object} Response status
+	 */
+	deletePlace: function(req, res) {
+		var placeId = req.params.id;
+		tours.deletePlace(placeId, function (err, results) {
+			if(err) {
+				res.status(404).json({error: err});
+			} else {
+				res.status(201).json(results);
+			}
+		});
+	},
+
+	/** Receives tourId and utf-8 encoded image data to be added to the database
+	 * Convers image to base64 and sends to cloudinary to host image, receives image url as response and stores in DB
+	 *
+	 * @method addTourPhoto
+	 * @param req {object} includes params property which is the tourId, body is utf-8 encoded image data
+	 * @param res {object} Response status
+	 */
+	addTourPhoto: function(req, res) {
+		console.log('addTourPhoto called');
+		var tourId = JSON.parse(req.params.id);
+		var base64Image = req.body.encodedData;
+		// var base64Image = new Buffer(req.body.encodedData, 'utf8').toString('base64');
+
+		images.upload(base64Image, function(imageUrl) {
+			if(!imageUrl) {
+				console.log('error uploading image');
+			} else {
+				var params = [imageUrl, tourId];
+				tours.addImageToTour(params, function (err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json(imageUrl);
+					}
+				});
+			}
+		});
+	},
+
+	addPlacePhoto: function(req, res) {
+		var placeId = JSON.parse(req.params.id);
+		var base64Image = req.body.encodedData;
+		console.log('INSIDE ADD PLACE PHOTO!')
+		images.upload(base64Image, function(imageUrl) {
+			if(!imageUrl) {
+				console.log('error uploading image');
+			} else {
+				var params = [imageUrl, placeId];
+				tours.addImageToPlace(params, function (err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json(imageUrl);
+					}
+				});
+			}
+		});
+	},
+
+  addAudio: function(req, res) {
+		var placeId = JSON.parse(req.params.id);
+		audio.putToS3(req, res, function(result) {
+			if(result.error) {
+				res.status(404).json({error: result.error});
+			} else {
+				var audioUrl = result.path;
+				var params = [audioUrl, placeId]
+				tours.addAudioToPlace(params, function (err, results) {
+					if(err) {
+						res.status(404).json({error: err});
+					} else {
+						res.status(201).json(results);
+					}
+				});
+			}
+		});
+  }
+
 }
 </code></pre>
         </article>
@@ -163,13 +351,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -31,17 +31,30 @@
 var React = require('react-native');
 // var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
+var PlaceDetail = require('./PlaceDetail.js');
+var EditPlace = require('./EditPlace.js');
+var styles = require('../lib/stylesheet');
+var SelectImage = require('./SelectImage');
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+var formStyles = require('../lib/formStyleEditMode');
 
 var {
-  StyleSheet,
   Image,
   View,
   Text,
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS
-} = React;
+  ScrollView
+  } = React;
+
+var EditTour = t.struct({
+  tourName: t.maybe(t.String),
+  description: t.maybe(t.String),
+  duration: t.maybe(t.Number)
+});
 
 class ViewCreatedTour extends Component {
   /**
@@ -50,165 +63,336 @@ class ViewCreatedTour extends Component {
    * @this {ViewCreatedTours}
    */
   constructor(props) {
+    console.log('props in view ViewCreatedTours', props)
     super(props);
     this.state = {
+      tourId: this.props.tourId || this.props.route.passProps.tourId || this.props.route.passProps.tour.id,
+      tour: {},
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      }),
+      editMode: this.props.editMode || false,
+      tourName: '',
+      userId: '',
+      description: '',
+      image: '',
+      category: '',
+      duration: 0,
+      userName: '',
+      cityName: '',
+      state: '',
+      country: ''
     };
   }
+
   /**
    * ComponentDidMount function is called as soon as the render method is executed.
    * It fetches data from the database and sets the state with the fetched data.
    */
-  componentDidMount () {
-    var places = this.props.createdTour.places;
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
-    //this.fetchData();
+  componentDidMount() {
+    this.fetchData();
   }
 
-  addPlace () {
-    // console.log('in view createdTour.....', this.props.createdTour)
-    var newTour = this.props.createdTour;
+  addPlace() {
+    var tourId = this.state.tourId;
     var AddPlace = require('./AddPlace');
-    utils.navigateTo.call(this, "Add Place", AddPlace, {newTour});
+    utils.navigateTo.call(this, "Add Place", AddPlace, {tourId});
   }
 
-  onPressDone () {
-    // console.log('in view createdTour.....', this.props.createdTour)
-    // var newTour = this.props.createdTour;
+  addPhoto() {
+    var tourId = this.state.tourId;
+    utils.navigateTo.call(this, "Select a Tour Photo", SelectImage, {tourId});
+  }
+
+  onPressDone() {
     var MyTours = require('./MyTours');
-    utils.navigateTo.call(this, "My Tours", MyTours, {});
+    var userId = this.state.tour.userId;
+    // utils.navigateTo.call(this, "My Tours", MyTours, {userId});
+    this.props.navigator.push({component: ViewCreatedTours, passProps: {userId}});
   }
 
-  renderPlace (place) {
-    console.log('in view createdTour.....', this.props.createdTour)
+  onChange(value) {
+    this.setState(value);
+  }
+
+  toggleEdit() {
+    var newEditState = !this.state.editMode;
+    this.setState({editMode: newEditState});
+  }
+
+  editDone(callback) {
+    console.log('state in view ViewCreatedTours', this.state)
+    var value = this.refs.form.getValue();
+    var options = {
+      reqBody: this.state,
+      reqParam: this.state.tourId
+    };
+    var component = this;
+    utils.makeRequest('editTour', component, options)
+    .then(response => {
+      this.setState({editMode: false});
+      this.fetchData();
+      if(callback) {
+        callback()
+      } else {
+        this.onPressDone();
+      }
+    });
+  }
+
+  putThenEditPlace (title, toComponent, props) {
+    var component = this;
+    this.editDone(function() {
+      utils.navigateTo.call(component, title, toComponent, props);
+    })
+  }
+
+  deletePlace(place) {
+    var component = this;
+    var options = {
+      reqBody: place,
+      reqParam: place.id
+    };
+
+    utils.makeRequest('deletePlace', component, options)
+    .then(response => {
+      this.fetchData();
+    });
+  }
+
+  fetchData() {
+    var component = this;
+    var options = {
+      reqParam: this.state.tourId,
+      reqBody: {}
+    };
+
+    utils.makeRequest('tour', component, options)
+    .then((response) => {
+      var places = response.places;
+      component.setState({
+        tour: response,
+        userId: response.userId,
+        tourName: response.tourName,
+        description: response.description,
+        category: response.category,
+        duration: response.duration,
+        userName: response.userName,
+        cityName: response.cityName,
+        state: response.state,
+        country: response.country,
+        dataSource: this.state.dataSource.cloneWithRows(places),
+        isLoading: false
+      });
+    })
+    .done();
+  }
+
+  renderPlace(place) {
+    var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
     return (
-      &lt;TouchableHighlight onPress={ () => alert('go to place detail') }  underlayColor='#dddddd'>
+      &lt;TouchableHighlight
+        onPress={ utils.navigateTo.bind(this, place.placeName, PlaceDetail, {place}) }
+        underlayColor='#727272'>
         &lt;View>
           &lt;View style={ styles.placeContainer }>
+            &lt;View>
+              &lt;Image source={{uri: imageURI }} style={ styles.thumbnail }/>
+            &lt;/View>
             &lt;View style={ styles.rightContainer }>
               &lt;Text style={ styles.placeName }>{ place.placeName }&lt;/Text>
+              &lt;Text style={ styles.address }>{ place.address.split(',')[0] }&lt;/Text>
             &lt;/View>
+            &lt;Image source={ require('../assets/arrow.png') } style={ styles.arrow }>&lt;/Image>
           &lt;/View>
-          &lt;View style={ styles.separator } />
+
+          &lt;View style={ styles.tourSeparator }/>
         &lt;/View>
       &lt;/TouchableHighlight>
     );
   }
 
-  render () {
-    var newTour = this.props.createdTour;
-    // console.log('props...', this.props)
-    console.log('new tour....', newTour)
-    // console.log('props...', this.props)
-    var tourName = (typeof newTour.tourName !== 'undefined') ? newTour.tourName : '';
-    var description = (typeof newTour.description !== 'undefined') ? newTour.description : '';
-    var category = (typeof newTour.category !== 'undefined') ? newTour.category : '';
-    var duration = (typeof newTour.duration !== 'undefined') ? newTour.duration : '';
-    var userName = (typeof newTour.userName !== 'undefined') ? newTour.userName : '';
-    var cityName = (typeof newTour.cityName !== 'undefined') ? newTour.cityName : '';
-    var state = (typeof newTour.state !== 'undefined') ? newTour.state : '';
-    var country = (typeof newTour.country !== 'undefined') ? newTour.country : '';
-    
+  renderEditablePlace(place) {
     return (
-      &lt;View style={styles.container}>
-        
-        &lt;Text style={ styles.description }>Tour Name: { tourName }&lt;/Text>
-        &lt;Text style={ styles.description }>Category : { category }&lt;/Text>
-        &lt;Text style={ styles.description }>Duration: { duration }&lt;/Text>
-        &lt;Text style={ styles.description }>City Name: { cityName }   State: { state }   Country: { country }&lt;/Text> 
-        &lt;Text style={ styles.description }>Places: &lt;/Text>
+      &lt;View>
+        &lt;View style={ styles.placeContainer }>
+          &lt;TouchableHighlight 
+            style={ styles.deleteContainer } 
+            onPress={ this.deletePlace.bind(this, place) }
+            underlayColor='#727272'>
+            &lt;Image source={ require('../assets/deleteicon.png') } style={ {width: 15, height: 15} }/>
+          &lt;/TouchableHighlight>
 
-        &lt;View style={ styles.panel }>
-          &lt;ListView
-            dataSource={ this.state.dataSource }
-            renderRow={ this.renderPlace.bind(this) }
-            style={ styles.listView }/>
+          &lt;TouchableHighlight
+            style={ styles.rightContainer }
+            onPress={ this.putThenEditPlace.bind(this, place.placeName, EditPlace, {place}) }
+            underlayColor='#727272'>
+            &lt;Text style={ styles.placeName }>{ place.placeName }&lt;/Text>
+          &lt;/TouchableHighlight>
         &lt;/View>
-
-        &lt;TouchableHighlight 
-          onPress={ this.addPlace.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          &lt;View style={ styles.addPlaceBtn }>
-            &lt;Text style={ styles.whiteFont }>Add Place&lt;/Text>
-          &lt;/View>  
-        &lt;/TouchableHighlight>
-
-        &lt;TouchableHighlight 
-          onPress={ this.onPressDone.bind(this) } 
-          style={ styles.touchable } underlayColor="white">
-          &lt;View style={ styles.doneBtn }>
-            &lt;Text style={ styles.whiteFont }>Done&lt;/Text>
-          &lt;/View>  
-        &lt;/TouchableHighlight>
-      
+        &lt;View style={ styles.tourSeparator }/>
       &lt;/View>
     );
   }
-};
 
-var styles = StyleSheet.create({
+  renderEditMode() {
+    var options = {
+      auto: 'placeholders',
+      fields: {
+        tourName: {
+          placeholder: this.state.tourName,
+          placeholderTextColor: '#FFF',
+          label: 'Tour Name'
+        },
+        description: {
+          placeholder: this.state.description,
+          placeholderTextColor: '#FFF',
+          label: 'Description'
+        },
+        duration: {
+          placeholder: this.state.duration.toString(),
+          placeholderTextColor: '#FFF',
+          label: 'Estimated Time (in hours)'
+        },
+      },
+      stylesheet: formStyles
+    };
 
-  container: { 
-    flexDirection: 'column',
-    flex: 1,
-    backgroundColor: 'transparent',
-    marginTop: 70
-  },
-  panel: {
-    backgroundColor: '#fff2f2',
-    flex: 1,
-    padding: 10,
-  },
-  placeContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  rightContainer: {
-    flex: 1
-  },
-  placeName: {
-    fontSize: 14,
-    marginBottom: 8,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  description: {
-    padding: 10,
-    fontSize: 15,
-    color: '#656565',
-  },
-  addPlaceBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 50,
-  },
-  doneBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: -40,
-  },
-  whiteFont: {
-    color: '#FFF'
-  },
-  listView: {
-    backgroundColor: '#fff2f2'
-   },
-  touchable: {
-    borderRadius: 100
+    return (
+
+      &lt;View style={ styles.addPlaceContainer }>
+        &lt;View style={{ marginTop: 60 }}>
+          &lt;Form
+            ref="form"
+            type={ EditTour }
+            options={ options }
+            value={ this.state.value }
+            onChange={ this.onChange.bind(this) }/>
+        &lt;/View>
+        &lt;Text style={{ fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2 }}>
+          Search for Address
+        &lt;/Text>
+        &lt;GooglePlacesAutocomplete
+          placeholder={this.state.tour.cityName}
+          minLength={3} // minimum length of text to search 
+          autoFocus={false}
+          fetchDetails={true}
+          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true 
+            this.setState({ cityName: details.formatted_address });
+          }}
+          styles={ utils.googlePlacesStyles }
+          getDefaultValue={() => { return ''; }}// text input default value 
+          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }} // language of the results  
+          GooglePlacesSearchQuery={{ rankby: 'distance' }}/>
+
+        &lt;TouchableHighlight 
+          onPress={ this.addPhoto.bind(this) } 
+          underlayColor='#727272' 
+          style={{ marginTop: -2 }}>
+          &lt;View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+            &lt;View style={{ marginTop: 17 }}>
+              &lt;Text style={ [styles.text, {fontSize: 16}] }>Edit Photo&lt;/Text>
+            &lt;/View>
+            &lt;View>
+              &lt;Image source={ require('../assets/photoicon.png') }
+                     style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
+            &lt;/View>
+          &lt;/View>
+        &lt;/TouchableHighlight>
+
+        &lt;ScrollView>
+          &lt;View style={ [styles.panel, {marginTop: 15}] }>
+            &lt;View style={ styles.tourSeparator }/>
+            &lt;ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderEditablePlace.bind(this) }
+              style={ styles.listView }/>
+          &lt;/View>
+        &lt;/ScrollView>
+
+        &lt;View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+          &lt;TouchableHighlight
+            style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
+            onPress={ this.editDone.bind(this) }
+            underlayColor='#FFC107'>
+            &lt;Text style={ styles.buttonText }>Done&lt;/Text>
+          &lt;/TouchableHighlight>
+        &lt;/View>
+      &lt;/View>
+
+    )
   }
 
-});
+  renderViewMode() {
+    var imageURI = ( typeof this.state.tour.image !== 'undefined' ) ? this.state.tour.image : null;
+    return (
+      &lt;View style={ styles.tourContainer }>
+        &lt;ScrollView automaticallyAdjustContentInsets={false}>
+          &lt;Image style={ styles.headerPhoto } source={{ uri: imageURI }}>
+            &lt;View style={{ marginRight: 10, alignItems: 'flex-end' }}>
+              &lt;TouchableHighlight
+                onPress={ this.toggleEdit.bind(this) }
+                style={ [styles.touchable, {marginBottom: 10}] }
+                underlayColor='#727272'>
+                &lt;Image source={ require('../assets/editiconteal.png') }
+                       style={ [styles.editIcon, {width: 45}, {height: 45}, {marginTop: 10}] } />
+              &lt;/TouchableHighlight>
+            &lt;/View>
+          &lt;/Image>
+          &lt;View>
+            &lt;View style={{ flexDirection: 'column', justifyContent: 'center', alignSelf: 'center' }}>
+              &lt;View>
+                &lt;Text style={ [styles.tourTitle, {alignSelf: 'center'}, {fontSize: 21}] }>
+                  { this.state.tour.tourName }
+                &lt;/Text>
+              &lt;/View>
+            &lt;/View>
+
+            &lt;View style={{ justifyContent: 'center' }}>
+              &lt;Text style={ [styles.description, {marginRight: 10}] }>
+                &lt;Text style={ styles.bold }>Description: &lt;/Text>{ this.state.tour.description + '\n' }
+                &lt;Text style={ styles.bold }>City: &lt;/Text>{ this.state.tour.cityName + '\n' }
+                &lt;Text style={ styles.bold }>Est Time: &lt;/Text>{ this.state.tour.duration + ' hours' + '\n' }
+              &lt;/Text>
+            &lt;/View>
+          &lt;/View>
+
+          &lt;View style={ [styles.photoAudioContainer, {marginTop: 5}, {marginBottom: 3}] }>
+            &lt;View style={{ marginTop: 5 }}>
+              &lt;Text style={ styles.text }>Places&lt;/Text>
+            &lt;/View>
+            &lt;TouchableHighlight
+              onPress={ this.addPlace.bind(this) }
+              style={ [styles.touchable, {marginTop: 1}] }
+              underlayColor='#727272'>
+              &lt;Image source={ require('../assets/addplaceicon.png') }
+                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
+            &lt;/TouchableHighlight>
+          &lt;/View>
+
+          &lt;View style={ styles.tourSeparator }/>
+
+          &lt;View style={ styles.panel }>
+            &lt;ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderPlace.bind(this) }
+              style={ styles.listView }
+              automaticallyAdjustContentInsets={false}/>
+          &lt;/View>
+        &lt;/ScrollView>
+      &lt;/View>
+    );
+  }
+
+  render() {
+    if (this.state.editMode) {
+      return this.renderEditMode();
+    } else {
+      return this.renderViewMode();
+    }
+  }
+};
 
 module.exports = ViewCreatedTour;
 </code></pre>
@@ -221,13 +405,13 @@ module.exports = ViewCreatedTour;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:07 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

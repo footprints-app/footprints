@@ -33,80 +33,17 @@ var TourDetail = require('./TourDetail');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
 var CreateTour = require('./CreateTour');
-
-var FAKE_MY_TOUR_DATA = [
-
-  {tourName: 'Mission', cityName: "San Jose", description: "cool place", 
-  category: "sports", duration: "", userName:"Jira", state: "CA", country: "USA", 
-  places: [
-  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
-  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
-  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
-  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
-  { placeName: "Fisherman Wharf", address: "1st street, San Francisco", description: "Lovely place", order: 1, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'}, 
-  { placeName: "Golden Gate", address: "5th street, San Francisco", description: "Beautiful Bridge", order: 2, image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg' },
-  ],
-  image: 'http://thenextweb.com/wp-content/blogs.dir/1/files/2011/11/san-francisco.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Mountain View Downtown', cityName: "Mountain View", description: "super cool place", 
-  category: "chill", duration: "", userName:"Rochelle", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Downtown", address: "2nd street, Mountain View", description: "awesome place", order: 2,
-    image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'
-  }],
-  image: 'http://gotravelaz.com/wp-content/uploads/images/Mountain_View_20177.jpg'},
-
-  {tourName: 'Walk in Santa Cruz', cityName: "Santa Cruz", description: "Super duper cool place", 
-  category: "Relax", duration: "", userName:"Si", state: "CA", country: "USA", 
-  places: [{
-    placeName: "Boardwalk", address: "3rd street, Santa Cruz", description: "Relaxing place", order: 3,
-    image: 'http://api2.ning.com/files/nBD8FQWarq-hjMAPw1Qee0imzGMlA*6DGSe0uXvibAd7CiCPg-leen18UZ7GVdpzJosmOHBmBHlojFDZyIYv0P1LNDOBzDtp/Summer~_Boardwalk_California.jpg'
-  }],
-  image: 'http://api2.ning.com/files/nBD8FQWarq-hjMAPw1Qee0imzGMlA*6DGSe0uXvibAd7CiCPg-leen18UZ7GVdpzJosmOHBmBHlojFDZyIYv0P1LNDOBzDtp/Summer~_Boardwalk_California.jpg'},
-];
+var ViewCreatedTour = require('./ViewCreatedTour');
 
 var {
   Image,
-  StyleSheet,
   Text,
   View,
   Component,
   ListView,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+  TouchableHighlight
  } = React;
  
 class MyTours extends Component {
@@ -121,142 +58,186 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      }),
+      editMode: this.props.editMode || false
     };
   }
-
-  // fetchData() {
-  //   fetch(REQUEST_URL)
-  //   .then((response) => response.json())
-  //   .then((responseData) => {
-  //     this.setState({
-  //       dataSource: this.state.dataSource.cloneWithRows(responseData.items),
-  //       isLoading: false
-  //     });
-  //   })
-  //   .done();
-  // }
 
   /**
    * ComponentDidMount function is called as soon as the render method is executed.
    * It fetches data from the database and sets the state with the fetched data.
    */
-
   componentDidMount () {
-    var tours = FAKE_MY_TOUR_DATA;
-    this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(tours)
-    });
-    //this.fetchData();
+    this.fetchData();
+
   }
 
-  renderLoadingView () {
+  /**
+   * This will rerender changes from edit mode
+   * @param nextProps
+	 */
+  componentWillReceiveProps (nextProps) {
+    this.fetchData();
+  }
+
+  toggleEdit () {
+    alert('in toggleEdit')
+    var newEditState = !this.state.editMode;
+    this.setState({editMode: newEditState});
+    console.log("Edit Mode: ", this.state.editMode);
+    this.fetchData();
+  }
+
+  /**
+   * Makes GET request to server for tours from a specific user and sets the places array from DB to the state.
+   *
+   */
+  fetchData() {
+    var component = this;
+    utils.makeRequest('myTours', component, {})
+    .then((response) => {
+      console.log('response body from MyTours: ', response);
+      var tours = response;
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(tours),
+        isLoading: false
+      });
+    })
+    .done();
+  }
+
+  //navToTour (title, toComponent, props) {
+  //  console.log('these are the props', props)
+  //  var component = this;
+  //  component.props.navigator.push({
+  //    title: title,
+  //    component: toComponent,
+  //    props: props,
+  //    rightButtonTitle: 'Edit',
+  //    onRightButtonPress: () => {
+  //      console.log('right button pressed')
+  //      this.props.navigator.push({
+  //        title: "Edit Tour from My Tours",
+  //        component: ViewCreatedTour,
+  //        passProps: { editMode: true,
+  //            tourId: props.tour.id }
+  //      });}
+  //  })
+  //}
+
+  createTour() {
+    utils.navigateTo.call(this, "Create Tour", CreateTour, {});
+  }
+
+  deleteTour(tour) {
+    console.log(tour);
+    var options = {
+      reqBody: tour,
+      reqParam: tour.id
+    };
+    var component = this;
+    utils.makeRequest('deleteTour', component, options)
+      .then(response => {
+        console.log('Response body from server after deleting a tour: ', response);
+        utils.makeRequest('myTours', component, {})
+        .then((response) => {
+          console.log('response body from MyTours: ', response);
+          var tours = response;
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(tours),
+            isLoading: false
+          });
+        })
+      })
+    // this.fetchData();
+  }
+
+  renderDeletableTour(tour) {
+    console.log('Rendering Deletable Tour');
     return (
-      &lt;View style={ styles.loading }>
-        &lt;ActivityIndicatorIOS
-          size='large'/>
-        &lt;Text>
-          Loading tours...
-        &lt;/Text>
+      &lt;View>
+        &lt;View style={ [styles.tourContainer, {flexDirection: 'row'}] }>
+          &lt;View style={ styles.deleteContainer }>
+            &lt;TouchableHighlight 
+              style={{marginTop: 30}} 
+              onPress={ this.deleteTour.bind(this, tour) }
+                underlayColor='#727272'>
+              &lt;Image 
+                source={ require('../assets/deleteicon.png') } 
+                style={ [styles.addPlaceIcon, {width: 25}, {height: 25}, {marginTop: 30}] }/>
+            &lt;/TouchableHighlight>
+          &lt;/View>
+          &lt;View style={ styles.rightContainer }>
+            &lt;Image source={{ uri: tour.image }} style={ styles.tourPhoto }>
+              &lt;View style={{marginBottom: 20}}>
+                &lt;Text style={ styles.title }>{ tour.tourName }&lt;/Text>
+                &lt;Text style={ styles.city }>{ tour.cityName }&lt;/Text>
+              &lt;/View>
+            &lt;/Image>
+          &lt;/View>
+        &lt;/View>
+        &lt;View style={ styles.separator } />
       &lt;/View>
     );
   }
 
-  renderTour (tour) {
+  renderTour(tour) {
     return (
       &lt;TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) } 
-        underlayColor='#dddddd'>
+        onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
         &lt;View>
-          &lt;View style={ styles.container }>
-            &lt;Image source={{ uri: tour.image }} style={ styles.thumbnail } />
-            &lt;View style={ styles.rightContainer }>
+          &lt;View>
+            &lt;Image source={{ uri: tour.image }} style={ styles.tourPhoto } >
               &lt;Text style={ styles.title }>{ tour.tourName }&lt;/Text>
               &lt;Text style={ styles.city }>{ tour.cityName }&lt;/Text>
-            &lt;/View>
-          &lt;/View>
+            &lt;/Image>
           &lt;View style={ styles.separator } />
+          &lt;/View>
         &lt;/View>
       &lt;/TouchableHighlight>
     );
   }
 
-  render () {
+  renderEditMode() {
     return (
-      &lt;View>
-        &lt;ListView
-          dataSource={ this.state.dataSource }
-          renderRow={ this.renderTour.bind(this) }
-          style={ styles.listView }/>
-      
-        &lt;TouchableHighlight 
-          onPress={ utils.navigateTo.bind(this, "Create Tour", CreateTour, {}) } 
-          style={ styles.touchable } underlayColor="#FF3366">  
-          &lt;View style={ styles.createTour }>
-            &lt;Text style={ styles.whiteFont }>Create Tour&lt;/Text>
-          &lt;/View>
-        &lt;/TouchableHighlight>
+      &lt;View style={ [styles.container, {marginTop: 64}] }>
+        &lt;View style={ styles.panel }>
+          &lt;ListView
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderDeletableTour.bind(this) }
+            style={ styles.listView }/>
+        &lt;/View>
       &lt;/View>
     );
+  }
+
+  renderViewMode() {
+    return (
+      &lt;View style={ styles.container }>
+
+        &lt;View style={ styles.panel }>
+          &lt;ListView
+            dataSource={ this.state.dataSource }
+            renderRow={ this.renderTour.bind(this) }
+            style={ styles.listView }/>
+        &lt;/View>
+      &lt;/View>
+    );
+  }
+
+  render () {
+    if(this.state.isLoading) {
+      return this.renderLoadingView();
+    }
+    if(this.state.editMode) {
+      return this.renderEditMode();
+    } else {
+      return this.renderViewMode();
+    }
   }  
 };
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff2f2',
-    padding: 10
-  },
-  thumbnail: {
-    width: 85,
-    height: 81,
-    marginRight: 10,
-    marginTop: 10
-  },
-  rightContainer: {
-    flex: 1
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    marginLeft: 20
-  },
-  city: {
-    color: '#656565',
-    marginLeft: 20
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#dddddd'
-  },
-  listView: {
-    backgroundColor: '#F5FCFF',
-    height: windowSize.height
-   },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  whiteFont: {
-    color: '#FFF'
-  },
-  touchable: {
-    borderRadius: 5
-  },
-  createTour: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: -50,
-  },
-});
  
 module.exports = MyTours;
 </code></pre>
@@ -269,13 +250,13 @@ module.exports = MyTours;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

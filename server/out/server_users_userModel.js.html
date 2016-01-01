@@ -32,6 +32,8 @@
  */
 
 var db = require('../db');
+var bcrypt = require('bcrypt-nodejs');
+var SALT_WORK_FACTOR = 10;
 
 module.exports = {
   /**
@@ -45,7 +47,7 @@ module.exports = {
   checkNameAvailability: function(params, callback) {
     var queryStr = "select userName from users where userName = ?";
     db.query(queryStr, params, function(err, results) {
-      if(results.length !== 0) {
+      if(results.length) {
         callback("Username already exists");
       } else {
         callback(err, results[0]);
@@ -54,21 +56,39 @@ module.exports = {
   },
 
   /**
+   * Encrypts the password from plain text to hash using bcrypt-node.js module.
+   * Replaces the plain text password by user with encrypted password.
    * Inserts user information into the database
-   *
+   * 
    * @param {array} params - an array containing the userName, firstName, lastName, and password
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
-  signup: function(params, callback) {
-    var queryStr = "insert into users(userName, firstName, lastName, password) \
-                    value (?, ?, ?, ?)";
-    db.query(queryStr, params, function(err, results) {
-      if(err) {
-        callback(err);
-      } else {
-        console.log("signup successful: ", results)
-        callback(err, results[0]);        
+  signup: function(params, callback) { 
+    //generate a salt
+    bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
+      if (err) {
+        console.log(err);
       }
+      // hash the password along with our new salt
+      bcrypt.hash(params[3], salt, null, function (err, hash) {
+        if (err) {
+          console.log(err);
+        }
+        // override the cleartext password with the hashed one
+        params[3] = hash;
+
+        var queryStr = "insert into users(userName, firstName, lastName, password) \
+                        value (?, ?, ?, ?)";
+
+        db.query(queryStr, params, function(err, results) {
+          if(err) {
+            callback(err);
+          } else {  
+            console.log("signup successful: ", results)
+            callback(err, results[0]);        
+          }
+        });
+      });
     });
   },
 
@@ -89,6 +109,24 @@ module.exports = {
     })
   },
 
+  comparePassword: function (params, callback) { 
+    console.log('params: ', params);
+    var passwordQuery = "select * from users where userName = ?";
+    db.query(passwordQuery, params[0], function(err, results) {
+      if (results.length === 0) {
+        callback('User does not exist!');
+      } else {
+          if (bcrypt.compareSync(params[1], results[0].password)) {
+            //resetting the password to empty string before sending user info to client - for security reasons
+            results[0].password = "";
+            callback(err, results[0]);
+          } else {
+            callback("Username and password do not match");
+          }
+        }
+    });
+  },
+
   /**
    * Queries database for a userName.
    * If the userName does not exist in the database, the callback will take a defined error.
@@ -99,6 +137,7 @@ module.exports = {
    * @param {string} params - a tuple containing the userName and password
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
+
   checkUserPassword: function(params, callback) {
     var queryStr = "select * from users where userName = ?";
     db.query(queryStr, params[0], function(err, results) {
@@ -126,13 +165,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Sat Dec 12 2015 17:10:06 GMT-0800 (PST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
 </footer>
 
 <script> prettyPrint(); </script>

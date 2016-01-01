@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: users/userRoutes</title>
+    <title>JSDoc: Source: server/images/imageController.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,170 +17,69 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: users/userRoutes</h1>
+    <h1 class="page-title">Source: server/images/imageController.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">A module that routes to a controller according to the url</div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>app</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">the userRouter (express.Router()) invoked by the server</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_users_userRoutes.js.html">server/users/userRoutes.js</a>, <a href="server_users_userRoutes.js.html#line1">line 1</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * A module that contains all functions to interact with our image hosting service
+ * @module images/imageController
+ * @requires cloudinary
+ * @requires config
+ */
+
+var cloudinary = require('cloudinary');
+var config = require('../config/config');
+var fs = require('fs');
+
+cloudinary.config({ 
+  cloud_name: config.cloud_name, 
+  api_key: config.api_key, 
+  api_secret: config.api_secret 
+});
+
+module.exports = {
+/** 
+    A cloudinary upload API call returns a Hash with content similar to that shown in the following example:
+    { 
+      public_id: 'cr4mxeqx5zb8rlakpfkg',
+      version: 1372275963,
+      signature: '63bfbca643baa9c86b7d2921d776628ac83a1b6e',
+      width: 864,
+      height: 576,
+      format: 'jpg',
+      resource_type: 'image',
+      created_at: '2013-06-26T19:46:03Z',
+      bytes: 120253,
+      type: 'upload',
+      url: 'http://res.cloudinary.com/demo/image/upload/v1372275963/cr4mxeqx5zb8rlakpfkg.jpg',
+      secure_url: 'https://res.cloudinary.com/demo/image/upload/v1372275963/cr4mxeqx5zb8rlakpfkg.jpg' 
+    }
+*/
+/**
+ * Receives an image file and uploads it to our cloundinary account for hosting
+ * 
+ * @param {data} base64 image data to upload
+ * @param {function} callback that receives the uploaded image url as a parameter
+ */
+  upload: function(data, callback) {
+    var dataString = "data:image/jpg;base64," + data; 
+    cloudinary.uploader.upload(dataString, function(result){
+        if(!result.secure_url) {
+          console.log('error: ', result);
+        } else {
+          callback(result.secure_url); 
+        }
+    });
+  }
+}</code></pre>
+        </article>
+    </section>
 
 
 
