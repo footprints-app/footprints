@@ -86,7 +86,8 @@ class ViewCreatedTour extends Component {
   onPressDone() {
     var MyTours = require('./MyTours');
     var userId = this.state.tour.userId;
-    utils.navigateTo.call(this, "My Tours", MyTours, {userId});
+    // utils.navigateTo.call(this, "My Tours", MyTours, {userId});
+    this.props.navigator.push({component: ViewCreatedTours, passProps: {userId}});
   }
 
   onChange(value) {

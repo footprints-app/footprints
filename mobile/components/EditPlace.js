@@ -152,7 +152,7 @@ class EditPlace extends Component {
 
         <Image style={ styles.image } source={{ uri: this.state.image }} />
 
-        <View style={{ marginTop: 60 }}>
+        <View style={{ marginTop: 55 }}>
           <Form
             ref="form"
             type={ EditPlaceDetail }
@@ -179,8 +179,7 @@ class EditPlace extends Component {
         
         <TouchableHighlight 
           onPress={ this.editPhoto.bind(this) } 
-          underlayColor='#727272' 
-          style={{ marginTop: 10 }}>
+          underlayColor='#727272'>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
             <View style={{ marginTop: 17 }}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
@@ -193,7 +192,22 @@ class EditPlace extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
+          onPress={ () => alert('add edit audio function') } 
+          underlayColor='#727272' 
+          style={{ marginTop: 5 }}>
+          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+            <View style={{ marginTop: 17 }}>
+              <Text style={ [styles.text, {fontSize: 16}] }>Edit Audio</Text>
+            </View>
+            <View>
+              <Image source={ require('../assets/audioicon.png') } 
+                style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
+            </View>
+          </View>
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}] } 
           onPress={ this.editDone.bind(this) } 
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Done</Text>
