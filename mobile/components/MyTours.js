@@ -11,14 +11,11 @@ var ViewCreatedTour = require('./ViewCreatedTour');
 
 var {
   Image,
-  StyleSheet,
   Text,
   View,
   Component,
   ListView,
-  TouchableHighlight,
-  ActivityIndicatorIOS,
-  AsyncStorage
+  TouchableHighlight
  } = React;
  
 class MyTours extends Component {
@@ -33,7 +30,6 @@ class MyTours extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       }),
@@ -84,6 +80,25 @@ class MyTours extends Component {
     .done();
   }
 
+  //navToTour (title, toComponent, props) {
+  //  console.log('these are the props', props)
+  //  var component = this;
+  //  component.props.navigator.push({
+  //    title: title,
+  //    component: toComponent,
+  //    props: props,
+  //    rightButtonTitle: 'Edit',
+  //    onRightButtonPress: () => {
+  //      console.log('right button pressed')
+  //      this.props.navigator.push({
+  //        title: "Edit Tour from My Tours",
+  //        component: ViewCreatedTour,
+  //        passProps: { editMode: true,
+  //            tourId: props.tour.id }
+  //      });}
+  //  })
+  //}
+
   createTour() {
     utils.navigateTo.call(this, "Create Tour", CreateTour, {});
   }
@@ -109,18 +124,6 @@ class MyTours extends Component {
         })
       })
     // this.fetchData();
-  }
-
-  renderLoadingView () {
-    return (
-      <View style={ styles.loading }>
-        <ActivityIndicatorIOS
-          size='large'/>
-        <Text>
-          Loading tours...
-        </Text>
-      </View>
-    );
   }
 
   renderDeletableTour(tour) {

@@ -3,7 +3,6 @@
 var React = require('react-native');
 // var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
-var style = require('../lib/stylesheet');
 var PlaceDetail = require('./PlaceDetail.js');
 var EditPlace = require('./EditPlace.js');
 var styles = require('../lib/stylesheet');
@@ -14,16 +13,12 @@ var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplet
 var formStyles = require('../lib/formStyleEditMode');
 
 var {
-  StyleSheet,
   Image,
   View,
   Text,
   Component,
   ListView,
   TouchableHighlight,
-  ActivityIndicatorIOS,
-  TextInput,
-  AsyncStorage,
   ScrollView
   } = React;
 
@@ -78,7 +73,6 @@ class ViewCreatedTour extends Component {
   }
 
   addPhoto() {
-    /*TODO: this should send a put request to update tour photo*/
     var tourId = this.state.tourId;
     utils.navigateTo.call(this, "Select a Tour Photo", SelectImage, {tourId});
   }
@@ -97,7 +91,6 @@ class ViewCreatedTour extends Component {
   toggleEdit() {
     var newEditState = !this.state.editMode;
     this.setState({editMode: newEditState});
-    console.log("Edit Mode: ", this.state.editMode);
   }
 
   editDone(callback) {
@@ -147,7 +140,6 @@ class ViewCreatedTour extends Component {
       reqBody: {}
     };
 
-    console.log('this.props: ', this.props);
     utils.makeRequest('tour', component, options)
     .then((response) => {
       var places = response.places;
