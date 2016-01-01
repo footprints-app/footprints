@@ -8,6 +8,7 @@ var Login = require('./Login');
 var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 var styles = require('../lib/stylesheet');
+var Main = require('./Main');
 
 var {
   View,
@@ -63,7 +64,7 @@ class Signup extends Component {
           AsyncStorage.setItem('token', response.token)
           .then(() => {
             console.log('from signup client.....', response.token);
-            utils.navigateTo.call(component, "Your Tours", MyTours, {});
+            utils.navigateTo.call(component, "Main", Main, {});
           });
         }
       })
