@@ -13,7 +13,8 @@ var {
   ListView,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  ScrollView
+  ScrollView,
+  MapView
 } = React;
 
 class TourDetail extends Component {
@@ -32,18 +33,22 @@ class TourDetail extends Component {
       tourId: this.props.tour.id,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
-      })
+      }),
+      mapRegion: {
+        latitude: 0,
+        longitude: 0,
+        latitudeDelta: 0,
+        longitudeDelta: 0,
+      }, 
+      annotations: []
+
     };
   }
 
   componentDidMount() {
-    /* Use this code for fake front end data */
-    var places = this.props.tour.places;
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
-
-    /* Use this code to make actual API request to fetch data from database */
-    //this.fetchData();
+    this.fetchData();
   }
+
 
   /**
    * Makes GET request to server for specifc tour and sets the places array from DB to the state.
@@ -56,7 +61,7 @@ class TourDetail extends Component {
       reqParam: this.state.tourId
     }; 
 
-    utils.makeRequest('tours', component, options)
+    utils.makeRequest('tour', component, options)
     .then((response) => {
       console.log('response body from TourDetail: ', response);
       this.setState({
@@ -107,44 +112,39 @@ class TourDetail extends Component {
     var category = (typeof tour.category !== 'undefined') ? tour.category : '';
     var duration = (typeof tour.duration !== 'undefined') ? tour.duration : '';
 
-    //if(this.state.isLoading) {
-    //  return this.renderLoadingView()
-    //}
-
     return (
-      <View style={ styles.tourContainer }>
-        <ScrollView automaticallyAdjustContentInsets={false}>
-
-          <Image style={ styles.headerPhoto } source={{ uri: imageURI }} />
-          <Text style={ [styles.tourTitle] }>{ tourName }</Text>
-          <Text style={ [styles.description, {marginRight: 10}] }>
-            <Text style={ styles.bold }>Description:</Text> { description + '\n' }
-            <Text style={ styles.bold }>City:</Text> { cityName + '\n' }
-            {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
-            <Text style={ styles.bold }>Est Time:</Text> { duration + ' hours'}
-          </Text>
-          <Text style={ styles.tourTitle }>Places</Text>
-          <View style={ styles.tourSeparator } />
-          
-          <View style={ styles.panel }>
-            <ListView
-              dataSource={ this.state.dataSource }
-              renderRow={ this.renderPlace.bind(this) }
-              style={ styles.listView }
-              automaticallyAdjustContentInsets={false} />
-          </View>
-
-        </ScrollView>
+      <View style={styles.tourContainer}>
+         <MapView
+          style={styles.map}
+          onRegionChange={this._onRegionChange}
+          onRegionChangeComplete={this._onRegionChangeComplete}
+          region={this.state.mapRegion}
+          annotations={this.state.annotations}/>
       </View>
-      
     );
-
   }
 };
+      //   <ScrollView automaticallyAdjustContentInsets={false}>
+
+      //     <Text style={ [styles.tourTitle] }>{ tourName }</Text>
+      //     <Text style={ [styles.description, {marginRight: 10}] }>
+      //       <Text style={ styles.bold }>Description:</Text> { description + '\n' }
+      //       <Text style={ styles.bold }>City:</Text> { cityName + '\n' }
+      //       {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
+      //       <Text style={ styles.bold }>Est Time:</Text> { duration + ' hours'}
+      //     </Text>
+      //     <Text style={ styles.tourTitle }>Places</Text>
+      //     <View style={ styles.tourSeparator } />
+          
+      //     <View style={ styles.panel }>
+      //       <ListView
+      //         dataSource={ this.state.dataSource }
+      //         renderRow={ this.renderPlace.bind(this) }
+      //         style={ styles.listView }
+      //         automaticallyAdjustContentInsets={false} />
+      //     </View>
+
+      //   </ScrollView>
+      // </View>
 
 module.exports = TourDetail;
-
-
-
-
-

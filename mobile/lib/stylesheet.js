@@ -8,6 +8,13 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  map: {
+    marginTop: 40,
+    height: 300,
+    margin: 10,
+    borderWidth: 1,
+    borderColor: '#000000',
+  },
   container: {
     flexDirection: 'column',
     flex: 1,
@@ -170,6 +177,7 @@ var styles = StyleSheet.create({
   },
   //Tour Detail
   tourContainer: {
+    marginTop: 20,
     flex: 1,
     backgroundColor: '#727272'
   },
