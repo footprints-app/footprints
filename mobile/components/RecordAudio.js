@@ -27,7 +27,8 @@ class RecordAudio extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placeId: this.props.placeId || 1,
+      placeId: this.props.placeId,
+      tourId: this.props.tourId,
       cassette: require('../assets/cassette.png')
     }
   }
@@ -122,7 +123,7 @@ class RecordAudio extends Component {
     var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
     //var request_url = 'http://10.6.32.174:8000';
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
-    var reqType = 'addaudio';
+    var reqType = 'addPlaceAudio';
     var component = this;
 
     RNFS.readFile(storyPath, 'base64')

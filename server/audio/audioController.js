@@ -42,7 +42,7 @@ module.exports = {
     putter.on('response', function (data) {
       console.log('response', data);
       //res.status(200).json(data);
-      callback({data: data})
+      callback(data)
       // response { path: 'https://<bucket>.s3.amazonaws.com/images/success.jpg' }
     });
 
