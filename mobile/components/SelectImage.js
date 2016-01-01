@@ -10,7 +10,6 @@ var styles = require('../lib/stylesheet');
 var UIImagePickerManager = require('NativeModules').UIImagePickerManager;
 
 var {
-  StyleSheet,
   View,
   Text,
   Component,
@@ -27,7 +26,6 @@ class SelectImage extends Component {
    * @constructor
    * @this {MyTours}
    */
-  
   constructor(props) {
     super(props);
     this.state = {

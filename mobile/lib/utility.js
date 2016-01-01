@@ -174,12 +174,32 @@ var Utility = {
    */
   navigateTo: function(titleName, toComponent, props) {
     console.log('navigate: ', titleName);
+    //var ViewCreatedTour = require('../components/ViewCreatedTour');
+    //if(toComponent === ViewCreatedTour) {
+    //  console.log('inside navigate to!!')
+    //  this.props.navigator.push({
+    //    title: 'title',
+    //    component: toComponent,
+    //    props: props,
+    //    rightButtonTitle: 'Edit',
+    //    onRightButtonPress: () => {
+    //      console.log('right button pressed')
+    //      this.props.navigator.push({
+    //        title: "Edit Tour",
+    //        component: ViewCreatedTour,
+    //        passProps: { editMode: true,
+    //          tourId: props.id }
+    //      });}
+    //  })
+    //} else {
     var navigator = this.props.navigator || this.navigator;
     navigator.push({
       title: titleName,
       component: toComponent,
       passProps: props
     });
+
+    //}
   },
 
   /**
