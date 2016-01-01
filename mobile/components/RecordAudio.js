@@ -26,6 +26,7 @@ class RecordAudio extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      placeId: this.props.placeId || null,
       cassette: require('../assets/cassette.png')
     }
   }
@@ -41,19 +42,14 @@ class RecordAudio extends Component {
   record() {
     this.setState({cassette: require('../assets/cassette.gif')});
     RNRecordAudio.startRecord(
-
       "story.m4a", // filename
 
       function errorCallback(results) {
-
-          console.log('JS Error: ' + results['errMsg']);
-
+        console.log('JS Error: ' + results['errMsg']);
       },
 
       function successCallback(results) {
-
-          console.log('JS Success: ' + results['successMsg']);
-
+        console.log('JS Success: ' + results['successMsg']);
       }
     );
   }
@@ -61,19 +57,14 @@ class RecordAudio extends Component {
   stopRec() {
     this.setState({cassette: require('../assets/cassette.png')});
     RNRecordAudio.stopRecord(
-
       "story.m4a", // filename
 
       function errorCallback(results) {
-
-          console.log('JS Error: ' + results['errMsg']);
-
+        console.log('JS Error: ' + results['errMsg']);
       },
 
       function successCallback(results) {
-
-          console.log('JS Success: ' + results['successMsg']);
-
+        console.log('JS Success: ' + results['successMsg']);
       }
     );
   }
@@ -83,19 +74,14 @@ class RecordAudio extends Component {
     this.setState({cassette: require('../assets/cassette.gif')});
 
     RNPlayAudio.startAudio(
-
       "story2.m4a", // filename
 
       function errorCallback(results) {
-
-          console.log('JS Error: ' + results['errMsg']);
-
+        console.log('JS Error: ' + results['errMsg']);
       },
 
       function successCallback(results) {
-
-          console.log('JS Success: ' + results['successMsg']);
-
+        console.log('JS Success: ' + results['successMsg']);
       }
     );    
   }
@@ -103,19 +89,14 @@ class RecordAudio extends Component {
   pause() {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.pauseAudio(
-
       "story.m4a", // filename
 
       function errorCallback(results) {
-
-          console.log('JS Error: ' + results['errMsg']);
-
+        console.log('JS Error: ' + results['errMsg']);
       },
 
       function successCallback(results) {
-
-          console.log('JS Success: ' + results['successMsg']);
-
+        console.log('JS Success: ' + results['successMsg']);
       }
     );
   }
@@ -123,19 +104,14 @@ class RecordAudio extends Component {
   stop() {
     this.setState({cassette: require('../assets/cassette.png')});
     RNPlayAudio.stopAudio(
-
       "story.m4a", // filename
 
       function errorCallback(results) {
-
-          console.log('JS Error: ' + results['errMsg']);
-
+        console.log('JS Error: ' + results['errMsg']);
       },
 
       function successCallback(results) {
-
-          console.log('JS Success: ' + results['successMsg']);
-
+        console.log('JS Success: ' + results['successMsg']);
       }
     );
 
