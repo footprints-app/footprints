@@ -6,7 +6,8 @@ var {
   AsyncStorage
 } = React;
 
-var request_url = 'http://localhost:8000';
+//var request_url = 'http://localhost:8000';
+var request_url = 'http://10.6.32.174:8000';
 // var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
@@ -23,7 +24,8 @@ var requests = {
     deleteTour: {reqMethod: 'DELETE', endPoint: '/tours/delete/'},
     addTourPhoto: {reqMethod: 'POST', endPoint: '/tours/tourphoto/'},
     addPlacePhoto: {reqMethod: 'POST', endPoint: '/tours/placephoto/'},
-    placeOrders: {reqMethod: 'PUT', endPoint: '/tours/updateTourPlaces/'}
+    placeOrders: {reqMethod: 'PUT', endPoint: '/tours/updateTourPlaces/'},
+    addPlaceAudio: {reqMethod: 'POST', endPoint: '/tours/addaudio/'}
   }; 
 
 var token = '';
@@ -224,6 +226,7 @@ var Utility = {
    */
   makeRequest: function(requestType, component, options) {
     var requestMethod = requests[requestType].reqMethod;
+    console.log('makeRequest reached');
     var reqBody = options.reqBody || null;
     var param = options.reqParam || '';
     var reqUrl = request_url + requests[requestType].endPoint + param;
@@ -239,7 +242,7 @@ var Utility = {
 
     if(requestType !== 'signup' && requestType !== 'login') {
       return this.getToken().then((token) => {
-        // console.log('token in makeRequest: ', token);
+        console.log('token in makeRequest: ', token);
         headerBody['x-access-token'] = token;
         return this.requestHelper(reqUrl, requestMethod, headerBody, reqBody)
           .then((response) => {
