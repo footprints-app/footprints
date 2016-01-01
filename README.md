@@ -1,6 +1,6 @@
 ## Project Name
 
-> Footprints (tentative)
+> Footprints
 
 ## Team
 
@@ -14,7 +14,6 @@
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
 1. [Team](#team)
 1. [Contributing](#contributing)
 
@@ -28,19 +27,29 @@ Mobile:
 - npm
 
 ## Development
+Start MySQL server and run ```server.js```
+
+```sh
+cd mobile
+react-native start
+```
+
+Open XCode and build
 
 ### Installing Dependencies
 
-From within the root/server directory:
+From within the root, server, and mobile directories:
 
 ```sh
 npm install
 ```
+## Documentation
+
+Please read [docs](http://thesisserver-env.elasticbeanstalk.com/docs/) for more information.
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
-
+View the project roadmap [here](http://github.com/terrifying-vegetable/thesisProject/issues)
 
 ## Contributing
 
