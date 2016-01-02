@@ -67,7 +67,7 @@ module.exports = function(grunt) {
 
 		jsdoc: {
 			dist : {
-				src: ['server/*.js', 'server/**/*.js', '!server/node_modules/**', 'mobile/*.js', 'mobile/components/*.js', 'README.md'],
+				src: ['server/*.js', 'server/**/*.js', '!server/node_modules/**', '!server/config/*.js', 'mobile/*.js', 'mobile/components/*.js', README.md'],
 				options: {
 					destination: 'server/out/'
 				}
