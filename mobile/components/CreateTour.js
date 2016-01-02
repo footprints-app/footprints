@@ -122,6 +122,7 @@ class CreateTour extends Component {
         <GooglePlacesAutocomplete
           ref='searchField'
           placeholder='City'
+          placeholderTextColor='#808080'
           minLength={3} // minimum length of text to search 
           autoFocus={false}
           fetchDetails={false}

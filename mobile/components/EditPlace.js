@@ -166,6 +166,7 @@ class EditPlace extends Component {
         </Text>
         <GooglePlacesAutocomplete
           placeholder={this.state.address}
+          placeholderTextColor='#808080'
           minLength={3} // minimum length of text to search 
           autoFocus={false}
           fetchDetails={true}

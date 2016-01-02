@@ -248,6 +248,7 @@ class ViewCreatedTour extends Component {
         </Text>
         <GooglePlacesAutocomplete
           placeholder={this.state.tour.cityName}
+          placeholderTextColor='#808080'
           minLength={3} // minimum length of text to search 
           autoFocus={false}
           fetchDetails={true}
