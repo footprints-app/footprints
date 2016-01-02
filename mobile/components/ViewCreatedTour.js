@@ -268,36 +268,40 @@ class ViewCreatedTour extends Component {
           GooglePlacesSearchQuery={{ rankby: 'distance' }}/>
        
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
-            <View style={{flex: 0.5, flexDirection: 'row'}}>
+            <View style={{flexDirection: 'row', flex: 0.25}}>
               <TouchableHighlight
                 onPress={ this.addPhoto.bind(this) } 
                 underlayColor='#727272'> 
-                <View style={{flex: 1}}>
-                <View style={{flex: 0.5}}>
-                  <Text style={ [styles.text, {fontSize: 15, justifyContent: 'flex-start'}] }>Edit Photo</Text>
-                </View>
-                <View style={{flex: 0.5, justifyContent: 'flex-end'}}>
-                  <Image source={ require('../assets/photoicon.png') }
-                       style={ [styles.photoIcon, {marginLeft: 15}, {width: 25}, {height: 25}] }/>
-                </View>
-                </View>
+                  <Text style={ [styles.text, {fontSize: 15}] }>Edit Photo </Text>
               </TouchableHighlight>
             </View>
-            <View style={{flex: 0.5}}>
+            <View style={{flex: 0.25}}>
+              <TouchableHighlight
+                onPress={ this.addPhoto.bind(this) } 
+                underlayColor='#727272'> 
+                  <Image source={ require('../assets/photoicon.png') }
+                       style={{marginLeft: 25, width: 25, height: 25} }/> 
+              </TouchableHighlight>
+            </View>
+            <View style={{flex: 0.25}}>
               <TouchableHighlight
                 onPress={ this.addPlace.bind(this) }
                 style={ [styles.touchable, {marginTop: 1}] }
                 underlayColor='#727272'>
-                <View>
                   <Text style={ [styles.text, {fontSize: 15}] }>Add Stop</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={{flex: 0.25}}>
+              <TouchableHighlight
+                onPress={ this.addPlace.bind(this) }
+                style={ [styles.touchable, {marginTop: 1}] }
+                underlayColor='#727272'>
                   <Image source={ require('../assets/addplaceicon.png') }
                          style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 15}] } />
-                </View>
               </TouchableHighlight>
             </View>
           </View>
 
-        
           <View style={ [styles.panel, {marginTop: 15}] }>
             <View style={ styles.tourSeparator }/>
             <ListView
