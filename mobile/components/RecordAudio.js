@@ -45,9 +45,9 @@ class RecordAudio extends Component {
   readDirectory() {
     // get a list of files and directories in the main bundle
     RNFS.readDir(RNFS.DocumentDirectoryPath)
-      .then((result) => {
-        console.log('GOT RESULT', result);
-      })
+    .then((result) => {
+      console.log('GOT RESULT', result);
+    })
   }
   
   record() {
@@ -56,6 +56,7 @@ class RecordAudio extends Component {
                      isRecording: true,
                      recordBtn: require('../assets/recordblue.png')
                    });
+
       RNRecordAudio.startRecord(
         "story.m4a", // filename
 
@@ -143,7 +144,6 @@ class RecordAudio extends Component {
         self.setState({stopBtn: require('../assets/stopgold.png')})        
       }
     );
-
   }
 
   done() {
@@ -154,7 +154,6 @@ class RecordAudio extends Component {
     var reqType = 'addPlaceAudio';
     var component = this;
     var ViewCreatedTour = require('./ViewCreatedTour');
-
 
     //Props to pass down to ViewCreatedTour
     var props = {
@@ -185,7 +184,7 @@ class RecordAudio extends Component {
             })
           })
       })
-
+    })
   }
 
   skip() {
@@ -194,7 +193,6 @@ class RecordAudio extends Component {
       tourId: this.state.tourId,
       editMode: this.state.routeBackToEditTour
     }
-
     this.props.navigator.replace({
       title: "Your Tour",
       component: ViewCreatedTour,
@@ -262,8 +260,6 @@ class RecordAudio extends Component {
             <Text style={ styles.whiteFont }>Skip</Text>
           </View>
         </TouchableHighlight>
-
-
       </View>
     );
   }
