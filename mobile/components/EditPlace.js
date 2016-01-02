@@ -141,7 +141,7 @@ class EditPlace extends Component {
         placeOrder: {
           placeholder: this.state.placeOrder.toString(),
           placeholderTextColor: '#808080',
-          label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
+          label: 'Stop # / ' + this.state.numPlacesInTour + ' total stops'
         }
       },
       stylesheet: formStyles
@@ -161,8 +161,9 @@ class EditPlace extends Component {
             onChange={ this.onChange.bind(this) }/>
         </View>
 
+
         <Text style={{ fontSize: 15, color: '#F0F0F0', fontWeight: '500', marginBottom: 2 }}>
-          Search for Address
+          Address
         </Text>
         <GooglePlacesAutocomplete
           placeholder={this.state.address}

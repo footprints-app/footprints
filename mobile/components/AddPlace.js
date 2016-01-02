@@ -131,7 +131,7 @@ class AddPlace extends Component {
           placeholderTextColor: '#808080'
         },
         placeOrder: {
-          placeholder: 'Stop # (defaults to ' + this.state.placeOrder + ')',
+          placeholder: 'Stop # out of ' + this.state.placeOrder + ' stops',
           placeholderTextColor: '#808080'
         }
       },
