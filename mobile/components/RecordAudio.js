@@ -217,34 +217,34 @@ class RecordAudio extends Component {
           
           <TouchableHighlight
             onPress={ this.record.bind(this) }
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
             underlayColor="727272">
             <Image source={ this.state.recordBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}] } />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.play.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
             underlayColor="727272">
             <Image source={ this.state.playBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ]} />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.pause.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
             underlayColor="727272">
             <Image source={ this.state.pauseBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ]} />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.stop.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
             underlayColor="727272">
             <Image source={ this.state.stopBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ]} />
           </TouchableHighlight>
 
           <TouchableHighlight 

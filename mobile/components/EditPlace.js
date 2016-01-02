@@ -4,6 +4,7 @@ var React = require('react-native');
 var utils = require('../lib/utility');
 var ViewCreatedTour = require('./ViewCreatedTour');
 var SelectImage = require('./SelectImage');
+var RecordAudio = require('./RecordAudio');
 var styles = require('../lib/stylesheet');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
@@ -124,6 +125,14 @@ class EditPlace extends Component {
     utils.navigateTo.call(this, "Select a Photo", SelectImage, props);
   }
 
+  editAudio() {
+    var props = {
+      tourId: this.state.tourId,
+      placeId: this.state.id
+    }
+    utils.navigateTo.call(this, "Record Audio", RecordAudio, props);
+  }
+
   render() {
     var options = {
       auto: 'placeholders',
@@ -196,7 +205,7 @@ class EditPlace extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          onPress={ () => alert('add edit audio function') } 
+          onPress={ this.editAudio.bind(this) } 
           underlayColor='#727272' 
           style={{ marginTop: 2 }}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
