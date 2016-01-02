@@ -131,7 +131,7 @@ class AddPlace extends Component {
           placeholderTextColor: '#808080'
         },
         placeOrder: {
-          placeholder: 'Stop # (defaults to ' + this.state.placeOrder + ')',
+          placeholder: 'Stop # out of ' + this.state.placeOrder + ' stops',
           placeholderTextColor: '#808080'
         }
       },
@@ -155,9 +155,9 @@ class AddPlace extends Component {
         autoFocus={false}
         fetchDetails={true}
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-          console.log('data: ', data);
-          console.log('address: ', details.formatted_address)
-          this.setState({ address: details.formatted_address });
+          var lat = details.geometry.location.lat;
+          var lng = details.geometry.location.lng;
+          this.setState({ address: details.formatted_address + '|' + lat + '|' + lng });
         }}
         styles={ utils.googlePlacesStylesCreateTour }
         getDefaultValue={() => { return ''; }}

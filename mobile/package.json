@@ -17,6 +17,7 @@
     "react-native-image-picker": "^0.10.0",
     "react-native-ios-network-audio": "0.0.8",
     "react-native-keyboard-aware-scroll-view": "0.0.3",
+    "react-native-mapbox-gl": "^3.0.0",
     "react-native-play-audio-ios": "^0.1.2",
     "react-native-record-audio-ios": "^0.2.1",
     "react-native-responsive-image": "^1.0.0",

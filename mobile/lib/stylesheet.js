@@ -8,6 +8,14 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
+  mapBoxcontainer: {
+    flexDirection: 'column',
+    flex: 1
+  },
+
+  map: {
+    flex: 5
+  },
   container: {
     flexDirection: 'column',
     flex: 1,
@@ -170,6 +178,7 @@ var styles = StyleSheet.create({
   },
   //Tour Detail
   tourContainer: {
+    marginTop: 20,
     flex: 1,
     backgroundColor: '#727272'
   },
