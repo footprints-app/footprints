@@ -336,17 +336,29 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 30
   },
   loadingGifAudio: {
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 30,
+    marginBottom: 10
   },
   touchable: {
     borderRadius: 5
-  }  
+  },
+  audioControlsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    //height: 50
+  }
   //End Record Audio
 });
 

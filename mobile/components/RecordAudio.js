@@ -210,60 +210,60 @@ class RecordAudio extends Component {
         </View>
 
         <View style={ styles.loadingGif }>
-          <Image style={{width: 30, height: 30}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
+          <Image style={{width: 50, height: 50}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
         </View>
 
-        <View>
-          
+        <View style={ [styles.audioControlsContainer, {height: 75}] }>
           <TouchableHighlight
             onPress={ this.record.bind(this) }
-            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
             <Image source={ this.state.recordBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ] } />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 1}, {flex: 0.10}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.play.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
             <Image source={ this.state.playBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ]} />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.25}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.pause.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
             <Image source={ this.state.pauseBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ]} />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.75}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.stop.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}, {flex: 0.25} ] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
             <Image source={ this.state.stopBtn }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30} ]} />
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.90}] } />
           </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.done.bind(this) } 
-            style={ styles.touchable } underlayColor="727272">
-            <View style={ [styles.mainButton, {width: 150, alignItems: 'center', marginBottom: 20}] }>
-              <Text style={ styles.whiteFont }>Done</Text>
-            </View>
-          </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.skip.bind(this) } 
-            style={ styles.touchable } underlayColor="727272">
-            <View style={ [styles.mainButton, {width: 150, alignItems: 'center', marginBottom: 20}] }>
-              <Text style={ styles.whiteFont }>Skip</Text>
-            </View>
-          </TouchableHighlight>
-
         </View>
+
+        <TouchableHighlight 
+          onPress={ this.done.bind(this) } 
+          style={ styles.touchable } underlayColor="727272">
+          <View style={ [styles.button, {width: 280}, {marginBottom: 10}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }>
+            <Text style={ styles.whiteFont }>Done</Text>
+          </View>
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.skip.bind(this) } 
+          style={ styles.touchable } underlayColor="727272">
+          <View style={ [styles.button, {width: 280}, {marginBottom: 75}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }>
+            <Text style={ styles.whiteFont }>Skip</Text>
+          </View>
+        </TouchableHighlight>
+
+
       </View>
     );
   }
