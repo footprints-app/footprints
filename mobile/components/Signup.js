@@ -46,31 +46,30 @@ class Signup extends Component {
     this.setState({ validUsername: true });
 
     var options = {
-      reqBody: {userName: this.state.username,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                password: this.state.password
-                }
+      reqBody: {
+        userName: this.state.username,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        password: this.state.password
+      }
     };
-
     var component = this;
-
     utils.makeRequest('signup', component, options)
-      .then((response) => {
-        if( response.error ) {
-          this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
-        } else {
-          // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
-          AsyncStorage.setItem('token', response.token)
-          .then(() => {
-            console.log('from signup client.....', response.token);
-            utils.navigateTo.call(component, "Main", Main, {});
-          });
-        }
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+    .then((response) => {
+      if( response.error ) {
+        this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
+      } else {
+        // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+        AsyncStorage.setItem('token', response.token)
+        .then(() => {
+          console.log('from signup client.....', response.token);
+          utils.navigateTo.call(component, "Main", Main, {});
+        });
+      }
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
   }
    
 
