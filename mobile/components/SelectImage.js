@@ -118,7 +118,7 @@ class SelectImage extends Component {
       placeId: this.state.placeId
     }
 
-    this.props.navigator.replace({
+    this.props.navigator.push({
       title: "Record Audio",
       component: RecordAudio,
       passProps: props
@@ -133,7 +133,7 @@ class SelectImage extends Component {
     var ViewCreatedTour = require('./ViewCreatedTour');
     var tourId = this.state.tourId;
 
-    this.props.navigator.replace({
+    this.props.navigator.push({
       title: "Your Tour",
       component: ViewCreatedTour,
       passProps: {tourId}

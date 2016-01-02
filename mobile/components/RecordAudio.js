@@ -172,14 +172,28 @@ class RecordAudio extends Component {
 
   }
 
+  skip() {
+    var ViewCreatedTour = require('./ViewCreatedTour');
+    var props = {
+      tourId: this.state.tourId,
+      editMode: this.state.routeBackToEditTour
+    }
+
+    this.props.navigator.replace({
+      title: "Your Tour",
+      component: ViewCreatedTour,
+      passProps: props
+    })
+  }
+
   render() {
     return (
       <View>
-        <View style={ styles.cassette }>
+        <View style={ audioStyles.cassette }>
           <Image style={{width: 300, height: 150}} source={this.state.cassette} />
         </View>
 
-        <View style={ styles.controlsContainer }>
+        <View style={ audioStyles.controlsContainer }>
           
           <TouchableHighlight
             onPress={ this.record.bind(this) }
@@ -192,7 +206,7 @@ class RecordAudio extends Component {
           <TouchableHighlight 
             onPress={ this.stopRec.bind(this) } 
             style={ [styles.touchable, {marginTop: 1}] }
-            underlayColor="727272">  
+            underlayColor="727272">
             <Image source={ require('../assets/stopbtn.png') }
                      style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
@@ -200,7 +214,7 @@ class RecordAudio extends Component {
           <TouchableHighlight 
             onPress={ this.play.bind(this) } 
             style={ [styles.touchable, {marginTop: 1}] }
-            underlayColor="727272">  
+            underlayColor="727272">
             <Image source={ require('../assets/playbtn.png') }
                      style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
@@ -208,7 +222,7 @@ class RecordAudio extends Component {
           <TouchableHighlight 
             onPress={ this.pause.bind(this) } 
             style={ [styles.touchable, {marginTop: 1}] }
-            underlayColor="727272">  
+            underlayColor="727272">
             <Image source={ require('../assets/pausebtn.png') }
                      style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
@@ -216,16 +230,24 @@ class RecordAudio extends Component {
           <TouchableHighlight 
             onPress={ this.stop.bind(this) } 
             style={ [styles.touchable, {marginTop: 1}] }
-            underlayColor="727272">  
+            underlayColor="727272">
             <Image source={ require('../assets/stopbtn.png') }
                      style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.done.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.doneBtn }>
+            style={ styles.touchable } underlayColor="727272">
+            <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
               <Text style={ styles.whiteFont }>Done</Text>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight 
+            onPress={ this.skip.bind(this) } 
+            style={ styles.touchable } underlayColor="727272">
+            <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
+              <Text style={ styles.whiteFont }>Skip</Text>
             </View>
           </TouchableHighlight>
 
@@ -236,7 +258,7 @@ class RecordAudio extends Component {
 
 };
 
-var styles = StyleSheet.create({
+var audioStyles = StyleSheet.create({
   cassette: {
     justifyContent: 'center',
     flex: 1,
