@@ -120,7 +120,8 @@ class EditPlace extends Component {
     /*TODO: this should send a put request to update tour photo*/
     var props = {
       tourId: this.state.tourId,
-      placeId: this.state.id
+      placeId: this.state.id,
+      isRoutingFromEditPlace: true
     }
     utils.navigateTo.call(this, "Select a Photo", SelectImage, props);
   }

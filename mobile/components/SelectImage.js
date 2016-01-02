@@ -32,7 +32,8 @@ class SelectImage extends Component {
       tourId: this.props.tourId || null,
       placeId: this.props.placeId || null,
       addPlaceView: this.props.addPlaceView || false,
-      createTourView: this.props.createTourView || false
+      createTourView: this.props.createTourView || false,
+      isRoutingFromEditPlace: this.props.isRoutingFromEditPlace || false
     };
   }
 
@@ -102,7 +103,7 @@ class SelectImage extends Component {
   }
 
   routeToNextComponent() {
-    if(this.props.createTourView) {
+    if(this.props.createTourView || this.props.isRoutingFromEditPlace) {
       this.viewTour();
     } else {
       this.viewRecordAudio();
@@ -176,7 +177,7 @@ class SelectImage extends Component {
           </View>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={ this.viewRecordAudio.bind(this) }
+          onPress={ this.routeToNextComponent.bind(this) }
           underlayColor="#727272">
           <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
             <Text style={ styles.whiteFont }>Skip</Text>

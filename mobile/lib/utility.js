@@ -7,9 +7,9 @@ var {
   NavigationBar
 } = React;
 
-var request_url = 'http://localhost:8000';
-//var request_url = 'http://10.6.5.156:8000';
-// var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
+//var request_url = 'http://localhost:8000';
+//var request_url = 'http://10.6.32.174:8000';
+var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
 
 var requests = {
     signup: { reqMethod: 'POST', endPoint: '/users/signup' },
