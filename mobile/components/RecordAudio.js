@@ -34,7 +34,11 @@ class RecordAudio extends Component {
       isRecording: false,
       isUploading: false,
       loadingGif: require('../assets/loading.gif'),
-      cassette: require('../assets/cassette.png')
+      cassette: require('../assets/cassette.png'),
+      playBtn: require('../assets/playgold.png'),
+      pauseBtn: require('../assets/pausegold.png'),
+      stopBtn: require('../assets/stopgold.png'),
+      recordBtn: require('../assets/recordgold.png')
     }
   }
 
@@ -49,7 +53,8 @@ class RecordAudio extends Component {
   record() {
     if(!this.state.isRecording) {
       this.setState({cassette: require('../assets/cassette.gif'),
-                     isRecording: true
+                     isRecording: true,
+                     recordBtn: require('../assets/recordblue.png')
                    });
       RNRecordAudio.startRecord(
         "story.m4a", // filename
@@ -64,7 +69,8 @@ class RecordAudio extends Component {
       );
     } else {
       this.setState({cassette: require('../assets/cassette.png'),
-                     isRecording: false
+                     isRecording: false,
+                     recordBtn: require('../assets/recordgold.png')
                    });
       RNRecordAudio.stopRecord(
         "story.m4a", // filename
@@ -82,7 +88,9 @@ class RecordAudio extends Component {
 
   play() {
     this.readDirectory();
-    this.setState({cassette: require('../assets/cassette.gif')});
+    this.setState({cassette: require('../assets/cassette.gif'),
+                   playBtn: require('../assets/playblue.png')
+                 });
 
     RNPlayAudio.startAudio(
       "story2.m4a", // filename
@@ -98,7 +106,11 @@ class RecordAudio extends Component {
   }
 
   pause() {
-    this.setState({cassette: require('../assets/cassette.png')});
+    this.setState({cassette: require('../assets/cassette.png'),
+                   playBtn: require('../assets/playgold.png'),
+                   pauseBtn: require('../assets/pauseblue.png')
+                 });
+    var self = this;
     RNPlayAudio.pauseAudio(
       "story.m4a", // filename
 
@@ -108,12 +120,17 @@ class RecordAudio extends Component {
 
       function successCallback(results) {
         console.log('JS Success: ' + results['successMsg']);
+        self.setState({pauseBtn: require('../assets/pausegold.png')})
       }
     );
   }
 
   stop() {
-    this.setState({cassette: require('../assets/cassette.png')});
+    this.setState({cassette: require('../assets/cassette.png'),
+                   playBtn: require('../assets/playgold.png'),
+                   stopBtn: require('../assets/stopblue.png')
+                 });
+    var self = this;
     RNPlayAudio.stopAudio(
       "story.m4a", // filename
 
@@ -123,6 +140,7 @@ class RecordAudio extends Component {
 
       function successCallback(results) {
         console.log('JS Success: ' + results['successMsg']);
+        self.setState({stopBtn: require('../assets/stopgold.png')})        
       }
     );
 
@@ -212,7 +230,7 @@ class RecordAudio extends Component {
             onPress={ this.record.bind(this) }
             style={ [styles.touchable, {marginTop: 1}] }
             underlayColor="727272">
-            <Image source={ this.state.isRecording === false ? require('../assets/recordbtn.png') : require('../assets/stopbtn.png') }
+            <Image source={ this.state.recordBtn }
                      style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}] } />
           </TouchableHighlight>
 
@@ -220,7 +238,7 @@ class RecordAudio extends Component {
             onPress={ this.play.bind(this) } 
             style={ [styles.touchable, {marginTop: 1}] }
             underlayColor="727272">
-            <Image source={ require('../assets/playbtn.png') }
+            <Image source={ this.state.playBtn }
                      style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
           </TouchableHighlight>
 
@@ -228,7 +246,7 @@ class RecordAudio extends Component {
             onPress={ this.pause.bind(this) } 
             style={ [styles.touchable, {marginTop: 1}] }
             underlayColor="727272">
-            <Image source={ require('../assets/pausebtn.png') }
+            <Image source={ this.state.pauseBtn }
                      style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
           </TouchableHighlight>
 
@@ -236,7 +254,7 @@ class RecordAudio extends Component {
             onPress={ this.stop.bind(this) } 
             style={ [styles.touchable, {marginTop: 1}] }
             underlayColor="727272">
-            <Image source={ require('../assets/stopbtn.png') }
+            <Image source={ this.state.stopBtn }
                      style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
           </TouchableHighlight>
 
