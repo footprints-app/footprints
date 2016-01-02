@@ -166,25 +166,14 @@ class RecordAudio extends Component {
       .then((file) => {
         console.log('File successfully converted to base64');
         var encodedFile = file.toString();
-        // fetch(request_url + '/tours/addaudio', {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": 'application/json'
-        //   },
-        //   body: JSON.stringify({
-        //     file: encodedFile
-        //   })
-        // })
-        // .then((response) => {
-        //   console.log("Response received from audio post: ", response);
-        // })
+
         var options = {
           reqParam: component.state.placeId,
           reqBody: {
             file: encodedFile
           }
         }
-        console.log('reqParam from RecordAudio: ', options.reqParam);
+        console.log('reqParam (placeId) from RecordAudio: ', options.reqParam);
         utils.makeRequest(reqType, component, options)
           .then((response) => {
             this.setState({isUploading: false});
@@ -216,11 +205,11 @@ class RecordAudio extends Component {
   render() {
     return (
       <View style={ styles.mainContainer }>
-        <View style={ audioStyles.cassette }>
+        <View style={ styles.cassette }>
           <Image style={{width: 300, height: 150}} source={this.state.cassette} />
         </View>
 
-        <View style={ audioStyles.loadingGif }>
+        <View style={ styles.loadingGif }>
           <Image style={{width: 30, height: 30}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
         </View>
 
@@ -280,59 +269,5 @@ class RecordAudio extends Component {
   }
 
 };
-
-var audioStyles = StyleSheet.create({
-  cassette: {
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20
-  },
-  loadingGif: {
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20
-  },
-  doneBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  recordBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  stopRecBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  playBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  pauseBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  stopBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  touchable: {
-    borderRadius: 5
-  },
-});
 
 module.exports = RecordAudio;

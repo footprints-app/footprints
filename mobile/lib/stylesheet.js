@@ -12,7 +12,6 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1
   },
-
   map: {
     flex: 5
   },
@@ -329,8 +328,26 @@ var styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginTop: 10,
-  }
+  },
   // End Add Place
+
+  //Record Audio
+  cassette: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20
+  },
+  loadingGifAudio: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20
+  },
+  touchable: {
+    borderRadius: 5
+  }  
+  //End Record Audio
 });
 
 module.exports = styles;
