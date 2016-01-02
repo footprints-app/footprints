@@ -124,15 +124,15 @@ class AddPlace extends Component {
       fields: {
         placeName: {
           placeholder: 'Place',
-          placeholderTextColor: '#FFF',
+          placeholderTextColor: '#808080',
         },
         description: {
           placeholder: 'Description',
-          placeholderTextColor: '#FFF'
+          placeholderTextColor: '#808080'
         },
         placeOrder: {
           placeholder: 'Stop # (defaults to ' + this.state.placeOrder + ')',
-          placeholderTextColor: '#FFF'
+          placeholderTextColor: '#808080'
         }
       },
       stylesheet: formStyles
@@ -150,6 +150,7 @@ class AddPlace extends Component {
 
       <GooglePlacesAutocomplete
         placeholder='Address or place'
+        placeholderTextColor='#808080'
         minLength={3} // minimum length of text to search 
         autoFocus={false}
         fetchDetails={true}
@@ -158,7 +159,7 @@ class AddPlace extends Component {
           console.log('address: ', details.formatted_address)
           this.setState({ address: details.formatted_address });
         }}
-
+        styles={ utils.googlePlacesStylesCreateTour }
         getDefaultValue={() => { return ''; }}
         query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en', }}       
         GooglePlacesSearchQuery={{ rankby: 'distance', }}/>

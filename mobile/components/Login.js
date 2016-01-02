@@ -37,12 +37,9 @@ class Login extends Component {
    */
   submitLogin () {
     this.setState({validUsername: true, validPassword: true});
-
     var options = {
       reqBody: { userName: this.state.username, password: this.state.password }
     };
-  
-
     var component = this;
     utils.makeRequest('login', component, options)
     .then((response) => {

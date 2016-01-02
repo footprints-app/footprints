@@ -2,8 +2,8 @@
   a bootstrap like style
 */
 'use strict';
-var LABEL_COLOR = '#999999';
-var INPUT_COLOR = '#FFF';
+var LABEL_COLOR = '#F0F0F0';
+var INPUT_COLOR = '#484848';
 var ERROR_COLOR = '#a94442';
 var HELP_COLOR = '#999999';
 var BORDER_COLOR = '#cccccc';

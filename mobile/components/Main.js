@@ -52,11 +52,11 @@ class Main extends Component {
   /**
    * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
    */
-  //userTours () {
-  //  var userId = this.state.userId;
-  //  console.log('user in Main: ', this.state.userId);
-  //  utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
-  //}
+  userTours () {
+   var userId = this.state.userId;
+   console.log('user in Main: ', this.state.userId);
+   utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
+  }
 
   selectTab (tab, ref) {
     if(this.state.selectedTab !== tab) {
@@ -94,6 +94,7 @@ class Main extends Component {
                 this.refs.myToursView.navigator.push({
                   title: "My Tours",
                   component: MyTours,
+                  leftButtonTitle: ' ',
                   rightButtonTitle: 'Done',
                   passProps: { editMode: true },
                   onRightButtonPress: () => { this.refs.myToursView.navigator.pop();}

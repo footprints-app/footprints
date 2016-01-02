@@ -81,7 +81,8 @@ class ViewCreatedTour extends Component {
     var MyTours = require('./MyTours');
     var userId = this.state.tour.userId;
     // utils.navigateTo.call(this, "My Tours", MyTours, {userId});
-    this.props.navigator.push({component: ViewCreatedTours, passProps: {userId}});
+    utils.myTourNavigateTo.call(this, "My Tours", ViewCreatedTours, {userId});
+    // this.props.navigator.push({component: ViewCreatedTours, passProps: {userId}});
   }
 
   onChange(value) {
@@ -116,7 +117,7 @@ class ViewCreatedTour extends Component {
   putThenEditPlace (title, toComponent, props) {
     var component = this;
     this.editDone(function() {
-      utils.navigateTo.call(component, title, toComponent, props);
+      utils.myTourNavigateTo.call(component, title, toComponent, props);
     })
   }
 
@@ -214,17 +215,17 @@ class ViewCreatedTour extends Component {
       fields: {
         tourName: {
           placeholder: this.state.tourName,
-          placeholderTextColor: '#FFF',
+          placeholderTextColor: '#808080',
           label: 'Tour Name'
         },
         description: {
           placeholder: this.state.description,
-          placeholderTextColor: '#FFF',
+          placeholderTextColor: '#808080',
           label: 'Description'
         },
         duration: {
           placeholder: this.state.duration.toString(),
-          placeholderTextColor: '#FFF',
+          placeholderTextColor: '#808080',
           label: 'Estimated Time (in hours)'
         },
       },
@@ -242,11 +243,12 @@ class ViewCreatedTour extends Component {
             value={ this.state.value }
             onChange={ this.onChange.bind(this) }/>
         </View>
-        <Text style={{ fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2 }}>
+        <Text style={{ fontSize: 15, color: '#F0F0F0', fontWeight: '500', marginBottom: 2 }}>
           Search for Address
         </Text>
         <GooglePlacesAutocomplete
           placeholder={this.state.tour.cityName}
+          placeholderTextColor='#808080'
           minLength={3} // minimum length of text to search 
           autoFocus={false}
           fetchDetails={true}
@@ -283,14 +285,22 @@ class ViewCreatedTour extends Component {
           </View>
         </ScrollView>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableHighlight
-            style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
-            onPress={ this.editDone.bind(this) }
+        <View>
+          {/*<TouchableHighlight
+                      style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
+                      onPress={ this.editDone.bind(this) }
+                      underlayColor='#FFC107'>
+                      <Text style={ styles.buttonText }>Done</Text>
+                    </TouchableHighlight>*/}
+          <TouchableHighlight 
+            style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] } 
+            onPress={ this.editDone.bind(this) } 
             underlayColor='#FFC107'>
             <Text style={ styles.buttonText }>Done</Text>
           </TouchableHighlight>
         </View>
+
+
       </View>
 
     )
@@ -306,7 +316,7 @@ class ViewCreatedTour extends Component {
               <TouchableHighlight
                 onPress={ this.toggleEdit.bind(this) }
                 style={ [styles.touchable, {marginBottom: 10}] }
-                underlayColor='#727272'>
+                underlayColor='transparent'>
                 <Image source={ require('../assets/editiconteal.png') }
                        style={ [styles.editIcon, {width: 45}, {height: 45}, {marginTop: 10}] } />
               </TouchableHighlight>

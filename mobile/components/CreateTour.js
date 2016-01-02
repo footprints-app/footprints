@@ -36,15 +36,15 @@ var options = {
   fields: {
     tourName: {
       placeholder: 'Tour Name',
-      placeholderTextColor: '#FFF',
+      placeholderTextColor: '#808080',
     },
     description: {
       placeholder: 'Description',
-      placeholderTextColor: '#FFF'
+      placeholderTextColor: '#808080'
     },
     duration: {
       placeholder: 'Duration',
-      placeholderTextColor: '#FFF',
+      placeholderTextColor: '#808080',
     },
   },
   stylesheet: formStyles
@@ -122,6 +122,7 @@ class CreateTour extends Component {
         <GooglePlacesAutocomplete
           ref='searchField'
           placeholder='City'
+          placeholderTextColor='#808080'
           minLength={3} // minimum length of text to search 
           autoFocus={false}
           fetchDetails={false}
@@ -138,8 +139,9 @@ class CreateTour extends Component {
             language: 'en', // language of the results 
             types: '(cities)'
           }}
+          styles={ utils.googlePlacesStylesCreateTour }
           GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
-
+        
         <TouchableHighlight 
           style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
           onPress={ () => { 
@@ -155,8 +157,3 @@ class CreateTour extends Component {
 };
 
 module.exports = CreateTour;
-
-
-
-
-

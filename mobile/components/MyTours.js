@@ -111,18 +111,18 @@ class MyTours extends Component {
     };
     var component = this;
     utils.makeRequest('deleteTour', component, options)
-      .then(response => {
-        console.log('Response body from server after deleting a tour: ', response);
-        utils.makeRequest('myTours', component, {})
-        .then((response) => {
-          console.log('response body from MyTours: ', response);
-          var tours = response;
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(tours),
-            isLoading: false
-          });
-        })
+    .then(response => {
+      console.log('Response body from server after deleting a tour: ', response);
+      utils.makeRequest('myTours', component, {})
+      .then((response) => {
+        console.log('response body from MyTours: ', response);
+        var tours = response;
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(tours),
+          isLoading: false
+        });
       })
+    })
     // this.fetchData();
   }
 
@@ -143,10 +143,8 @@ class MyTours extends Component {
           </View>
           <View style={ styles.rightContainer }>
             <Image source={{ uri: tour.image }} style={ styles.tourPhoto }>
-              <View style={{marginBottom: 20}}>
                 <Text style={ styles.title }>{ tour.tourName }</Text>
                 <Text style={ styles.city }>{ tour.cityName }</Text>
-              </View>
             </Image>
           </View>
         </View>
@@ -158,7 +156,7 @@ class MyTours extends Component {
   renderTour(tour) {
     return (
       <TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
+        onPress={ utils.myTourNavigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
         <View>
           <View>
             <Image source={{ uri: tour.image }} style={ styles.tourPhoto } >
@@ -173,15 +171,12 @@ class MyTours extends Component {
   }
 
   renderEditMode() {
-    return (
-      <View style={ [styles.container, {marginTop: 64}] }>
-        <View style={ styles.panel }>
-          <ListView
-            dataSource={ this.state.dataSource }
-            renderRow={ this.renderDeletableTour.bind(this) }
-            style={ styles.listView }/>
-        </View>
-      </View>
+    return (  
+      <ListView
+        dataSource={ this.state.dataSource }
+        renderRow={ this.renderDeletableTour.bind(this) }
+        style={ styles.listView }/>
+        
     );
   }
 
