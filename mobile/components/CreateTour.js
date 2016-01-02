@@ -36,15 +36,15 @@ var options = {
   fields: {
     tourName: {
       placeholder: 'Tour Name',
-      placeholderTextColor: '#FFF',
+      placeholderTextColor: '#808080',
     },
     description: {
       placeholder: 'Description',
-      placeholderTextColor: '#FFF'
+      placeholderTextColor: '#808080'
     },
     duration: {
       placeholder: 'Duration',
-      placeholderTextColor: '#FFF',
+      placeholderTextColor: '#808080',
     },
   },
   stylesheet: formStyles
