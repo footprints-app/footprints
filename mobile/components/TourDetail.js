@@ -46,8 +46,8 @@ var TourDetail = React.createClass({
       }),
 
       center: {
-        latitude: 37.7614399,
-        longitude: -122.4240539
+        latitude: 0,
+        longitude: 0
       },
       zoom: 13,
       annotations: []
@@ -107,18 +107,18 @@ var TourDetail = React.createClass({
         coordinates: [lat, lng],
         'type': 'point',
         title: place.placeName,
-        subtitle: 'Stop #' + place.placeOrder,
+        subtitle: place.address.split(',')[0],
         rightCalloutAccessory: {
-          url: 'http://res.cloudinary.com/terrifying-veg/image/upload/v1451697830/mapIcons/number_1.png',
-          height: 25,
-          width: 25
+          url: 'http://res.cloudinary.com/terrifying-veg/image/upload/v1451713020/mapIcons/rightArrow.png',
+          height: 20,
+          width: 20
         },
         annotationImage: {
           url: imageUrlPath + place.placeOrder.toString() + '.png',
           height: 25,
           width: 25
         },
-        id: 'marker' + place.id
+        id: 'marker' + place.placeOrder
       });
     });
     this.setState({annotations: markers, center: {latitude: latSum/places.length, longitude: lngSum/places.length}});
@@ -128,17 +128,19 @@ var TourDetail = React.createClass({
     this.setState({ currentZoom: location.zoom });
   },
   onRegionWillChange(location) {
-    console.log(location);
+    // console.log(location);
   },
   onUpdateUserLocation(location) {
-    console.log(location);
+    // console.log(location);
   },
   onOpenAnnotation(annotation) {
-    console.log(annotation);
+    // console.log(annotation);
   },
   onRightAnnotationTapped(e) {
-    // e: {id: "marker54", title: "Zeitgeist", latitude: 37.7700304, subtitle: "Stop # 7", longitude: -122.4221087}
-    console.log('right button ', e);
+    // e: {id: "marker54", title: "Zeitgeist", latitude: 37.7700304, subtitle: "Stop #7", longitude: -122.4221087}
+    var placeIndex = Number(e.id.slice(6)) - 1;
+    var place = this.state.places[placeIndex];
+    utils.navigateTo.call(this, place.placeName, PlaceDetail, {place})
   },
   onLongPress(location) {
     console.log('long pressed', location);
@@ -179,7 +181,7 @@ var TourDetail = React.createClass({
             ref={mapRef}
             accessToken={'pk.eyJ1Ijoicm9jaG5lc3MiLCJhIjoiY2lpdXp6ejRpMDAyaXUza210ZjU0ZHE3ZCJ9.0OwepqZxbN_IlHDppY18_w'}
             styleURL={this.mapStyles.emerald}
-            userTrackingMode={this.userTrackingMode.follow}
+            userTrackingMode={this.userTrackingMode.none}
             centerCoordinate={this.state.center}
             zoomLevel={this.state.zoom}
             logoIsHidden={true}
@@ -192,14 +194,14 @@ var TourDetail = React.createClass({
             onLongPress={this.onLongPress} />
         </View>
         <ScrollView automaticallyAdjustContentInsets={false}>
-          <Text style={ [styles.tourTitle] }>{ this.state.tourName }</Text>
+          <Text style={ [styles.tourTitle, {fontSize: 20}] }>{ this.state.tour.tourName }</Text>
           <Text style={ [styles.description, {marginRight: 10}] }>
             <Text style={ styles.bold }>Description:</Text> { this.state.tour.description + '\n' }
             <Text style={ styles.bold }>City:</Text> { this.state.tour.cityName + '\n' }
             {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
             <Text style={ styles.bold }>Est Time:</Text> { this.state.tour.duration + ' hours (' + this.state.places.length + ' stops)'}
           </Text>
-          <Text style={ styles.tourTitle }>Places</Text>
+          <Text style={ [styles.tourTitle, {fontSize: 18}] }>Stops</Text>
           <View style={ styles.tourSeparator } />
           <View style={ styles.panel }>
             <ListView
