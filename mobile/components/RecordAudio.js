@@ -4,6 +4,7 @@ var React = require('react-native');
 var RNFS = require('react-native-fs');
 var FileUpload = require('NativeModules').FileUpload;
 var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
 
 var {
   NativeModules,
@@ -157,6 +158,7 @@ class RecordAudio extends Component {
             file: encodedFile
           }
         }
+        console.log('reqParam from RecordAudio: ', options.reqParam);
         utils.makeRequest(reqType, component, options)
           .then((response) => {
             console.log('Audio added to place: ', response);
@@ -174,48 +176,49 @@ class RecordAudio extends Component {
     return (
       <View>
         <View style={ styles.cassette }>
-          <Image style={{width: 400, height: 200}} source={this.state.cassette} />
+          <Image style={{width: 300, height: 150}} source={this.state.cassette} />
         </View>
 
         <View style={ styles.controlsContainer }>
+          
           <TouchableHighlight
             onPress={ this.record.bind(this) }
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.recordBtn }>
-              <Text style={ styles.whiteFont }>Record</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">
+            <Image source={ require('../assets/recordbtn.png') }
+                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.stopRec.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.stopRecBtn }>
-              <Text style={ styles.whiteFont }>Stop Recording</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">  
+            <Image source={ require('../assets/stopbtn.png') }
+                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.play.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.playBtn }>
-              <Text style={ styles.whiteFont }>Play</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">  
+            <Image source={ require('../assets/playbtn.png') }
+                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.pause.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.pauseBtn }>
-              <Text style={ styles.whiteFont }>Pause</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">  
+            <Image source={ require('../assets/pausebtn.png') }
+                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.stop.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.stopBtn }>
-              <Text style={ styles.whiteFont }>Stop</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">  
+            <Image source={ require('../assets/stopbtn.png') }
+                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
@@ -225,6 +228,7 @@ class RecordAudio extends Component {
               <Text style={ styles.whiteFont }>Done</Text>
             </View>
           </TouchableHighlight>
+
         </View>
       </View>
     );
@@ -237,7 +241,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 75
   },
   doneBtn: {
     backgroundColor: '#FF3366',

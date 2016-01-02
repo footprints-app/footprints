@@ -104,19 +104,21 @@ class SelectImage extends Component {
     //   component: ViewCreatedTour,
     //   passProps: props
     //});
-    this.viewRecordAudio();
+    this.viewRecordAudio.bind(this);
   }
 
   viewRecordAudio() {
     var RecordAudio = require('./RecordAudio');
 
+    var props = {
+      tourId: this.state.tourId,
+      placeId: this.state.placeId
+    }
+
     this.props.navigator.replace({
       title: "Record Audio",
       component: RecordAudio,
-      passProps: {
-        tourId: this.state.tourId,
-        placeId: this.state.placeId
-      }
+      passProps: props
     })
   }
 
@@ -151,7 +153,7 @@ class SelectImage extends Component {
             </View>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={ this.viewTour.bind(this) }
+            onPress={ this.viewRecordAudio.bind(this) }
             underlayColor="#727272">
             <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
               <Text style={ styles.whiteFont }>Skip</Text>
