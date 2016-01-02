@@ -206,7 +206,12 @@ module.exports = {
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
   updatePlaceOrdersAfterEdit: function(params, callback) {
-    var updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ? AND id <> ? AND placeOrder < ?";
+    var updateTourQuery = '';
+    if(params[params.length-1] > params[1]) {
+      updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ? AND id <> ? AND placeOrder < ?";
+    } else {
+      updateTourQuery = "UPDATE places SET placeOrder = placeOrder - 1 WHERE tourId = ? AND placeOrder <= ? AND id <> ? AND placeOrder > ?";
+    }
     db.query(updateTourQuery, params, function(err, result) {
       if(err) {
         console.log('error updating place order: ', err);
