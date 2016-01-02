@@ -93,11 +93,10 @@ class SelectImage extends Component {
       reqType = 'addPlacePhoto'
       options.reqParam = this.state.placeId
     }
-
-      utils.makeRequest(reqType, component, options)
-      .then(response => {
-        console.log('tour added to db: ', response);
-      })
+    utils.makeRequest(reqType, component, options)
+    .then(response => {
+      console.log('tour added to db: ', response);
+    })
 
     this.routeToNextComponent();
   }
@@ -119,9 +118,10 @@ class SelectImage extends Component {
     }
 
     this.props.navigator.push({
-      title: "Record Audio",
+      title: "Your Tour",
       component: RecordAudio,
-      passProps: props
+      passProps: props,
+      leftButtonTitle: " "
     })
   }
 
@@ -136,7 +136,8 @@ class SelectImage extends Component {
     this.props.navigator.push({
       title: "Your Tour",
       component: ViewCreatedTour,
-      passProps: {tourId}
+      passProps: {tourId},
+      leftButtonTitle: " "
     });
   }
   /**

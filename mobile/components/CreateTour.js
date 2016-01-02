@@ -86,7 +86,7 @@ class CreateTour extends Component {
         tourId: response.id,
         createTourView: true
       }
-      utils.navigateTo.call(component, "Add Tour Photo", SelectImage, props);
+      utils.myTourNavigateTo.call(component, "Add Tour Photo", SelectImage, props);
     })
     .done();
   }
