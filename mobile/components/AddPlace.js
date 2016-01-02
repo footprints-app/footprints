@@ -156,8 +156,10 @@ class AddPlace extends Component {
         fetchDetails={true}
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
           console.log('data: ', data);
-          console.log('address: ', details.formatted_address)
-          this.setState({ address: details.formatted_address });
+          var lat = details.geometry.location.lat;
+          var lng = details.geometry.location.lng;
+          console.log('address: ', details.formatted_address + '|' + lat + '|' + lng)
+          this.setState({ address: details.formatted_address + '|' + lat + '|' + lng });
         }}
         styles={ utils.googlePlacesStylesCreateTour }
         getDefaultValue={() => { return ''; }}
