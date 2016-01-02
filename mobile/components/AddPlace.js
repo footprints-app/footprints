@@ -155,10 +155,8 @@ class AddPlace extends Component {
         autoFocus={false}
         fetchDetails={true}
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-          console.log('data: ', data);
           var lat = details.geometry.location.lat;
           var lng = details.geometry.location.lng;
-          console.log('address: ', details.formatted_address + '|' + lat + '|' + lng)
           this.setState({ address: details.formatted_address + '|' + lat + '|' + lng });
         }}
         styles={ utils.googlePlacesStylesCreateTour }

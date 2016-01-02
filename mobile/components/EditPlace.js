@@ -171,7 +171,9 @@ class EditPlace extends Component {
           autoFocus={false}
           fetchDetails={true}
           onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true 
-            this.setState({ address: details.formatted_address });
+            var lat = details.geometry.location.lat;
+            var lng = details.geometry.location.lng;
+            this.setState({ address: details.formatted_address + '|' + lat + '|' + lng });
           }}
           styles={ utils.googlePlacesStyles }
           getDefaultValue={ () => { return ''; }}// text input default value 
