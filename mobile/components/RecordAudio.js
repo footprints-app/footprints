@@ -30,7 +30,7 @@ class RecordAudio extends Component {
     this.state = {
       placeId: this.props.placeId,
       tourId: this.props.tourId,
-      routeBackToEditTour: this.props.routeBackToEditTour || false,
+      routeBackToEditTour: this.props.routeBackToEditTour || true,
       cassette: require('../assets/cassette.png')
     }
   }

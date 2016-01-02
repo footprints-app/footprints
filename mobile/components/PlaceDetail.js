@@ -37,8 +37,8 @@ class PlaceDetail extends Component {
   }
 
   componentDidMount () {
-    audio.initWithURL('https://s3-us-west-1.amazonaws.com/walking-tour-media/example.caf');
-    // audio.initWithURL(this.state.audio);    
+    //audio.initWithURL('https://s3-us-west-1.amazonaws.com/walking-tour-media/example.caf');
+    audio.initWithURL(this.state.audio);    
 
   }
 
