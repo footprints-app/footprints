@@ -95,6 +95,7 @@ var TourDetail = React.createClass({
     var markers = [];
     var latSum = 0;
     var lngSum = 0;
+    var component = this;
     // var polyLineCoords = [];
     places.forEach(function(place) {
       var parsedAddress = place.address.split('|');
@@ -138,14 +139,28 @@ var TourDetail = React.createClass({
   },
   onRightAnnotationTapped(e) {
     // e: {id: "marker54", title: "Zeitgeist", latitude: 37.7700304, subtitle: "Stop #7", longitude: -122.4221087}
+    
+    this.setState({isLoading: true});
     var placeIndex = Number(e.id.slice(6)) - 1;
     var place = this.state.places[placeIndex];
     utils.navigateTo.call(this, place.placeName, PlaceDetail, {place})
+    this.setState({isLoading: false});
   },
   onLongPress(location) {
     console.log('long pressed', location);
   },
 
+  renderLoading () {
+    console.log('renderLoading');
+    return (
+    <View style={{alignItems: 'center', justifyContent: 'center'}}>
+      <ActivityIndicatorIOS
+            style={{alignItems: 'center', justifyContent: 'center', backgroundColor: 'black', height: 40}}
+            size="large"/>
+      <Image style={{justifyContent:'center', marginTop: 200}} source={require('../assets/loading.gif')}></Image>
+    </View>
+    )
+  },
 
   renderPlace(place) {
     var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
@@ -168,6 +183,9 @@ var TourDetail = React.createClass({
   },
   
   render: function () {
+    if(this.state.isLoading) {
+      return this.renderLoading();
+    }
     return (
       <View style={styles.tourContainer}>
         <View style={mapStyles.container}>
