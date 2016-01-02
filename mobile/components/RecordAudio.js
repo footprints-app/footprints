@@ -32,6 +32,8 @@ class RecordAudio extends Component {
       tourId: this.props.tourId,
       routeBackToEditTour: this.props.routeBackToEditTour || true,
       isRecording: false,
+      isUploading: false,
+      loadingGif: require('../assets/loading.gif'),
       cassette: require('../assets/cassette.png')
     }
   }
@@ -127,6 +129,7 @@ class RecordAudio extends Component {
   }
 
   done() {
+    this.setState({isUploading: true});
     var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
     //var request_url = 'http://10.6.32.174:8000';
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
@@ -166,6 +169,7 @@ class RecordAudio extends Component {
         console.log('reqParam from RecordAudio: ', options.reqParam);
         utils.makeRequest(reqType, component, options)
           .then((response) => {
+            this.setState({isUploading: false});
             console.log('Audio added to place: ', response);
             component.props.navigator.replace({
               title: "Your Tour",
@@ -196,6 +200,10 @@ class RecordAudio extends Component {
       <View style={ styles.mainContainer }>
         <View style={ audioStyles.cassette }>
           <Image style={{width: 300, height: 150}} source={this.state.cassette} />
+        </View>
+
+        <View style={ audioStyles.loadingGif }>
+          <Image style={{width: 30, height: 30}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
         </View>
 
         <View>
@@ -257,6 +265,12 @@ class RecordAudio extends Component {
 
 var audioStyles = StyleSheet.create({
   cassette: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20
+  },
+  loadingGif: {
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
