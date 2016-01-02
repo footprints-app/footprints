@@ -54,7 +54,7 @@ class PlaceDetail extends Component {
 
   render() {
     return (
-      <View style={styles.tourContainer}>
+      <View style={ styles.tourContainer }>
         <Image style={styles.headerPhoto} source={{uri: this.state.image}} />
           <Text style={[styles.story, {textAlign: 'center', color: '#00BCD4'}]}> {this.state.placeName}</Text>
         <Text style={[styles.description, {textAlign: 'center'}]}>
