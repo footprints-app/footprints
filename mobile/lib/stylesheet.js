@@ -336,7 +336,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 50,
     marginBottom: 30
   },
   loadingGifAudio: {

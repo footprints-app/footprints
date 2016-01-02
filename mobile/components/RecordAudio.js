@@ -210,7 +210,7 @@ class RecordAudio extends Component {
         </View>
 
         <View style={ styles.loadingGif }>
-          <Image style={{width: 50, height: 50}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
+          <Image style={{width: 40, height: 40}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
         </View>
 
         <View style={ [styles.audioControlsContainer, {height: 75}] }>
