@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mobile/components/CreateTour.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mobile/components/CreateTour.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+var React = require('react-native');
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get('window');
+var DeviceWidth = Dimensions.get('window').width;
+var DeviceHeight = Dimensions.get('window').height;
+var ViewCreatedTour = require('./ViewCreatedTour');
+var SelectImage = require('./SelectImage');
+var utils = require('../lib/utility');
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
+var formStyles = require('../lib/form_stylesheet');
+var styles = require('../lib/stylesheet');
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+
+var {
+  StyleSheet,
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableHighlight,
+  Component,
+  AsyncStorage,
+  NavigatorIOS
+} = React;
+
+var Tour = t.struct({
+  tourName: t.maybe(t.String),
+  description: t.maybe(t.String),
+  duration: t.maybe(t.Number)
+});
+
+var options = {
+  auto: 'placeholders',
+  fields: {
+    tourName: {
+      placeholder: 'Tour Name',
+      placeholderTextColor: '#FFF',
+    },
+    description: {
+      placeholder: 'Description',
+      placeholderTextColor: '#FFF'
+    },
+    duration: {
+      placeholder: 'Duration',
+      placeholderTextColor: '#FFF',
+    },
+  },
+  stylesheet: formStyles
+};
+
+
+class CreateTour extends Component {
+
+  /**
+   * Creates an instance of CreateTour and sets the state with empty tour details.
+   * @constructor
+   * @this {CreateTour}
+   */
+  constructor(props){
+    super(props);
+    this.state = {
+      tourName: '',
+      description: '',
+      category: '',
+      duration: 0,
+      userName: '',
+      cityName: '',
+      state: '',
+      country: '',
+    };
+  }
+
+  createAndAddPhoto () {
+    var value = this.refs.form.getValue();
+    console.log('input value...', value)
+    var options = {
+      reqBody: this.state
+    }; 
+    var component = this;
+    utils.makeRequest('createTour', component, options)
+    .then(response => {
+      console.log('response body in Create Tour: ', response);
+      var props = {
+        tourId: response.id,
+        createTourView: true
+      }
+      utils.navigateTo.call(component, "Add Tour Photo", SelectImage, props);
+    })
+    .done();
+  }
+
+  onChange(value, path) {
+    this.setState(value);
+  }
+
+  clearText () {
+    this.refs.form.getComponent('tourName').refs.input.clear();
+    this.refs.form.getComponent('description').refs.input.clear();
+    this.refs.form.getComponent('duration').refs.input.clear();
+    this.refs.searchField.refs.textInput.clear();
+  }
+
+  render () {
+    return (
+      &lt;View style={ styles.addPlaceContainer }>
+
+        &lt;View style={ [styles.photoAudioContainer, {marginTop: 50}] }>   
+          &lt;Text style={ styles.text }>Tour Details&lt;/Text>
+        &lt;/View>
+        
+        &lt;View style={{ marginTop: 10 }}>
+          &lt;Form
+            ref="form"
+            type={Tour}
+            options={ options }
+            controlled={true}
+            value={ this.state.value }
+            onChange={ this.onChange.bind(this) }/>
+        &lt;/View>
+        &lt;GooglePlacesAutocomplete
+          ref='searchField'
+          placeholder='City'
+          minLength={3} // minimum length of text to search 
+          autoFocus={false}
+          fetchDetails={false}
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+            var cityStateCountry = data.description.split(','); 
+            this.setState({cityName: cityStateCountry[0].trim(), 
+              state: cityStateCountry[1].trim() || '', 
+              country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' 
+            });             
+          }}
+          getDefaultValue={() => { return ''; }}
+          query={{
+            key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
+            language: 'en', // language of the results 
+            types: '(cities)'
+          }}
+          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
+
+        &lt;TouchableHighlight 
+          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
+          onPress={ () => { 
+            this.createAndAddPhoto();
+            this.clearText();
+          }}
+          underlayColor='#FFC107'>
+          &lt;Text style={ styles.buttonText }>Next&lt;/Text>
+        &lt;/TouchableHighlight>
+      &lt;/View>
+    );
+  }
+};
+
+module.exports = CreateTour;
+
+
+
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

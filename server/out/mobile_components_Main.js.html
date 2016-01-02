@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mobile/components/Main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mobile/components/Main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+ 
+// var Button = require('react-native-button');
+var React = require('react-native');
+var AllTours = require('./AllTours');
+var MyTours = require('./MyTours');
+var CreateTour = require('./CreateTour');
+var Settings = require('./Settings');
+var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
+
+var {
+  Component,
+  TabBarIOS,
+  NavigatorIOS,
+  AsyncStorage
+ } = React;
+ 
+class Main extends Component {
+
+  /**
+   * Creates an instance of Main and sets the state with user details (needed to pass to MyTours component).
+   * 
+   * @constructor
+   * @param {object} props is the user object pass from the Login or Signup components.
+   * @this {Main}
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.user,
+      selectedTab: 'allTours',
+      userId: null,
+      token: null
+    };
+  }
+
+  componentDidMount () {
+    var that = this;
+    AsyncStorage.multiGet(['token', 'user'])
+    .then(function(data) {
+      console.log('in main userinfo', data);
+      if(data) {
+        console.log('reached')
+        that.setState({
+          token: data[0][1],
+          userId: +data[1][1]
+        });
+      }
+    });
+  }
+  /**
+   * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
+   */
+  //userTours () {
+  //  var userId = this.state.userId;
+  //  console.log('user in Main: ', this.state.userId);
+  //  utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
+  //}
+
+  selectTab (tab, ref) {
+    if(this.state.selectedTab !== tab) {
+      this.setState({
+        selectedTab: tab
+      });
+    } else {
+      this.refs[ref].popToTop()
+    }
+  }
+
+  render () {
+    return (
+      &lt;TabBarIOS
+        tintColor="#00BCD4"
+        barTintColor="#F0F0F0"
+        selectedTab={this.state.selectedTab}>
+
+        &lt;TabBarIOS.Item
+          title="My Tours"
+          icon={require('../assets/mytoursicon.png')}
+          selected={this.state.selectedTab === 'myTours'}
+          onPress={this.selectTab.bind(this, 'myTours', 'myToursView', MyTours)}>
+          &lt;NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            ref="myToursView"
+            initialRoute={{ 
+              title: 'My Tours', 
+              component: MyTours, 
+              rightButtonTitle: 'Edit', 
+              onRightButtonPress: () => {
+                this.refs.myToursView.navigator.push({
+                  title: "My Tours",
+                  component: MyTours,
+                  rightButtonTitle: 'Done',
+                  passProps: { editMode: true },
+                  onRightButtonPress: () => { this.refs.myToursView.navigator.pop();}
+                });}
+              }} />
+        &lt;/TabBarIOS.Item>
+
+        &lt;TabBarIOS.Item
+          title="All Tours"
+          icon={require('../assets/alltoursicon.png')}
+          selected={this.state.selectedTab === 'allTours'}
+          onPress={this.selectTab.bind(this, 'allTours', 'allToursView', AllTours)}>
+          &lt;NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            ref="allToursView"
+            initialRoute={{ title: 'All Tours', component: AllTours }} />
+        &lt;/TabBarIOS.Item>
+
+        &lt;TabBarIOS.Item
+          title="Create Tour"
+          icon={require('../assets/createtouricon.png')}
+          selected={this.state.selectedTab === 'createTour'}
+          onPress={this.selectTab.bind(this, 'createTour', 'createTourView', CreateTour)}>
+          &lt;NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            ref="createTourView"
+            initialRoute={{ title: 'Create a Tour', component: CreateTour }} />
+        &lt;/TabBarIOS.Item>
+
+        &lt;TabBarIOS.Item
+          title="Settings"
+          icon={require('../assets/settingsicon.png')}
+          selected={this.state.selectedTab === 'settings'}
+          onPress={this.selectTab.bind(this, 'settings', 'settingsView', Settings)}>
+          &lt;NavigatorIOS
+            barTintColor="#0097A7"
+            tintColor="#FFF"
+            titleTextColor="#FFF"
+            style={styles.container}
+            ref="settingsView"
+            initialRoute={{ title: 'Profile', component: Settings }} />
+        &lt;/TabBarIOS.Item>
+      &lt;/TabBarIOS>
+    );
+  }
+};
+
+module.exports = Main;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

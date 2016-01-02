@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mobile/components/Login.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mobile/components/Login.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+var React = require('react-native');
+var Main = require('./Main');
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get('window');
+var DeviceWidth = Dimensions.get('window').width;
+var DeviceHeight = Dimensions.get('window').height;
+var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
+
+var {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableHighlight,
+  Component,
+  NavigatorIOS,
+  AsyncStorage,
+  ScrollView
+} = React;
+
+class Login extends Component {
+  
+  constructor(props){
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      validUsername: true,
+      validPassword: true
+    };
+  }
+  /**
+   * Posts the user login details to the server for verification, then redirects user to Main Tours page with successful login.
+   *
+   */
+  submitLogin () {
+    this.setState({validUsername: true, validPassword: true});
+
+    var options = {
+      reqBody: { userName: this.state.username, password: this.state.password }
+    };
+  
+
+    var component = this;
+    utils.makeRequest('login', component, options)
+    .then((response) => {
+      console.log('response body from login: ', response);
+      if(response.error) {
+        if(response.error === 'Username does not exist') {
+          this.setState({validUsername: false, username: '', password: ''});
+        } else if(response.error === 'Username and password do not match') {
+          this.setState({validPassword: false, username: '', password: ''});        }
+      } else {
+        // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+        AsyncStorage.setItem('token', response.token)
+        .then(() => {
+          console.log('from login client.....', response.token);
+          utils.navigateTo.call(component, "Welcome", Main, {});
+        });
+      }
+    })
+    .catch((error) => {
+      console.warn(error);
+    });
+  }
+
+  inputFocused (refName) {
+    var that = this;
+    setTimeout(function() {
+      var scrollResponder = that.refs.scrollView.getScrollResponder();
+      scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+        React.findNodeHandle(that.refs[refName]),
+        80,
+        true
+      );
+    }, 50);
+  }
+
+  render () {
+    return (
+      &lt;View style={ styles.loginContainer }>
+        &lt;ScrollView ref="scrollView">
+          
+          &lt;View style={{ justifyContent: 'center', flex: 1 }}>
+            &lt;Image 
+              style={{ height: DeviceHeight/2.15, width: DeviceWidth }} 
+              source={require('../assets/logo.png')}/>
+          &lt;/View>
+          
+          &lt;View style={ styles.inputs }>
+            &lt;View style={ styles.inputContainer }>
+              &lt;Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+              &lt;TextInput 
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="Username"
+                placeholderTextColor="#FFF"
+                value={ this.state.username }
+                onChange={ utils.usernameInput.bind(this) }
+                ref='username'
+                onFocus={this.inputFocused.bind(this, 'username')}/>
+            &lt;/View>
+
+            &lt;View style={ styles.inputContainer }>
+              &lt;Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
+              &lt;TextInput
+                password={true}
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="Password"
+                placeholderTextColor="#FFF"
+                value={ this.state.password }
+                onChange={ utils.passwordInput.bind(this) }
+                ref="password"
+                onFocus={this.inputFocused.bind(this,'password')} />
+            &lt;/View>
+
+            &lt;Text style={ styles.whiteFont }>
+              { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
+            &lt;/Text>
+            &lt;Text style={ styles.whiteFont }>
+              { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
+            &lt;/Text>
+          &lt;/View>    
+        &lt;/ScrollView>
+
+        &lt;View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 30}}>
+          &lt;TouchableHighlight 
+            onPress={ this.submitLogin.bind(this) }
+            style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}
+            underlayColor='#FFC107'>
+              &lt;Text style={ styles.whiteFont }>Login&lt;/Text>
+          &lt;/TouchableHighlight>
+
+          &lt;TouchableHighlight
+            onPress={ utils.navigateTo.bind(this, 'Signup', require('./Signup'), {}) }
+            style={ [styles.loginSignup, {marginLeft: 25}] }
+            underlayColor='transparent'>
+            &lt;Text style={ styles.whiteFont }>Sign Up&lt;/Text>
+          &lt;/TouchableHighlight>
+        &lt;/View>
+
+      &lt;/View>
+
+    );
+  }
+};
+
+module.exports = Login;
+
+
+
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

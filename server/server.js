@@ -22,6 +22,7 @@ var tourRouter = express.Router();
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(bodyParser.json({limit: '50mb'}));
+app.use('/docs', express.static(__dirname + '/out'));
 
 // Set up routes
 app.use('/users', userRouter);
@@ -29,3 +30,4 @@ app.use('/tours', tourRouter);
 
 require('./users/userRoutes.js')(userRouter);
 require('./tours/tourRoutes.js')(tourRouter);
+

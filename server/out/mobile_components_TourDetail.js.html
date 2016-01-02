@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mobile/components/TourDetail.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mobile/components/TourDetail.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+var React = require('react-native');
+var PlaceDetail = require('./PlaceDetail');
+var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
+
+var {
+  Image,
+  View,
+  Text,
+  Component,
+  ListView,
+  TouchableHighlight,
+  ActivityIndicatorIOS,
+  ScrollView
+} = React;
+
+class TourDetail extends Component {
+
+  /**
+   * Creates an instance of TourDetail and sets the state with the tourId passed from props.
+   * 
+   * @constructor
+   * @param {object} props is the tour object that was selected.
+   * @this {TourDetail}
+   */
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: true,
+      tourId: this.props.tour.id,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2
+      })
+    };
+  }
+
+  componentDidMount() {
+    /* Use this code for fake front end data */
+    var places = this.props.tour.places;
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(places) });
+
+    /* Use this code to make actual API request to fetch data from database */
+    //this.fetchData();
+  }
+
+  /**
+   * Makes GET request to server for specifc tour and sets the places array from DB to the state.
+   *
+   */
+  fetchData() {
+    var component = this;
+    var options = {
+      reqBody: {},
+      reqParam: this.state.tourId
+    }; 
+
+    utils.makeRequest('tours', component, options)
+    .then((response) => {
+      console.log('response body from TourDetail: ', response);
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(response.places),
+        isLoading: false
+      });
+    })
+    .done();
+  }
+
+  renderLoadingView() {
+    return (
+      &lt;View style={ styles.loading }>
+        &lt;ActivityIndicatorIOS
+          size='large'/>
+        &lt;Text>
+          Loading tours...
+        &lt;/Text>
+      &lt;/View>
+    );
+  }
+
+  renderPlace(place) {
+    var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
+    return (
+      &lt;TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
+        &lt;View>
+          {/*&lt;View style={styles.tourSeparator} />*/}
+          &lt;View style={ styles.placeContainer }>
+            &lt;Image source={{ uri: imageURI }} style={ styles.thumbnail }  />
+            &lt;View style={ styles.rightContainer }>
+              &lt;Text style={ styles.placeName }>{ place.placeName }&lt;/Text>
+            &lt;/View>
+            &lt;Image source={ require('../assets/arrow.png') } style={ styles.arrow }>&lt;/Image>
+          &lt;/View>
+          &lt;View style={ styles.tourSeparator } />
+        &lt;/View>
+      &lt;/TouchableHighlight>
+    );
+  }
+  
+  render() {
+    var tour = this.props.tour;
+    var imageURI = (typeof tour.image !== 'undefined') ? tour.image : null;
+    var tourName = (typeof tour.tourName !== 'undefined') ? tour.tourName : '';
+    var description = (typeof tour.description !== 'undefined') ? tour.description : '';
+    var cityName = (typeof tour.cityName !== 'undefined') ? tour.cityName : '';
+    var category = (typeof tour.category !== 'undefined') ? tour.category : '';
+    var duration = (typeof tour.duration !== 'undefined') ? tour.duration : '';
+
+    //if(this.state.isLoading) {
+    //  return this.renderLoadingView()
+    //}
+
+    return (
+      &lt;View style={ styles.tourContainer }>
+        &lt;ScrollView automaticallyAdjustContentInsets={false}>
+
+          &lt;Image style={ styles.headerPhoto } source={{ uri: imageURI }} />
+          &lt;Text style={ [styles.tourTitle] }>{ tourName }&lt;/Text>
+          &lt;Text style={ [styles.description, {marginRight: 10}] }>
+            &lt;Text style={ styles.bold }>Description:&lt;/Text> { description + '\n' }
+            &lt;Text style={ styles.bold }>City:&lt;/Text> { cityName + '\n' }
+            {/*&lt;Text style={styles.bold}>Category:&lt;/Text> {category + '\n'}*/}
+            &lt;Text style={ styles.bold }>Est Time:&lt;/Text> { duration + ' hours'}
+          &lt;/Text>
+          &lt;Text style={ styles.tourTitle }>Places&lt;/Text>
+          &lt;View style={ styles.tourSeparator } />
+          
+          &lt;View style={ styles.panel }>
+            &lt;ListView
+              dataSource={ this.state.dataSource }
+              renderRow={ this.renderPlace.bind(this) }
+              style={ styles.listView }
+              automaticallyAdjustContentInsets={false} />
+          &lt;/View>
+
+        &lt;/ScrollView>
+      &lt;/View>
+      
+    );
+
+  }
+};
+
+module.exports = TourDetail;
+
+
+
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

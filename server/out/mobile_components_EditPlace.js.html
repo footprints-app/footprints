@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: mobile/components/EditPlace.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: mobile/components/EditPlace.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+var React = require('react-native');
+var utils = require('../lib/utility');
+var ViewCreatedTour = require('./ViewCreatedTour');
+var SelectImage = require('./SelectImage');
+var styles = require('../lib/stylesheet');
+var t = require('tcomb-form-native');
+var Form = t.form.Form;
+var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+var formStyles = require('../lib/formStyleEditMode');
+
+var {
+  StyleSheet,
+  Image,
+  View,
+  Text,
+  TextInput,
+  Component,
+  Listview,
+  TouchableHighlight,
+  ActivityIndicatorIOS
+} = React;
+
+var EditPlaceDetail = t.struct({
+  placeName: t.maybe(t.String),
+  description: t.maybe(t.String),
+  placeOrder: t.maybe(t.Number)
+});
+
+class EditPlace extends Component {
+   /**
+   * Creates an instance of EditPlace and sets the state with place details passed from props.
+   * Allows for editing of a place's details and submits a PUT request when done button is clicked.
+   *
+   * @constructor
+   * @param {object} props is the place object from the tour that rendered this PlaceDetail view.
+   * @this {PlaceDetail}
+   */
+   constructor(props) {
+    super(props);
+    this.state = {
+      id: (typeof this.props.place.id !== 'undefined') ? this.props.place.id : '',
+      placeName: (typeof this.props.place.placeName !== 'undefined') ? this.props.place.placeName : '',
+      image: (typeof this.props.place.image !== 'undefined') ? this.props.place.image : '',
+      description: (typeof this.props.place.description !== 'undefined') ? this.props.place.description : '',
+      address: (typeof this.props.place.address !== 'undefined') ? this.props.place.address : '',
+      tourId: this.props.place.tourId,
+      placeOrder: this.props.place.placeOrder,
+      origPlaceOrder: this.props.place.placeOrder,
+      numPlacesInTour: 0,
+      tourName: ''
+    };
+   }
+
+  componentWillMount () {
+    var component = this;
+    var options = {
+      reqBody: {},
+      reqParam: this.state.tourId
+    }; 
+    utils.makeRequest('tour', component, options)
+    .then((response) => {
+      console.log('componentWillMount in EditPlace, response: ', response)
+      this.setState({numPlacesInTour: response.places.length, tourName: response.tourName})
+    })
+    .done();
+  }
+
+   onChange(value) {
+    this.setState(value);
+  }
+
+   editDone() {
+    var options = {
+      reqBody: this.state,
+      reqParam: this.state.id
+    };
+    var that = this;
+    utils.makeRequest('editPlace', that, options)
+    .then(response => {
+      if(that.state.placeOrder !== that.state.origPlaceOrder) {
+        var orderOptions = {
+          reqBody: { 
+            placeOrder: that.state.placeOrder, 
+            placeId: that.state.id, 
+            origPlaceOrder: that.state.origPlaceOrder
+          },
+          reqParam: that.state.tourId
+        };
+        utils.makeRequest('placeOrders', that, orderOptions)
+        .then(response => {
+          var ViewCreatedTour = require('./ViewCreatedTour');
+          that.props.navigator.replace({
+            title: that.state.tourName,
+            component: ViewCreatedTour,
+            passProps: {
+                        tourId: that.state.tourId,
+                        editMode: true
+                       }
+          });
+        });
+
+      } else {
+        var ViewCreatedTour = require('./ViewCreatedTour');
+        that.props.navigator.replace({
+            title: that.state.tourName,
+            component: ViewCreatedTour,
+            passProps: {
+                        tourId: that.state.tourId,
+                        editMode: true
+                       }
+        });
+      }          
+    });
+   }
+
+  editPhoto() {
+    /*TODO: this should send a put request to update tour photo*/
+    var props = {
+      tourId: this.state.tourId,
+      placeId: this.state.id
+    }
+    utils.navigateTo.call(this, "Select a Photo", SelectImage, props);
+  }
+
+  render() {
+    var options = {
+      auto: 'placeholders',
+      fields: {
+        placeName: {
+          placeholder: this.state.placeName,
+          placeholderTextColor: '#FFF',
+          label: 'Place Name'
+        },
+        description: {
+          placeholder: this.state.description,
+          placeholderTextColor: '#FFF',
+          label: 'Description'
+        },
+        placeOrder: {
+          placeholder: this.state.placeOrder.toString(),
+          placeholderTextColor: '#FFF',
+          label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
+        }
+      },
+      stylesheet: formStyles
+    };
+ 
+    return (
+      &lt;View style={ styles.addPlaceContainer }>
+
+        &lt;Image style={ styles.image } source={{ uri: this.state.image }} />
+
+        &lt;View style={{ marginTop: 55 }}>
+          &lt;Form
+            ref="form"
+            type={ EditPlaceDetail }
+            options={ options }
+            value={ this.state.value }
+            onChange={ this.onChange.bind(this) }/>
+        &lt;/View>
+
+        &lt;Text style={{ fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2 }}>
+          Search for Address
+        &lt;/Text>
+        &lt;GooglePlacesAutocomplete
+          placeholder={this.state.address}
+          minLength={3} // minimum length of text to search 
+          autoFocus={false}
+          fetchDetails={true}
+          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true 
+            this.setState({ address: details.formatted_address });
+          }}
+          styles={ utils.googlePlacesStyles }
+          getDefaultValue={ () => { return ''; }}// text input default value 
+          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
+          GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
+        
+        &lt;TouchableHighlight 
+          onPress={ this.editPhoto.bind(this) } 
+          underlayColor='#727272'>
+          &lt;View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+            &lt;View style={{ marginTop: 17 }}>
+              &lt;Text style={ [styles.text, {fontSize: 16}] }>Edit Photo&lt;/Text>
+            &lt;/View>
+            &lt;View>
+              &lt;Image source={ require('../assets/photoicon.png') } 
+                style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
+            &lt;/View>
+          &lt;/View>
+        &lt;/TouchableHighlight>
+
+        &lt;TouchableHighlight 
+          onPress={ () => alert('add edit audio function') } 
+          underlayColor='#727272' 
+          style={{ marginTop: 5 }}>
+          &lt;View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+            &lt;View style={{ marginTop: 17 }}>
+              &lt;Text style={ [styles.text, {fontSize: 16}] }>Edit Audio&lt;/Text>
+            &lt;/View>
+            &lt;View>
+              &lt;Image source={ require('../assets/audioicon.png') } 
+                style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
+            &lt;/View>
+          &lt;/View>
+        &lt;/TouchableHighlight>
+
+        &lt;TouchableHighlight 
+          style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}] } 
+          onPress={ this.editDone.bind(this) } 
+          underlayColor='#FFC107'>
+          &lt;Text style={ styles.buttonText }>Done&lt;/Text>
+        &lt;/TouchableHighlight>
+      
+      &lt;/View>
+    );
+   }
+};
+
+module.exports = EditPlace;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-audio_audioController.html">audio/audioController</a></li><li><a href="module-images_imageController.html">images/imageController</a></li><li><a href="module-tours_tourController.html">tours/tourController</a></li><li><a href="module-tours_tourModel.html">tours/tourModel</a></li><li><a href="module-tours_tourRoutes.html">tours/tourRoutes</a></li><li><a href="module-users_userController.html">users/userController</a></li><li><a href="module-users_userModel.html">users/userModel</a></li><li><a href="module-users_userRoutes.html">users/userRoutes</a></li></ul><h3>Classes</h3><ul><li><a href="AddPlace.html">AddPlace</a></li><li><a href="CreateTour.html">CreateTour</a></li><li><a href="EditPlace.html">EditPlace</a></li><li><a href="Main.html">Main</a></li><li><a href="MyTours.html">MyTours</a></li><li><a href="PlaceDetail.html">PlaceDetail</a></li><li><a href="SelectImage.html">SelectImage</a></li><li><a href="Signup.html">Signup</a></li><li><a href="TourDetail.html">TourDetail</a></li><li><a href="ViewCreatedTour.html">ViewCreatedTour</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Fri Jan 01 2016 11:18:47 GMT-0800 (PST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
