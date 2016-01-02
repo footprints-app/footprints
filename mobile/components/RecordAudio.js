@@ -34,7 +34,11 @@ class RecordAudio extends Component {
       isRecording: false,
       isUploading: false,
       loadingGif: require('../assets/loading.gif'),
-      cassette: require('../assets/cassette.png')
+      cassette: require('../assets/cassette.png'),
+      playBtn: require('../assets/playgold.png'),
+      pauseBtn: require('../assets/pausegold.png'),
+      stopBtn: require('../assets/stopgold.png'),
+      recordBtn: require('../assets/recordgold.png')
     }
   }
 
@@ -49,7 +53,8 @@ class RecordAudio extends Component {
   record() {
     if(!this.state.isRecording) {
       this.setState({cassette: require('../assets/cassette.gif'),
-                     isRecording: true
+                     isRecording: true,
+                     recordBtn: require('../assets/recordblue.png')
                    });
       RNRecordAudio.startRecord(
         "story.m4a", // filename
@@ -64,7 +69,8 @@ class RecordAudio extends Component {
       );
     } else {
       this.setState({cassette: require('../assets/cassette.png'),
-                     isRecording: false
+                     isRecording: false,
+                     recordBtn: require('../assets/recordgold.png')
                    });
       RNRecordAudio.stopRecord(
         "story.m4a", // filename
@@ -82,7 +88,9 @@ class RecordAudio extends Component {
 
   play() {
     this.readDirectory();
-    this.setState({cassette: require('../assets/cassette.gif')});
+    this.setState({cassette: require('../assets/cassette.gif'),
+                   playBtn: require('../assets/playblue.png')
+                 });
 
     RNPlayAudio.startAudio(
       "story2.m4a", // filename
@@ -98,7 +106,11 @@ class RecordAudio extends Component {
   }
 
   pause() {
-    this.setState({cassette: require('../assets/cassette.png')});
+    this.setState({cassette: require('../assets/cassette.png'),
+                   playBtn: require('../assets/playgold.png'),
+                   pauseBtn: require('../assets/pauseblue.png')
+                 });
+    var self = this;
     RNPlayAudio.pauseAudio(
       "story.m4a", // filename
 
@@ -108,12 +120,17 @@ class RecordAudio extends Component {
 
       function successCallback(results) {
         console.log('JS Success: ' + results['successMsg']);
+        self.setState({pauseBtn: require('../assets/pausegold.png')})
       }
     );
   }
 
   stop() {
-    this.setState({cassette: require('../assets/cassette.png')});
+    this.setState({cassette: require('../assets/cassette.png'),
+                   playBtn: require('../assets/playgold.png'),
+                   stopBtn: require('../assets/stopblue.png')
+                 });
+    var self = this;
     RNPlayAudio.stopAudio(
       "story.m4a", // filename
 
@@ -123,6 +140,7 @@ class RecordAudio extends Component {
 
       function successCallback(results) {
         console.log('JS Success: ' + results['successMsg']);
+        self.setState({stopBtn: require('../assets/stopgold.png')})        
       }
     );
 
@@ -148,25 +166,14 @@ class RecordAudio extends Component {
       .then((file) => {
         console.log('File successfully converted to base64');
         var encodedFile = file.toString();
-        // fetch(request_url + '/tours/addaudio', {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": 'application/json'
-        //   },
-        //   body: JSON.stringify({
-        //     file: encodedFile
-        //   })
-        // })
-        // .then((response) => {
-        //   console.log("Response received from audio post: ", response);
-        // })
+
         var options = {
           reqParam: component.state.placeId,
           reqBody: {
             file: encodedFile
           }
         }
-        console.log('reqParam from RecordAudio: ', options.reqParam);
+        console.log('reqParam (placeId) from RecordAudio: ', options.reqParam);
         utils.makeRequest(reqType, component, options)
           .then((response) => {
             this.setState({isUploading: false});
@@ -198,123 +205,69 @@ class RecordAudio extends Component {
   render() {
     return (
       <View style={ styles.mainContainer }>
-        <View style={ audioStyles.cassette }>
+        <View style={ styles.cassette }>
           <Image style={{width: 300, height: 150}} source={this.state.cassette} />
         </View>
 
-        <View style={ audioStyles.loadingGif }>
-          <Image style={{width: 30, height: 30}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
+        <View style={ styles.loadingGif }>
+          <Image style={{width: 40, height: 40}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
         </View>
 
-        <View>
-          
+        <View style={ [styles.audioControlsContainer, {height: 75}] }>
           <TouchableHighlight
             onPress={ this.record.bind(this) }
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
-            <Image source={ this.state.isRecording === false ? require('../assets/recordbtn.png') : require('../assets/stopbtn.png') }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}] } />
+            <Image source={ this.state.recordBtn }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 1}, {flex: 0.10}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.play.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
-            <Image source={ require('../assets/playbtn.png') }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
+            <Image source={ this.state.playBtn }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.25}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.pause.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
-            <Image source={ require('../assets/pausebtn.png') }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
+            <Image source={ this.state.pauseBtn }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.75}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.stop.bind(this) } 
-            style={ [styles.touchable, {marginTop: 1}] }
+            style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
-            <Image source={ require('../assets/stopbtn.png') }
-                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
+            <Image source={ this.state.stopBtn }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.90}] } />
           </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.done.bind(this) } 
-            style={ styles.touchable } underlayColor="727272">
-            <View style={ [styles.mainButton, {width: 150, alignItems: 'center', marginBottom: 20}] }>
-              <Text style={ styles.whiteFont }>Done</Text>
-            </View>
-          </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.skip.bind(this) } 
-            style={ styles.touchable } underlayColor="727272">
-            <View style={ [styles.mainButton, {width: 150, alignItems: 'center', marginBottom: 20}] }>
-              <Text style={ styles.whiteFont }>Skip</Text>
-            </View>
-          </TouchableHighlight>
-
         </View>
+
+        <TouchableHighlight 
+          onPress={ this.done.bind(this) } 
+          style={ styles.touchable } underlayColor="727272">
+          <View style={ [styles.button, {width: 280}, {marginBottom: 10}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }>
+            <Text style={ styles.whiteFont }>Done</Text>
+          </View>
+        </TouchableHighlight>
+
+        <TouchableHighlight 
+          onPress={ this.skip.bind(this) } 
+          style={ styles.touchable } underlayColor="727272">
+          <View style={ [styles.button, {width: 280}, {marginBottom: 75}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }>
+            <Text style={ styles.whiteFont }>Skip</Text>
+          </View>
+        </TouchableHighlight>
+
+
       </View>
     );
   }
 
 };
-
-var audioStyles = StyleSheet.create({
-  cassette: {
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20
-  },
-  loadingGif: {
-    justifyContent: 'center',
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 20
-  },
-  doneBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  recordBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  stopRecBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  playBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  pauseBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  stopBtn: {
-    backgroundColor: '#FF3366',
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 5,
-  },
-  touchable: {
-    borderRadius: 5
-  },
-});
 
 module.exports = RecordAudio;
