@@ -136,7 +136,7 @@ class SelectImage extends Component {
     this.props.navigator.push({
       title: "Your Tour",
       component: ViewCreatedTour,
-      passProps: {tourId},
+      passProps: {tourId: tourId, editMode: true},
       leftButtonTitle: " "
     });
   }
