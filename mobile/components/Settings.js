@@ -29,7 +29,9 @@ class Settings extends Component {
 			// utils.navigateTo.call(component, 'Login', require('./Login'), {})
 			// component.props.navigator.replace.call(component, {title: 'Login', component: Login})
 			// console.log('nav length', component.props.navigator)
-			// component.navigator.jumpTo({
+			var Login = require('./Login.js')
+			component.props.navigator.popToTop();
+			// component.props.navigator.replace({
 			// 	title: 'Login', 
 			// 	component: Login
 			// })
@@ -38,12 +40,6 @@ class Settings extends Component {
 		.catch((error) => {
 			console.log('Error in removing token: ', error)
 		})
-	}
-
-	navigateToLogin () {
-		console.log(this.refs.loginview);
-		var Login = require('./Login');
-		utils.navigateTo.call(this, 'Login', Login, {})
 	}
 
 	render () {
@@ -56,15 +52,6 @@ class Settings extends Component {
 						underlayColor="#FCC107">
 						<Text style={ styles.mainButtonText }>Logout</Text>
 					</TouchableHighlight>
-				</View>
-					<TouchableHighlight
-						ref='loginview'
-						onPress={ this.navigateToLogin.bind(this) }
-						underlayColor="#727272">
-						<Text>Click here to Login</Text>
-					</TouchableHighlight>
-				<View>
-
 				</View>
 			</View>
 		)
