@@ -20,18 +20,6 @@ module.exports = function(grunt) {
 			}
 		},
 
-		awsebtlogs: {
-			logs: {
-				options: {
-					region: 'us-east-1',
-					environmentName: 'walkingtours',
-					outputPath: 'logs',
-					timeoutSec: 20,
-					intervalSec: 5
-				}
-			}
-		},
-
 		compress: {
 			main: {
 				options: {
@@ -48,12 +36,6 @@ module.exports = function(grunt) {
 
 		clean: ["sourcebundle/*"],
 
-		nodemon: {
-			dev: {
-				script: 'server.js'
-			}
-		},
-
 		jshint: {
 			files: [ 'Gruntfile.js', 'server/**/*.js', 'server/*.js', 'mobile/*.js', 'mobile/components/*.js'],
 			options: {
@@ -67,7 +49,7 @@ module.exports = function(grunt) {
 
 		jsdoc: {
 			dist : {
-				src: ['server/*.js', 'server/**/*.js', '!server/node_modules/**', '!server/config/*.js', 'mobile/*.js', 'mobile/components/*.js', README.md'],
+				src: ['server/*.js', 'server/**/*.js', '!server/node_modules/**', '!server/config/*.js', 'mobile/*.js', 'mobile/components/*.js', 'README.md'],
 				options: {
 					destination: 'server/out/'
 				}
@@ -88,7 +70,7 @@ module.exports = function(grunt) {
 	// Main grunt tasks
 	////////////////////////////////////////////////////
 
-	grunt.registerTask('testFront', ['jshint', 'jest']);
+	//grunt.registerTask('testFront', ['jshint', 'jest']);
 
 	grunt.registerTask('testBack', ['jshint', 'mochaTest']);
 
@@ -96,7 +78,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('travis', ['testFront', 'testBack']);
 
-	grunt.registerTask('build', ['jshint', 'travis', 'zip', 'jsdoc']);
+	grunt.registerTask('build', ['jshint', 'travis', 'jsdoc', 'zip']);
 
 	grunt.registerTask('deploy', ['build', 'awsebtdeploy']);
 
