@@ -130,17 +130,17 @@ class EditPlace extends Component {
       fields: {
         placeName: {
           placeholder: this.state.placeName,
-          placeholderTextColor: '#FFF',
+          placeholderTextColor: '#808080',
           label: 'Place Name'
         },
         description: {
           placeholder: this.state.description,
-          placeholderTextColor: '#FFF',
+          placeholderTextColor: '#808080',
           label: 'Description'
         },
         placeOrder: {
           placeholder: this.state.placeOrder.toString(),
-          placeholderTextColor: '#FFF',
+          placeholderTextColor: '#808080',
           label: 'Stop # out of ' + this.state.numPlacesInTour + ' stops'
         }
       },
@@ -161,7 +161,7 @@ class EditPlace extends Component {
             onChange={ this.onChange.bind(this) }/>
         </View>
 
-        <Text style={{ fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2 }}>
+        <Text style={{ fontSize: 15, color: '#F0F0F0', fontWeight: '500', marginBottom: 2 }}>
           Search for Address
         </Text>
         <GooglePlacesAutocomplete
@@ -194,7 +194,7 @@ class EditPlace extends Component {
         <TouchableHighlight 
           onPress={ () => alert('add edit audio function') } 
           underlayColor='#727272' 
-          style={{ marginTop: 5 }}>
+          style={{ marginTop: 2 }}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
             <View style={{ marginTop: 17 }}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Audio</Text>
@@ -207,7 +207,7 @@ class EditPlace extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight 
-          style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}] } 
+          style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] } 
           onPress={ this.editDone.bind(this) } 
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Done</Text>
