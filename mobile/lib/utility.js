@@ -3,7 +3,8 @@ var React = require('react-native');
 var Login = require('../components/Login');
 
 var {
-  AsyncStorage
+  AsyncStorage,
+  NavigationBar
 } = React;
 
 var request_url = 'http://localhost:8000';
@@ -34,28 +35,28 @@ var Utility = {
   googlePlacesKey: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
 
   googlePlacesStyles: {
-              description: {
-                fontWeight: 'bold',
-                color: '#FFF'
-              },
-              textInputContainer: {
-                backgroundColor: '#D8D8D8',
-                height: 30,
-                borderRadius: 5,
-                borderColor: '#cccccc',
-                marginBottom: 10,
-              },
-              textInput: {
-                color: '#FFF',
-                backgroundColor: '#D8D8D8',
-                height: 30,
-                borderRadius: 5,
-                padding: 7,
-                borderColor: '#cccccc',
-                borderWidth: 1,
-                marginBottom: 6,
-                fontSize: 17
-              }
+    description: {
+      fontWeight: 'bold',
+      color: '#505050'
+    },
+    textInputContainer: {
+      backgroundColor: '#D8D8D8',
+      height: 30,
+      borderRadius: 5,
+      borderColor: '#cccccc',
+      marginBottom: 10,
+    },
+    textInput: {
+      color: '#505050',
+      backgroundColor: '#D8D8D8',
+      height: 30,
+      borderRadius: 5,
+      padding: 7,
+      borderColor: '#cccccc',
+      borderWidth: 1,
+      marginBottom: 6,
+      fontSize: 17
+    }
   },
 
   //CreateTour.js helper functions
@@ -193,6 +194,7 @@ var Utility = {
     //  })
     //} else {
     var navigator = this.props.navigator || this.navigator;
+    console.log('navigator', navigator);
     navigator.push({
       title: titleName,
       component: toComponent,
@@ -200,6 +202,18 @@ var Utility = {
     });
 
     //}
+  },
+
+  myTourNavigateTo: function(titleName, toComponent, props) {
+    console.log('navigate: ', titleName);
+    var navigator = this.props.navigator || this.navigator;
+    console.log('navigator', navigator);
+    navigator.push({
+      title: titleName,
+      component: toComponent,
+      passProps: props,
+      leftButtonTitle: " "
+    });
   },
 
   /**
