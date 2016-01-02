@@ -184,7 +184,6 @@ class RecordAudio extends Component {
             })
           })
       })
-    })
   }
 
   skip() {

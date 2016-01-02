@@ -76,7 +76,7 @@ class AllTours extends Component {
   renderTour(tour) {
     return (
       <TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, tour.tourName, TourDetail, {tour}) }  
+        onPress={ utils.myTourNavigateTo.bind(this, tour.tourName, TourDetail, {tour}) }  
         underlayColor='#dddddd'>
         <View>
           <View>
