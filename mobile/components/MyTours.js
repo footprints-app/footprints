@@ -158,7 +158,7 @@ class MyTours extends Component {
   renderTour(tour) {
     return (
       <TouchableHighlight 
-        onPress={ utils.navigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
+        onPress={ utils.myTourNavigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
         <View>
           <View>
             <Image source={{ uri: tour.image }} style={ styles.tourPhoto } >
