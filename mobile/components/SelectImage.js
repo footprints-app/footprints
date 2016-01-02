@@ -177,7 +177,7 @@ class SelectImage extends Component {
           </View>
         </TouchableHighlight>
         <TouchableHighlight
-          onPress={ this.viewRecordAudio.bind(this) }
+          onPress={ this.routeToNextComponent.bind(this) }
           underlayColor="#727272">
           <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
             <Text style={ styles.whiteFont }>Skip</Text>
