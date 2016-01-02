@@ -139,8 +139,9 @@ class CreateTour extends Component {
             language: 'en', // language of the results 
             types: '(cities)'
           }}
+          styles={ utils.googlePlacesStylesCreateTour }
           GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
-
+        
         <TouchableHighlight 
           style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
           onPress={ () => { 
@@ -156,8 +157,3 @@ class CreateTour extends Component {
 };
 
 module.exports = CreateTour;
-
-
-
-
-

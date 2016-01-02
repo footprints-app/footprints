@@ -159,7 +159,7 @@ class AddPlace extends Component {
           console.log('address: ', details.formatted_address)
           this.setState({ address: details.formatted_address });
         }}
-
+        styles={ utils.googlePlacesStylesCreateTour }
         getDefaultValue={() => { return ''; }}
         query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en', }}       
         GooglePlacesSearchQuery={{ rankby: 'distance', }}/>

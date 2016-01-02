@@ -117,7 +117,7 @@ class ViewCreatedTour extends Component {
   putThenEditPlace (title, toComponent, props) {
     var component = this;
     this.editDone(function() {
-      utils.navigateTo.call(component, title, toComponent, props);
+      utils.myTourNavigateTo.call(component, title, toComponent, props);
     })
   }
 
@@ -316,7 +316,7 @@ class ViewCreatedTour extends Component {
               <TouchableHighlight
                 onPress={ this.toggleEdit.bind(this) }
                 style={ [styles.touchable, {marginBottom: 10}] }
-                underlayColor='#727272'>
+                underlayColor='transparent'>
                 <Image source={ require('../assets/editiconteal.png') }
                        style={ [styles.editIcon, {width: 45}, {height: 45}, {marginTop: 10}] } />
               </TouchableHighlight>
