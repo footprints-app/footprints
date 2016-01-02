@@ -267,37 +267,39 @@ class ViewCreatedTour extends Component {
           query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }} // language of the results  
           GooglePlacesSearchQuery={{ rankby: 'distance' }}/>
        
-          <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
-            <View style={{flexDirection: 'row', flex: 0.25}}>
+          <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', flex:1, marginTop: 10} }>
+            <View style={{flexDirection: 'row', flex: 0.35, justifyContent:'center'}}>
               <TouchableHighlight
                 onPress={ this.addPhoto.bind(this) } 
-                underlayColor='#727272'> 
-                  <Text style={ [styles.text, {fontSize: 15}] }>Edit Photo </Text>
+                underlayColor='#727272'
+                style={{justifyContent:'center'}}> 
+                  <Text style={ [styles.text, {fontSize: 15, marginTop:5}] }>Edit Photo </Text>
               </TouchableHighlight>
             </View>
-            <View style={{flex: 0.25}}>
+            <View style={{flex: 0.15, justifyContent:'center'}}>
               <TouchableHighlight
                 onPress={ this.addPhoto.bind(this) } 
-                underlayColor='#727272'> 
+                underlayColor='#727272'
+                style={{justifyContent:'center'}}> 
                   <Image source={ require('../assets/photoicon.png') }
-                       style={{marginLeft: 25, width: 25, height: 25} }/> 
+                       style={{marginLeft: 0, width: 23, height: 23, marginTop: 5, justifyContent:'center'} }/> 
               </TouchableHighlight>
             </View>
-            <View style={{flex: 0.25}}>
+            <View style={{flex: 0.35, flexDirection:'row',justifyContent:'center'}}>
               <TouchableHighlight
                 onPress={ this.addPlace.bind(this) }
-                style={ [styles.touchable, {marginTop: 1}] }
+                style={{justifyContent:'center'}}
                 underlayColor='#727272'>
-                  <Text style={ [styles.text, {fontSize: 15}] }>Add Stop</Text>
+                  <Text style={ [styles.text, {fontSize: 15, marginTop:5, marginLeft:4}] }>Add Stop</Text>
               </TouchableHighlight>
             </View>
-            <View style={{flex: 0.25}}>
+            <View style={{flex: 0.15, justifyContent:'center'}}>
               <TouchableHighlight
                 onPress={ this.addPlace.bind(this) }
-                style={ [styles.touchable, {marginTop: 1}] }
+                style={{justifyContent:'center'}}
                 underlayColor='#727272'>
                   <Image source={ require('../assets/addplaceicon.png') }
-                         style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 15}] } />
+                         style={{width: 23, height: 23, marginLeft: 0, marginTop:5, justifyContent:'center'}} />
               </TouchableHighlight>
             </View>
           </View>
