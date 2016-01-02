@@ -99,24 +99,29 @@ class SelectImage extends Component {
         console.log('tour added to db: ', response);
       })
 
-    // this.props.navigator.replace({
-    //   title: "Your Tour",
-    //   component: ViewCreatedTour,
-    //   passProps: props
-    //});
-    this.viewRecordAudio();
+    this.routeToNextComponent();
+  }
+
+  routeToNextComponent() {
+    if(this.props.createTourView) {
+      this.viewTour();
+    } else {
+      this.viewRecordAudio();
+    }
   }
 
   viewRecordAudio() {
     var RecordAudio = require('./RecordAudio');
 
-    this.props.navigator.replace({
+    var props = {
+      tourId: this.state.tourId,
+      placeId: this.state.placeId
+    }
+
+    this.props.navigator.push({
       title: "Record Audio",
       component: RecordAudio,
-      passProps: {
-        tourId: this.state.tourId,
-        placeId: this.state.placeId
-      }
+      passProps: props
     })
   }
 
@@ -128,7 +133,7 @@ class SelectImage extends Component {
     var ViewCreatedTour = require('./ViewCreatedTour');
     var tourId = this.state.tourId;
 
-    this.props.navigator.replace({
+    this.props.navigator.push({
       title: "Your Tour",
       component: ViewCreatedTour,
       passProps: {tourId}
@@ -151,7 +156,7 @@ class SelectImage extends Component {
             </View>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={ this.viewTour.bind(this) }
+            onPress={ this.routeToNextComponent.bind(this) }
             underlayColor="#727272">
             <View style={ [styles.mainButton, {width: 200, alignItems: 'center', marginBottom: 20}] }>
               <Text style={ styles.whiteFont }>Skip</Text>

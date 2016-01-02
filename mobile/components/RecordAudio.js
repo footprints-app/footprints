@@ -4,6 +4,7 @@ var React = require('react-native');
 var RNFS = require('react-native-fs');
 var FileUpload = require('NativeModules').FileUpload;
 var utils = require('../lib/utility');
+var styles = require('../lib/stylesheet');
 
 var {
   NativeModules,
@@ -29,7 +30,10 @@ class RecordAudio extends Component {
     this.state = {
       placeId: this.props.placeId,
       tourId: this.props.tourId,
-      routeBackToEditTour: this.props.routeBackToEditTour || false,
+      routeBackToEditTour: this.props.routeBackToEditTour || true,
+      isRecording: false,
+      isUploading: false,
+      loadingGif: require('../assets/loading.gif'),
       cassette: require('../assets/cassette.png')
     }
   }
@@ -43,33 +47,37 @@ class RecordAudio extends Component {
   }
   
   record() {
-    this.setState({cassette: require('../assets/cassette.gif')});
-    RNRecordAudio.startRecord(
-      "story.m4a", // filename
+    if(!this.state.isRecording) {
+      this.setState({cassette: require('../assets/cassette.gif'),
+                     isRecording: true
+                   });
+      RNRecordAudio.startRecord(
+        "story.m4a", // filename
 
-      function errorCallback(results) {
-        console.log('JS Error: ' + results['errMsg']);
-      },
+        function errorCallback(results) {
+          console.log('JS Error: ' + results['errMsg']);
+        },
 
-      function successCallback(results) {
-        console.log('JS Success: ' + results['successMsg']);
-      }
-    );
-  }
+        function successCallback(results) {
+          console.log('JS Success: ' + results['successMsg']);
+        }
+      );
+    } else {
+      this.setState({cassette: require('../assets/cassette.png'),
+                     isRecording: false
+                   });
+      RNRecordAudio.stopRecord(
+        "story.m4a", // filename
 
-  stopRec() {
-    this.setState({cassette: require('../assets/cassette.png')});
-    RNRecordAudio.stopRecord(
-      "story.m4a", // filename
+        function errorCallback(results) {
+          console.log('JS Error: ' + results['errMsg']);
+        },
 
-      function errorCallback(results) {
-        console.log('JS Error: ' + results['errMsg']);
-      },
-
-      function successCallback(results) {
-        console.log('JS Success: ' + results['successMsg']);
-      }
-    );
+        function successCallback(results) {
+          console.log('JS Success: ' + results['successMsg']);
+        }
+      );
+    }
   }
 
   play() {
@@ -121,6 +129,7 @@ class RecordAudio extends Component {
   }
 
   done() {
+    this.setState({isUploading: true});
     var storyPath = RNFS.DocumentDirectoryPath + "/story.m4a";
     //var request_url = 'http://10.6.32.174:8000';
     //var request_url = 'http://thesisserver-env.elasticbeanstalk.com';
@@ -157,8 +166,10 @@ class RecordAudio extends Component {
             file: encodedFile
           }
         }
+        console.log('reqParam from RecordAudio: ', options.reqParam);
         utils.makeRequest(reqType, component, options)
           .then((response) => {
+            this.setState({isUploading: false});
             console.log('Audio added to place: ', response);
             component.props.navigator.replace({
               title: "Your Tour",
@@ -170,61 +181,81 @@ class RecordAudio extends Component {
 
   }
 
+  skip() {
+    var ViewCreatedTour = require('./ViewCreatedTour');
+    var props = {
+      tourId: this.state.tourId,
+      editMode: this.state.routeBackToEditTour
+    }
+
+    this.props.navigator.replace({
+      title: "Your Tour",
+      component: ViewCreatedTour,
+      passProps: props
+    })
+  }
+
   render() {
     return (
-      <View>
-        <View style={ styles.cassette }>
-          <Image style={{width: 400, height: 200}} source={this.state.cassette} />
+      <View style={ styles.mainContainer }>
+        <View style={ audioStyles.cassette }>
+          <Image style={{width: 300, height: 150}} source={this.state.cassette} />
         </View>
 
-        <View style={ styles.controlsContainer }>
+        <View style={ audioStyles.loadingGif }>
+          <Image style={{width: 30, height: 30}} source={ this.state.isUploading === true ? this.state.loadingGif : null} />
+        </View>
+
+        <View>
+          
           <TouchableHighlight
             onPress={ this.record.bind(this) }
-            style={ styles.touchable } underlayColor="white">
-            <View style={ styles.recordBtn }>
-              <Text style={ styles.whiteFont }>Record</Text>
-            </View>
-          </TouchableHighlight>
-
-          <TouchableHighlight 
-            onPress={ this.stopRec.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.stopRecBtn }>
-              <Text style={ styles.whiteFont }>Stop Recording</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">
+            <Image source={ this.state.isRecording === false ? require('../assets/recordbtn.png') : require('../assets/stopbtn.png') }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}] } />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.play.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.playBtn }>
-              <Text style={ styles.whiteFont }>Play</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">
+            <Image source={ require('../assets/playbtn.png') }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.pause.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.pauseBtn }>
-              <Text style={ styles.whiteFont }>Pause</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">
+            <Image source={ require('../assets/pausebtn.png') }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.stop.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.stopBtn }>
-              <Text style={ styles.whiteFont }>Stop</Text>
-            </View>
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor="727272">
+            <Image source={ require('../assets/stopbtn.png') }
+                     style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 1}]} />
           </TouchableHighlight>
 
           <TouchableHighlight 
             onPress={ this.done.bind(this) } 
-            style={ styles.touchable } underlayColor="white">  
-            <View style={ styles.doneBtn }>
+            style={ styles.touchable } underlayColor="727272">
+            <View style={ [styles.mainButton, {width: 150, alignItems: 'center', marginBottom: 20}] }>
               <Text style={ styles.whiteFont }>Done</Text>
             </View>
           </TouchableHighlight>
+
+          <TouchableHighlight 
+            onPress={ this.skip.bind(this) } 
+            style={ styles.touchable } underlayColor="727272">
+            <View style={ [styles.mainButton, {width: 150, alignItems: 'center', marginBottom: 20}] }>
+              <Text style={ styles.whiteFont }>Skip</Text>
+            </View>
+          </TouchableHighlight>
+
         </View>
       </View>
     );
@@ -232,8 +263,14 @@ class RecordAudio extends Component {
 
 };
 
-var styles = StyleSheet.create({
+var audioStyles = StyleSheet.create({
   cassette: {
+    justifyContent: 'center',
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 20
+  },
+  loadingGif: {
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
