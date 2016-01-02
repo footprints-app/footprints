@@ -177,7 +177,7 @@ var styles = StyleSheet.create({
   },
   //Tour Detail
   tourContainer: {
-    marginTop: 20,
+    // marginTop: 20,
     flex: 1,
     backgroundColor: '#727272'
   },
