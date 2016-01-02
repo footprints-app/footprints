@@ -241,8 +241,8 @@ class ViewCreatedTour extends Component {
 
     return (
       <View style={ styles.addPlaceContainer }>
-      <ScrollView>
-        <View style={{ marginTop: 60 }}>
+      <ScrollView style={{marginTop:60}}>
+        <View>
           <Form
             ref="form"
             type={ EditTour }
