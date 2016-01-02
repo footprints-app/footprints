@@ -38,6 +38,7 @@ var TourDetail = React.createClass({
     return {
       isLoading: true,
       tourId: this.props.tour.id,
+      tour: this.props.tour,
       places: [],
       cityName: '',
       dataSource: new ListView.DataSource({
@@ -49,23 +50,7 @@ var TourDetail = React.createClass({
         longitude: -122.4240539
       },
       zoom: 13,
-      annotations: [{
-        coordinates: [37.7614399, -122.4240539],
-        'type': 'point',
-        title: 'Tartine Bakery',
-        subtitle: 'Yum!',
-        rightCalloutAccessory: {
-          url: 'https://cldup.com/9Lp0EaBw5s.png',
-          height: 25,
-          width: 25
-        },
-        annotationImage: {
-          url: 'https://cldup.com/CnRLZem9k9.png',
-          height: 25,
-          width: 25
-        },
-        id: 'marker1'}, 
-      ]
+      annotations: []
     };
   },
 
@@ -122,9 +107,9 @@ var TourDetail = React.createClass({
         coordinates: [lat, lng],
         'type': 'point',
         title: place.placeName,
-        subtitle: 'Stop # ' + place.placeOrder,
+        subtitle: 'Stop #' + place.placeOrder,
         rightCalloutAccessory: {
-          url: 'https://cldup.com/9Lp0EaBw5s.png',
+          url: 'http://res.cloudinary.com/terrifying-veg/image/upload/v1451697830/mapIcons/number_1.png',
           height: 25,
           width: 25
         },
@@ -160,24 +145,25 @@ var TourDetail = React.createClass({
   },
 
 
-  // renderPlace(place) {
-  //   var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
-  //   return (
-  //     <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
-  //       <View>
-  //         {/*<View style={styles.tourSeparator} />*/}
-  //         <View style={ styles.placeContainer }>
-  //           <Image source={{ uri: imageURI }} style={ styles.thumbnail }  />
-  //           <View style={ styles.rightContainer }>
-  //             <Text style={ styles.placeName }>{ place.placeName }</Text>
-  //           </View>
-  //           <Image source={ require('../assets/arrow.png') } style={ styles.arrow }></Image>
-  //         </View>
-  //         <View style={ styles.tourSeparator } />
-  //       </View>
-  //     </TouchableHighlight>
-  //   );
-  // }
+  renderPlace(place) {
+    var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
+    return (
+      <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
+        <View>
+          {/*<View style={styles.tourSeparator} />*/}
+          <View style={ styles.placeContainer }>
+            <Image source={{ uri: imageURI }} style={ styles.thumbnail }  />
+            <View style={ styles.rightContainer }>
+              <Text style={ styles.placeName }>{ place.placeOrder + ' | ' + place.placeName }</Text>
+              <Text style={ styles.address }>{ place.address.split(',')[0] }</Text>
+            </View>
+            <Image source={ require('../assets/arrow.png') } style={ styles.arrow }></Image>
+          </View>
+          <View style={ styles.tourSeparator } />
+        </View>
+      </TouchableHighlight>
+    );
+  },
   
   render: function () {
     return (
@@ -196,6 +182,7 @@ var TourDetail = React.createClass({
             userTrackingMode={this.userTrackingMode.follow}
             centerCoordinate={this.state.center}
             zoomLevel={this.state.zoom}
+            logoIsHidden={true}
             onRegionChange={this.onRegionChange}
             onRegionWillChange={this.onRegionWillChange}
             annotations={this.state.annotations}
@@ -205,19 +192,19 @@ var TourDetail = React.createClass({
             onLongPress={this.onLongPress} />
         </View>
         <ScrollView automaticallyAdjustContentInsets={false}>
-          <Text style={ [styles.tourTitle] }>{ tourName }</Text>
+          <Text style={ [styles.tourTitle] }>{ this.state.tourName }</Text>
           <Text style={ [styles.description, {marginRight: 10}] }>
-            <Text style={ styles.bold }>Description:</Text> { description + '\n' }
-            <Text style={ styles.bold }>City:</Text> { cityName + '\n' }
+            <Text style={ styles.bold }>Description:</Text> { this.state.tour.description + '\n' }
+            <Text style={ styles.bold }>City:</Text> { this.state.tour.cityName + '\n' }
             {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
-            <Text style={ styles.bold }>Est Time:</Text> { duration + ' hours'}
+            <Text style={ styles.bold }>Est Time:</Text> { this.state.tour.duration + ' hours (' + this.state.places.length + ' stops)'}
           </Text>
           <Text style={ styles.tourTitle }>Places</Text>
           <View style={ styles.tourSeparator } />
           <View style={ styles.panel }>
             <ListView
               dataSource={ this.state.dataSource }
-              renderRow={ this.renderPlace.bind(this) }
+              renderRow={ this.renderPlace }
               style={ styles.listView }
               automaticallyAdjustContentInsets={false} />
           </View>
@@ -239,30 +226,5 @@ var mapStyles = StyleSheet.create({
     padding: 3
   }
 });
-      // <View style={styles.tourContainer}>
- 
-      // </View>
-      //   <ScrollView automaticallyAdjustContentInsets={false}>
-
-      //     <Text style={ [styles.tourTitle] }>{ tourName }</Text>
-      //     <Text style={ [styles.description, {marginRight: 10}] }>
-      //       <Text style={ styles.bold }>Description:</Text> { description + '\n' }
-      //       <Text style={ styles.bold }>City:</Text> { cityName + '\n' }
-      //       {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
-      //       <Text style={ styles.bold }>Est Time:</Text> { duration + ' hours'}
-      //     </Text>
-      //     <Text style={ styles.tourTitle }>Places</Text>
-      //     <View style={ styles.tourSeparator } />
-          
-      //     <View style={ styles.panel }>
-      //       <ListView
-      //         dataSource={ this.state.dataSource }
-      //         renderRow={ this.renderPlace.bind(this) }
-      //         style={ styles.listView }
-      //         automaticallyAdjustContentInsets={false} />
-      //     </View>
-
-      //   </ScrollView>
-      // </View>
 
 module.exports = TourDetail;

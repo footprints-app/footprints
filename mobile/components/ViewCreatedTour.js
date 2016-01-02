@@ -39,7 +39,7 @@ class ViewCreatedTour extends Component {
     super(props);
     this.state = {
       tourId: this.props.tourId || this.props.route.passProps.tourId || this.props.route.passProps.tour.id,
-      tour: {},
+      tour: {places: []},
       isLoading: true,
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
@@ -174,7 +174,7 @@ class ViewCreatedTour extends Component {
               <Image source={{uri: imageURI }} style={ styles.thumbnail }/>
             </View>
             <View style={ styles.rightContainer }>
-              <Text style={ styles.placeName }>{ place.placeName }</Text>
+              <Text style={ styles.placeName }>{ place.placeOrder + ' | ' + place.placeName }</Text>
               <Text style={ styles.address }>{ place.address.split(',')[0] }</Text>
             </View>
             <Image source={ require('../assets/arrow.png') } style={ styles.arrow }></Image>
@@ -243,8 +243,8 @@ class ViewCreatedTour extends Component {
             value={ this.state.value }
             onChange={ this.onChange.bind(this) }/>
         </View>
-        <Text style={{ fontSize: 15, color: '#F0F0F0', fontWeight: '500', marginBottom: 2 }}>
-          Search for Address
+        <Text style={{ fontSize: 15, color: '#999999', fontWeight: '500', marginBottom: 2 }}>
+          City
         </Text>
         <GooglePlacesAutocomplete
           placeholder={this.state.tour.cityName}
@@ -259,23 +259,37 @@ class ViewCreatedTour extends Component {
           getDefaultValue={() => { return ''; }}// text input default value 
           query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }} // language of the results  
           GooglePlacesSearchQuery={{ rankby: 'distance' }}/>
-
+        <ScrollView>
         <TouchableHighlight 
           onPress={ this.addPhoto.bind(this) } 
           underlayColor='#727272' 
           style={{ marginTop: -2 }}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
             <View style={{ marginTop: 17 }}>
-              <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
+              <Text style={ [styles.text, {fontSize: 15}] }>Edit Photo</Text>
             </View>
             <View>
               <Image source={ require('../assets/photoicon.png') }
-                     style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
+                     style={ [styles.photoIcon, {marginLeft: 15}, {width: 25}, {height: 25}] }/>
             </View>
           </View>
         </TouchableHighlight>
+        <TouchableHighlight
+            onPress={ this.addPlace.bind(this) }
+            style={ [styles.touchable, {marginTop: 1}] }
+            underlayColor='#727272'>
+            <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
+              <View style={{ marginTop: 17 }}>
+                <Text style={ [styles.text, {fontSize: 15}] }>Add Stop</Text>
+              </View>
+              <View>
+                <Image source={ require('../assets/addplaceicon.png') }
+                       style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 15}] } />
+              </View>
+            </View>
+        </TouchableHighlight>
 
-        <ScrollView>
+        
           <View style={ [styles.panel, {marginTop: 15}] }>
             <View style={ styles.tourSeparator }/>
             <ListView
@@ -335,7 +349,7 @@ class ViewCreatedTour extends Component {
               <Text style={ [styles.description, {marginRight: 10}] }>
                 <Text style={ styles.bold }>Description: </Text>{ this.state.tour.description + '\n' }
                 <Text style={ styles.bold }>City: </Text>{ this.state.tour.cityName + '\n' }
-                <Text style={ styles.bold }>Est Time: </Text>{ this.state.tour.duration + ' hours' + '\n' }
+                <Text style={ styles.bold }>Est Time: </Text>{ this.state.tour.duration + ' hours (' + this.state.tour.places.length + ' stops)' }
               </Text>
             </View>
           </View>
@@ -344,13 +358,6 @@ class ViewCreatedTour extends Component {
             <View style={{ marginTop: 5 }}>
               <Text style={ styles.text }>Places</Text>
             </View>
-            <TouchableHighlight
-              onPress={ this.addPlace.bind(this) }
-              style={ [styles.touchable, {marginTop: 1}] }
-              underlayColor='#727272'>
-              <Image source={ require('../assets/addplaceicon.png') }
-                     style={ [styles.editIcon, {width: 25}, {height: 25}, {marginLeft: 30}] } />
-            </TouchableHighlight>
           </View>
 
           <View style={ styles.tourSeparator }/>

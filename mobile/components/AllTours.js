@@ -52,7 +52,6 @@ class AllTours extends Component {
 
     utils.makeRequest('allTours', component, options)
     .then((response) => {
-      console.log('response body from allTours: ', response);
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(response),
         isLoading: false
