@@ -18,6 +18,7 @@ module.exports = {
    */
   checkNameAvailability: function(params, callback) {
     var queryStr = "select userName from users where userName = ?";
+
     db.query(queryStr, params, function(err, results) {
       if(results.length) {
         callback("Username already exists");
@@ -56,8 +57,7 @@ module.exports = {
           if(err) {
             callback(err);
           } else {  
-            console.log("signup successful: ", results)
-            callback(err, results[0]);        
+            callback(err, results[0]);
           }
         });
       });
@@ -72,6 +72,7 @@ module.exports = {
    */
   getUserInfo: function(params, callback) {
     var queryStr = "select * from users where userName = ?";
+
     db.query(queryStr, params, function(err, results) {
       if(err) {
         callback(err);
@@ -82,8 +83,8 @@ module.exports = {
   },
 
   comparePassword: function (params, callback) { 
-    console.log('params: ', params);
     var passwordQuery = "select * from users where userName = ?";
+
     db.query(passwordQuery, params[0], function(err, results) {
       if (results.length === 0) {
         callback('User does not exist!');
@@ -112,6 +113,7 @@ module.exports = {
 
   checkUserPassword: function(params, callback) {
     var queryStr = "select * from users where userName = ?";
+
     db.query(queryStr, params[0], function(err, results) {
       if(results.length === 0) {
         callback("Username does not exist");
@@ -119,7 +121,7 @@ module.exports = {
         if(results[0].password !== params[1]) {
           callback("Username and password do not match");
         } else {
-          results[0].password = "";//Do not send the password back to the client
+          results[0].password = ""; //Do not send the password back to the client
           callback(err, results[0]);          
         }
       }

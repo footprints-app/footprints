@@ -20,6 +20,7 @@ module.exports = {
    */
   signup: function (req, res, next) {
     var params = [req.body.userName, req.body.firstName, req.body.lastName, req.body.password];
+
     users.checkNameAvailability(params[0], function(err, results) {
       if(err) {
         console.error(err);
@@ -35,16 +36,16 @@ module.exports = {
               } else {
                   if (user) {
                     var token = jwt.encode(user.id, 'secret');
-                    console.log('token......', token);
                     res.status(200).json({token: token, userId: user.id});
                   } 
-              }
+                }
             });
           }
         });
       }
     });
   },
+
   /**
    * Calls comparePassword function from userModel.
    * Checks if user name exists.  If not, then will send error message.
@@ -58,21 +59,20 @@ module.exports = {
     var params = [req.body.userName, req.body.password];
     
     users.comparePassword(params, function(err, user) {
-      console.log('result after login......', user)
       if(err) {
         console.error(err);
         res.status(400).json({error: err});
         next(err);
       } else {
         var token = jwt.encode(user.id, 'secret');
-        console.log('token from login', token);
         res.status(200).json({token: token, userId: user.id});
       }
     });
   },
+
   /**
    * Checks from token in request header and uses jwt to decode the token to get the userId
-   * Uses userId decoded from toekn to check that user exists in the database. If the user exists, invoke next function. 
+   * Uses userId decoded from token to check that user exists in the database. If the user exists, invoke next function.
    * If there is no match, send a 401 status
    *
    * @param {object} req - Request from the client
@@ -81,16 +81,15 @@ module.exports = {
    */
   checkAuth: function (req, res, next) {
     var token = req.headers['x-access-token'];
-    console.log('token in checkAuth: ', token);
+
     if (!token) {
       res.sendStatus(401);
     } else {
         var user = jwt.decode(token, 'secret');
         var queryStr = "select * from users where id = ?";
-        console.log('found token in checkAuth, userId = ', user);
+
         db.query(queryStr, user, function(err, userInfo) {
           if(userInfo.length !== 0) {
-            console.log('found user in DB');
             next();
           } else {
             console.log('user is not in DB');

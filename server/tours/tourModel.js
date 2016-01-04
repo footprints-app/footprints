@@ -25,6 +25,7 @@ module.exports = {
 			}
 		});
 	},
+
 	/** Queries the database based on the parameter that was passed.
 	 * If a tour id was passed, it will return that specific tour
 	 * If a user id was passed, it will return all tours by that user
@@ -50,6 +51,7 @@ module.exports = {
 			}
 		});
 	},
+
   /**
    * Inserts or selects a city from the city table.
 	 * Queries the cities table for a city.
@@ -81,6 +83,7 @@ module.exports = {
 			}
 		})
 	},
+
   /**
    * Inserts a new tour into the table.
    * If successful, gives a callback the tourId.
@@ -91,6 +94,7 @@ module.exports = {
 	insertTour: function(params, callback) {
 		var insertStr = "INSERT into tours(tourName, userId, description, category, duration, cityId) \
 			              value (?, ?, ?, ?, ?, ?)";
+
 		db.query(insertStr, params, function (err, results) {
 			if (err) {
 				callback(err);
@@ -109,6 +113,7 @@ module.exports = {
    */
 	updateTour: function(params, callback) {
 		var updateTourQuery = "UPDATE tours SET tourName = ?, userId = ?, description = ?, category = ?, duration = ?, cityId = ? WHERE id = ?";
+
 		db.query(updateTourQuery, params, function (err, results) {
 			if(err) {
 				callback(err);
@@ -118,6 +123,7 @@ module.exports = {
 		})
 
 	},
+
   /**
    * Updates a specific tour with a new image url.
    * If successful, gives a callback the queryResult.
@@ -127,7 +133,8 @@ module.exports = {
    */
   addImageToTour: function(params, callback) {
     var updateTourQuery = "UPDATE tours SET image = ? WHERE id = ?";
-    db.query(updateTourQuery, params, function (err, results) {
+
+		db.query(updateTourQuery, params, function (err, results) {
       if(err) {
         callback(err);
         console.log('error: ', err);
@@ -139,8 +146,8 @@ module.exports = {
   },
 
 	addImageToPlace: function(params, callback) {
-		console.log('IMAGE TO PLACE called');
 		var query = "UPDATE places SET image = ? WHERE id = ?";
+
 		db.query(query, params, function(err, results) {
 			if(err) {
 				callback(err);
@@ -152,9 +159,9 @@ module.exports = {
 	},
 
   addAudioToPlace: function(params, callback) {
-    console.log('Add Audio to Place called');
     var query = "UPDATE places SET audio = ? WHERE id = ?";
-    db.query(query, params, function(err, results) {
+
+		db.query(query, params, function(err, results) {
       if(err) {
         callback(err);
         console.log('error: ', err);
@@ -163,6 +170,7 @@ module.exports = {
       }
     })    
   },
+
 	 /**
    * Deletes tour with given id from the table.
    * If successful, gives a callback with the query result.
@@ -172,6 +180,7 @@ module.exports = {
    */
 	deleteTour: function(tourId, callback) {
 		var deleteQuery = "DELETE FROM tours WHERE id = ?";
+
 		db.query(deleteQuery, tourId, function (err, results) {
 			if (err) {
 				callback(err);
@@ -180,6 +189,7 @@ module.exports = {
 			}
 		});
 	},
+
   /**
    * Updates the placeOrders of all places in a tour that have the inputed placeOrder or greater after.
    * If successful, gives a callback the placeId.
@@ -189,7 +199,8 @@ module.exports = {
    */
   updatePlaceOrders: function(params, callback) {
     var updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ? AND id <> ?";
-    db.query(updateTourQuery, params, function(err, result) {
+
+		db.query(updateTourQuery, params, function(err, result) {
       if(err) {
         console.log('error updating place order: ', err);
         callback(err);
@@ -198,6 +209,7 @@ module.exports = {
       }
     });
   },
+
   /**
    * Updates the placeOrders of all places in a tour that have the inputed placeOrder or greater incrementing all placeOrders.
    * If successful, gives a callback the placeId.
@@ -207,12 +219,14 @@ module.exports = {
    */
   updatePlaceOrdersAfterEdit: function(params, callback) {
     var updateTourQuery = '';
-    if(params[params.length-1] > params[1]) {
+
+		if(params[params.length-1] > params[1]) {
       updateTourQuery = "UPDATE places SET placeOrder = placeOrder + 1 WHERE tourId = ? AND placeOrder >= ? AND id <> ? AND placeOrder < ?";
     } else {
       updateTourQuery = "UPDATE places SET placeOrder = placeOrder - 1 WHERE tourId = ? AND placeOrder <= ? AND id <> ? AND placeOrder > ?";
     }
-    db.query(updateTourQuery, params, function(err, result) {
+
+		db.query(updateTourQuery, params, function(err, result) {
       if(err) {
         console.log('error updating place order: ', err);
         callback(err);
@@ -238,6 +252,7 @@ module.exports = {
 			}
 		});
 	},
+
   /**
    * Inserts a new place into the table.
    * If successful, queries the place table for the recently created place and invokes 
@@ -250,7 +265,8 @@ module.exports = {
 		var insertQuery = "INSERT into places(placeName, address, description, placeOrder, tourId) \
 	                  value (?, ?, ?, ?, ?)";
 	  var selectQuery = "SELECT tourId from places where id = ?";
-	  db.query(insertQuery, params, function (err, results) {
+
+		db.query(insertQuery, params, function (err, results) {
 			if (err) {
 				callback(err);
 			} else {
@@ -270,6 +286,7 @@ module.exports = {
       }
 	  });
 	},
+
   /**
    * Updates a specific place in the places table.
    * If successful, gives a callback the placeId.
@@ -279,7 +296,8 @@ module.exports = {
    */
   updatePlace: function(params, callback) {
     var updatePlaceQuery = "UPDATE places SET placeName = ?, address = ?, description = ?, placeOrder = ?, tourId = ? WHERE id = ?";
-    db.query(updatePlaceQuery, params, function (err, results) {
+
+		db.query(updatePlaceQuery, params, function (err, results) {
       if(err) {
         callback(err);
       } else {
@@ -287,6 +305,7 @@ module.exports = {
       }
     });
   },
+
   /**
    * Deletes place with given id from the table.
    * If successful, gives a callback with the query result.
@@ -296,7 +315,8 @@ module.exports = {
    */
   deletePlace: function(placeId, callback) {
     var deleteQuery = "DELETE FROM places WHERE id = ?";
-    db.query(deleteQuery, placeId, function (err, results) {
+
+		db.query(deleteQuery, placeId, function (err, results) {
       if (err) {
         callback(err);
       } else {

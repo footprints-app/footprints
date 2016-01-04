@@ -2,6 +2,8 @@
  * A module that contains all functions to handle tour requests
  * @module tours/tourController
  * @requires tourModel
+ * @requires imageController
+ * @requires audioController
  */
 var tours = require('./tourModel');
 var Promise = require('bluebird');
@@ -186,7 +188,6 @@ module.exports = {
 	updatePlaceOrders: function(req, res) {
 		var params = [req.params.id, req.body.placeOrder, req.body.placeId];
 		if(req.body.origPlaceOrder) {
-			console.log('origPlaceOrder: ', req.body.origPlaceOrder);
 			params.push(req.body.origPlaceOrder);
 
 			tours.updatePlaceOrdersAfterEdit(params, function(err, results) {
@@ -252,10 +253,8 @@ module.exports = {
 	 * @param res {object} Response status
 	 */
 	addTourPhoto: function(req, res) {
-		console.log('addTourPhoto called');
 		var tourId = JSON.parse(req.params.id);
 		var base64Image = req.body.encodedData;
-		// var base64Image = new Buffer(req.body.encodedData, 'utf8').toString('base64');
 
 		images.upload(base64Image, function(imageUrl) {
 			if(!imageUrl) {
@@ -276,7 +275,7 @@ module.exports = {
 	addPlacePhoto: function(req, res) {
 		var placeId = JSON.parse(req.params.id);
 		var base64Image = req.body.encodedData;
-		console.log('INSIDE ADD PLACE PHOTO!')
+
 		images.upload(base64Image, function(imageUrl) {
 			if(!imageUrl) {
 				console.log('error uploading image');
@@ -295,12 +294,14 @@ module.exports = {
 
   addAudio: function(req, res) {
 		var placeId = JSON.parse(req.params.id);
+
 		audio.putToS3(req, res, function(result) {
 			if(result.error) {
 				res.status(404).json({error: result.error});
 			} else {
 				var audioUrl = result.path;
 				var params = [audioUrl, placeId]
+
 				tours.addAudioToPlace(params, function (err, results) {
 					if(err) {
 						res.status(404).json({error: err});
