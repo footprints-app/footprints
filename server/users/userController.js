@@ -4,7 +4,6 @@
  * @module users/userController
  */
 var users = require('./userModel.js');
-var Q = require('q');
 var jwt = require('jwt-simple');
 var db = require('../db');
 
@@ -12,11 +11,11 @@ module.exports = {
   /**
    * Calls three functions from userModel.
    * Checks if user name is available.  If not, then will send error message.
-   * If user name is avaiable, will call userModel signup function to post to database.
+   * If user name is available, will call userModel signup function to post to database.
    * If post is successful, will retrieve user info.
    *
-   * @param {object} req - Request from the client
-   * @param {object} res - Response to be sent to the client
+   * @param {object} req - Request with username, first name, last name, and password from the client
+   * @param {object} res - Response with token and user id to be sent to the client
    */
   signup: function (req, res, next) {
     var params = [req.body.userName, req.body.firstName, req.body.lastName, req.body.password];
@@ -52,8 +51,8 @@ module.exports = {
    * Checks if password is correct.
    * If there is a match, will retrieve user info.
    *
-   * @param {object} req - Request from the client
-   * @param {object} res - Response to be sent to the client
+   * @param {object} req - Request with username and password from the client
+   * @param {object} res - Response with token and user id to be sent to the client
    */
   login: function (req, res, next) {
     var params = [req.body.userName, req.body.password];
@@ -72,8 +71,8 @@ module.exports = {
 
   /**
    * Checks from token in request header and uses jwt to decode the token to get the userId
-   * Uses userId decoded from token to check that user exists in the database. If the user exists, invoke next function.
-   * If there is no match, send a 401 status
+   * Uses userId decoded from token to check if that user exists in the database. If the user exists, invoke next function.
+   * If there is no match, send a 401 status.
    *
    * @param {object} req - Request from the client
    * @param {object} res - Response to be sent to the client
@@ -92,9 +91,9 @@ module.exports = {
           if(userInfo.length !== 0) {
             next();
           } else {
-            console.log('user is not in DB');
-            res.sendStatus(401);
-          }
+							console.log('user is not in DB');
+							res.sendStatus(401);
+          	}
         });
       }
   }
