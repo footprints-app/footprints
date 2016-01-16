@@ -9,6 +9,7 @@ var styles = require('../lib/stylesheet');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+var placesAutoCompleteStyles = require('../lib/googlePlacesStyles');
 var formStyles = require('../lib/formStyleEditMode');
 
 var {
@@ -59,7 +60,7 @@ class EditPlace extends Component {
     var options = {
       reqBody: {},
       reqParam: this.state.tourId
-    }; 
+    };
     utils.makeRequest('tour', component, options)
     .then((response) => {
       console.log('componentWillMount in EditPlace, response: ', response)
@@ -82,9 +83,9 @@ class EditPlace extends Component {
     .then(response => {
       if(that.state.placeOrder !== that.state.origPlaceOrder) {
         var orderOptions = {
-          reqBody: { 
-            placeOrder: that.state.placeOrder, 
-            placeId: that.state.id, 
+          reqBody: {
+            placeOrder: that.state.placeOrder,
+            placeId: that.state.id,
             origPlaceOrder: that.state.origPlaceOrder
           },
           reqParam: that.state.tourId
@@ -112,7 +113,7 @@ class EditPlace extends Component {
                         editMode: true
                        }
         });
-      }          
+      }
     });
    }
 
@@ -156,7 +157,7 @@ class EditPlace extends Component {
       },
       stylesheet: formStyles
     };
- 
+
     return (
       <View style={ styles.addPlaceContainer }>
 
@@ -178,55 +179,55 @@ class EditPlace extends Component {
         <GooglePlacesAutocomplete
           placeholder={this.state.address}
           placeholderTextColor='#808080'
-          minLength={3} // minimum length of text to search 
+          minLength={3} // minimum length of text to search
           autoFocus={false}
           fetchDetails={true}
-          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true 
+          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true
             var lat = details.geometry.location.lat;
             var lng = details.geometry.location.lng;
             this.setState({ address: details.formatted_address + '|' + lat + '|' + lng });
           }}
-          styles={ utils.googlePlacesStyles }
-          getDefaultValue={ () => { return ''; }}// text input default value 
-          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results  
+          styles={ placesAutoCompleteStyles.googlePlacesStyles }
+          getDefaultValue={ () => { return ''; }}// text input default value
+          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en'}} // language of the results
           GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
-        
-        <TouchableHighlight 
-          onPress={ this.editPhoto.bind(this) } 
+
+        <TouchableHighlight
+          onPress={ this.editPhoto.bind(this) }
           underlayColor='#727272'>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
             <View style={{ marginTop: 17 }}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Photo</Text>
             </View>
             <View>
-              <Image source={ require('../assets/photoicon.png') } 
+              <Image source={ require('../assets/photoicon.png') }
                 style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
             </View>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight 
-          onPress={ this.editAudio.bind(this) } 
-          underlayColor='#727272' 
+        <TouchableHighlight
+          onPress={ this.editAudio.bind(this) }
+          underlayColor='#727272'
           style={{ marginTop: 2 }}>
           <View style={ [styles.photoAudioContainer, {marginTop: 5}] }>
             <View style={{ marginTop: 17 }}>
               <Text style={ [styles.text, {fontSize: 16}] }>Edit Audio</Text>
             </View>
             <View>
-              <Image source={ require('../assets/audioicon.png') } 
+              <Image source={ require('../assets/audioicon.png') }
                 style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
             </View>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight 
-          style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] } 
-          onPress={ this.editDone.bind(this) } 
+        <TouchableHighlight
+          style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }
+          onPress={ this.editDone.bind(this) }
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Done</Text>
         </TouchableHighlight>
-      
+
       </View>
     );
    }

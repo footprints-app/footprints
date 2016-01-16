@@ -9,6 +9,8 @@ var Form = t.form.Form;
 var formStyles = require('../lib/form_stylesheet');
 var styles = require('../lib/stylesheet');
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+var placesAutoCompleteStyles = require('../lib/googlePlacesStyles');
+
 
 
 var {
@@ -30,7 +32,7 @@ var Place = t.struct({
 });
 
 class AddPlace extends Component {
-  
+
   /**
    * Creates an instance of AddPlace.
    */
@@ -52,7 +54,7 @@ class AddPlace extends Component {
     var options = {
       reqBody: {},
       reqParam: this.state.tourId
-    }; 
+    };
     utils.makeRequest('tour', component, options)
     .then((response) => {
       this.setState({numPlacesInTour: response.places.length, placeOrder: response.places.length+1})
@@ -151,45 +153,22 @@ class AddPlace extends Component {
       <GooglePlacesAutocomplete
         placeholder='Address or place'
         placeholderTextColor='#808080'
-        minLength={3} // minimum length of text to search 
+        minLength={3} // minimum length of text to search
         autoFocus={false}
         fetchDetails={true}
-        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
+        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
           var lat = details.geometry.location.lat;
           var lng = details.geometry.location.lng;
           this.setState({ address: details.formatted_address + '|' + lat + '|' + lng });
         }}
-        styles={ utils.googlePlacesStylesCreateTour }
+        styles={ placesAutoCompleteStyles.googlePlacesStylesCreateTour }
         getDefaultValue={() => { return ''; }}
-        query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en', }}       
+        query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en', }}
         GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
- 
-          {/*<TouchableHighlight onPress={ this.addPhoto.bind(this) } underlayColor='#727272' style={{marginTop: 25}}>
-            <View style={ styles.photoAudioContainer }>   
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add a Photo</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/photoicon.png')} style={styles.photoIcon}/> 
-              </View>
-            </View>   
-          </TouchableHighlight>
-          
-            
-          <TouchableHighlight onPress={() => alert('add Audio')} underlayColor='#727272' style={{marginTop: 20}}>
-            <View style={ styles.photoAudioContainer }>
-              <View style={{marginTop: 25}}>
-                <Text style={ styles.text }>Add Audio</Text>
-              </View>
-              <View>
-                <Image source={require('../assets/audioicon.png')} style={styles.audioIcon}/>
-              </View>
-            </View>  
-          </TouchableHighlight>*/}
 
-        <TouchableHighlight 
-          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
-          onPress={ this.onPressSave.bind(this) } 
+        <TouchableHighlight
+          style={ [styles.button, {marginBottom: 45}, {padding: 10}] }
+          onPress={ this.onPressSave.bind(this) }
           underlayColor='#FFC107'>
           <Text style={ styles.buttonText }>Next</Text>
         </TouchableHighlight>

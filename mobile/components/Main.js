@@ -1,5 +1,5 @@
 'use strict';
- 
+
 // var Button = require('react-native-button');
 var React = require('react-native');
 var AllTours = require('./AllTours');
@@ -15,12 +15,12 @@ var {
   NavigatorIOS,
   AsyncStorage
  } = React;
- 
+
 class Main extends Component {
 
   /**
    * Creates an instance of Main and sets the state with user details (needed to pass to MyTours component).
-   * 
+   *
    * @constructor
    * @param {object} props is the user object pass from the Login or Signup components.
    * @this {Main}
@@ -29,33 +29,8 @@ class Main extends Component {
     super(props);
     this.state = {
       user: this.props.user,
-      selectedTab: 'allTours',
-      userId: null,
-      token: null
+      selectedTab: 'allTours'
     };
-  }
-
-  componentDidMount () {
-    var that = this;
-    AsyncStorage.multiGet(['token', 'user'])
-    .then(function(data) {
-      console.log('in main userinfo', data);
-      if(data) {
-        console.log('reached')
-        that.setState({
-          token: data[0][1],
-          userId: +data[1][1]
-        });
-      }
-    });
-  }
-  /**
-   * Redirects the user to the MyTours view and passes the user object as the props to the MyTours component.
-   */
-  userTours () {
-   var userId = this.state.userId;
-   console.log('user in Main: ', this.state.userId);
-   utils.navigateTo.call(this, "Your Tours", MyTours, {userId});
   }
 
   selectTab (tab, ref) {
@@ -86,10 +61,10 @@ class Main extends Component {
             titleTextColor="#FFF"
             style={styles.container}
             ref="myToursView"
-            initialRoute={{ 
-              title: 'My Tours', 
-              component: MyTours, 
-              rightButtonTitle: 'Edit', 
+            initialRoute={{
+              title: 'My Tours',
+              component: MyTours,
+              rightButtonTitle: 'Edit',
               onRightButtonPress: () => {
                 this.refs.myToursView.navigator.push({
                   title: "My Tours",

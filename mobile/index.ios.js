@@ -32,16 +32,13 @@ class mobile extends Component {
     };
   }
 
-
   componentDidMount () {
     console.log('componentDidMount called');
     var that = this;
     utils.getToken()
     .then((token) => {
       if(token) {
-        console.log('token in IOS: ', token);
         this.setState({tokenExists: true, initialTitle: 'Welcome', initialComponent: Main});
-        console.log('this.state: ', this.state);
         utils.navigateTo.call(that, "Welcome", Main, {});
       } else {
         this.setState({initialTitle: 'Login', initialComponent: Login});
@@ -49,22 +46,6 @@ class mobile extends Component {
     })
     .done();
   }
-
-  // componentWillMount () {
-  //   console.log('componentWillMount called');
-  //   var that = this;
-  //   utils.getToken()
-  //   .then((token) => {
-  //     if(token) {
-  //       console.log('token in IOS: ', token);
-  //       this.setState({tokenExists: true, initialTitle: 'Welcome', initialComponent: Main});
-  //       console.log('this.state: ', this.state);
-  //     } else {
-  //       this.setState({initialTitle: 'Login', initialComponent: Login});
-  //     }
-  //   })
-  //   .done();
-  // }
 
   renderScene (route, navigator) {
     var Component = route.component;
@@ -94,9 +75,8 @@ class mobile extends Component {
           }} />
         )
   }
-  
+
   render () {
-    console.log('render called');
     return (
          <Navigator
           sceneStyle={styles.container}

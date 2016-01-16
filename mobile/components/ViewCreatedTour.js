@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-// var MyTours = require('./MyTours');
 var utils = require('../lib/utility');
 var PlaceDetail = require('./PlaceDetail.js');
 var EditPlace = require('./EditPlace.js');
@@ -9,6 +8,7 @@ var styles = require('../lib/stylesheet');
 var SelectImage = require('./SelectImage');
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+var placesAutoCompleteStyles = require('../lib/googlePlacesStyles');
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
 var formStyles = require('../lib/formStyleEditMode');
 
@@ -190,8 +190,8 @@ class ViewCreatedTour extends Component {
     return (
       <View>
         <View style={ styles.placeContainer }>
-          <TouchableHighlight 
-            style={ styles.deleteContainer } 
+          <TouchableHighlight
+            style={ styles.deleteContainer }
             onPress={ this.deletePlace.bind(this, place) }
             underlayColor='#727272'>
             <Image source={ require('../assets/deleteicon.png') } style={ {width: 15, height: 15} }/>
@@ -201,7 +201,7 @@ class ViewCreatedTour extends Component {
             style={ [styles.rightContainer, {flex: .6}] }
             onPress={ this.putThenEditPlace.bind(this, place.placeName, EditPlace, {place}) }
             underlayColor='#727272'>
-            <Text style={ styles.placeName }>{ place.placeOrder + '| ' + place.placeName } 
+            <Text style={ styles.placeName }>{ place.placeOrder + '| ' + place.placeName }
             </Text>
           </TouchableHighlight>
           <TouchableHighlight
@@ -256,33 +256,33 @@ class ViewCreatedTour extends Component {
         <GooglePlacesAutocomplete
           placeholder={this.state.tour.cityName}
           placeholderTextColor='#808080'
-          minLength={3} // minimum length of text to search 
+          minLength={3} // minimum length of text to search
           autoFocus={false}
           fetchDetails={true}
-          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true 
+          onPress={ (data, details = null) => { // 'details' is provided when fetchDetails = true
             this.setState({ cityName: details.formatted_address });
           }}
-          styles={ utils.googlePlacesStyles }
-          getDefaultValue={() => { return ''; }}// text input default value 
-          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }} // language of the results  
+          styles={ placesAutoCompleteStyles.googlePlacesStyles }
+          getDefaultValue={() => { return ''; }}// text input default value
+          query={{ key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o', language: 'en' }}
           GooglePlacesSearchQuery={{ rankby: 'distance' }}/>
-       
+
           <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', flex:1, marginTop: 10} }>
             <View style={{flexDirection: 'row', flex: 0.35, justifyContent:'center'}}>
               <TouchableHighlight
-                onPress={ this.addPhoto.bind(this) } 
+                onPress={ this.addPhoto.bind(this) }
                 underlayColor='#727272'
-                style={{justifyContent:'center'}}> 
+                style={{justifyContent:'center'}}>
                   <Text style={ [styles.text, {fontSize: 15, marginTop:5}] }>Edit Photo </Text>
               </TouchableHighlight>
             </View>
             <View style={{flex: 0.15, justifyContent:'center'}}>
               <TouchableHighlight
-                onPress={ this.addPhoto.bind(this) } 
+                onPress={ this.addPhoto.bind(this) }
                 underlayColor='#727272'
-                style={{justifyContent:'center'}}> 
+                style={{justifyContent:'center'}}>
                   <Image source={ require('../assets/photoicon.png') }
-                       style={{marginLeft: 0, width: 23, height: 23, marginTop: 5, justifyContent:'center'} }/> 
+                       style={{marginLeft: 0, width: 23, height: 23, marginTop: 5, justifyContent:'center'} }/>
               </TouchableHighlight>
             </View>
             <View style={{flex: 0.35, flexDirection:'row',justifyContent:'center'}}>
@@ -303,7 +303,6 @@ class ViewCreatedTour extends Component {
               </TouchableHighlight>
             </View>
           </View>
-
           <View style={ [styles.panel, {marginTop: 15}] }>
             <View style={ styles.tourSeparator }/>
             <ListView
@@ -312,25 +311,15 @@ class ViewCreatedTour extends Component {
               style={ styles.listView }/>
           </View>
         </ScrollView>
-
         <View>
-          {/*<TouchableHighlight
-                      style={ [styles.button, {marginTop: 10}, {height: 30}, {width: 100}, {borderRadius: 9}] }
-                      onPress={ this.editDone.bind(this) }
-                      underlayColor='#FFC107'>
-                      <Text style={ styles.buttonText }>Done</Text>
-                    </TouchableHighlight>*/}
-          <TouchableHighlight 
-            style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] } 
-            onPress={ this.editDone.bind(this) } 
+          <TouchableHighlight
+            style={ [styles.button, {marginBottom: 35}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }
+            onPress={ this.editDone.bind(this) }
             underlayColor='#FFC107'>
             <Text style={ styles.buttonText }>Done</Text>
           </TouchableHighlight>
         </View>
-
-
       </View>
-
     )
   }
 
@@ -375,7 +364,6 @@ class ViewCreatedTour extends Component {
           </View>
 
           <View style={ styles.tourSeparator }/>
-
           <View style={ styles.panel }>
             <ListView
               dataSource={ this.state.dataSource }
