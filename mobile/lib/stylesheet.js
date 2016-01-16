@@ -278,7 +278,7 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     justifyContent: 'center'
   },
-  addPlaceIcon: { 
+  addPlaceIcon: {
     marginLeft: 22,
     width: 50,
     height: 50,
@@ -317,13 +317,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'stretch',
   },
-  photoIcon: { 
+  photoIcon: {
     marginLeft: 70,
     width: 50,
     height: 50,
     marginTop: 10,
   },
-  audioIcon: { 
+  audioIcon: {
     marginLeft: 90,
     width: 50,
     height: 50,

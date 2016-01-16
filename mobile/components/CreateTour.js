@@ -12,6 +12,7 @@ var Form = t.form.Form;
 var formStyles = require('../lib/form_stylesheet');
 var styles = require('../lib/stylesheet');
 var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplete');
+var placesAutoCompleteStyles = require('../lib/googlePlacesStyles');
 
 var {
   StyleSheet,
@@ -77,7 +78,7 @@ class CreateTour extends Component {
     console.log('input value...', value)
     var options = {
       reqBody: this.state
-    }; 
+    };
     var component = this;
     utils.makeRequest('createTour', component, options)
     .then(response => {
@@ -106,10 +107,10 @@ class CreateTour extends Component {
     return (
       <View style={ styles.addPlaceContainer }>
 
-        <View style={ [styles.photoAudioContainer, {marginTop: 50}] }>   
+        <View style={ [styles.photoAudioContainer, {marginTop: 50}] }>
           <Text style={ styles.text }>Tour Details</Text>
         </View>
-        
+
         <View style={{ marginTop: 10 }}>
           <Form
             ref="form"
@@ -123,28 +124,28 @@ class CreateTour extends Component {
           ref='searchField'
           placeholder='City'
           placeholderTextColor='#808080'
-          minLength={3} // minimum length of text to search 
+          minLength={3} // minimum length of text to search
           autoFocus={false}
           fetchDetails={false}
-          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true 
-            var cityStateCountry = data.description.split(','); 
-            this.setState({cityName: cityStateCountry[0].trim(), 
-              state: cityStateCountry[1].trim() || '', 
-              country: cityStateCountry[2] ? cityStateCountry[2].trim() : '' 
-            });             
+          onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+            var cityStateCountry = data.description.split(',');
+            this.setState({cityName: cityStateCountry[0].trim(),
+              state: cityStateCountry[1].trim() || '',
+              country: cityStateCountry[2] ? cityStateCountry[2].trim() : ''
+            });
           }}
           getDefaultValue={() => { return ''; }}
           query={{
             key: 'AIzaSyBpYCMNdcQg05gC87GcQeEw866rHpA9V1o',
-            language: 'en', // language of the results 
+            language: 'en', // language of the results
             types: '(cities)'
           }}
-          styles={ utils.googlePlacesStylesCreateTour }
+          styles={ placesAutoCompleteStyles.googlePlacesStylesCreateTour }
           GooglePlacesSearchQuery={{ rankby: 'distance', }}/>
-        
-        <TouchableHighlight 
-          style={ [styles.button, {marginBottom: 45}, {padding: 10}] } 
-          onPress={ () => { 
+
+        <TouchableHighlight
+          style={ [styles.button, {marginBottom: 45}, {padding: 10}] }
+          onPress={ () => {
             this.createAndAddPhoto();
             this.clearText();
           }}
