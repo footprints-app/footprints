@@ -18,6 +18,7 @@ module.exports = {
    */
   checkNameAvailability: function(params, callback) {
     var queryStr = "select userName from users where userName = ?";
+
     db.query(queryStr, params, function(err, results) {
       if(results.length) {
         callback("Username already exists");
@@ -56,8 +57,7 @@ module.exports = {
           if(err) {
             callback(err);
           } else {  
-            console.log("signup successful: ", results)
-            callback(err, results[0]);        
+            callback(err, results[0]);
           }
         });
       });
@@ -66,12 +66,13 @@ module.exports = {
 
   /**
    * Queries database for user information given a specific userName
-   *
+	 *
    * @param {string} params - a userName
    * @param {function} callback - a callback which will take the arguments err and results from the database query
    */
   getUserInfo: function(params, callback) {
     var queryStr = "select * from users where userName = ?";
+
     db.query(queryStr, params, function(err, results) {
       if(err) {
         callback(err);
@@ -81,9 +82,19 @@ module.exports = {
     })
   },
 
+	/**
+	 * Queries database for a userName.
+	 * If the userName does not exist in the database, the callback will take a defined error.
+	 * If the userName does exist then the password will be checked against the inputted password.
+	 * If the password does not match, the callback will take a defined error.
+	 * If the password does match, the callback will take an undefined error and the results of the query.
+	 *
+	 * @param {string} params - a tuple containing the userName and password
+	 * @param {function} callback - a callback which will take the arguments err and results from the database query
+	 */
   comparePassword: function (params, callback) { 
-    console.log('params: ', params);
     var passwordQuery = "select * from users where userName = ?";
+
     db.query(passwordQuery, params[0], function(err, results) {
       if (results.length === 0) {
         callback('User does not exist!');
@@ -97,33 +108,6 @@ module.exports = {
           }
         }
     });
-  },
-
-  /**
-   * Queries database for a userName.
-   * If the userName does not exist in the database, the callback will take a defined error.
-   * If the userName does exist then the password will be checked against the inputted password.
-   * If the password does not match, the callback will take a defined error.
-   * If the password does match, the callback will take an undefined error and the results of the query.
-   *
-   * @param {string} params - a tuple containing the userName and password
-   * @param {function} callback - a callback which will take the arguments err and results from the database query
-   */
-
-  checkUserPassword: function(params, callback) {
-    var queryStr = "select * from users where userName = ?";
-    db.query(queryStr, params[0], function(err, results) {
-      if(results.length === 0) {
-        callback("Username does not exist");
-      } else {
-        if(results[0].password !== params[1]) {
-          callback("Username and password do not match");
-        } else {
-          results[0].password = "";//Do not send the password back to the client
-          callback(err, results[0]);          
-        }
-      }
-    });
-  },
+  }
 
 };
