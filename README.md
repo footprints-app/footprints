@@ -3,6 +3,9 @@
 Footprints is an iOS app that allows you to tell a story or share an experience by creating tours to share
 with friends, visitors, and tourists.
 
+![alltours](https://cloud.githubusercontent.com/assets/11811076/13540486/ad4a0722-e20b-11e5-88a2-82c17e415dca.gif)
+![mytours](https://cloud.githubusercontent.com/assets/11811076/13540523/ef0a55b8-e20b-11e5-8e1c-1dc4b8ba4caf.gif)
+
 ## Table of Contents
 
 1. [Team](#Team)
