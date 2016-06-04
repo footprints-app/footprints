@@ -75,14 +75,12 @@ class CreateTour extends Component {
 
   createAndAddPhoto () {
     var value = this.refs.form.getValue();
-    console.log('input value...', value)
     var options = {
       reqBody: this.state
     };
     var component = this;
     utils.makeRequest('createTour', component, options)
     .then(response => {
-      console.log('response body in Create Tour: ', response);
       var props = {
         tourId: response.id,
         createTourView: true

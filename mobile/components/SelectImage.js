@@ -1,5 +1,5 @@
 'use strict';
- 
+
 var React = require('react-native');
 var TourDetail = require('./TourDetail');
 var Dimensions = require('Dimensions');
@@ -17,7 +17,7 @@ var {
   AsyncStorage,
   NativeModules
  } = React;
- 
+
 class SelectImage extends Component {
 
   /**
@@ -94,12 +94,12 @@ class SelectImage extends Component {
       reqType = 'addPlacePhoto'
       options.reqParam = this.state.placeId
     }
+    var that = this;
     utils.makeRequest(reqType, component, options)
     .then(response => {
-      console.log('tour added to db: ', response);
+      that.routeToNextComponent();
     })
 
-    this.routeToNextComponent();
   }
 
   routeToNextComponent() {
@@ -204,7 +204,7 @@ class SelectImage extends Component {
         </View>
       );
     }
-  } 
+  }
 };
- 
+
 module.exports = SelectImage;

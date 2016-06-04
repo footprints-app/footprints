@@ -21,7 +21,7 @@ var {
 } = React;
 
 class Login extends Component {
-  
+
   constructor(props){
     super(props);
     this.state = {
@@ -43,7 +43,6 @@ class Login extends Component {
     var component = this;
     utils.makeRequest('login', component, options)
     .then((response) => {
-      console.log('response body from login: ', response);
       if(response.error) {
         if(response.error === 'Username does not exist') {
           this.setState({validUsername: false, username: '', password: ''});
@@ -53,7 +52,6 @@ class Login extends Component {
         // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
         AsyncStorage.setItem('token', response.token)
         .then(() => {
-          console.log('from login client.....', response.token);
           utils.navigateTo.call(component, "Welcome", Main, {});
         });
       }
@@ -79,17 +77,17 @@ class Login extends Component {
     return (
       <View style={ styles.loginContainer }>
         <ScrollView ref="scrollView">
-          
+
           <View style={{ justifyContent: 'center', flex: 1 }}>
-            <Image 
-              style={{ height: DeviceHeight/2.15, width: DeviceWidth }} 
+            <Image
+              style={{ height: DeviceHeight/2.15, width: DeviceWidth }}
               source={require('../assets/logo.png')}/>
           </View>
-          
+
           <View style={ styles.inputs }>
             <View style={ styles.inputContainer }>
               <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-              <TextInput 
+              <TextInput
                 style={ [styles.input, styles.whiteFont] }
                 placeholder="Username"
                 placeholderTextColor="#FFF"
@@ -113,16 +111,16 @@ class Login extends Component {
             </View>
 
             <Text style={ styles.whiteFont }>
-              { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
+              { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' }
             </Text>
             <Text style={ styles.whiteFont }>
               { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
             </Text>
-          </View>    
+          </View>
         </ScrollView>
 
         <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 30}}>
-          <TouchableHighlight 
+          <TouchableHighlight
             onPress={ this.submitLogin.bind(this) }
             style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}
             underlayColor='#FFC107'>
@@ -144,8 +142,3 @@ class Login extends Component {
 };
 
 module.exports = Login;
-
-
-
-
-
