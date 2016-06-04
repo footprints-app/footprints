@@ -1,5 +1,5 @@
 'use strict';
- 
+
 var React = require('react-native');
 var TourDetail = require('./TourDetail');
 var Dimensions = require('Dimensions');
@@ -17,7 +17,7 @@ var {
   ListView,
   TouchableHighlight
  } = React;
- 
+
 class MyTours extends Component {
 
   /**
@@ -26,7 +26,7 @@ class MyTours extends Component {
    * @constructor
    * @this {MyTours}
    */
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +58,6 @@ class MyTours extends Component {
     alert('in toggleEdit')
     var newEditState = !this.state.editMode;
     this.setState({editMode: newEditState});
-    console.log("Edit Mode: ", this.state.editMode);
     this.fetchData();
   }
 
@@ -70,7 +69,6 @@ class MyTours extends Component {
     var component = this;
     utils.makeRequest('myTours', component, {})
     .then((response) => {
-      console.log('response body from MyTours: ', response);
       var tours = response;
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(tours),
@@ -104,7 +102,6 @@ class MyTours extends Component {
   }
 
   deleteTour(tour) {
-    console.log(tour);
     var options = {
       reqBody: tour,
       reqParam: tour.id
@@ -112,10 +109,8 @@ class MyTours extends Component {
     var component = this;
     utils.makeRequest('deleteTour', component, options)
     .then(response => {
-      console.log('Response body from server after deleting a tour: ', response);
       utils.makeRequest('myTours', component, {})
       .then((response) => {
-        console.log('response body from MyTours: ', response);
         var tours = response;
         this.setState({
           dataSource: this.state.dataSource.cloneWithRows(tours),
@@ -127,17 +122,16 @@ class MyTours extends Component {
   }
 
   renderDeletableTour(tour) {
-    console.log('Rendering Deletable Tour');
     return (
       <View>
         <View style={ [styles.tourContainer, {flexDirection: 'row'}] }>
           <View style={ styles.deleteContainer }>
-            <TouchableHighlight 
-              style={{marginTop: 30}} 
+            <TouchableHighlight
+              style={{marginTop: 30}}
               onPress={ this.deleteTour.bind(this, tour) }
                 underlayColor='#727272'>
-              <Image 
-                source={ require('../assets/deleteicon.png') } 
+              <Image
+                source={ require('../assets/deleteicon.png') }
                 style={ [styles.addPlaceIcon, {width: 25}, {height: 25}, {marginTop: 30}] }/>
             </TouchableHighlight>
           </View>
@@ -155,7 +149,7 @@ class MyTours extends Component {
 
   renderTour(tour) {
     return (
-      <TouchableHighlight 
+      <TouchableHighlight
         onPress={ utils.myTourNavigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
         <View>
           <View>
@@ -171,12 +165,12 @@ class MyTours extends Component {
   }
 
   renderEditMode() {
-    return (  
+    return (
       <ListView
         dataSource={ this.state.dataSource }
         renderRow={ this.renderDeletableTour.bind(this) }
         style={ styles.listView }/>
-        
+
     );
   }
 
@@ -203,7 +197,7 @@ class MyTours extends Component {
     } else {
       return this.renderViewMode();
     }
-  }  
+  }
 };
- 
+
 module.exports = MyTours;

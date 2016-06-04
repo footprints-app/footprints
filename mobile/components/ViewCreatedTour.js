@@ -35,7 +35,6 @@ class ViewCreatedTour extends Component {
    * @this {ViewCreatedTours}
    */
   constructor(props) {
-    console.log('props in view ViewCreatedTours', props)
     super(props);
     this.state = {
       tourId: this.props.tourId || this.props.route.passProps.tourId || this.props.route.passProps.tour.id,
@@ -95,7 +94,6 @@ class ViewCreatedTour extends Component {
   }
 
   editDone(callback) {
-    console.log('state in view ViewCreatedTours', this.state)
     var value = this.refs.form.getValue();
     var options = {
       reqBody: this.state,

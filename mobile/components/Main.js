@@ -1,6 +1,5 @@
 'use strict';
 
-// var Button = require('react-native-button');
 var React = require('react-native');
 var AllTours = require('./AllTours');
 var MyTours = require('./MyTours');

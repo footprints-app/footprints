@@ -27,13 +27,11 @@ var TourDetail = React.createClass({
 
   /**
    * Creates an instance of TourDetail and sets the state with the tourId passed from props.
-   * 
+   *
    * @constructor
    * @param {object} props is the tour object that was selected.
    * @this {TourDetail}
    */
-  // constructor(props) {
-    // super(props);
   getInitialState() {
     return {
       isLoading: true,
@@ -67,11 +65,10 @@ var TourDetail = React.createClass({
     var options = {
       reqBody: {},
       reqParam: this.state.tourId
-    }; 
+    };
 
     utils.makeRequest('tour', component, options)
     .then((response) => {
-      console.log('response body from TourDetail: ', response);
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(response.places),
         isLoading: false,
@@ -96,14 +93,12 @@ var TourDetail = React.createClass({
     var latSum = 0;
     var lngSum = 0;
     var component = this;
-    // var polyLineCoords = [];
     places.forEach(function(place) {
       var parsedAddress = place.address.split('|');
       var lat = Number(parsedAddress[1]);
       var lng = Number(parsedAddress[2]);
       latSum += lat;
       lngSum += lng;
-      // polyLineCoords.push([lat, lng]);
       markers.push({
         coordinates: [lat, lng],
         'type': 'point',
@@ -139,7 +134,6 @@ var TourDetail = React.createClass({
   },
   onRightAnnotationTapped(e) {
     // e: {id: "marker54", title: "Zeitgeist", latitude: 37.7700304, subtitle: "Stop #7", longitude: -122.4221087}
-    
     this.setState({isLoading: true});
     var placeIndex = Number(e.id.slice(6)) - 1;
     var place = this.state.places[placeIndex];
@@ -147,11 +141,10 @@ var TourDetail = React.createClass({
     this.setState({isLoading: false});
   },
   onLongPress(location) {
-    console.log('long pressed', location);
+    // console.log('long pressed', location);
   },
 
   renderLoading () {
-    console.log('renderLoading');
     return (
     <View style={{alignItems: 'center', justifyContent: 'center'}}>
       <ActivityIndicatorIOS
@@ -181,7 +174,7 @@ var TourDetail = React.createClass({
       </TouchableHighlight>
     );
   },
-  
+
   render: function () {
     if(this.state.isLoading) {
       return this.renderLoading();
@@ -216,7 +209,6 @@ var TourDetail = React.createClass({
           <Text style={ [styles.description, {marginRight: 10}] }>
             <Text style={ styles.bold }>Description:</Text> { this.state.tour.description + '\n' }
             <Text style={ styles.bold }>City:</Text> { this.state.tour.cityName + '\n' }
-            {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
             <Text style={ styles.bold }>Est Time:</Text> { this.state.tour.duration + ' hours (' + this.state.places.length + ' stops)'}
           </Text>
           <Text style={ [styles.tourTitle, {fontSize: 18}] }>Stops</Text>

@@ -17,14 +17,13 @@ class PlaceDetail extends Component {
 
    /**
    * Creates an instance of PlaceDetail and sets the state with place details passed from props.
-   * 
+   *
    * @constructor
    * @param {object} props is the place object from the tour that rendered this PlaceDetail view.
    * @this {PlaceDetail}
    */
   constructor(props) {
     super(props);
-    console.log('this.props in PlaceDetail: ', this.props);
     this.state = {
       id: this.props.route.passProps.place.id || this.props.place.id,
       placeName: this.props.route.passProps.place.placeName || this.props.place.placeName,
@@ -37,9 +36,7 @@ class PlaceDetail extends Component {
   }
 
   componentDidMount () {
-    //audio.initWithURL('https://s3-us-west-1.amazonaws.com/walking-tour-media/example.caf');
-    audio.initWithURL(this.state.audio);    
-
+    audio.initWithURL(this.state.audio);
   }
 
   onPlayAudio () {
@@ -61,13 +58,12 @@ class PlaceDetail extends Component {
         <Text style={styles.bold}>Address:</Text> {this.state.address.split(',')[0] + ', ' + this.state.address.split(',')[1]}
         </Text>
         <View style={ [{flex:1}, {marginRight: 20}, {marginLeft: 20}] }>
-          <TouchableHighlight 
-              style={ [styles.button, {marginBottom: 20}, {padding: 10}] } 
-              onPress={ this.onPlayAudio.bind(this) } 
+          <TouchableHighlight
+              style={ [styles.button, {marginBottom: 20}, {padding: 10}] }
+              onPress={ this.onPlayAudio.bind(this) }
               underlayColor='#FFC107'>
               <Text style={ styles.buttonText }>{this.state.playing === true ? 'Pause' : 'Listen'}</Text>
             </TouchableHighlight>
-            {/*<Text style={[styles.story, {color: '#FFC107', marginLeft: 10}]}>What is the Story?</Text>*/}
             <Text style={styles.description}>{this.state.description}</Text>
         </View>
       </View>

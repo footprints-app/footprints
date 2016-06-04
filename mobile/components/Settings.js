@@ -24,7 +24,6 @@ class Settings extends Component {
 		var component = this;
 		AsyncStorage.removeItem('token')
 		.then(() => {
-			console.log('removed token!')
 			utils.getToken()
 			// utils.navigateTo.call(component, 'Login', require('./Login'), {})
 			// component.props.navigator.replace.call(component, {title: 'Login', component: Login})
@@ -32,7 +31,7 @@ class Settings extends Component {
 			var Login = require('./Login.js')
 			component.props.navigator.popToTop();
 			// component.props.navigator.replace({
-			// 	title: 'Login', 
+			// 	title: 'Login',
 			// 	component: Login
 			// })
 		alert('you are successfully logged out!');

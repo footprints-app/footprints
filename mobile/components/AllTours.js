@@ -1,5 +1,5 @@
 'use strict';
- 
+
 var React = require('react-native');
 var TourDetail = require('./TourDetail');
 var utils = require('../lib/utility');
@@ -14,9 +14,9 @@ var {
   TouchableHighlight,
   ActivityIndicatorIOS
  } = React;
- 
+
 class AllTours extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -35,11 +35,6 @@ class AllTours extends Component {
     this.fetchData();
   }
 
-  //forceUpdate() {
-  //  console.log('WHOA')
-  //  this.fetchData();
-  //}
-
   /**
    * Makes GET request to server and sets all tours in DB to the state.
    *
@@ -55,7 +50,6 @@ class AllTours extends Component {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(response),
         isLoading: false
-
       });
     })
     .done();
@@ -75,8 +69,8 @@ class AllTours extends Component {
 
   renderTour(tour) {
     return (
-      <TouchableHighlight 
-        onPress={ utils.myTourNavigateTo.bind(this, tour.tourName, TourDetail, {tour}) }  
+      <TouchableHighlight
+        onPress={ utils.myTourNavigateTo.bind(this, tour.tourName, TourDetail, {tour}) }
         underlayColor='#dddddd'>
         <View>
           <View>
@@ -94,9 +88,6 @@ class AllTours extends Component {
   }
 
   render() {
-    // if (this.state.isLoading) {
-    //   return this.renderLoadingView();
-    // }
     //the method below works but it constantly makes requests.
     //this.forceUpdate();
     return (
@@ -105,8 +96,8 @@ class AllTours extends Component {
         renderRow={this.renderTour.bind(this)}
         style={styles.listView}/>
     );
-  }  
+  }
 };
 
- 
+
 module.exports = AllTours;

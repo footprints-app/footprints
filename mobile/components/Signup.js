@@ -59,10 +59,8 @@ class Signup extends Component {
       if( response.error ) {
         this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
       } else {
-        // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
         AsyncStorage.setItem('token', response.token)
         .then(() => {
-          console.log('from signup client.....', response.token);
           utils.navigateTo.call(component, "Main", Main, {});
         });
       }
@@ -71,7 +69,7 @@ class Signup extends Component {
       console.warn(error);
     });
   }
-   
+
 
   inputFocused (refName) {
     var that = this;
@@ -89,18 +87,17 @@ class Signup extends Component {
     return (
       <View style={ styles.signupContainer }>
         <ScrollView ref="scrollView">
-        
+
         <View style  = {{ justifyContent: 'center', flex: 1 }}>
-          <Image 
-            style = {{ height: DeviceHeight/2.15, width: DeviceWidth }} 
+          <Image
+            style = {{ height: DeviceHeight/2.15, width: DeviceWidth }}
             source={require('../assets/logogold.png')}/>
         </View>
 
-      {/*<View>*/}
         <View style={ [styles.inputs, {marginTop: 15}] }>
           <View style={ styles.inputContainer }>
             <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-            <TextInput 
+            <TextInput
               style={ [styles.input, styles.whiteFont] }
               placeholder="First Name"
               placeholderTextColor="#FFF"
@@ -112,7 +109,7 @@ class Signup extends Component {
 
           <View style={ styles.inputContainer }>
             <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-            <TextInput 
+            <TextInput
               style={ [styles.input, styles.whiteFont] }
               placeholder="Last Name"
               placeholderTextColor="#FFF"
@@ -124,7 +121,7 @@ class Signup extends Component {
 
           <View style={ styles.inputContainer }>
             <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-            <TextInput 
+            <TextInput
               style={ [styles.input, styles.whiteFont] }
               placeholder="Username"
               placeholderTextColor="#FFF"
@@ -134,7 +131,7 @@ class Signup extends Component {
               onFocus={this.inputFocused.bind(this, 'username')}/>
           </View>
 
-          <View style={ styles.inputContainer }> 
+          <View style={ styles.inputContainer }>
             <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
             <TextInput
               password={true}
@@ -151,12 +148,11 @@ class Signup extends Component {
             {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'}
             </Text>
 
-        {/*</View>*/}
         </View>
         </ScrollView>
 
         <View style={{flexDirection: 'row', justifyContent: 'center' }}>
-          
+
           <TouchableHighlight
             onPress={ this.submitSignup.bind(this) }
             style={[styles.loginSignup, {backgroundColor: '#00BCD4'}]}
@@ -177,8 +173,3 @@ class Signup extends Component {
 };
 
 module.exports = Signup;
-
-
-
-
-

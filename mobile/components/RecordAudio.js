@@ -46,10 +46,10 @@ class RecordAudio extends Component {
     // get a list of files and directories in the main bundle
     RNFS.readDir(RNFS.DocumentDirectoryPath)
     .then((result) => {
-      console.log('GOT RESULT', result);
+      // console.log('GOT RESULT', result);
     })
   }
-  
+
   record() {
     if(!this.state.isRecording) {
       this.setState({cassette: require('../assets/cassette.gif'),
@@ -103,7 +103,7 @@ class RecordAudio extends Component {
       function successCallback(results) {
         console.log('JS Success: ' + results['successMsg']);
       }
-    );    
+    );
   }
 
   pause() {
@@ -141,7 +141,7 @@ class RecordAudio extends Component {
 
       function successCallback(results) {
         console.log('JS Success: ' + results['successMsg']);
-        self.setState({stopBtn: require('../assets/stopgold.png')})        
+        self.setState({stopBtn: require('../assets/stopgold.png')})
       }
     );
   }
@@ -163,20 +163,16 @@ class RecordAudio extends Component {
 
     RNFS.readFile(storyPath, 'base64')
       .then((file) => {
-        console.log('File successfully converted to base64');
         var encodedFile = file.toString();
-
         var options = {
           reqParam: component.state.placeId,
           reqBody: {
             file: encodedFile
           }
         }
-        console.log('reqParam (placeId) from RecordAudio: ', options.reqParam);
         utils.makeRequest(reqType, component, options)
           .then((response) => {
             this.setState({isUploading: false});
-            console.log('Audio added to place: ', response);
             component.props.navigator.replace({
               title: "Your Tour",
               component: ViewCreatedTour,
@@ -219,24 +215,24 @@ class RecordAudio extends Component {
                      style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 1}, {flex: 0.10}] } />
           </TouchableHighlight>
 
-          <TouchableHighlight 
-            onPress={ this.play.bind(this) } 
+          <TouchableHighlight
+            onPress={ this.play.bind(this) }
             style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
             <Image source={ this.state.playBtn }
                      style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.25}] } />
           </TouchableHighlight>
 
-          <TouchableHighlight 
-            onPress={ this.pause.bind(this) } 
+          <TouchableHighlight
+            onPress={ this.pause.bind(this) }
             style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
             <Image source={ this.state.pauseBtn }
                      style={ [styles.editIcon, {width: 30}, {height: 30}, {marginLeft: 30}, {flex: 0.75}] } />
           </TouchableHighlight>
 
-          <TouchableHighlight 
-            onPress={ this.stop.bind(this) } 
+          <TouchableHighlight
+            onPress={ this.stop.bind(this) }
             style={ [styles.touchable, {marginTop: 1} ]}
             underlayColor="727272">
             <Image source={ this.state.stopBtn }
@@ -244,16 +240,16 @@ class RecordAudio extends Component {
           </TouchableHighlight>
         </View>
 
-        <TouchableHighlight 
-          onPress={ this.done.bind(this) } 
+        <TouchableHighlight
+          onPress={ this.done.bind(this) }
           style={ styles.touchable } underlayColor="727272">
           <View style={ [styles.button, {width: 280}, {marginBottom: 10}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }>
             <Text style={ styles.whiteFont }>Done</Text>
           </View>
         </TouchableHighlight>
 
-        <TouchableHighlight 
-          onPress={ this.skip.bind(this) } 
+        <TouchableHighlight
+          onPress={ this.skip.bind(this) }
           style={ styles.touchable } underlayColor="727272">
           <View style={ [styles.button, {width: 280}, {marginBottom: 75}, {padding: 5}, {marginTop: 10}, {borderRadius: 15}] }>
             <Text style={ styles.whiteFont }>Skip</Text>

@@ -63,7 +63,6 @@ class EditPlace extends Component {
     };
     utils.makeRequest('tour', component, options)
     .then((response) => {
-      console.log('componentWillMount in EditPlace, response: ', response)
       this.setState({numPlacesInTour: response.places.length, tourName: response.tourName})
     })
     .done();
